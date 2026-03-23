@@ -4,129 +4,107 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import CountdownTimer from "@/components/CountdownTimer";
-import { StatusBadge } from "@/components/ui/Badge";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
 
-/* ═══════════════════════════════════════════════
-   SHARED UI PRIMITIVES (Premium Design)
-   ═══════════════════════════════════════════════ */
+/* ═════ MD3 Primitives ═════ */
 
-function PremiumCard({ children, className = "", glow = false }: { children: React.ReactNode; className?: string; glow?: boolean }) {
+function Md3Card({ children, className = "", glow = false, onClick }: { children: React.ReactNode; className?: string; glow?: boolean; onClick?: () => void }) {
   return (
-    <div className={`
-      bg-white rounded-2xl border border-gray-100 p-5
-      shadow-[0_1px_3px_rgba(0,0,0,0.04),0_4px_12px_rgba(0,0,0,0.03)]
-      hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-all duration-300
-      ${glow ? "ring-2 ring-primary/20 border-primary/30" : ""}
-      ${className}
-    `}>
+    <div onClick={onClick} className={`bg-white rounded-2xl border p-5 transition-all duration-200 ${glow ? "border-[#0059b9]/30 ring-2 ring-[#0059b9]/10 shadow-lg" : "border-[#c1c6d6]/30 shadow-[0_2px_12px_rgba(17,28,41,0.04)]"} ${onClick ? "cursor-pointer active:scale-[0.98]" : ""} ${className}`}>
       {children}
     </div>
   );
 }
 
-function GradientStat({ icon, value, label, gradient }: { icon: string; value: string | number; label: string; gradient: string }) {
+function Md3Badge({ label, color = "bg-[#e5eeff] text-[#0059b9]" }: { label: string; color?: string }) {
+  return <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold ${color}`}>{label}</span>;
+}
+
+function Md3Toast({ message }: { message: string }) {
   return (
-    <div className={`${gradient} rounded-2xl p-4 text-white text-center shadow-lg`}>
-      <span className="text-2xl block">{icon}</span>
-      <p className="text-2xl font-bold tabular-nums mt-1">{value}</p>
-      <p className="text-xs opacity-80 mt-0.5">{label}</p>
+    <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl text-sm font-bold bg-[#26313f] text-white animate-fade-in">
+      ✅ {message}
     </div>
   );
 }
 
-function SectionTitle({ icon, title, count, pulse }: { icon?: string; title: string; count?: number; pulse?: string }) {
+function Md3Stat({ icon, value, label, gradient }: { icon: string; value: string | number; label: string; gradient: string }) {
   return (
-    <h3 className="text-lg font-bold text-gray-900 mb-3 flex items-center gap-2">
-      {pulse && <span className={`w-3 h-3 rounded-full ${pulse} animate-pulse`} />}
-      {icon && <span>{icon}</span>}
-      {title}
-      {count !== undefined && <span className="text-sm font-medium text-gray-400 ml-1">({count})</span>}
-    </h3>
-  );
-}
-
-function DemoToast({ message, type = "success" }: { message: string; type?: "success" | "error" | "info" }) {
-  const styles = {
-    success: "bg-emerald-500 text-white",
-    error: "bg-red-500 text-white",
-    info: "bg-blue-500 text-white",
-  };
-  return (
-    <div className={`fixed top-16 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl text-base font-semibold animate-fade-in ${styles[type]}`}>
-      {type === "success" ? "✅" : type === "error" ? "❌" : "ℹ️"} {message}
+    <div className={`${gradient} rounded-2xl p-4 text-white text-center`}>
+      <span className="material-symbols-outlined text-2xl block mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
+      <p className="text-xl font-black tabular-nums">{value}</p>
+      <p className="text-[10px] font-semibold opacity-70 mt-0.5">{label}</p>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════
-   REQUESTER DEMO
-   ═══════════════════════════════════════════════ */
+const STATUS_BADGES: Record<string, { label: string; color: string }> = {
+  exclusive_call: { label: "전용콜", color: "bg-[#d7e2ff] text-[#004491]" },
+  callcenter_call: { label: "콜센터", color: "bg-[#ffdad6] text-[#ba1a1a]" },
+  shared_call: { label: "공유콜", color: "bg-[#dde3ef] text-[#595f69]" },
+  matched: { label: "매칭완료", color: "bg-[#d5e4f8] text-[#4f5d6e]" },
+  operator_assigned: { label: "기사배정", color: "bg-[#e5eeff] text-[#0059b9]" },
+  in_progress: { label: "작업중", color: "bg-amber-100 text-amber-700" },
+  completed: { label: "완료", color: "bg-emerald-100 text-emerald-700" },
+  cancelled: { label: "취소", color: "bg-red-100 text-red-700" },
+};
+
+const EQ_ICONS: Record<string, string> = { "크레인": "🏗️", "굴삭기": "⛏️", "스카이": "🔝", "펌프카": "💧", "지게차": "📦", "덤프": "🚚" };
+
+/* ═══════════════════════════════════════
+   REQUESTER
+   ═══════════════════════════════════════ */
 function RequesterDemo() {
   const [toast, setToast] = useState<string | null>(null);
-  const activeDispatches = DEMO_DISPATCHES.filter((d) => !["completed", "cancelled"].includes(d.status));
-
-  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+  const active = DEMO_DISPATCHES.filter(d => !["completed", "cancelled"].includes(d.status));
+  const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
 
   return (
     <div className="space-y-6 max-w-2xl">
-      {toast && <DemoToast message={toast} />}
+      {toast && <Md3Toast message={toast} />}
 
-      {/* CTA 배너 */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-3xl p-6 md:p-8 text-white shadow-xl">
-        <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
-        <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
-        <div className="relative">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2">장비가 필요하신가요?</h2>
-          <p className="text-blue-200 text-sm md:text-base mb-5">크레인, 굴삭기 등 8종 장비를 60초 안에 배차합니다</p>
-          <button
-            onClick={() => showToast("장비 요청 화면으로 이동합니다")}
-            className="py-3.5 px-8 bg-white text-blue-700 text-lg font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95"
-          >
-            + 장비 요청하기
-          </button>
-        </div>
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#0059b9] to-[#1071e5] rounded-3xl p-6 text-white">
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full" />
+        <h2 className="text-2xl font-[800] mb-1">장비가 필요하신가요?</h2>
+        <p className="text-white/70 text-sm mb-5">8종 장비를 60초 안에 배차합니다</p>
+        <button onClick={() => show("장비 요청 화면으로 이동")} className="py-3 px-6 bg-white text-[#0059b9] font-bold rounded-xl shadow-lg active:scale-95 transition-all flex items-center gap-2">
+          <span className="material-symbols-outlined text-xl">edit_note</span>장비 요청하기
+        </button>
       </div>
 
-      {/* 진행중 */}
       <section>
-        <SectionTitle title="진행중" count={activeDispatches.length} pulse="bg-blue-500" />
+        <h3 className="text-lg font-bold text-[#111c29] mb-3 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>pending</span>
+          진행중 ({active.length})
+        </h3>
         <div className="space-y-3">
-          {activeDispatches.slice(0, 3).map((d) => (
-            <PremiumCard key={d.id} glow={d.status === "exclusive_call"}>
+          {active.slice(0, 3).map(d => (
+            <Md3Card key={d.id} glow={d.status === "exclusive_call"}>
               <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-xl">{d.equipment_types.name === "크레인" ? "🏗️" : d.equipment_types.name === "굴삭기" ? "⛏️" : "🚧"}</span>
-                  <span className="font-bold text-lg text-gray-900">{d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-                </div>
-                <StatusBadge status={d.status} />
+                <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name] || "🚧"} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+                <Md3Badge label={STATUS_BADGES[d.status]?.label || d.status} color={STATUS_BADGES[d.status]?.color} />
               </div>
-              <p className="text-sm text-gray-500 ml-8">{d.site_address}</p>
-              <div className="flex items-center justify-between mt-3 ml-8">
-                <span className="text-xl font-bold tabular-nums text-blue-700">{formatPrice(d.price)}원</span>
-                <span className="text-sm text-gray-400">{d.time_units.name}</span>
-              </div>
-            </PremiumCard>
+              <p className="text-sm text-[#414754]">{d.site_address}</p>
+              <p className="text-xl font-black tabular-nums text-[#0059b9] mt-2">{formatPrice(d.price)}원</p>
+            </Md3Card>
           ))}
         </div>
       </section>
 
-      {/* 빠른 재주문 */}
       <section>
-        <SectionTitle icon="⚡" title="빠른 재주문" />
+        <h3 className="text-lg font-bold text-[#111c29] mb-3 flex items-center gap-2">
+          <span className="material-symbols-outlined text-[#0059b9]">bolt</span>빠른 재주문
+        </h3>
         <div className="space-y-2">
-          {DEMO_CALL_HISTORY.map((h) => (
-            <button
-              key={h.id}
-              onClick={() => showToast(`${h.equipment_types.name} ${h.equipment_specs.spec_name} 재주문 시작`)}
-              className="w-full text-left bg-white rounded-2xl p-4 border border-gray-100 shadow-sm hover:border-blue-300 hover:shadow-md transition-all active:scale-[0.98] group"
-            >
+          {DEMO_CALL_HISTORY.map(h => (
+            <button key={h.id} onClick={() => show(`${h.equipment_types.name} ${h.equipment_specs.spec_name} 재주문`)}
+              className="w-full text-left bg-white rounded-2xl p-4 border border-[#c1c6d6]/30 shadow-sm hover:border-[#0059b9]/30 transition-all active:scale-[0.98] group">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="font-semibold text-gray-900">{h.equipment_types.name} {h.equipment_specs.spec_name}</span>
-                  <p className="text-sm text-gray-500 mt-0.5">{h.site_address}</p>
+                  <span className="font-bold text-[#111c29]">{h.equipment_types.name} {h.equipment_specs.spec_name}</span>
+                  <p className="text-sm text-[#414754] mt-0.5">{h.site_address}</p>
                 </div>
-                <span className="text-blue-600 font-bold text-sm group-hover:translate-x-1 transition-transform">재주문 →</span>
+                <span className="material-symbols-outlined text-[#0059b9] group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </div>
             </button>
           ))}
@@ -136,172 +114,146 @@ function RequesterDemo() {
   );
 }
 
-/* ═══════════════════════════════════════════════
-   OWNER DEMO (Interactive)
-   ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   OWNER (Interactive)
+   ═══════════════════════════════════════ */
 function OwnerDemo() {
   const [accepted, setAccepted] = useState<Set<string>>(new Set());
   const [rejected, setRejected] = useState<Set<string>>(new Set());
   const [assigned, setAssigned] = useState<Set<string>>(new Set());
   const [toast, setToast] = useState<string | null>(null);
-  const [showAssignModal, setShowAssignModal] = useState<string | null>(null);
+  const [assignModal, setAssignModal] = useState<string | null>(null);
+  const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
 
-  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
-
-  const exclusiveCalls = DEMO_DISPATCHES.filter((d) => d.status === "exclusive_call" && !accepted.has(d.id) && !rejected.has(d.id));
-  const sharedCalls = DEMO_DISPATCHES.filter((d) => d.status === "shared_call" && !accepted.has(d.id));
-  const matchedCalls = [
-    ...DEMO_DISPATCHES.filter((d) => d.status === "matched" && !assigned.has(d.id)),
-    ...DEMO_DISPATCHES.filter((d) => accepted.has(d.id) && !assigned.has(d.id)),
+  const exclusive = DEMO_DISPATCHES.filter(d => d.status === "exclusive_call" && !accepted.has(d.id) && !rejected.has(d.id));
+  const shared = DEMO_DISPATCHES.filter(d => d.status === "shared_call" && !accepted.has(d.id));
+  const matched = [
+    ...DEMO_DISPATCHES.filter(d => d.status === "matched" && !assigned.has(d.id)),
+    ...DEMO_DISPATCHES.filter(d => accepted.has(d.id) && !assigned.has(d.id)),
   ];
-
-  const handleAccept = (id: string, name: string) => {
-    setAccepted((prev) => new Set(prev).add(id));
-    showToast(`${name} 수락 완료! 기사를 배정해주세요`);
-  };
-
-  const handleReject = (id: string) => {
-    setRejected((prev) => new Set(prev).add(id));
-    showToast("거절됨 — 콜센터로 자동 전달됩니다");
-  };
-
-  const handleAssign = (dispatchId: string, operatorName: string) => {
-    setAssigned((prev) => new Set(prev).add(dispatchId));
-    setShowAssignModal(null);
-    showToast(`${operatorName} 기사에게 배정 완료!`);
-  };
-
-  const CallCard = ({ call, type }: { call: typeof DEMO_DISPATCHES[0]; type: "exclusive" | "shared" }) => {
-    const eqIcon = call.equipment_types.name === "크레인" ? "🏗️" : call.equipment_types.name === "굴삭기" ? "⛏️" : "🚧";
-    return (
-      <PremiumCard glow={type === "exclusive"}>
-        {type === "exclusive" && call.exclusive_call_at && (
-          <div className="mb-3"><CountdownTimer startedAt={call.exclusive_call_at} /></div>
-        )}
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">{eqIcon}</span>
-            <span className="font-bold text-lg text-gray-900">{call.equipment_types.name} {call.equipment_specs.spec_name}</span>
-          </div>
-          <StatusBadge status={call.status} />
-        </div>
-        <p className="text-sm text-gray-500 ml-8">{call.site_address}</p>
-        <p className="text-sm text-gray-400 ml-8">{call.company_name}</p>
-        <div className="flex items-center justify-between mt-3 ml-8">
-          <span className="text-xl font-bold tabular-nums text-blue-700">{formatPrice(call.price)}원</span>
-          <span className="text-sm text-gray-400">{call.time_units.name}</span>
-        </div>
-        <div className="flex gap-2 mt-4">
-          <button
-            onClick={() => handleAccept(call.id, `${call.equipment_types.name} ${call.equipment_specs.spec_name}`)}
-            className="flex-1 py-3.5 bg-emerald-500 text-white font-bold rounded-xl text-lg hover:bg-emerald-600 active:scale-95 transition-all shadow-sm"
-          >
-            수락
-          </button>
-          {type === "exclusive" && (
-            <button
-              onClick={() => handleReject(call.id)}
-              className="flex-1 py-3.5 bg-red-500 text-white font-bold rounded-xl text-lg hover:bg-red-600 active:scale-95 transition-all shadow-sm"
-            >
-              거절
-            </button>
-          )}
-        </div>
-      </PremiumCard>
-    );
-  };
 
   return (
     <div className="space-y-6 max-w-2xl">
-      {toast && <DemoToast message={toast} />}
+      {toast && <Md3Toast message={toast} />}
 
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">콜 수신 현황</h2>
-        <div className="flex gap-2 text-xs">
-          <span className="px-2 py-1 bg-blue-50 text-blue-600 rounded-lg font-medium">전용 {exclusiveCalls.length}</span>
-          <span className="px-2 py-1 bg-amber-50 text-amber-600 rounded-lg font-medium">공유 {sharedCalls.length}</span>
-          <span className="px-2 py-1 bg-green-50 text-green-600 rounded-lg font-medium">배정대기 {matchedCalls.length}</span>
+        <h2 className="text-2xl font-[800] text-[#111c29]">콜 수신 현황</h2>
+        <div className="flex gap-1.5 text-xs">
+          <span className="px-2 py-1 bg-[#d7e2ff] text-[#004491] rounded-lg font-bold">전용 {exclusive.length}</span>
+          <span className="px-2 py-1 bg-[#dde3ef] text-[#595f69] rounded-lg font-bold">공유 {shared.length}</span>
+          <span className="px-2 py-1 bg-[#d5e4f8] text-[#4f5d6e] rounded-lg font-bold">배정 {matched.length}</span>
         </div>
       </div>
 
-      {/* 전용콜 */}
-      {exclusiveCalls.length > 0 && (
+      {exclusive.length > 0 && (
         <section>
-          <SectionTitle title="전용콜" pulse="bg-blue-500" />
-          <div className="space-y-3">{exclusiveCalls.map((c) => <CallCard key={c.id} call={c} type="exclusive" />)}</div>
-        </section>
-      )}
-
-      {/* 공유콜 */}
-      {sharedCalls.length > 0 && (
-        <section>
-          <SectionTitle title="공유콜 (선착순)" pulse="bg-amber-500" />
-          <div className="space-y-3">{sharedCalls.map((c) => <CallCard key={c.id} call={c} type="shared" />)}</div>
-        </section>
-      )}
-
-      {/* 매칭 완료 — 기사 배정 대기 */}
-      {matchedCalls.length > 0 && (
-        <section>
-          <SectionTitle title="기사 배정 대기" count={matchedCalls.length} pulse="bg-emerald-500" />
-          <div className="space-y-3">
-            {matchedCalls.map((c) => (
-              <PremiumCard key={c.id}>
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xl">🏗️</span>
-                  <span className="font-bold text-lg text-gray-900">{c.equipment_types.name} {c.equipment_specs.spec_name}</span>
-                  <StatusBadge status="matched" />
-                </div>
-                <p className="text-sm text-gray-500 ml-8">{c.site_address}</p>
-                <span className="block text-xl font-bold tabular-nums text-blue-700 ml-8 mt-2">{formatPrice(c.price)}원</span>
-                <button
-                  onClick={() => setShowAssignModal(c.id)}
-                  className="w-full mt-3 py-3.5 bg-blue-600 text-white font-bold rounded-xl text-lg hover:bg-blue-700 active:scale-95 transition-all shadow-sm"
-                >
-                  👷 기사 배정하기
+          <h3 className="text-base font-bold text-[#111c29] mb-3 flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#0059b9] animate-pulse" />전용콜
+          </h3>
+          {exclusive.map(c => (
+            <Md3Card key={c.id} glow className="mb-3">
+              {c.exclusive_call_at && <div className="mb-3"><CountdownTimer startedAt={c.exclusive_call_at} /></div>}
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-lg text-[#111c29]">{EQ_ICONS[c.equipment_types.name]} {c.equipment_types.name} {c.equipment_specs.spec_name}</span>
+                <Md3Badge label="전용콜" color="bg-[#d7e2ff] text-[#004491]" />
+              </div>
+              <p className="text-sm text-[#414754]">{c.site_address}</p>
+              <p className="text-sm text-[#727785]">{c.company_name}</p>
+              <div className="flex items-center justify-between mt-3">
+                <span className="text-xl font-black tabular-nums text-[#0059b9]">{formatPrice(c.price)}원</span>
+                <span className="text-sm text-[#727785]">{c.time_units.name}</span>
+              </div>
+              <div className="flex gap-2 mt-4">
+                <button onClick={() => { setAccepted(p => new Set(p).add(c.id)); show(`${c.equipment_types.name} 수락! 기사를 배정해주세요`); }}
+                  className="flex-1 py-3.5 bg-[#0059b9] text-white font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-lg">check_circle</span>수락
                 </button>
-              </PremiumCard>
-            ))}
-          </div>
+                <button onClick={() => { setRejected(p => new Set(p).add(c.id)); show("거절 → 콜센터로 전달"); }}
+                  className="flex-1 py-3.5 bg-[#ffdad6] text-[#ba1a1a] font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-lg">cancel</span>거절
+                </button>
+              </div>
+            </Md3Card>
+          ))}
         </section>
       )}
 
-      {exclusiveCalls.length === 0 && sharedCalls.length === 0 && matchedCalls.length === 0 && (
-        <PremiumCard className="text-center py-12">
-          <span className="text-4xl block mb-3">🎉</span>
-          <h3 className="text-xl font-bold text-gray-900">모든 콜을 처리했습니다!</h3>
-          <p className="text-gray-500 mt-1">새 콜이 오면 알림을 보내드립니다</p>
-        </PremiumCard>
+      {shared.length > 0 && (
+        <section>
+          <h3 className="text-base font-bold text-[#111c29] mb-3 flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />공유콜 (선착순)
+          </h3>
+          {shared.map(c => (
+            <Md3Card key={c.id} className="mb-3">
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-lg text-[#111c29]">{EQ_ICONS[c.equipment_types.name]} {c.equipment_types.name} {c.equipment_specs.spec_name}</span>
+                <Md3Badge label="공유콜" color="bg-[#dde3ef] text-[#595f69]" />
+              </div>
+              <p className="text-sm text-[#414754]">{c.site_address}</p>
+              <div className="flex items-center justify-between mt-3">
+                <span className="text-xl font-black tabular-nums text-[#0059b9]">{formatPrice(c.price)}원</span>
+              </div>
+              <button onClick={() => { setAccepted(p => new Set(p).add(c.id)); show("수락 완료!"); }}
+                className="w-full mt-3 py-3.5 bg-[#0059b9] text-white font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1">
+                <span className="material-symbols-outlined text-lg">check_circle</span>수락
+              </button>
+            </Md3Card>
+          ))}
+        </section>
       )}
 
-      {/* 기사 배정 모달 */}
-      {showAssignModal && (
+      {matched.length > 0 && (
+        <section>
+          <h3 className="text-base font-bold text-[#111c29] mb-3 flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />기사 배정 대기 ({matched.length})
+          </h3>
+          {matched.map(c => (
+            <Md3Card key={c.id} className="mb-3">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="font-bold text-[#111c29]">{EQ_ICONS[c.equipment_types.name]} {c.equipment_types.name} {c.equipment_specs.spec_name}</span>
+                <Md3Badge label="매칭완료" color="bg-emerald-100 text-emerald-700" />
+              </div>
+              <p className="text-sm text-[#414754]">{c.site_address}</p>
+              <p className="text-xl font-black tabular-nums text-[#0059b9] mt-2">{formatPrice(c.price)}원</p>
+              <button onClick={() => setAssignModal(c.id)}
+                className="w-full mt-3 py-3.5 bg-[#26313f] text-white font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-2">
+                <span className="material-symbols-outlined">person_add</span>기사 배정하기
+              </button>
+            </Md3Card>
+          ))}
+        </section>
+      )}
+
+      {exclusive.length === 0 && shared.length === 0 && matched.length === 0 && (
+        <Md3Card className="text-center py-12">
+          <span className="material-symbols-outlined text-5xl text-[#0059b9] block mb-3" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
+          <h3 className="text-xl font-[800] text-[#111c29]">모든 콜을 처리했습니다!</h3>
+          <p className="text-[#414754] mt-1">새 콜이 오면 알림을 보내드립니다</p>
+        </Md3Card>
+      )}
+
+      {assignModal && (
         <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowAssignModal(null)} />
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setAssignModal(null)} />
           <div className="relative z-10 bg-white rounded-t-3xl md:rounded-3xl w-full max-w-md p-6 shadow-2xl safe-bottom animate-fade-in">
-            <div className="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-4 md:hidden" />
-            <h3 className="text-xl font-bold text-gray-900 mb-4">기사 선택</h3>
+            <div className="w-10 h-1 bg-[#c1c6d6] rounded-full mx-auto mb-4 md:hidden" />
+            <h3 className="text-xl font-[800] text-[#111c29] mb-4">기사 선택</h3>
             <div className="space-y-2">
-              {DEMO_OPERATORS.map((op) => (
-                <button
-                  key={op.id}
-                  onClick={() => handleAssign(showAssignModal, op.name)}
-                  className="w-full flex items-center justify-between p-4 bg-gray-50 rounded-2xl hover:bg-blue-50 hover:ring-2 hover:ring-blue-200 transition-all active:scale-[0.98]"
-                >
+              {DEMO_OPERATORS.map(op => (
+                <button key={op.id} onClick={() => { setAssigned(p => new Set(p).add(assignModal)); setAssignModal(null); show(`${op.name} 기사 배정 완료!`); }}
+                  className="w-full flex items-center justify-between p-4 bg-[#eef4ff] rounded-2xl hover:bg-[#e5eeff] transition-all active:scale-[0.98]">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-lg font-bold">
-                      {op.name[0]}
-                    </div>
+                    <div className="w-10 h-10 bg-[#d7e2ff] text-[#0059b9] rounded-full flex items-center justify-center font-bold">{op.name[0]}</div>
                     <div className="text-left">
-                      <p className="font-bold text-gray-900">{op.name}</p>
-                      <p className="text-sm text-gray-500">{op.phone}</p>
+                      <p className="font-bold text-[#111c29]">{op.name}</p>
+                      <p className="text-sm text-[#727785]">{op.phone}</p>
                     </div>
                   </div>
-                  <span className="px-4 py-2 bg-blue-600 text-white rounded-xl text-sm font-bold">배정</span>
+                  <span className="px-3 py-1.5 bg-[#0059b9] text-white rounded-xl text-sm font-bold">배정</span>
                 </button>
               ))}
             </div>
-            <button onClick={() => setShowAssignModal(null)} className="w-full mt-4 py-3 text-gray-500 font-medium">닫기</button>
+            <button onClick={() => setAssignModal(null)} className="w-full mt-4 py-3 text-[#727785] font-medium">닫기</button>
           </div>
         </div>
       )}
@@ -309,82 +261,76 @@ function OwnerDemo() {
   );
 }
 
-/* ═══════════════════════════════════════════════
-   OPERATOR DEMO (Interactive)
-   ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   OPERATOR (Interactive)
+   ═══════════════════════════════════════ */
 function OperatorDemo() {
   const [started, setStarted] = useState<Set<string>>(new Set());
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [toast, setToast] = useState<string | null>(null);
-  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
-
-  const dispatches = DEMO_DISPATCHES.filter((d) => ["operator_assigned", "in_progress"].includes(d.status) && !completed.has(d.id));
+  const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+  const dispatches = DEMO_DISPATCHES.filter(d => ["operator_assigned", "in_progress"].includes(d.status) && !completed.has(d.id));
 
   return (
     <div className="space-y-6 max-w-2xl">
-      {toast && <DemoToast message={toast} />}
-      <h2 className="text-2xl font-bold text-gray-900">현재 배차</h2>
-      {dispatches.length > 0 ? (
-        <div className="space-y-3">
-          {dispatches.map((d) => {
-            const isStarted = started.has(d.id) || d.status === "in_progress";
-            return (
-              <PremiumCard key={d.id} glow={isStarted}>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-lg text-gray-900">{d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-                  <StatusBadge status={isStarted ? "in_progress" : "operator_assigned"} />
-                </div>
-                <p className="text-sm text-gray-500">{d.site_address}</p>
-                <p className="text-sm text-gray-400">{d.company_name}</p>
-                <p className="text-xl font-bold tabular-nums text-blue-700 mt-2">{formatPrice(d.price)}원</p>
-                {d.site_manager_phone && (
-                  <div className="mt-2 px-3 py-2 bg-blue-50 rounded-xl inline-flex items-center gap-1 text-sm text-blue-700 font-medium">
-                    📞 {d.site_manager_name} ({d.site_manager_phone})
-                  </div>
-                )}
-                {!isStarted ? (
-                  <button onClick={() => { setStarted(prev => new Set(prev).add(d.id)); showToast("작업 시작!"); }} className="w-full mt-3 py-3.5 bg-amber-500 text-white font-bold rounded-xl text-lg active:scale-95 transition-all shadow-sm">
-                    🚀 작업 시작
-                  </button>
-                ) : (
-                  <button onClick={() => { setCompleted(prev => new Set(prev).add(d.id)); showToast("작업 완료! 서명이 저장되었습니다"); }} className="w-full mt-3 py-3.5 bg-emerald-500 text-white font-bold rounded-xl text-lg active:scale-95 transition-all shadow-sm">
-                    ✅ 작업 완료 서명
-                  </button>
-                )}
-              </PremiumCard>
-            );
-          })}
-        </div>
-      ) : (
-        <PremiumCard className="text-center py-12">
-          <span className="text-4xl block mb-3">🎉</span>
-          <h3 className="text-xl font-bold text-gray-900">모든 작업을 완료했습니다!</h3>
-        </PremiumCard>
+      {toast && <Md3Toast message={toast} />}
+      <h2 className="text-2xl font-[800] text-[#111c29]">현재 배차</h2>
+      {dispatches.length > 0 ? dispatches.map(d => {
+        const isStarted = started.has(d.id) || d.status === "in_progress";
+        return (
+          <Md3Card key={d.id} glow={isStarted}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-lg text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+              <Md3Badge label={isStarted ? "작업중" : "기사배정"} color={isStarted ? "bg-amber-100 text-amber-700" : "bg-[#e5eeff] text-[#0059b9]"} />
+            </div>
+            <p className="text-sm text-[#414754]">{d.site_address}</p>
+            <p className="text-xl font-black tabular-nums text-[#0059b9] mt-2">{formatPrice(d.price)}원</p>
+            {d.site_manager_phone && (
+              <div className="mt-2 px-3 py-2 bg-[#eef4ff] rounded-xl inline-flex items-center gap-1 text-sm text-[#0059b9] font-medium">
+                <span className="material-symbols-outlined text-base">call</span>{d.site_manager_name} ({d.site_manager_phone})
+              </div>
+            )}
+            {!isStarted ? (
+              <button onClick={() => { setStarted(p => new Set(p).add(d.id)); show("작업 시작!"); }}
+                className="w-full mt-3 py-3.5 bg-amber-500 text-white font-bold rounded-xl text-base active:scale-95 flex items-center justify-center gap-2">
+                <span className="material-symbols-outlined">rocket_launch</span>작업 시작
+              </button>
+            ) : (
+              <button onClick={() => { setCompleted(p => new Set(p).add(d.id)); show("작업 완료! 서명 저장됨"); }}
+                className="w-full mt-3 py-3.5 bg-emerald-600 text-white font-bold rounded-xl text-base active:scale-95 flex items-center justify-center gap-2">
+                <span className="material-symbols-outlined">task_alt</span>작업 완료 서명
+              </button>
+            )}
+          </Md3Card>
+        );
+      }) : (
+        <Md3Card className="text-center py-12">
+          <span className="material-symbols-outlined text-5xl text-emerald-500 block mb-3" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
+          <h3 className="text-xl font-[800]">모든 작업 완료!</h3>
+        </Md3Card>
       )}
     </div>
   );
 }
 
-/* ═══════════════════════════════════════════════
-   CALLCENTER / SALESPERSON / ADMIN DEMOS
-   ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   CALLCENTER / SALESPERSON / ADMIN
+   ═══════════════════════════════════════ */
 function CallcenterDemo() {
-  const calls = DEMO_DISPATCHES.filter((d) => !["completed", "cancelled", "pending"].includes(d.status));
+  const calls = DEMO_DISPATCHES.filter(d => !["completed", "cancelled", "pending"].includes(d.status));
   return (
     <div className="space-y-6 max-w-2xl">
-      <h2 className="text-2xl font-bold text-gray-900">전달된 콜 관리</h2>
-      <div className="space-y-3">
-        {calls.map((d) => (
-          <PremiumCard key={d.id}>
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-bold text-gray-900">{d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-              <StatusBadge status={d.status} />
-            </div>
-            <p className="text-sm text-gray-500">{d.site_address}</p>
-            <p className="text-lg font-bold tabular-nums text-blue-700 mt-2">{formatPrice(d.price)}원</p>
-          </PremiumCard>
-        ))}
-      </div>
+      <h2 className="text-2xl font-[800] text-[#111c29]">전달된 콜 관리</h2>
+      {calls.map(d => (
+        <Md3Card key={d.id}>
+          <div className="flex items-center justify-between mb-2">
+            <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+            <Md3Badge label={STATUS_BADGES[d.status]?.label || d.status} color={STATUS_BADGES[d.status]?.color} />
+          </div>
+          <p className="text-sm text-[#414754]">{d.site_address}</p>
+          <p className="text-lg font-black tabular-nums text-[#0059b9] mt-2">{formatPrice(d.price)}원</p>
+        </Md3Card>
+      ))}
     </div>
   );
 }
@@ -393,20 +339,20 @@ function SalespersonDemo() {
   const total = DEMO_COMMISSIONS.reduce((s, c) => s + c.salesperson_fee, 0);
   return (
     <div className="space-y-6 max-w-2xl">
-      <h2 className="text-2xl font-bold text-gray-900">분양 현황</h2>
+      <h2 className="text-2xl font-[800] text-[#111c29]">분양 현황</h2>
       <div className="grid grid-cols-2 gap-3">
-        <GradientStat icon="💰" value={`${formatPrice(total)}원`} label="누적 수수료" gradient="bg-gradient-to-br from-emerald-500 to-teal-600" />
-        <GradientStat icon="📊" value={DEMO_COMMISSIONS.length} label="완료 건수" gradient="bg-gradient-to-br from-blue-500 to-indigo-600" />
+        <Md3Stat icon="savings" value={`${formatPrice(total)}원`} label="누적 수수료" gradient="bg-gradient-to-br from-emerald-600 to-teal-700" />
+        <Md3Stat icon="receipt_long" value={DEMO_COMMISSIONS.length} label="완료 건수" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
       </div>
       <div className="space-y-2">
-        {DEMO_COMMISSIONS.map((c) => (
-          <PremiumCard key={c.id} className="flex items-center justify-between">
+        {DEMO_COMMISSIONS.map(c => (
+          <Md3Card key={c.id} className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-gray-900">{formatPrice(c.total_price)}원 건</p>
-              <p className="text-sm text-gray-400">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
+              <p className="font-semibold text-[#111c29]">{formatPrice(c.total_price)}원 건</p>
+              <p className="text-xs text-[#727785]">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
             </div>
-            <span className="font-bold tabular-nums text-emerald-600 text-lg">+{formatPrice(c.salesperson_fee)}원</span>
-          </PremiumCard>
+            <span className="font-black tabular-nums text-emerald-600 text-lg">+{formatPrice(c.salesperson_fee)}원</span>
+          </Md3Card>
         ))}
       </div>
     </div>
@@ -414,33 +360,33 @@ function SalespersonDemo() {
 }
 
 function AdminDemo() {
-  const totalRevenue = DEMO_COMMISSIONS.reduce((s, c) => s + c.company_fee, 0);
+  const rev = DEMO_COMMISSIONS.reduce((s, c) => s + c.company_fee, 0);
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">관리자 대시보드</h2>
-        <p className="text-sm text-gray-500">Heavy Match 플랫폼 현황</p>
+        <h2 className="text-2xl font-[800] text-[#111c29]">관리자 대시보드</h2>
+        <p className="text-sm text-[#414754]">Heavy Match 플랫폼 현황</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <GradientStat icon="👥" value={DEMO_ALL_USERS.length} label="총 사용자" gradient="bg-gradient-to-br from-blue-500 to-blue-700" />
-        <GradientStat icon="🚧" value={DEMO_DISPATCHES.filter(d => !["completed","cancelled"].includes(d.status)).length} label="진행중" gradient="bg-gradient-to-br from-amber-500 to-orange-600" />
-        <GradientStat icon="✅" value={DEMO_DISPATCHES.filter(d => d.status === "completed").length} label="완료" gradient="bg-gradient-to-br from-emerald-500 to-green-600" />
-        <GradientStat icon="💰" value={`${formatPrice(totalRevenue)}원`} label="본사 수익" gradient="bg-gradient-to-br from-violet-500 to-purple-700" />
+        <Md3Stat icon="group" value={DEMO_ALL_USERS.length} label="총 사용자" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
+        <Md3Stat icon="local_shipping" value={DEMO_DISPATCHES.filter(d => !["completed","cancelled"].includes(d.status)).length} label="진행중" gradient="bg-gradient-to-br from-amber-500 to-orange-600" />
+        <Md3Stat icon="task_alt" value={DEMO_DISPATCHES.filter(d => d.status === "completed").length} label="완료" gradient="bg-gradient-to-br from-emerald-600 to-green-700" />
+        <Md3Stat icon="account_balance" value={`${formatPrice(rev)}원`} label="본사 수익" gradient="bg-gradient-to-br from-violet-600 to-purple-700" />
       </div>
       <section>
-        <SectionTitle title="최근 배차" />
+        <h3 className="text-lg font-bold text-[#111c29] mb-3">최근 배차</h3>
         <div className="space-y-2">
-          {DEMO_DISPATCHES.map((d) => (
-            <PremiumCard key={d.id} className="flex items-center justify-between">
+          {DEMO_DISPATCHES.map(d => (
+            <Md3Card key={d.id} className="flex items-center justify-between">
               <div>
-                <p className="font-bold text-gray-900">{d.equipment_types.name} {d.equipment_specs.spec_name}</p>
-                <p className="text-sm text-gray-500">{d.company_name}</p>
+                <p className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</p>
+                <p className="text-xs text-[#727785]">{d.company_name}</p>
               </div>
               <div className="text-right">
-                <StatusBadge status={d.status} />
-                <p className="text-sm text-gray-400 tabular-nums mt-1">{formatPrice(d.price)}원</p>
+                <Md3Badge label={STATUS_BADGES[d.status]?.label || d.status} color={STATUS_BADGES[d.status]?.color} />
+                <p className="text-sm text-[#414754] tabular-nums mt-1">{formatPrice(d.price)}원</p>
               </div>
-            </PremiumCard>
+            </Md3Card>
           ))}
         </div>
       </section>
@@ -448,9 +394,7 @@ function AdminDemo() {
   );
 }
 
-/* ═══════════════════════════════════════════════
-   ROUTER
-   ═══════════════════════════════════════════════ */
+/* ═════ Router ═════ */
 export default function DemoRolePage() {
   const { role } = useParams<{ role: string }>();
   switch (role) {

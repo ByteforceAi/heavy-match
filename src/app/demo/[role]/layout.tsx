@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import DashboardLayout from "@/components/DashboardLayout";
+import DemoDashboardLayout from "@/components/DemoDashboardLayout";
 import { DemoProvider } from "@/components/DemoProvider";
 import DemoRoleSwitcher from "@/components/DemoRoleSwitcher";
 import type { UserRole } from "@/types/database";
@@ -21,12 +21,10 @@ export default function DemoRoleLayout({ children }: { children: React.ReactNode
 
   return (
     <DemoProvider>
-      <div className="pt-7"> {/* 데모 배너 높이만큼 패딩 */}
-        <DashboardLayout userRole={validRole} userName={NAMES[validRole] ?? "테스트"} basePath="/demo">
-          {children}
-        </DashboardLayout>
-        <DemoRoleSwitcher />
-      </div>
+      <DemoDashboardLayout userRole={validRole} userName={NAMES[validRole] ?? "테스트"}>
+        {children}
+      </DemoDashboardLayout>
+      <DemoRoleSwitcher />
     </DemoProvider>
   );
 }
