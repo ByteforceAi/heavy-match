@@ -49,6 +49,7 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith("/register") ||
     request.nextUrl.pathname.startsWith("/call/") ||
     request.nextUrl.pathname.startsWith("/api/") ||
+    request.nextUrl.pathname.startsWith("/demo") ||
     request.nextUrl.pathname === "/";
 
   if (!user && !isPublicPath) {
