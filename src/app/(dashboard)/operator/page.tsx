@@ -1,10 +1,21 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { isDevPreview } from "@/lib/dev";
-import { formatPrice, getStatusLabel, getStatusColor } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
+import { Card } from "@/components/ui/Card";
+import { StatusBadge } from "@/components/ui/Badge";
+import { EmptyState } from "@/components/ui/EmptyState";
+import OperatorActions from "./OperatorActions";
 
 export default async function OperatorHome() {
-  let dispatches: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; site_manager_name: string | null; site_manager_phone: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null = null;
+  type DispatchItem = {
+    id: string; status: string; price: number; site_address: string;
+    company_name: string; site_manager_name: string | null; site_manager_phone: string | null;
+    equipment_types: { name: string } | null;
+    equipment_specs: { spec_name: string } | null;
+    time_units: { name: string } | null;
+  };
+  let dispatches: DispatchItem[] | null = null;
 
   if (!isDevPreview()) {
     const supabase = await createServerSupabaseClient();
@@ -15,7 +26,7 @@ export default async function OperatorHome() {
       .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
       .eq("assigned_operator_id", user!.id)
       .not("status", "in", '("completed","cancelled","pending","exclusive_call","callcenter_call","shared_call","matched")')
-      .order("created_at", { ascending: false }) as unknown as { data: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; site_manager_name: string | null; site_manager_phone: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+      .order("created_at", { ascending: false }) as unknown as { data: DispatchItem[] | null };
 
     dispatches = data;
   }
@@ -27,44 +38,29 @@ export default async function OperatorHome() {
       {dispatches && dispatches.length > 0 ? (
         <div className="space-y-3">
           {dispatches.map((d) => (
-            <div key={d.id} className="bg-card rounded-xl p-4 shadow-sm border border-border">
+            <Card key={d.id}>
               <div className="flex items-center justify-between mb-2">
                 <span className="font-bold text-lg">
-                  {(d.equipment_types as { name: string })?.name}{" "}
-                  {(d.equipment_specs as { spec_name: string })?.spec_name}
+                  {d.equipment_types?.name} {d.equipment_specs?.spec_name}
                 </span>
-                <span className={`text-xs px-2 py-1 rounded-lg ${getStatusColor(d.status)}`}>
-                  {getStatusLabel(d.status)}
-                </span>
+                <StatusBadge status={d.status} />
               </div>
               <p className="text-sm text-text-muted">{d.site_address}</p>
               <p className="text-sm text-text-muted">{d.company_name}</p>
-              <p className="text-lg font-bold tabular-nums text-primary mt-2">{formatPrice(d.price)}원</p>
+              <p className="text-xl font-bold tabular-nums text-primary mt-2">{formatPrice(d.price)}원</p>
 
               {d.site_manager_phone && (
-                <a
-                  href={`tel:${d.site_manager_phone}`}
-                  className="inline-block mt-2 text-sm text-primary font-medium"
-                >
-                  현장담당: {d.site_manager_name} ({d.site_manager_phone})
+                <a href={`tel:${d.site_manager_phone}`} className="inline-flex items-center gap-1 mt-2 px-3 py-2 bg-blue-50 rounded-lg text-sm text-primary font-medium">
+                  📞 {d.site_manager_name} ({d.site_manager_phone})
                 </a>
               )}
 
-              {d.status === "in_progress" && (
-                <Link
-                  href={`/operator/complete/${d.id}`}
-                  className="block mt-3 py-3 bg-success text-white text-center font-semibold rounded-xl text-lg"
-                >
-                  작업 완료 서명
-                </Link>
-              )}
-            </div>
+              <OperatorActions dispatchId={d.id} status={d.status} />
+            </Card>
           ))}
         </div>
       ) : (
-        <div className="bg-card rounded-xl p-8 text-center text-text-muted">
-          현재 배정된 작업이 없습니다
-        </div>
+        <EmptyState icon="🚧" title="현재 배정된 작업이 없습니다" description="사장님이 기사를 배정하면 여기에 표시됩니다" />
       )}
     </div>
   );
