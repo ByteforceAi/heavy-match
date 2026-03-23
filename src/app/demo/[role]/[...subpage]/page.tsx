@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import { Card, StatCard } from "@/components/ui/Card";
@@ -148,38 +149,80 @@ function DemoRewards() {
 }
 
 function DemoPrices() {
-  const TYPES = ["크레인","스카이","카고크레인","거미크레인","펌프카","굴삭기","지게차","덤프"];
-  const SPECS: Record<string, string[]> = { "크레인": ["25T","50T","70T","100T","200T"], "굴삭기": ["0.6T","1T","3T","6T","8T","20T","30T"] };
+  const ALL_SPECS: Record<string, string[]> = {
+    "크레인": ["25T","50T","70T","100T","200T"],
+    "스카이": ["45m","52m","58m","65m"],
+    "카고크레인": ["5T","8T","11T","15T","25T"],
+    "거미크레인": ["3T","5T","8T","10T"],
+    "펌프카": ["32m","37m","42m","47m","52m"],
+    "굴삭기": ["0.6T","1T","3T","6T","8T","20T","30T"],
+    "지게차": ["2.5T","3T","5T","7T","11T"],
+    "덤프": ["15T","25T"],
+  };
+  const TYPES = Object.keys(ALL_SPECS);
   const TIMES = ["1시간","오전(4h)","오후(4h)","하루(8h)"];
+  const [selectedType, setSelectedType] = useState("크레인");
+  const [prices, setPrices] = useState<Record<string, string>>({ "크레인-50T-1시간": "300000", "크레인-50T-오전(4h)": "300000", "크레인-50T-오후(4h)": "300000", "크레인-50T-하루(8h)": "300000" });
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = () => { setSaved(true); setTimeout(() => setSaved(false), 2000); };
+  const specs = ALL_SPECS[selectedType] || [];
 
   return (
     <div className="space-y-4">
-      <PageHeader title="단가 설정" description="장비×규격×시간 매트릭스" action={<button className="px-6 py-2 bg-primary text-white font-semibold rounded-xl">저장</button>} />
-      <div className="flex gap-2 overflow-x-auto pb-2">
-        {TYPES.map((t, i) => (
-          <button key={t} className={`px-4 py-2 rounded-xl whitespace-nowrap text-sm font-medium ${i === 0 ? "bg-primary text-white" : "bg-card border border-border"}`}>{t}</button>
+      <PageHeader title="단가 설정" description="장비×규격×시간 매트릭스" action={
+        <button onClick={handleSave} className={`px-6 py-2.5 font-semibold rounded-xl transition-all active:scale-95 ${saved ? "bg-success text-white" : "bg-primary text-white hover:bg-primary-light"}`}>
+          {saved ? "✓ 저장됨" : "저장"}
+        </button>
+      } />
+      <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
+        {TYPES.map((t) => (
+          <button
+            key={t}
+            onClick={() => setSelectedType(t)}
+            className={`px-4 py-2.5 rounded-xl whitespace-nowrap text-sm font-semibold transition-all active:scale-95 ${
+              selectedType === t
+                ? "bg-primary text-white shadow-md"
+                : "bg-white border border-gray-200 text-gray-700 hover:border-primary hover:text-primary"
+            }`}
+          >
+            {t}
+          </button>
         ))}
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto bg-white rounded-2xl border border-gray-100 shadow-sm">
         <table className="w-full text-sm">
-          <thead><tr className="border-b border-border">
-            <th className="text-left p-2 font-medium text-text-muted">규격</th>
-            {TIMES.map(t => <th key={t} className="text-center p-2 font-medium text-text-muted">{t}</th>)}
-          </tr></thead>
+          <thead>
+            <tr className="border-b border-gray-100 bg-gray-50/50">
+              <th className="text-left p-3 font-semibold text-gray-500">규격</th>
+              {TIMES.map(t => <th key={t} className="text-center p-3 font-semibold text-gray-500 whitespace-nowrap">{t}</th>)}
+            </tr>
+          </thead>
           <tbody>
-            {(SPECS["크레인"] || []).map(spec => (
-              <tr key={spec} className="border-b border-border">
-                <td className="p-2 font-semibold">{spec}</td>
-                {TIMES.map(t => (
-                  <td key={t} className="p-1">
-                    <input type="number" placeholder="0" defaultValue={spec === "50T" ? "300000" : ""} className="w-full px-2 py-2 text-sm text-right border border-border rounded-lg tabular-nums" />
-                  </td>
-                ))}
+            {specs.map(spec => (
+              <tr key={spec} className="border-b border-gray-50 hover:bg-blue-50/30 transition-colors">
+                <td className="p-3 font-bold text-gray-900">{spec}</td>
+                {TIMES.map(t => {
+                  const key = `${selectedType}-${spec}-${t}`;
+                  return (
+                    <td key={t} className="p-1.5">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        value={prices[key] ?? ""}
+                        onChange={(e) => setPrices(prev => ({ ...prev, [key]: e.target.value.replace(/\D/g, "") }))}
+                        placeholder="0"
+                        className="w-full px-3 py-2.5 text-sm text-right border border-gray-200 rounded-xl tabular-nums focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
+                      />
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+      <p className="text-xs text-text-muted text-center">금액은 원(₩) 단위 정수로 입력하세요</p>
     </div>
   );
 }
