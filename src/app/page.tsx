@@ -43,6 +43,12 @@ export default function Home() {
             >
               회원가입
             </Link>
+            <Link
+              href="/demo"
+              className="block py-3 px-6 text-blue-200 text-sm font-medium text-center hover:text-white transition"
+            >
+              🎮 데모 체험하기
+            </Link>
           </div>
         </div>
       </section>
