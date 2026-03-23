@@ -9,9 +9,9 @@ export function Card({ children, className = "", onClick, hover }: CardProps) {
   return (
     <div
       onClick={onClick}
-      className={`bg-card rounded-2xl p-5 shadow-sm border border-border ${
-        hover ? "hover:border-primary hover:shadow-md cursor-pointer transition-all" : ""
-      } ${onClick ? "cursor-pointer" : ""} ${className}`}
+      className={`bg-card rounded-2xl p-4 md:p-5 shadow-sm border border-border card-touch animate-fade-in ${
+        hover ? "hover:border-primary hover:shadow-md cursor-pointer transition-all active:scale-[0.98]" : ""
+      } ${onClick ? "cursor-pointer active:scale-[0.98]" : ""} ${className}`}
     >
       {children}
     </div>
@@ -28,10 +28,10 @@ export function CardTitle({ children, className = "" }: { children: React.ReactN
 
 export function StatCard({ icon, value, label, color = "text-primary" }: { icon: string; value: string | number; label: string; color?: string }) {
   return (
-    <Card className="text-center">
-      <span className="text-2xl block">{icon}</span>
-      <p className={`text-2xl font-bold tabular-nums mt-1 ${color}`}>{value}</p>
-      <p className="text-sm text-text-muted mt-0.5">{label}</p>
+    <Card className="text-center !p-3 md:!p-5">
+      <span className="text-2xl md:text-3xl block">{icon}</span>
+      <p className={`text-xl md:text-2xl font-bold tabular-nums mt-1 ${color}`}>{value}</p>
+      <p className="text-xs md:text-sm text-text-muted mt-0.5">{label}</p>
     </Card>
   );
 }

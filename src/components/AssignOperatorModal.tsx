@@ -55,7 +55,7 @@ export default function AssignOperatorModal({ dispatchId, onClose, onAssigned }:
   return (
     <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center">
       <div className="fixed inset-0 bg-black/50" onClick={onClose} />
-      <div className="relative z-10 bg-card rounded-t-2xl md:rounded-2xl w-full max-w-md p-6 shadow-2xl max-h-[80vh] overflow-y-auto">
+      <div className="relative z-10 bg-card rounded-t-2xl md:rounded-2xl w-full max-w-md p-6 shadow-2xl max-h-[80vh] overflow-y-auto safe-bottom animate-fade-in">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-bold">기사 배정</h3>
           <button onClick={onClose} className="text-2xl text-text-muted">✕</button>

@@ -156,33 +156,49 @@ export default function DashboardLayout({ children, userRole, userName, basePath
 
       {/* 메인 콘텐츠 */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* 모바일 헤더 */}
-        <header className="md:hidden bg-card border-b border-border px-4 py-3 flex items-center justify-between">
-          <button onClick={() => setSidebarOpen(true)} className="text-2xl text-text">☰</button>
+        {/* 모바일 헤더 — 높이 56px, 터치 영역 충분 */}
+        <header className="md:hidden bg-card border-b border-border px-4 py-3 flex items-center justify-between sticky top-0 z-30">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-gray-100 active:bg-gray-200 transition text-2xl"
+            aria-label="메뉴 열기"
+          >
+            ☰
+          </button>
           <h1 className="text-lg font-bold text-primary">Heavy Match</h1>
-          <div className="w-8" />
+          <div className="w-11" /> {/* 균형 맞추기 */}
         </header>
 
-        {/* 하단 탭 - 모바일 */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-30">
-          <nav className="flex justify-around py-2">
-            {navItems.slice(0, 4).map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex flex-col items-center py-1 px-2 text-xs ${
-                  pathname === item.href ? "text-primary font-semibold" : "text-text-muted"
-                }`}
-              >
-                <span className="text-xl mb-0.5">{item.icon}</span>
-                {item.label}
-              </Link>
-            ))}
+        {/* 하단 탭 - 모바일 (Safe Area + 큰 터치 타겟) */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-30 safe-bottom">
+          <nav className="flex justify-around px-1 pt-1 pb-1">
+            {navItems.slice(0, 4).map((item) => {
+              const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex flex-col items-center justify-center py-2 px-3 rounded-xl min-w-[64px] min-h-[56px] transition touch-active ${
+                    isActive
+                      ? "text-primary bg-blue-50"
+                      : "text-text-muted hover:bg-gray-50"
+                  }`}
+                >
+                  <span className="text-2xl mb-0.5">{item.icon}</span>
+                  <span className={`text-xs font-medium ${isActive ? "font-bold" : ""}`}>
+                    {item.label}
+                  </span>
+                  {isActive && (
+                    <span className="w-5 h-1 bg-primary rounded-full mt-0.5" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
-        {/* 페이지 콘텐츠 */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-20 md:pb-6">
+        {/* 페이지 콘텐츠 — 하단 탭 높이(80px) + Safe Area만큼 패딩 */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
           {children}
         </main>
       </div>
