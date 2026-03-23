@@ -20,7 +20,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#1E40AF",
+  themeColor: "#0059b9",
   viewportFit: "cover", // Safe Area 지원 — env() 사용 가능하게
 };
 
@@ -33,6 +33,8 @@ export default function RootLayout({
     <html lang="ko" className="h-full">
       <head>
         <link rel="apple-touch-icon" href="/icon.svg" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
       </head>
       <body className="min-h-full flex flex-col overscroll-none">{children}</body>
     </html>
