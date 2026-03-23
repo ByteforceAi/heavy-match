@@ -1,22 +1,31 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, StatCard } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function SalespersonCommissionPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let commissions: Array<{
+    id: number; total_price: number; salesperson_fee: number; created_at: string;
+  }> | null = null;
 
-  const { data: commissions } = await supabase
-    .from("commissions")
-    .select("*")
-    .eq("salesperson_id", user!.id)
-    .eq("is_cancelled", false)
-    .order("created_at", { ascending: false })
-    .limit(50) as unknown as { data: Array<{
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const { data } = await supabase
+      .from("commissions")
+      .select("*")
+      .eq("salesperson_id", user!.id)
+      .eq("is_cancelled", false)
+      .order("created_at", { ascending: false })
+      .limit(50) as unknown as { data: Array<{
       id: number; total_price: number; salesperson_fee: number; created_at: string;
     }> | null };
+
+    commissions = data;
+  }
 
   const totalFee = commissions?.reduce((sum, c) => sum + c.salesperson_fee, 0) ?? 0;
   const thisMonth = commissions?.filter((c) => {

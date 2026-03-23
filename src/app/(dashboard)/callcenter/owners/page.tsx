@@ -1,22 +1,32 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPhone } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function CallcenterOwnersPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let owners: Array<{
+    id: string; name: string; phone: string; company_name: string | null;
+    region_sido: string | null; region_sigungu: string | null; created_at: string;
+  }> | null = null;
 
-  const { data: owners } = await supabase
-    .from("users")
-    .select("id, name, phone, company_name, region_sido, region_sigungu, created_at")
-    .eq("callcenter_id", user!.id)
-    .eq("role", "owner")
-    .order("created_at", { ascending: false }) as unknown as { data: Array<{
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const { data } = await supabase
+      .from("users")
+      .select("id, name, phone, company_name, region_sido, region_sigungu, created_at")
+      .eq("callcenter_id", user!.id)
+      .eq("role", "owner")
+      .order("created_at", { ascending: false }) as unknown as { data: Array<{
       id: string; name: string; phone: string; company_name: string | null;
       region_sido: string | null; region_sigungu: string | null; created_at: string;
     }> | null };
+
+    owners = data;
+  }
 
   return (
     <div>

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { formatPrice, formatPhone, parsePhone } from "@/lib/utils";
+import { isClientDevPreview, MOCK_EQUIPMENT_TYPES, MOCK_EQUIPMENT_SPECS, MOCK_TIME_UNITS } from "@/lib/mockData";
 import SignatureCanvas from "@/components/SignatureCanvas";
 import { useRouter } from "next/navigation";
 
@@ -46,16 +47,28 @@ export default function RequestPage() {
   }, []);
 
   const loadEquipmentTypes = async () => {
+    if (isClientDevPreview()) {
+      setEquipmentTypes(MOCK_EQUIPMENT_TYPES);
+      return;
+    }
     const { data } = await supabase.from("equipment_types").select("*").order("sort_order");
     if (data) setEquipmentTypes(data as unknown as EquipmentType[]);
   };
 
   const loadTimeUnits = async () => {
+    if (isClientDevPreview()) {
+      setTimeUnits(MOCK_TIME_UNITS);
+      return;
+    }
     const { data } = await supabase.from("time_units").select("*").order("sort_order");
     if (data) setTimeUnits(data as unknown as TimeUnit[]);
   };
 
   const loadSpecs = async (typeId: number) => {
+    if (isClientDevPreview()) {
+      setSpecs(MOCK_EQUIPMENT_SPECS[typeId] ?? []);
+      return;
+    }
     const { data } = await supabase
       .from("equipment_specs")
       .select("*")

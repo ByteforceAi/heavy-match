@@ -1,18 +1,25 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice } from "@/lib/utils";
 
 export default async function SalespersonHome() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let commissions: Array<{ id: number; total_price: number; salesperson_fee: number; created_at: string }> | null = null;
+  let totalEarnings = 0;
 
-  const { data: commissions } = await supabase
-    .from("commissions")
-    .select("*, dispatch_requests(equipment_types(name), equipment_specs(spec_name), company_name)")
-    .eq("salesperson_id", user!.id)
-    .order("created_at", { ascending: false })
-    .limit(20) as unknown as { data: Array<{ id: number; total_price: number; salesperson_fee: number; created_at: string }> | null };
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
-  const totalEarnings = commissions?.reduce((sum, c) => sum + c.salesperson_fee, 0) ?? 0;
+    const { data } = await supabase
+      .from("commissions")
+      .select("*, dispatch_requests(equipment_types(name), equipment_specs(spec_name), company_name)")
+      .eq("salesperson_id", user!.id)
+      .order("created_at", { ascending: false })
+      .limit(20) as unknown as { data: Array<{ id: number; total_price: number; salesperson_fee: number; created_at: string }> | null };
+
+    commissions = data;
+    totalEarnings = commissions?.reduce((sum, c) => sum + c.salesperson_fee, 0) ?? 0;
+  }
 
   return (
     <div className="space-y-6">

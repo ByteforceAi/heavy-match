@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import { Card } from "@/components/ui/Card";
@@ -6,23 +7,31 @@ import { StatusBadge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function RequesterHome() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let recentHistory: Array<{ id: number; site_address: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null }> | null = null;
+  let activeDispatches: Array<{ id: string; status: string; price: number; site_address: string; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null = null;
 
-  const { data: recentHistory } = await supabase
-    .from("call_history")
-    .select("*, equipment_types(name), equipment_specs(spec_name)")
-    .eq("requester_id", user!.id)
-    .order("last_used_at", { ascending: false })
-    .limit(5) as unknown as { data: Array<{ id: number; site_address: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null }> | null };
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
-  const { data: activeDispatches } = await supabase
-    .from("dispatch_requests")
-    .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
-    .eq("requester_id", user!.id)
-    .not("status", "in", '("completed","cancelled")')
-    .order("created_at", { ascending: false })
-    .limit(5) as unknown as { data: Array<{ id: string; status: string; price: number; site_address: string; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+    const { data: history } = await supabase
+      .from("call_history")
+      .select("*, equipment_types(name), equipment_specs(spec_name)")
+      .eq("requester_id", user!.id)
+      .order("last_used_at", { ascending: false })
+      .limit(5) as unknown as { data: Array<{ id: number; site_address: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null }> | null };
+
+    const { data: dispatches } = await supabase
+      .from("dispatch_requests")
+      .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
+      .eq("requester_id", user!.id)
+      .not("status", "in", '("completed","cancelled")')
+      .order("created_at", { ascending: false })
+      .limit(5) as unknown as { data: Array<{ id: string; status: string; price: number; site_address: string; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+
+    recentHistory = history;
+    activeDispatches = dispatches;
+  }
 
   return (
     <div className="space-y-6">

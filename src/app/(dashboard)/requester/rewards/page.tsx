@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
@@ -6,19 +7,28 @@ import { StatCard } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function RequesterRewardsPage() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let commissions: Array<{
+    requester_reward: number; total_price: number; created_at: string;
+    dispatch_requests: { equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null } | null;
+  }> | null = null;
 
-  // 요청자의 적립금 (수수료에서 requester_reward)
-  const { data: commissions } = await supabase
-    .from("commissions")
-    .select("requester_reward, total_price, created_at, dispatch_requests(equipment_types(name), equipment_specs(spec_name))")
-    .eq("is_cancelled", false)
-    .order("created_at", { ascending: false })
-    .limit(50) as unknown as { data: Array<{
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // 요청자의 적립금 (수수료에서 requester_reward)
+    const { data } = await supabase
+      .from("commissions")
+      .select("requester_reward, total_price, created_at, dispatch_requests(equipment_types(name), equipment_specs(spec_name))")
+      .eq("is_cancelled", false)
+      .order("created_at", { ascending: false })
+      .limit(50) as unknown as { data: Array<{
       requester_reward: number; total_price: number; created_at: string;
       dispatch_requests: { equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null } | null;
     }> | null };
+
+    commissions = data;
+  }
 
   // 요청자 본인 건만 필터 (RLS가 처리하지만 추가 안전장치)
   const totalRewards = commissions?.reduce((sum, c) => sum + c.requester_reward, 0) ?? 0;

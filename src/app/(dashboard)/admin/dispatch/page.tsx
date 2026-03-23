@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
@@ -6,19 +7,31 @@ import { StatusBadge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function AdminDispatchPage() {
-  const supabase = await createServerSupabaseClient();
+  let dispatches: Array<{
+    id: string; status: string; price: number; site_address: string;
+    company_name: string; created_at: string; requester_name: string | null;
+    equipment_types: { name: string } | null;
+    equipment_specs: { spec_name: string } | null;
+    time_units: { name: string } | null;
+  }> | null = null;
 
-  const { data: dispatches } = await supabase
-    .from("dispatch_requests")
-    .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
-    .order("created_at", { ascending: false })
-    .limit(100) as unknown as { data: Array<{
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+
+    const { data } = await supabase
+      .from("dispatch_requests")
+      .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
+      .order("created_at", { ascending: false })
+      .limit(100) as unknown as { data: Array<{
       id: string; status: string; price: number; site_address: string;
       company_name: string; created_at: string; requester_name: string | null;
       equipment_types: { name: string } | null;
       equipment_specs: { spec_name: string } | null;
       time_units: { name: string } | null;
     }> | null };
+
+    dispatches = data;
+  }
 
   const statusCounts: Record<string, number> = {};
   dispatches?.forEach((d) => {

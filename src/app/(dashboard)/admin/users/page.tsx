@@ -1,4 +1,5 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPhone, getRoleLabel } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card } from "@/components/ui/Card";
@@ -6,17 +7,27 @@ import { RoleBadge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function AdminUsersPage() {
-  const supabase = await createServerSupabaseClient();
+  let users: Array<{
+    id: string; name: string; phone: string; role: string;
+    company_name: string | null; region_sido: string | null;
+    region_sigungu: string | null; created_at: string;
+  }> | null = null;
 
-  const { data: users } = await supabase
-    .from("users")
-    .select("*")
-    .order("created_at", { ascending: false })
-    .limit(100) as unknown as { data: Array<{
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+
+    const { data } = await supabase
+      .from("users")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(100) as unknown as { data: Array<{
       id: string; name: string; phone: string; role: string;
       company_name: string | null; region_sido: string | null;
       region_sigungu: string | null; created_at: string;
     }> | null };
+
+    users = data;
+  }
 
   // 역할별 카운트
   const roleCounts: Record<string, number> = {};

@@ -1,17 +1,24 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice, getStatusLabel, getStatusColor } from "@/lib/utils";
 import Link from "next/link";
 
 export default async function OperatorHome() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let dispatches: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; site_manager_name: string | null; site_manager_phone: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null = null;
 
-  const { data: dispatches } = await supabase
-    .from("dispatch_requests")
-    .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
-    .eq("assigned_operator_id", user!.id)
-    .not("status", "in", '("completed","cancelled","pending","exclusive_call","callcenter_call","shared_call","matched")')
-    .order("created_at", { ascending: false }) as unknown as { data: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; site_manager_name: string | null; site_manager_phone: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    const { data } = await supabase
+      .from("dispatch_requests")
+      .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
+      .eq("assigned_operator_id", user!.id)
+      .not("status", "in", '("completed","cancelled","pending","exclusive_call","callcenter_call","shared_call","matched")')
+      .order("created_at", { ascending: false }) as unknown as { data: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; site_manager_name: string | null; site_manager_phone: string | null; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+
+    dispatches = data;
+  }
 
   return (
     <div className="space-y-6">

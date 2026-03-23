@@ -1,23 +1,35 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { Card, StatCard } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 
 export default async function AdminCommissionPage() {
-  const supabase = await createServerSupabaseClient();
+  let commissions: Array<{
+    id: number; total_price: number; total_commission: number;
+    requester_reward: number; company_fee: number;
+    callcenter_fee: number; salesperson_fee: number;
+    created_at: string;
+  }> | null = null;
 
-  const { data: commissions } = await supabase
-    .from("commissions")
-    .select("*")
-    .eq("is_cancelled", false)
-    .order("created_at", { ascending: false })
-    .limit(100) as unknown as { data: Array<{
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+
+    const { data } = await supabase
+      .from("commissions")
+      .select("*")
+      .eq("is_cancelled", false)
+      .order("created_at", { ascending: false })
+      .limit(100) as unknown as { data: Array<{
       id: number; total_price: number; total_commission: number;
       requester_reward: number; company_fee: number;
       callcenter_fee: number; salesperson_fee: number;
       created_at: string;
     }> | null };
+
+    commissions = data;
+  }
 
   const totals = {
     revenue: commissions?.reduce((s, c) => s + c.total_price, 0) ?? 0,

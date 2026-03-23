@@ -1,17 +1,24 @@
 import { createServerSupabaseClient } from "@/lib/supabase/server";
+import { isDevPreview } from "@/lib/dev";
 import { formatPrice, getStatusLabel, getStatusColor } from "@/lib/utils";
 
 export default async function CallcenterHome() {
-  const supabase = await createServerSupabaseClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  let dispatches: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null = null;
 
-  // 콜센터로 전달된 건들
-  const { data: dispatches } = await supabase
-    .from("dispatch_requests")
-    .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
-    .eq("original_callcenter_id", user!.id)
-    .not("status", "in", '("completed","cancelled","pending")')
-    .order("created_at", { ascending: false }) as { data: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+  if (!isDevPreview()) {
+    const supabase = await createServerSupabaseClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // 콜센터로 전달된 건들
+    const { data } = await supabase
+      .from("dispatch_requests")
+      .select("*, equipment_types(name), equipment_specs(spec_name), time_units(name)")
+      .eq("original_callcenter_id", user!.id)
+      .not("status", "in", '("completed","cancelled","pending")')
+      .order("created_at", { ascending: false }) as { data: Array<{ id: string; status: string; price: number; site_address: string; company_name: string; equipment_types: { name: string } | null; equipment_specs: { spec_name: string } | null; time_units: { name: string } | null }> | null };
+
+    dispatches = data;
+  }
 
   return (
     <div className="space-y-6">
