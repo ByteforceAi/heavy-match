@@ -3,28 +3,54 @@
 import { useParams } from "next/navigation";
 import { useState } from "react";
 import { formatPrice } from "@/lib/utils";
-import { Card, StatCard } from "@/components/ui/Card";
-import { StatusBadge } from "@/components/ui/Badge";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { EmptyState } from "@/components/ui/EmptyState";
 import SignatureCanvas from "@/components/SignatureCanvas";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_OWNERS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
 
-/* ═════ Toast helper ═════ */
-function DemoToast({ message }: { message: string }) {
+/* ═════ MD3 Primitives ═════ */
+function Md3Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <div className={`bg-white rounded-2xl border border-[#c1c6d6]/30 p-5 shadow-[0_2px_12px_rgba(17,28,41,0.04)] ${className}`}>{children}</div>;
+}
+function Md3Badge({ label, color = "bg-[#e5eeff] text-[#0059b9]" }: { label: string; color?: string }) {
+  return <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold ${color}`}>{label}</span>;
+}
+function Md3Toast({ message }: { message: string }) {
+  return <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl text-sm font-bold bg-[#26313f] text-white animate-fade-in">✅ {message}</div>;
+}
+function Md3Stat({ icon, value, label, gradient }: { icon: string; value: string | number; label: string; gradient: string }) {
   return (
-    <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl text-base font-semibold bg-emerald-500 text-white animate-fade-in">
-      ✅ {message}
+    <div className={`${gradient} rounded-2xl p-4 text-white text-center`}>
+      <span className="material-symbols-outlined text-2xl block mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
+      <p className="text-xl font-black tabular-nums">{value}</p>
+      <p className="text-[10px] font-semibold opacity-70 mt-0.5">{label}</p>
+    </div>
+  );
+}
+function PageTitle({ title, desc, action }: { title: string; desc?: string; action?: React.ReactNode }) {
+  return (
+    <div className="flex items-start justify-between mb-5">
+      <div>
+        <h2 className="text-2xl font-[800] text-[#111c29]">{title}</h2>
+        {desc && <p className="text-sm text-[#414754] mt-0.5">{desc}</p>}
+      </div>
+      {action}
     </div>
   );
 }
 
+const STATUS_MAP: Record<string, { label: string; color: string }> = {
+  exclusive_call: { label: "전용콜", color: "bg-[#d7e2ff] text-[#004491]" },
+  shared_call: { label: "공유콜", color: "bg-[#dde3ef] text-[#595f69]" },
+  matched: { label: "매칭완료", color: "bg-emerald-100 text-emerald-700" },
+  operator_assigned: { label: "기사배정", color: "bg-[#e5eeff] text-[#0059b9]" },
+  in_progress: { label: "작업중", color: "bg-amber-100 text-amber-700" },
+  completed: { label: "완료", color: "bg-emerald-100 text-emerald-700" },
+};
+const EQ_ICONS: Record<string, string> = { "크레인": "🏗️", "굴삭기": "⛏️", "스카이": "🔝", "펌프카": "💧", "지게차": "📦", "덤프": "🚚", "카고크레인": "🚛", "거미크레인": "🕷️" };
+
 /* ═════ Router ═════ */
 export default function DemoSubPage() {
   const params = useParams<{ role: string; subpage: string[] }>();
-  const role = params.role;
-  const subpage = params.subpage?.join("/") ?? "";
-  const key = `${role}/${subpage}`;
+  const key = `${params.role}/${params.subpage?.join("/") ?? ""}`;
 
   switch (key) {
     case "requester/request": return <DemoRequest />;
@@ -32,9 +58,9 @@ export default function DemoSubPage() {
     case "requester/rewards": return <DemoRewards />;
     case "owner/prices": return <DemoPrices />;
     case "owner/operators": return <DemoOperators />;
-    case "owner/history": return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => d.status === "matched" || d.status === "completed")} title="매칭 이력" desc="내가 수락한 배차 내역" />;
+    case "owner/history": return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => ["matched","completed"].includes(d.status))} title="매칭 이력" desc="내가 수락한 배차 내역" />;
     case "owner/invite": return <DemoInvite />;
-    case "operator/history": return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => ["completed", "in_progress"].includes(d.status))} title="작업 이력" desc="내가 수행한 작업 내역" />;
+    case "operator/history": return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => ["completed","in_progress"].includes(d.status))} title="작업 이력" desc="내가 수행한 작업 내역" />;
     case "callcenter/owners": return <DemoCallcenterOwners />;
     case "callcenter/commission": return <DemoCommission type="callcenter" />;
     case "salesperson/commission": return <DemoCommission type="salesperson" />;
@@ -42,423 +68,372 @@ export default function DemoSubPage() {
     case "admin/users": return <DemoAdminUsers />;
     case "admin/commission": return <DemoAdminCommission />;
     case "admin/settings": return <DemoSettings />;
-    default: return <EmptyState icon="🔧" title={`${key} 페이지`} description="데모 서브페이지" />;
+    default: return <div className="text-center py-12 text-[#727785]"><span className="material-symbols-outlined text-5xl block mb-2">construction</span>{key}</div>;
   }
 }
 
 /* ═══════════════════════════════════════
-   장비요청자: 장비 요청 (6단계 위자드)
+   장비요청 6단계 위자드
    ═══════════════════════════════════════ */
 function DemoRequest() {
   const ALL_SPECS: Record<number, { id: number; name: string }[]> = {
-    1: [{ id: 1, name: "25T" }, { id: 2, name: "50T" }, { id: 3, name: "70T" }, { id: 4, name: "100T" }, { id: 5, name: "200T" }],
-    2: [{ id: 6, name: "45m" }, { id: 7, name: "52m" }, { id: 8, name: "58m" }, { id: 9, name: "65m" }],
-    3: [{ id: 10, name: "5T" }, { id: 11, name: "8T" }, { id: 12, name: "11T" }],
-    4: [{ id: 13, name: "3T" }, { id: 14, name: "5T" }, { id: 15, name: "8T" }],
-    5: [{ id: 16, name: "32m" }, { id: 17, name: "37m" }, { id: 18, name: "42m" }],
-    6: [{ id: 19, name: "0.6T" }, { id: 20, name: "1T" }, { id: 21, name: "3T" }, { id: 22, name: "6T" }, { id: 23, name: "8T" }],
-    7: [{ id: 24, name: "2.5T" }, { id: 25, name: "3T" }, { id: 26, name: "5T" }],
-    8: [{ id: 27, name: "15T" }, { id: 28, name: "25T" }],
+    1: [{id:1,name:"25T"},{id:2,name:"50T"},{id:3,name:"70T"},{id:4,name:"100T"},{id:5,name:"200T"}],
+    2: [{id:6,name:"45m"},{id:7,name:"52m"},{id:8,name:"58m"},{id:9,name:"65m"}],
+    3: [{id:10,name:"5T"},{id:11,name:"8T"},{id:12,name:"11T"}],
+    4: [{id:13,name:"3T"},{id:14,name:"5T"},{id:15,name:"8T"}],
+    5: [{id:16,name:"32m"},{id:17,name:"37m"},{id:18,name:"42m"}],
+    6: [{id:19,name:"0.6T"},{id:20,name:"1T"},{id:21,name:"3T"},{id:22,name:"6T"},{id:23,name:"8T"}],
+    7: [{id:24,name:"2.5T"},{id:25,name:"3T"},{id:26,name:"5T"}],
+    8: [{id:27,name:"15T"},{id:28,name:"25T"}],
   };
-  const EQUIPMENT = [
-    { id: 1, name: "크레인", icon: "🏗️" }, { id: 2, name: "스카이", icon: "🔝" },
-    { id: 3, name: "카고크레인", icon: "🚛" }, { id: 4, name: "거미크레인", icon: "🕷️" },
-    { id: 5, name: "펌프카", icon: "💧" }, { id: 6, name: "굴삭기", icon: "⛏️" },
-    { id: 7, name: "지게차", icon: "📦" }, { id: 8, name: "덤프", icon: "🚚" },
+  const EQ = [
+    {id:1,name:"크레인",icon:"🏗️"},{id:2,name:"스카이",icon:"🔝"},{id:3,name:"카고크레인",icon:"🚛"},{id:4,name:"거미크레인",icon:"🕷️"},
+    {id:5,name:"펌프카",icon:"💧"},{id:6,name:"굴삭기",icon:"⛏️"},{id:7,name:"지게차",icon:"📦"},{id:8,name:"덤프",icon:"🚚"},
   ];
-  const TIMES = [{ id: 1, name: "1시간" }, { id: 2, name: "오전(4h)" }, { id: 3, name: "오후(4h)" }, { id: 4, name: "하루(8h)" }];
+  const TIMES = [{id:1,name:"1시간"},{id:2,name:"오전(4h)"},{id:3,name:"오후(4h)"},{id:4,name:"하루(8h)"}];
 
   const [step, setStep] = useState(1);
-  const [selectedEq, setSelectedEq] = useState<typeof EQUIPMENT[0] | null>(null);
-  const [selectedSpec, setSelectedSpec] = useState<string | null>(null);
-  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [eq, setEq] = useState<typeof EQ[0]|null>(null);
+  const [spec, setSpec] = useState<string|null>(null);
+  const [time, setTime] = useState<string|null>(null);
   const [price, setPrice] = useState("300000");
   const [signed, setSigned] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
-
-  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+  const [toast, setToast] = useState<string|null>(null);
+  const show = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500); };
 
   return (
-    <div className="max-w-md mx-auto space-y-4">
-      {toast && <DemoToast message={toast} />}
-      {/* 진행 바 */}
-      <div className="flex gap-1">
-        {[1,2,3,4,5,6].map(s => (
-          <div key={s} className={`flex-1 h-2.5 rounded-full transition-all duration-300 ${s <= step ? "bg-primary" : "bg-gray-200"}`} />
-        ))}
-      </div>
+    <div className="max-w-md mx-auto space-y-5">
+      {toast && <Md3Toast message={toast} />}
+      <div className="flex gap-1">{[1,2,3,4,5,6].map(s => <div key={s} className={`flex-1 h-2 rounded-full transition-all ${s <= step ? "bg-[#0059b9]" : "bg-[#d8e3f5]"}`} />)}</div>
 
-      {step === 1 && (
-        <>
-          <h3 className="text-xl font-bold">장비 선택</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {EQUIPMENT.map(eq => (
-              <button key={eq.id} onClick={() => { setSelectedEq(eq); setStep(2); }}
-                className="bg-white rounded-2xl p-4 text-center border-2 border-gray-100 hover:border-primary hover:shadow-md transition-all active:scale-95 shadow-sm">
-                <span className="text-3xl block mb-1">{eq.icon}</span>
-                <span className="text-base font-semibold">{eq.name}</span>
-              </button>
-            ))}
-          </div>
-        </>
-      )}
+      {step === 1 && (<>
+        <h3 className="text-xl font-[800] text-[#111c29]">장비 선택</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {EQ.map(e => (
+            <button key={e.id} onClick={() => { setEq(e); setStep(2); }}
+              className="bg-white rounded-2xl p-4 text-center border border-[#c1c6d6]/30 hover:border-[#0059b9] hover:shadow-md transition-all active:scale-95">
+              <span className="text-3xl block mb-1">{e.icon}</span>
+              <span className="text-base font-bold text-[#111c29]">{e.name}</span>
+            </button>
+          ))}
+        </div>
+      </>)}
 
-      {step === 2 && selectedEq && (
-        <>
-          <h3 className="text-xl font-bold">{selectedEq.icon} {selectedEq.name} 규격</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {(ALL_SPECS[selectedEq.id] || []).map(spec => (
-              <button key={spec.id} onClick={() => { setSelectedSpec(spec.name); setStep(3); }}
-                className="bg-white rounded-2xl p-4 text-center border-2 border-gray-100 hover:border-primary hover:shadow-md transition-all active:scale-95 shadow-sm">
-                <span className="text-xl font-bold">{spec.name}</span>
-              </button>
-            ))}
-          </div>
-          <button onClick={() => setStep(1)} className="text-text-muted text-sm">← 장비 다시 선택</button>
-        </>
-      )}
+      {step === 2 && eq && (<>
+        <h3 className="text-xl font-[800] text-[#111c29]">{eq.icon} {eq.name} 규격</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {(ALL_SPECS[eq.id]||[]).map(s => (
+            <button key={s.id} onClick={() => { setSpec(s.name); setStep(3); }}
+              className="bg-white rounded-2xl p-4 text-center border border-[#c1c6d6]/30 hover:border-[#0059b9] transition-all active:scale-95">
+              <span className="text-xl font-black text-[#111c29]">{s.name}</span>
+            </button>
+          ))}
+        </div>
+        <button onClick={() => setStep(1)} className="text-sm text-[#727785] flex items-center gap-1"><span className="material-symbols-outlined text-base">arrow_back</span>장비 다시 선택</button>
+      </>)}
 
-      {step === 3 && (
-        <>
-          <h3 className="text-xl font-bold">시간 선택</h3>
-          <div className="grid grid-cols-2 gap-3">
-            {TIMES.map(t => (
-              <button key={t.id} onClick={() => { setSelectedTime(t.name); setStep(4); }}
-                className="bg-white rounded-2xl p-4 text-center border-2 border-gray-100 hover:border-primary hover:shadow-md transition-all active:scale-95 shadow-sm">
-                <span className="text-lg font-bold">{t.name}</span>
-              </button>
-            ))}
-          </div>
-          <button onClick={() => setStep(2)} className="text-text-muted text-sm">← 규격 다시 선택</button>
-        </>
-      )}
+      {step === 3 && (<>
+        <h3 className="text-xl font-[800] text-[#111c29]">시간 선택</h3>
+        <div className="grid grid-cols-2 gap-3">
+          {TIMES.map(t => (
+            <button key={t.id} onClick={() => { setTime(t.name); setStep(4); }}
+              className="bg-white rounded-2xl p-4 text-center border border-[#c1c6d6]/30 hover:border-[#0059b9] transition-all active:scale-95">
+              <span className="text-lg font-bold text-[#111c29]">{t.name}</span>
+            </button>
+          ))}
+        </div>
+        <button onClick={() => setStep(2)} className="text-sm text-[#727785] flex items-center gap-1"><span className="material-symbols-outlined text-base">arrow_back</span>규격 다시 선택</button>
+      </>)}
 
-      {step === 4 && (
-        <>
-          <h3 className="text-xl font-bold">단가 확인</h3>
-          <div className="bg-blue-50 rounded-2xl p-5">
-            <p className="text-sm text-gray-500">{selectedEq?.name} {selectedSpec} / {selectedTime}</p>
-            <input type="text" inputMode="numeric" value={price} onChange={e => setPrice(e.target.value.replace(/\D/g, ""))}
-              className="w-full mt-2 px-4 py-3 text-2xl font-bold text-right border border-gray-200 rounded-xl tabular-nums focus:ring-2 focus:ring-primary/30"
-            />
-            <p className="text-xs text-gray-400 text-right mt-1">원</p>
-          </div>
-          <button onClick={() => setStep(5)} className="w-full py-4 bg-primary text-white text-lg font-bold rounded-xl active:scale-95 transition-all">다음</button>
-          <button onClick={() => setStep(3)} className="text-text-muted text-sm">← 시간 다시 선택</button>
-        </>
-      )}
+      {step === 4 && (<>
+        <h3 className="text-xl font-[800] text-[#111c29]">단가 확인</h3>
+        <div className="bg-[#eef4ff] rounded-2xl p-5">
+          <p className="text-sm text-[#414754]">{eq?.name} {spec} / {time}</p>
+          <input type="text" inputMode="numeric" value={price} onChange={e => setPrice(e.target.value.replace(/\D/g,""))}
+            className="w-full mt-2 px-4 py-3 text-2xl font-black text-right border border-[#c1c6d6] rounded-xl tabular-nums focus:ring-2 focus:ring-[#0059b9]/30 focus:border-[#0059b9]" />
+          <p className="text-xs text-[#727785] text-right mt-1">원 (₩)</p>
+        </div>
+        <button onClick={() => setStep(5)} className="w-full py-4 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2">
+          <span className="material-symbols-outlined">arrow_forward</span>다음
+        </button>
+        <button onClick={() => setStep(3)} className="text-sm text-[#727785] flex items-center gap-1"><span className="material-symbols-outlined text-base">arrow_back</span>이전</button>
+      </>)}
 
-      {step === 5 && (
-        <>
-          <h3 className="text-xl font-bold">현장 정보</h3>
-          <input type="text" defaultValue="한양건설(주)" placeholder="건설사명 *" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
-          <input type="text" defaultValue="서울시 강남구 삼성동 코엑스 신축현장" placeholder="현장주소 *" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
-          <input type="text" defaultValue="김건설" placeholder="요청자명" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
-          <input type="tel" defaultValue="010-1234-5678" placeholder="연락처" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
-          <button onClick={() => setStep(6)} className="w-full py-4 bg-primary text-white text-lg font-bold rounded-xl active:scale-95 transition-all">다음 (전자서명)</button>
-          <button onClick={() => setStep(4)} className="text-text-muted text-sm">← 단가 다시 확인</button>
-        </>
-      )}
+      {step === 5 && (<>
+        <h3 className="text-xl font-[800] text-[#111c29]">현장 정보</h3>
+        <input type="text" defaultValue="한양건설(주)" placeholder="건설사명 *" className="w-full px-4 py-3 border border-[#c1c6d6] rounded-xl bg-white focus:ring-2 focus:ring-[#0059b9]/30" />
+        <input type="text" defaultValue="서울시 강남구 삼성동 코엑스 신축현장" placeholder="현장주소 *" className="w-full px-4 py-3 border border-[#c1c6d6] rounded-xl bg-white focus:ring-2 focus:ring-[#0059b9]/30" />
+        <input type="text" defaultValue="김건설" placeholder="요청자명" className="w-full px-4 py-3 border border-[#c1c6d6] rounded-xl bg-white focus:ring-2 focus:ring-[#0059b9]/30" />
+        <input type="tel" defaultValue="010-1234-5678" placeholder="연락처" className="w-full px-4 py-3 border border-[#c1c6d6] rounded-xl bg-white focus:ring-2 focus:ring-[#0059b9]/30" />
+        <button onClick={() => setStep(6)} className="w-full py-4 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-2">
+          <span className="material-symbols-outlined">draw</span>다음 (전자서명)
+        </button>
+        <button onClick={() => setStep(4)} className="text-sm text-[#727785] flex items-center gap-1"><span className="material-symbols-outlined text-base">arrow_back</span>이전</button>
+      </>)}
 
-      {step === 6 && (
-        <>
-          <h3 className="text-xl font-bold">전자서명</h3>
-          <div className="bg-blue-50 rounded-xl p-3 text-sm space-y-1">
-            <p><b>{selectedEq?.name}</b> {selectedSpec} / {selectedTime}</p>
-            <p className="text-primary font-bold tabular-nums">{formatPrice(parseInt(price) || 0)}원</p>
-          </div>
-          <SignatureCanvas onSave={() => setSigned(true)} />
-          {signed && <p className="text-success text-sm text-center font-semibold">✅ 서명 완료</p>}
-          <button onClick={() => { showToast("장비 요청이 완료되었습니다!"); setTimeout(() => setStep(1), 2000); setSigned(false); }}
-            disabled={!signed}
-            className="w-full py-4 bg-amber-500 text-white text-xl font-bold rounded-xl disabled:opacity-40 active:scale-95 transition-all">
-            장비 요청하기
-          </button>
-          <button onClick={() => setStep(5)} className="text-text-muted text-sm">← 현장 정보 수정</button>
-        </>
-      )}
+      {step === 6 && (<>
+        <h3 className="text-xl font-[800] text-[#111c29]">전자서명</h3>
+        <div className="bg-[#eef4ff] rounded-xl p-3 text-sm">
+          <p><b>{eq?.name}</b> {spec} / {time}</p>
+          <p className="text-[#0059b9] font-black tabular-nums text-lg">{formatPrice(parseInt(price)||0)}원</p>
+        </div>
+        <SignatureCanvas onSave={() => setSigned(true)} />
+        {signed && <p className="text-emerald-600 text-sm text-center font-bold">✅ 서명 완료</p>}
+        <button onClick={() => { show("장비 요청 완료!"); setTimeout(() => { setStep(1); setSigned(false); }, 2000); }} disabled={!signed}
+          className="w-full py-4 bg-amber-500 text-white text-lg font-black rounded-xl disabled:opacity-40 active:scale-95 transition-all flex items-center justify-center gap-2">
+          <span className="material-symbols-outlined">send</span>장비 요청하기
+        </button>
+        <button onClick={() => setStep(5)} className="text-sm text-[#727785] flex items-center gap-1"><span className="material-symbols-outlined text-base">arrow_back</span>이전</button>
+      </>)}
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   공통: 이력 조회 (데이터 표시만)
-   ═══════════════════════════════════════ */
+/* ═════ 이력 (공통) ═════ */
 function DemoHistory({ dispatches, title, desc }: { dispatches: typeof DEMO_DISPATCHES; title: string; desc: string }) {
   return (
     <div>
-      <PageHeader title={title} description={desc} />
+      <PageTitle title={title} desc={desc} />
       <div className="space-y-3">
         {dispatches.map(d => (
-          <Card key={d.id}>
+          <Md3Card key={d.id}>
             <div className="flex items-center justify-between mb-2">
-              <span className="font-bold text-base">{d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-              <StatusBadge status={d.status} />
+              <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+              <Md3Badge label={STATUS_MAP[d.status]?.label||d.status} color={STATUS_MAP[d.status]?.color} />
             </div>
-            <p className="text-sm text-text-muted">{d.site_address}</p>
+            <p className="text-sm text-[#414754]">{d.site_address}</p>
             <div className="flex items-center justify-between mt-2">
-              <span className="font-bold tabular-nums text-primary">{formatPrice(d.price)}원</span>
-              <span className="text-xs text-text-muted">{new Date(d.created_at).toLocaleDateString("ko-KR")}</span>
+              <span className="font-black tabular-nums text-[#0059b9]">{formatPrice(d.price)}원</span>
+              <span className="text-xs text-[#727785]">{new Date(d.created_at).toLocaleDateString("ko-KR")}</span>
             </div>
-          </Card>
+          </Md3Card>
         ))}
       </div>
     </div>
   );
 }
 
+/* ═════ 적립금 ═════ */
 function DemoRewards() {
-  const totalRewards = DEMO_COMMISSIONS.reduce((s, c) => s + c.requester_reward, 0);
+  const total = DEMO_COMMISSIONS.reduce((s,c) => s + c.requester_reward, 0);
   return (
     <div>
-      <PageHeader title="적립금 내역" description="장비 이용 시 적립된 포인트" />
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <StatCard icon="💰" value={`${formatPrice(totalRewards)}원`} label="총 적립금" color="text-success" />
-        <StatCard icon="📊" value={DEMO_COMMISSIONS.length} label="적립 건수" />
+      <PageTitle title="적립금 내역" desc="장비 이용 시 적립된 포인트" />
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <Md3Stat icon="savings" value={`${formatPrice(total)}원`} label="총 적립금" gradient="bg-gradient-to-br from-emerald-600 to-teal-700" />
+        <Md3Stat icon="receipt_long" value={DEMO_COMMISSIONS.length} label="적립 건수" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
       </div>
       <div className="space-y-2">
         {DEMO_COMMISSIONS.map(c => (
-          <Card key={c.id} className="flex items-center justify-between">
+          <Md3Card key={c.id} className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-sm">{formatPrice(c.total_price)}원 건</p>
-              <p className="text-xs text-text-muted">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
+              <p className="font-semibold text-[#111c29] text-sm">{formatPrice(c.total_price)}원 건</p>
+              <p className="text-xs text-[#727785]">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
             </div>
-            <span className="font-bold tabular-nums text-success text-lg">+{formatPrice(c.requester_reward)}원</span>
-          </Card>
+            <span className="font-black tabular-nums text-emerald-600">+{formatPrice(c.requester_reward)}원</span>
+          </Md3Card>
         ))}
       </div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   사장: 단가 설정 (인터랙티브)
-   ═══════════════════════════════════════ */
+/* ═════ 단가 설정 ═════ */
 function DemoPrices() {
-  const ALL_SPECS: Record<string, string[]> = {
-    "크레인": ["25T","50T","70T","100T","200T"], "스카이": ["45m","52m","58m","65m"],
-    "카고크레인": ["5T","8T","11T","15T","25T"], "거미크레인": ["3T","5T","8T","10T"],
-    "펌프카": ["32m","37m","42m","47m","52m"], "굴삭기": ["0.6T","1T","3T","6T","8T","20T","30T"],
-    "지게차": ["2.5T","3T","5T","7T","11T"], "덤프": ["15T","25T"],
+  const ALL_SPECS: Record<string,string[]> = {
+    "크레인":["25T","50T","70T","100T","200T"],"스카이":["45m","52m","58m","65m"],
+    "카고크레인":["5T","8T","11T","15T","25T"],"거미크레인":["3T","5T","8T","10T"],
+    "펌프카":["32m","37m","42m","47m","52m"],"굴삭기":["0.6T","1T","3T","6T","8T","20T","30T"],
+    "지게차":["2.5T","3T","5T","7T","11T"],"덤프":["15T","25T"],
   };
   const TYPES = Object.keys(ALL_SPECS);
   const TIMES = ["1시간","오전(4h)","오후(4h)","하루(8h)"];
-  const [selectedType, setSelectedType] = useState("크레인");
-  const [prices, setPrices] = useState<Record<string, string>>({ "크레인-50T-1시간": "300000", "크레인-50T-오전(4h)": "300000", "크레인-50T-오후(4h)": "300000", "크레인-50T-하루(8h)": "300000" });
+  const [sel, setSel] = useState("크레인");
+  const [prices, setPrices] = useState<Record<string,string>>({"크레인-50T-1시간":"300000","크레인-50T-오전(4h)":"300000","크레인-50T-오후(4h)":"300000","크레인-50T-하루(8h)":"300000"});
   const [saved, setSaved] = useState(false);
-  const handleSave = () => { setSaved(true); setTimeout(() => setSaved(false), 2000); };
 
   return (
     <div className="space-y-4">
-      <PageHeader title="단가 설정" description="장비×규격×시간 매트릭스" action={
-        <button onClick={handleSave} className={`px-6 py-2.5 font-semibold rounded-xl transition-all active:scale-95 ${saved ? "bg-success text-white" : "bg-primary text-white"}`}>
-          {saved ? "✓ 저장됨" : "저장"}
+      <PageTitle title="단가 설정" desc="장비×규격×시간 매트릭스" action={
+        <button onClick={() => { setSaved(true); setTimeout(() => setSaved(false), 2000); }}
+          className={`px-5 py-2.5 font-bold rounded-xl text-sm active:scale-95 transition-all ${saved ? "bg-emerald-600 text-white" : "bg-[#0059b9] text-white"}`}>
+          {saved ? <><span className="material-symbols-outlined text-base align-middle mr-1">check</span>저장됨</> : "저장"}
         </button>
       } />
       <div className="flex gap-2 overflow-x-auto pb-2">
         {TYPES.map(t => (
-          <button key={t} onClick={() => setSelectedType(t)}
-            className={`px-4 py-2.5 rounded-xl whitespace-nowrap text-sm font-semibold transition-all active:scale-95 ${selectedType === t ? "bg-primary text-white shadow-md" : "bg-white border border-gray-200 text-gray-700 hover:border-primary"}`}>
+          <button key={t} onClick={() => setSel(t)}
+            className={`px-4 py-2.5 rounded-xl whitespace-nowrap text-sm font-bold transition-all active:scale-95 ${sel === t ? "bg-[#0059b9] text-white shadow-md" : "bg-white border border-[#c1c6d6]/50 text-[#414754] hover:border-[#0059b9]"}`}>
             {t}
           </button>
         ))}
       </div>
-      <div className="overflow-x-auto bg-white rounded-2xl border border-gray-100 shadow-sm">
+      <div className="overflow-x-auto bg-white rounded-2xl border border-[#c1c6d6]/30 shadow-sm">
         <table className="w-full text-sm">
-          <thead><tr className="border-b border-gray-100 bg-gray-50/50">
-            <th className="text-left p-3 font-semibold text-gray-500">규격</th>
-            {TIMES.map(t => <th key={t} className="text-center p-3 font-semibold text-gray-500 whitespace-nowrap">{t}</th>)}
+          <thead><tr className="border-b border-[#c1c6d6]/30 bg-[#eef4ff]">
+            <th className="text-left p-3 font-bold text-[#414754]">규격</th>
+            {TIMES.map(t => <th key={t} className="text-center p-3 font-bold text-[#414754] whitespace-nowrap">{t}</th>)}
           </tr></thead>
-          <tbody>
-            {(ALL_SPECS[selectedType] || []).map(spec => (
-              <tr key={spec} className="border-b border-gray-50 hover:bg-blue-50/30 transition-colors">
-                <td className="p-3 font-bold text-gray-900">{spec}</td>
-                {TIMES.map(t => {
-                  const k = `${selectedType}-${spec}-${t}`;
-                  return (<td key={t} className="p-1.5">
-                    <input type="text" inputMode="numeric" value={prices[k] ?? ""} onChange={e => setPrices(p => ({ ...p, [k]: e.target.value.replace(/\D/g, "") }))}
-                      placeholder="0" className="w-full px-3 py-2.5 text-sm text-right border border-gray-200 rounded-xl tabular-nums focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all" />
-                  </td>);
-                })}
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{(ALL_SPECS[sel]||[]).map(spec => (
+            <tr key={spec} className="border-b border-[#c1c6d6]/10 hover:bg-[#eef4ff]/50 transition-colors">
+              <td className="p-3 font-black text-[#111c29]">{spec}</td>
+              {TIMES.map(t => { const k=`${sel}-${spec}-${t}`; return (
+                <td key={t} className="p-1.5">
+                  <input type="text" inputMode="numeric" value={prices[k]??""} onChange={e => setPrices(p => ({...p,[k]:e.target.value.replace(/\D/g,"")}))}
+                    placeholder="0" className="w-full px-3 py-2.5 text-sm text-right border border-[#c1c6d6]/50 rounded-xl tabular-nums focus:ring-2 focus:ring-[#0059b9]/30 focus:border-[#0059b9] transition-all" />
+                </td>
+              ); })}
+            </tr>
+          ))}</tbody>
         </table>
       </div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   사장: 기사 관리 (인터랙티브)
-   ═══════════════════════════════════════ */
+/* ═════ 기사 관리 ═════ */
 function DemoOperators() {
-  const [operators, setOperators] = useState(DEMO_OPERATORS);
+  const [ops, setOps] = useState(DEMO_OPERATORS);
   const [showAdd, setShowAdd] = useState(false);
-  const [newName, setNewName] = useState("");
-  const [newPhone, setNewPhone] = useState("");
-  const [toast, setToast] = useState<string | null>(null);
-  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
-
-  const handleAdd = () => {
-    if (!newName) return;
-    setOperators(prev => [...prev, { id: `new-${Date.now()}`, name: newName, phone: newPhone || "010-0000-0000", created_at: new Date().toISOString() }]);
-    setNewName(""); setNewPhone(""); setShowAdd(false);
-    showToast(`${newName} 기사 등록 완료!`);
-  };
+  const [name, setName] = useState(""); const [phone, setPhone] = useState("");
+  const [toast, setToast] = useState<string|null>(null);
+  const show = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500); };
 
   return (
     <div>
-      {toast && <DemoToast message={toast} />}
-      <PageHeader title="소속 기사 관리" description={`총 ${operators.length}명`} action={
-        <button onClick={() => setShowAdd(!showAdd)} className="px-4 py-2.5 bg-primary text-white font-semibold rounded-xl text-sm active:scale-95 transition-all">
-          {showAdd ? "취소" : "+ 기사 추가"}
+      {toast && <Md3Toast message={toast} />}
+      <PageTitle title="소속 기사 관리" desc={`총 ${ops.length}명`} action={
+        <button onClick={() => setShowAdd(!showAdd)} className="px-4 py-2.5 bg-[#0059b9] text-white font-bold rounded-xl text-sm active:scale-95 flex items-center gap-1">
+          <span className="material-symbols-outlined text-lg">{showAdd ? "close" : "person_add"}</span>{showAdd ? "취소" : "추가"}
         </button>
       } />
       {showAdd && (
-        <Card className="mb-4 space-y-3">
-          <input type="text" value={newName} onChange={e => setNewName(e.target.value)} placeholder="기사 이름" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
-          <input type="tel" value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="전화번호 (010-0000-0000)" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
-          <button onClick={handleAdd} disabled={!newName} className="w-full py-3 bg-primary text-white font-bold rounded-xl disabled:opacity-40 active:scale-95 transition-all">등록</button>
-        </Card>
+        <Md3Card className="mb-4 space-y-3">
+          <input type="text" value={name} onChange={e => setName(e.target.value)} placeholder="기사 이름" className="w-full px-4 py-3 border border-[#c1c6d6] rounded-xl focus:ring-2 focus:ring-[#0059b9]/30" />
+          <input type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="010-0000-0000" className="w-full px-4 py-3 border border-[#c1c6d6] rounded-xl focus:ring-2 focus:ring-[#0059b9]/30" />
+          <button onClick={() => { if(!name) return; setOps(p => [...p,{id:`n${Date.now()}`,name,phone:phone||"010-0000-0000",created_at:new Date().toISOString()}]); setName(""); setPhone(""); setShowAdd(false); show(`${name} 등록!`); }}
+            disabled={!name} className="w-full py-3 bg-[#0059b9] text-white font-bold rounded-xl disabled:opacity-40 active:scale-95">등록</button>
+        </Md3Card>
       )}
-      <div className="space-y-3">
-        {operators.map(op => (
-          <Card key={op.id} className="flex items-center justify-between">
+      <div className="space-y-2">
+        {ops.map(op => (
+          <Md3Card key={op.id} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-lg font-bold">{op.name[0]}</div>
-              <div>
-                <p className="font-semibold text-base">{op.name}</p>
-                <p className="text-sm text-text-muted">{op.phone}</p>
-              </div>
+              <div className="w-10 h-10 bg-[#d7e2ff] text-[#0059b9] rounded-full flex items-center justify-center font-bold">{op.name[0]}</div>
+              <div><p className="font-bold text-[#111c29]">{op.name}</p><p className="text-sm text-[#727785]">{op.phone}</p></div>
             </div>
-            <a href={`tel:${op.phone}`} className="px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-bold active:scale-95 transition-all">📞 전화</a>
-          </Card>
+            <button onClick={() => show(`${op.name} 전화 연결`)} className="px-3 py-2 bg-emerald-500 text-white rounded-xl text-sm font-bold active:scale-95 flex items-center gap-1">
+              <span className="material-symbols-outlined text-base">call</span>전화
+            </button>
+          </Md3Card>
         ))}
       </div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   사장: 초대 링크 (인터랙티브)
-   ═══════════════════════════════════════ */
+/* ═════ 초대 링크 ═════ */
 function DemoInvite() {
   const [copied, setCopied] = useState(false);
   const url = "https://heavy-match.vercel.app/register?ref=demo-own-1";
-
-  const handleCopy = () => {
-    navigator.clipboard?.writeText(url).catch(() => {});
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const copy = () => { navigator.clipboard?.writeText(url).catch(() => {}); setCopied(true); setTimeout(() => setCopied(false), 2000); };
 
   return (
     <div>
-      <PageHeader title="장비요청자 초대" description="건설사 현장소장에게 링크를 보내세요" />
-      <Card className="space-y-4">
-        <div className="bg-blue-50 rounded-xl p-4">
-          <p className="text-sm font-medium text-primary mb-2">초대 링크</p>
-          <p className="text-xs text-text-muted break-all font-mono bg-white rounded-lg p-3 border border-border select-all">{url}</p>
+      <PageTitle title="장비요청자 초대" desc="건설사 현장소장에게 링크를 보내세요" />
+      <Md3Card className="space-y-4">
+        <div className="bg-[#eef4ff] rounded-xl p-4">
+          <p className="text-sm font-bold text-[#0059b9] mb-2 flex items-center gap-1"><span className="material-symbols-outlined text-base">link</span>초대 링크</p>
+          <p className="text-xs text-[#727785] break-all font-mono bg-white rounded-lg p-3 border border-[#c1c6d6]/30 select-all">{url}</p>
         </div>
-        <button onClick={handleCopy}
-          className={`w-full py-4 text-lg font-bold rounded-xl transition-all active:scale-95 ${copied ? "bg-success text-white" : "bg-primary text-white"}`}>
-          {copied ? "✓ 복사됨!" : "📋 링크 복사"}
+        <button onClick={copy} className={`w-full py-4 font-bold rounded-xl text-lg active:scale-95 transition-all flex items-center justify-center gap-2 ${copied ? "bg-emerald-600 text-white" : "bg-[#0059b9] text-white"}`}>
+          <span className="material-symbols-outlined">{copied ? "check" : "content_copy"}</span>{copied ? "복사됨!" : "링크 복사"}
         </button>
         <div className="bg-amber-50 rounded-xl p-4 text-sm text-amber-800">
-          <p className="font-semibold mb-1">이 링크로 가입한 장비요청자는:</p>
-          <ul className="space-y-1 ml-4 list-disc">
-            <li>장비 요청 시 사장님에게 <b>전용콜</b>이 먼저 옵니다</li>
-            <li>사장님이 설정한 <b>단가표</b>가 자동 적용됩니다</li>
+          <p className="font-bold mb-1">이 링크로 가입한 요청자는:</p>
+          <ul className="space-y-1 ml-4 list-disc text-xs">
+            <li>장비 요청 시 사장님에게 <b>전용콜</b> 우선 발송</li>
+            <li>사장님 <b>단가표</b> 자동 적용</li>
           </ul>
         </div>
-      </Card>
-      <Card className="mt-4">
-        <button onClick={handleCopy} className="w-full py-3 bg-amber-500 text-white text-center font-bold rounded-xl active:scale-95 transition-all">📱 문자로 보내기</button>
-      </Card>
+      </Md3Card>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   콜센터: 소속 사장 (전화 연결)
-   ═══════════════════════════════════════ */
+/* ═════ 콜센터 소속 사장 ═════ */
 function DemoCallcenterOwners() {
-  const [toast, setToast] = useState<string | null>(null);
-  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
-
+  const [toast, setToast] = useState<string|null>(null);
+  const show = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500); };
   return (
     <div>
-      {toast && <DemoToast message={toast} />}
-      <PageHeader title="소속 사장 관리" description={`총 ${DEMO_OWNERS.length}개 업체`} />
-      <div className="space-y-3">
+      {toast && <Md3Toast message={toast} />}
+      <PageTitle title="소속 사장 관리" desc={`총 ${DEMO_OWNERS.length}개 업체`} />
+      <div className="space-y-2">
         {DEMO_OWNERS.map(o => (
-          <Card key={o.id} className="flex items-center justify-between">
+          <Md3Card key={o.id} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-lg font-bold">{o.name[0]}</div>
+              <div className="w-10 h-10 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold">{o.name[0]}</div>
               <div>
-                <p className="font-semibold text-base">{o.name}</p>
-                <p className="text-sm text-text-muted">{o.company_name}</p>
-                <p className="text-xs text-gray-400">{o.region_sido} {o.region_sigungu}</p>
+                <p className="font-bold text-[#111c29]">{o.name}</p>
+                <p className="text-sm text-[#727785]">{o.company_name}</p>
+                <p className="text-xs text-[#727785]">{o.region_sido} {o.region_sigungu}</p>
               </div>
             </div>
-            <button onClick={() => showToast(`${o.name}에게 전화 연결`)}
-              className="px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-bold active:scale-95 transition-all">📞 전화</button>
-          </Card>
+            <button onClick={() => show(`${o.name} 전화 연결`)} className="px-3 py-2 bg-emerald-500 text-white rounded-xl text-sm font-bold active:scale-95 flex items-center gap-1">
+              <span className="material-symbols-outlined text-base">call</span>전화
+            </button>
+          </Md3Card>
         ))}
       </div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   수수료 내역 (공통)
-   ═══════════════════════════════════════ */
-function DemoCommission({ type }: { type: "callcenter" | "salesperson" }) {
+/* ═════ 수수료 (공통) ═════ */
+function DemoCommission({ type }: { type: "callcenter"|"salesperson" }) {
   const feeKey = type === "callcenter" ? "callcenter_fee" : "salesperson_fee";
-  const total = DEMO_COMMISSIONS.reduce((s, c) => s + c[feeKey], 0);
+  const total = DEMO_COMMISSIONS.reduce((s,c) => s + c[feeKey], 0);
   return (
     <div>
-      <PageHeader title="수수료 내역" />
-      <div className="grid grid-cols-2 gap-4 mb-6">
-        <StatCard icon="💰" value={`${formatPrice(total)}원`} label="누적 수수료" color="text-success" />
-        <StatCard icon="📊" value={DEMO_COMMISSIONS.length} label="건수" />
+      <PageTitle title="수수료 내역" />
+      <div className="grid grid-cols-2 gap-3 mb-6">
+        <Md3Stat icon="savings" value={`${formatPrice(total)}원`} label="누적 수수료" gradient="bg-gradient-to-br from-emerald-600 to-teal-700" />
+        <Md3Stat icon="receipt_long" value={DEMO_COMMISSIONS.length} label="건수" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
       </div>
       <div className="space-y-2">
         {DEMO_COMMISSIONS.map(c => (
-          <Card key={c.id} className="flex items-center justify-between">
+          <Md3Card key={c.id} className="flex items-center justify-between">
             <div>
-              <p className="font-medium text-sm">거래 {formatPrice(c.total_price)}원</p>
-              <p className="text-xs text-text-muted">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
+              <p className="font-semibold text-[#111c29] text-sm">거래 {formatPrice(c.total_price)}원</p>
+              <p className="text-xs text-[#727785]">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
             </div>
-            <span className="font-bold tabular-nums text-success">+{formatPrice(c[feeKey])}원</span>
-          </Card>
+            <span className="font-black tabular-nums text-emerald-600">+{formatPrice(c[feeKey])}원</span>
+          </Md3Card>
         ))}
       </div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   관리자: 배차 / 사용자 / 수수료 / 설정
-   ═══════════════════════════════════════ */
+/* ═════ 관리자 페이지들 ═════ */
 function DemoAdminDispatch() {
   return (
     <div>
-      <PageHeader title="전체 배차 현황" description={`총 ${DEMO_DISPATCHES.length}건`} />
-      <div className="space-y-3">
+      <PageTitle title="전체 배차 현황" desc={`총 ${DEMO_DISPATCHES.length}건`} />
+      <div className="space-y-2">
         {DEMO_DISPATCHES.map(d => (
-          <Card key={d.id}>
+          <Md3Card key={d.id}>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-bold">{d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-              <StatusBadge status={d.status} />
+              <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+              <Md3Badge label={STATUS_MAP[d.status]?.label||d.status} color={STATUS_MAP[d.status]?.color} />
             </div>
-            <p className="text-sm text-text-muted">{d.company_name} · {d.site_address}</p>
+            <p className="text-sm text-[#414754]">{d.company_name} · {d.site_address}</p>
             <div className="flex items-center justify-between mt-2">
-              <span className="font-bold tabular-nums text-primary">{formatPrice(d.price)}원</span>
-              <span className="text-xs text-text-muted">{new Date(d.created_at).toLocaleString("ko-KR")}</span>
+              <span className="font-black tabular-nums text-[#0059b9]">{formatPrice(d.price)}원</span>
+              <span className="text-xs text-[#727785]">{new Date(d.created_at).toLocaleString("ko-KR")}</span>
             </div>
-          </Card>
+          </Md3Card>
         ))}
       </div>
     </div>
@@ -466,33 +441,33 @@ function DemoAdminDispatch() {
 }
 
 function DemoAdminUsers() {
-  const roleCounts: Record<string, number> = {};
-  DEMO_ALL_USERS.forEach(u => { roleCounts[u.role] = (roleCounts[u.role] || 0) + 1; });
-  const labels: Record<string, string> = { requester:"장비요청자", owner:"중장비사장", operator:"기사", callcenter:"콜센터", salesperson:"영업사원", admin:"관리자" };
+  const labels: Record<string,string> = {requester:"장비요청자",owner:"중장비사장",operator:"기사",callcenter:"콜센터",salesperson:"영업사원",admin:"관리자"};
+  const roleCounts: Record<string,number> = {};
+  DEMO_ALL_USERS.forEach(u => { roleCounts[u.role] = (roleCounts[u.role]||0)+1; });
 
   return (
     <div>
-      <PageHeader title="사용자 관리" description={`총 ${DEMO_ALL_USERS.length}명`} />
+      <PageTitle title="사용자 관리" desc={`총 ${DEMO_ALL_USERS.length}명`} />
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-6">
-        {Object.entries(labels).map(([role, label]) => (
-          <div key={role} className="bg-white rounded-xl p-3 text-center border border-gray-100 shadow-sm">
-            <p className="text-xl font-bold tabular-nums">{roleCounts[role] ?? 0}</p>
-            <p className="text-xs text-text-muted">{label}</p>
+        {Object.entries(labels).map(([role,label]) => (
+          <div key={role} className="bg-white rounded-xl p-3 text-center border border-[#c1c6d6]/30 shadow-sm">
+            <p className="text-xl font-black tabular-nums text-[#111c29]">{roleCounts[role]??0}</p>
+            <p className="text-[10px] text-[#727785] font-semibold">{label}</p>
           </div>
         ))}
       </div>
       <div className="space-y-2">
         {DEMO_ALL_USERS.map(u => (
-          <Card key={u.id} className="flex items-center justify-between">
+          <Md3Card key={u.id} className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-sm font-bold text-gray-600">{u.name[0]}</div>
+              <div className="w-9 h-9 bg-[#eef4ff] rounded-full flex items-center justify-center text-sm font-bold text-[#0059b9]">{u.name[0]}</div>
               <div>
-                <span className="font-semibold">{u.name}</span>
-                {u.company_name && <span className="text-sm text-text-muted ml-2">{u.company_name}</span>}
+                <span className="font-bold text-[#111c29]">{u.name}</span>
+                {u.company_name && <span className="text-sm text-[#727785] ml-2">{u.company_name}</span>}
               </div>
             </div>
-            <StatusBadge status={u.role} />
-          </Card>
+            <Md3Badge label={labels[u.role]||u.role} />
+          </Md3Card>
         ))}
       </div>
     </div>
@@ -500,94 +475,88 @@ function DemoAdminUsers() {
 }
 
 function DemoAdminCommission() {
-  const totals = {
-    company: DEMO_COMMISSIONS.reduce((s, c) => s + c.company_fee, 0),
-    callcenter: DEMO_COMMISSIONS.reduce((s, c) => s + c.callcenter_fee, 0),
-    salesperson: DEMO_COMMISSIONS.reduce((s, c) => s + c.salesperson_fee, 0),
-    requester: DEMO_COMMISSIONS.reduce((s, c) => s + c.requester_reward, 0),
+  const t = {
+    company: DEMO_COMMISSIONS.reduce((s,c) => s+c.company_fee,0),
+    cc: DEMO_COMMISSIONS.reduce((s,c) => s+c.callcenter_fee,0),
+    sp: DEMO_COMMISSIONS.reduce((s,c) => s+c.salesperson_fee,0),
+    rq: DEMO_COMMISSIONS.reduce((s,c) => s+c.requester_reward,0),
   };
   return (
     <div>
-      <PageHeader title="수수료 현황" />
+      <PageTitle title="수수료 현황" />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-        <StatCard icon="🏢" value={`${formatPrice(totals.company)}원`} label="본사 수익" color="text-success" />
-        <StatCard icon="📞" value={`${formatPrice(totals.callcenter)}원`} label="콜센터" color="text-purple-600" />
-        <StatCard icon="👤" value={`${formatPrice(totals.salesperson)}원`} label="영업사원" color="text-pink-600" />
-        <StatCard icon="🎁" value={`${formatPrice(totals.requester)}원`} label="건설사 적립" color="text-blue-600" />
+        <Md3Stat icon="apartment" value={`${formatPrice(t.company)}원`} label="본사 수익" gradient="bg-gradient-to-br from-emerald-600 to-green-700" />
+        <Md3Stat icon="support_agent" value={`${formatPrice(t.cc)}원`} label="콜센터" gradient="bg-gradient-to-br from-violet-600 to-purple-700" />
+        <Md3Stat icon="person" value={`${formatPrice(t.sp)}원`} label="영업사원" gradient="bg-gradient-to-br from-pink-600 to-rose-700" />
+        <Md3Stat icon="redeem" value={`${formatPrice(t.rq)}원`} label="건설사 적립" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
       </div>
       <div className="space-y-2">
         {DEMO_COMMISSIONS.map(c => (
-          <Card key={c.id}>
+          <Md3Card key={c.id}>
             <div className="flex items-center justify-between mb-1">
-              <span className="font-medium text-sm">거래 {formatPrice(c.total_price)}원</span>
-              <span className="text-xs text-text-muted">{new Date(c.created_at).toLocaleDateString("ko-KR")}</span>
+              <span className="font-semibold text-sm text-[#111c29]">거래 {formatPrice(c.total_price)}원</span>
+              <span className="text-xs text-[#727785]">{new Date(c.created_at).toLocaleDateString("ko-KR")}</span>
             </div>
             <div className="grid grid-cols-4 gap-1 text-xs text-center">
-              <div className="bg-green-50 rounded-lg p-1.5"><p className="text-gray-500">본사</p><p className="font-bold tabular-nums">{formatPrice(c.company_fee)}</p></div>
-              <div className="bg-purple-50 rounded-lg p-1.5"><p className="text-gray-500">콜센터</p><p className="font-bold tabular-nums">{formatPrice(c.callcenter_fee)}</p></div>
-              <div className="bg-pink-50 rounded-lg p-1.5"><p className="text-gray-500">영업</p><p className="font-bold tabular-nums">{formatPrice(c.salesperson_fee)}</p></div>
-              <div className="bg-blue-50 rounded-lg p-1.5"><p className="text-gray-500">적립</p><p className="font-bold tabular-nums">{formatPrice(c.requester_reward)}</p></div>
+              <div className="bg-emerald-50 rounded-lg p-1.5"><p className="text-[#727785]">본사</p><p className="font-black tabular-nums">{formatPrice(c.company_fee)}</p></div>
+              <div className="bg-violet-50 rounded-lg p-1.5"><p className="text-[#727785]">콜센터</p><p className="font-black tabular-nums">{formatPrice(c.callcenter_fee)}</p></div>
+              <div className="bg-pink-50 rounded-lg p-1.5"><p className="text-[#727785]">영업</p><p className="font-black tabular-nums">{formatPrice(c.salesperson_fee)}</p></div>
+              <div className="bg-blue-50 rounded-lg p-1.5"><p className="text-[#727785]">적립</p><p className="font-black tabular-nums">{formatPrice(c.requester_reward)}</p></div>
             </div>
-          </Card>
+          </Md3Card>
         ))}
       </div>
     </div>
   );
 }
 
-/* ═══════════════════════════════════════
-   관리자: 마스터 설정 (8종 전체)
-   ═══════════════════════════════════════ */
+/* ═════ 마스터 설정 ═════ */
 function DemoSettings() {
   const TYPES = [
-    { name: "크레인", icon: "🏗️", specs: ["25T","50T","70T","100T","200T"] },
-    { name: "스카이", icon: "🔝", specs: ["45m","52m","58m","65m"] },
-    { name: "카고크레인", icon: "🚛", specs: ["5T","8T","11T","15T","25T"] },
-    { name: "거미크레인", icon: "🕷️", specs: ["3T","5T","8T","10T"] },
-    { name: "펌프카", icon: "💧", specs: ["32m","37m","42m","47m","52m"] },
-    { name: "굴삭기", icon: "⛏️", specs: ["0.6T","1T","3T","6T","8T","20T","30T"] },
-    { name: "지게차", icon: "📦", specs: ["2.5T","3T","5T","7T","11T"] },
-    { name: "덤프", icon: "🚚", specs: ["15T","25T"] },
+    {name:"크레인",icon:"🏗️",specs:["25T","50T","70T","100T","200T"]},{name:"스카이",icon:"🔝",specs:["45m","52m","58m","65m"]},
+    {name:"카고크레인",icon:"🚛",specs:["5T","8T","11T","15T","25T"]},{name:"거미크레인",icon:"🕷️",specs:["3T","5T","8T","10T"]},
+    {name:"펌프카",icon:"💧",specs:["32m","37m","42m","47m","52m"]},{name:"굴삭기",icon:"⛏️",specs:["0.6T","1T","3T","6T","8T","20T","30T"]},
+    {name:"지게차",icon:"📦",specs:["2.5T","3T","5T","7T","11T"]},{name:"덤프",icon:"🚚",specs:["15T","25T"]},
   ];
-  const TIMES = [{ name: "1시간", hours: "1.0" }, { name: "오전(4h)", hours: "4.0" }, { name: "오후(4h)", hours: "4.0" }, { name: "하루(8h)", hours: "8.0" }];
-  const [selectedType, setSelectedType] = useState<string | null>(null);
+  const TIMES = [{name:"1시간",h:"1.0"},{name:"오전(4h)",h:"4.0"},{name:"오후(4h)",h:"4.0"},{name:"하루(8h)",h:"8.0"}];
+  const [sel, setSel] = useState<string|null>(null);
 
   return (
     <div>
-      <PageHeader title="마스터 데이터 설정" description="장비 종류, 규격, 시간 단위 관리" />
-      <Card className="mb-4">
-        <h3 className="font-bold text-lg mb-3">장비 종류 (8종)</h3>
+      <PageTitle title="마스터 데이터 설정" desc="장비 종류, 규격, 시간 단위 관리" />
+      <Md3Card className="mb-4">
+        <h3 className="font-[800] text-lg text-[#111c29] mb-3">장비 종류 (8종)</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {TYPES.map(t => (
-            <button key={t.name} onClick={() => setSelectedType(selectedType === t.name ? null : t.name)}
-              className={`p-3 rounded-xl border-2 text-center transition-all active:scale-95 ${selectedType === t.name ? "border-primary bg-blue-50" : "border-gray-100 hover:border-primary"}`}>
+            <button key={t.name} onClick={() => setSel(sel === t.name ? null : t.name)}
+              className={`p-3 rounded-xl border-2 text-center transition-all active:scale-95 ${sel === t.name ? "border-[#0059b9] bg-[#eef4ff]" : "border-[#c1c6d6]/30 hover:border-[#0059b9]"}`}>
               <span className="text-2xl block">{t.icon}</span>
-              <span className="text-sm font-semibold">{t.name}</span>
+              <span className="text-sm font-bold text-[#111c29]">{t.name}</span>
             </button>
           ))}
         </div>
-      </Card>
-      {selectedType && (
-        <Card className="mb-4 animate-fade-in">
-          <h3 className="font-bold text-lg mb-3">{selectedType} 규격</h3>
+      </Md3Card>
+      {sel && (
+        <Md3Card className="mb-4 animate-fade-in">
+          <h3 className="font-[800] text-lg text-[#111c29] mb-3">{sel} 규격</h3>
           <div className="flex flex-wrap gap-2">
-            {TYPES.find(t => t.name === selectedType)?.specs.map(s => (
-              <span key={s} className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold">{s}</span>
+            {TYPES.find(t => t.name === sel)?.specs.map(s => (
+              <span key={s} className="px-4 py-2 bg-[#d7e2ff] text-[#004491] rounded-xl text-sm font-bold">{s}</span>
             ))}
           </div>
-        </Card>
+        </Md3Card>
       )}
-      <Card>
-        <h3 className="font-bold text-lg mb-3">시간 단위</h3>
+      <Md3Card>
+        <h3 className="font-[800] text-lg text-[#111c29] mb-3">시간 단위</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {TIMES.map(t => (
-            <div key={t.name} className="p-3 bg-gray-50 rounded-xl text-center">
-              <span className="font-semibold">{t.name}</span>
-              <p className="text-xs text-text-muted">{t.hours}시간</p>
+            <div key={t.name} className="p-3 bg-[#eef4ff] rounded-xl text-center">
+              <span className="font-bold text-[#111c29]">{t.name}</span>
+              <p className="text-xs text-[#727785]">{t.h}시간</p>
             </div>
           ))}
         </div>
-      </Card>
+      </Md3Card>
     </div>
   );
 }
