@@ -22,7 +22,7 @@ export default function DemoRoleLayout({ children }: { children: React.ReactNode
   return (
     <DemoProvider>
       <div className="pt-7"> {/* 데모 배너 높이만큼 패딩 */}
-        <DashboardLayout userRole={validRole} userName={NAMES[validRole] ?? "테스트"}>
+        <DashboardLayout userRole={validRole} userName={NAMES[validRole] ?? "테스트"} basePath="/demo">
           {children}
         </DashboardLayout>
         <DemoRoleSwitcher />

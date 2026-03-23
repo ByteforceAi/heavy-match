@@ -2,7 +2,7 @@ import { getStatusLabel, getStatusColor } from "@/lib/utils";
 
 export function StatusBadge({ status }: { status: string }) {
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold ${getStatusColor(status)}`}>
+    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold ${getStatusColor(status)}`}>
       {getStatusLabel(status)}
     </span>
   );
@@ -26,7 +26,7 @@ export function RoleBadge({ role }: { role: string }) {
     admin: "관리자",
   };
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-semibold ${colors[role] ?? "bg-gray-100 text-gray-700"}`}>
+    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-sm font-semibold ${colors[role] ?? "bg-gray-100 text-gray-700"}`}>
       {labels[role] ?? role}
     </span>
   );

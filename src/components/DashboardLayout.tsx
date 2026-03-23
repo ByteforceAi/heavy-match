@@ -53,15 +53,19 @@ interface Props {
   children: React.ReactNode;
   userRole: UserRole;
   userName: string;
+  basePath?: string; // "/demo" for demo mode — prefixed to all nav links
 }
 
-export default function DashboardLayout({ children, userRole, userName }: Props) {
+export default function DashboardLayout({ children, userRole, userName, basePath = "" }: Props) {
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const supabase = createClient();
 
-  const navItems = NAV_ITEMS[userRole] || [];
+  const navItems = (NAV_ITEMS[userRole] || []).map((item) => ({
+    ...item,
+    href: basePath + item.href,
+  }));
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
