@@ -2,7 +2,6 @@
 
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import { Card, StatCard } from "@/components/ui/Card";
 import { StatusBadge } from "@/components/ui/Badge";
@@ -11,6 +10,16 @@ import { EmptyState } from "@/components/ui/EmptyState";
 import SignatureCanvas from "@/components/SignatureCanvas";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_OWNERS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
 
+/* ═════ Toast helper ═════ */
+function DemoToast({ message }: { message: string }) {
+  return (
+    <div className="fixed top-16 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl text-base font-semibold bg-emerald-500 text-white animate-fade-in">
+      ✅ {message}
+    </div>
+  );
+}
+
+/* ═════ Router ═════ */
 export default function DemoSubPage() {
   const params = useParams<{ role: string; subpage: string[] }>();
   const role = params.role;
@@ -18,89 +27,163 @@ export default function DemoSubPage() {
   const key = `${role}/${subpage}`;
 
   switch (key) {
-    // ── 장비요청자 ──
-    case "requester/request":
-      return <DemoRequest />;
-    case "requester/history":
-      return <DemoHistory dispatches={DEMO_DISPATCHES} title="요청 이력" desc="내가 요청한 장비 배차 내역" />;
-    case "requester/rewards":
-      return <DemoRewards />;
-
-    // ── 중장비사장 ──
-    case "owner/prices":
-      return <DemoPrices />;
-    case "owner/operators":
-      return <DemoOperators />;
-    case "owner/history":
-      return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => d.status === "matched" || d.status === "completed")} title="매칭 이력" desc="내가 수락한 배차 내역" />;
-    case "owner/invite":
-      return <DemoInvite />;
-
-    // ── 기사 ──
-    case "operator/history":
-      return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => ["completed", "in_progress"].includes(d.status))} title="작업 이력" desc="내가 수행한 작업 내역" />;
-
-    // ── 콜센터 ──
-    case "callcenter/owners":
-      return <DemoCallcenterOwners />;
-    case "callcenter/commission":
-      return <DemoCommission type="callcenter" />;
-
-    // ── 영업사원 ──
-    case "salesperson/commission":
-      return <DemoCommission type="salesperson" />;
-
-    // ── 관리자 ──
-    case "admin/dispatch":
-      return <DemoAdminDispatch />;
-    case "admin/users":
-      return <DemoAdminUsers />;
-    case "admin/commission":
-      return <DemoAdminCommission />;
-    case "admin/settings":
-      return <DemoSettings />;
-
-    default:
-      return (
-        <EmptyState icon="🔧" title={`${key} 페이지`} description="데모 서브페이지" />
-      );
+    case "requester/request": return <DemoRequest />;
+    case "requester/history": return <DemoHistory dispatches={DEMO_DISPATCHES} title="요청 이력" desc="내가 요청한 장비 배차 내역" />;
+    case "requester/rewards": return <DemoRewards />;
+    case "owner/prices": return <DemoPrices />;
+    case "owner/operators": return <DemoOperators />;
+    case "owner/history": return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => d.status === "matched" || d.status === "completed")} title="매칭 이력" desc="내가 수락한 배차 내역" />;
+    case "owner/invite": return <DemoInvite />;
+    case "operator/history": return <DemoHistory dispatches={DEMO_DISPATCHES.filter(d => ["completed", "in_progress"].includes(d.status))} title="작업 이력" desc="내가 수행한 작업 내역" />;
+    case "callcenter/owners": return <DemoCallcenterOwners />;
+    case "callcenter/commission": return <DemoCommission type="callcenter" />;
+    case "salesperson/commission": return <DemoCommission type="salesperson" />;
+    case "admin/dispatch": return <DemoAdminDispatch />;
+    case "admin/users": return <DemoAdminUsers />;
+    case "admin/commission": return <DemoAdminCommission />;
+    case "admin/settings": return <DemoSettings />;
+    default: return <EmptyState icon="🔧" title={`${key} 페이지`} description="데모 서브페이지" />;
   }
 }
 
-// ── Sub components ──────────────────────────
-
+/* ═══════════════════════════════════════
+   장비요청자: 장비 요청 (6단계 위자드)
+   ═══════════════════════════════════════ */
 function DemoRequest() {
+  const ALL_SPECS: Record<number, { id: number; name: string }[]> = {
+    1: [{ id: 1, name: "25T" }, { id: 2, name: "50T" }, { id: 3, name: "70T" }, { id: 4, name: "100T" }, { id: 5, name: "200T" }],
+    2: [{ id: 6, name: "45m" }, { id: 7, name: "52m" }, { id: 8, name: "58m" }, { id: 9, name: "65m" }],
+    3: [{ id: 10, name: "5T" }, { id: 11, name: "8T" }, { id: 12, name: "11T" }],
+    4: [{ id: 13, name: "3T" }, { id: 14, name: "5T" }, { id: 15, name: "8T" }],
+    5: [{ id: 16, name: "32m" }, { id: 17, name: "37m" }, { id: 18, name: "42m" }],
+    6: [{ id: 19, name: "0.6T" }, { id: 20, name: "1T" }, { id: 21, name: "3T" }, { id: 22, name: "6T" }, { id: 23, name: "8T" }],
+    7: [{ id: 24, name: "2.5T" }, { id: 25, name: "3T" }, { id: 26, name: "5T" }],
+    8: [{ id: 27, name: "15T" }, { id: 28, name: "25T" }],
+  };
   const EQUIPMENT = [
-    { id: 1, name: "크레인", icon: "🏗️" },
-    { id: 2, name: "스카이", icon: "🔝" },
-    { id: 3, name: "카고크레인", icon: "🚛" },
-    { id: 4, name: "거미크레인", icon: "🕷️" },
-    { id: 5, name: "펌프카", icon: "💧" },
-    { id: 6, name: "굴삭기", icon: "⛏️" },
-    { id: 7, name: "지게차", icon: "📦" },
-    { id: 8, name: "덤프", icon: "🚚" },
+    { id: 1, name: "크레인", icon: "🏗️" }, { id: 2, name: "스카이", icon: "🔝" },
+    { id: 3, name: "카고크레인", icon: "🚛" }, { id: 4, name: "거미크레인", icon: "🕷️" },
+    { id: 5, name: "펌프카", icon: "💧" }, { id: 6, name: "굴삭기", icon: "⛏️" },
+    { id: 7, name: "지게차", icon: "📦" }, { id: 8, name: "덤프", icon: "🚚" },
   ];
+  const TIMES = [{ id: 1, name: "1시간" }, { id: 2, name: "오전(4h)" }, { id: 3, name: "오후(4h)" }, { id: 4, name: "하루(8h)" }];
+
+  const [step, setStep] = useState(1);
+  const [selectedEq, setSelectedEq] = useState<typeof EQUIPMENT[0] | null>(null);
+  const [selectedSpec, setSelectedSpec] = useState<string | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [price, setPrice] = useState("300000");
+  const [signed, setSigned] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
 
   return (
     <div className="max-w-md mx-auto space-y-4">
+      {toast && <DemoToast message={toast} />}
+      {/* 진행 바 */}
       <div className="flex gap-1">
         {[1,2,3,4,5,6].map(s => (
-          <div key={s} className={`flex-1 h-2 rounded-full ${s <= 1 ? "bg-primary" : "bg-border"}`} />
+          <div key={s} className={`flex-1 h-2.5 rounded-full transition-all duration-300 ${s <= step ? "bg-primary" : "bg-gray-200"}`} />
         ))}
       </div>
-      <h3 className="text-xl font-bold">장비 선택</h3>
-      <div className="grid grid-cols-2 gap-3">
-        {EQUIPMENT.map(eq => (
-          <button key={eq.id} className="bg-card rounded-xl p-4 text-center border-2 border-border hover:border-primary transition shadow-sm">
-            <span className="text-3xl block mb-1">{eq.icon}</span>
-            <span className="text-base font-semibold">{eq.name}</span>
+
+      {step === 1 && (
+        <>
+          <h3 className="text-xl font-bold">장비 선택</h3>
+          <div className="grid grid-cols-2 gap-3">
+            {EQUIPMENT.map(eq => (
+              <button key={eq.id} onClick={() => { setSelectedEq(eq); setStep(2); }}
+                className="bg-white rounded-2xl p-4 text-center border-2 border-gray-100 hover:border-primary hover:shadow-md transition-all active:scale-95 shadow-sm">
+                <span className="text-3xl block mb-1">{eq.icon}</span>
+                <span className="text-base font-semibold">{eq.name}</span>
+              </button>
+            ))}
+          </div>
+        </>
+      )}
+
+      {step === 2 && selectedEq && (
+        <>
+          <h3 className="text-xl font-bold">{selectedEq.icon} {selectedEq.name} 규격</h3>
+          <div className="grid grid-cols-2 gap-3">
+            {(ALL_SPECS[selectedEq.id] || []).map(spec => (
+              <button key={spec.id} onClick={() => { setSelectedSpec(spec.name); setStep(3); }}
+                className="bg-white rounded-2xl p-4 text-center border-2 border-gray-100 hover:border-primary hover:shadow-md transition-all active:scale-95 shadow-sm">
+                <span className="text-xl font-bold">{spec.name}</span>
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setStep(1)} className="text-text-muted text-sm">← 장비 다시 선택</button>
+        </>
+      )}
+
+      {step === 3 && (
+        <>
+          <h3 className="text-xl font-bold">시간 선택</h3>
+          <div className="grid grid-cols-2 gap-3">
+            {TIMES.map(t => (
+              <button key={t.id} onClick={() => { setSelectedTime(t.name); setStep(4); }}
+                className="bg-white rounded-2xl p-4 text-center border-2 border-gray-100 hover:border-primary hover:shadow-md transition-all active:scale-95 shadow-sm">
+                <span className="text-lg font-bold">{t.name}</span>
+              </button>
+            ))}
+          </div>
+          <button onClick={() => setStep(2)} className="text-text-muted text-sm">← 규격 다시 선택</button>
+        </>
+      )}
+
+      {step === 4 && (
+        <>
+          <h3 className="text-xl font-bold">단가 확인</h3>
+          <div className="bg-blue-50 rounded-2xl p-5">
+            <p className="text-sm text-gray-500">{selectedEq?.name} {selectedSpec} / {selectedTime}</p>
+            <input type="text" inputMode="numeric" value={price} onChange={e => setPrice(e.target.value.replace(/\D/g, ""))}
+              className="w-full mt-2 px-4 py-3 text-2xl font-bold text-right border border-gray-200 rounded-xl tabular-nums focus:ring-2 focus:ring-primary/30"
+            />
+            <p className="text-xs text-gray-400 text-right mt-1">원</p>
+          </div>
+          <button onClick={() => setStep(5)} className="w-full py-4 bg-primary text-white text-lg font-bold rounded-xl active:scale-95 transition-all">다음</button>
+          <button onClick={() => setStep(3)} className="text-text-muted text-sm">← 시간 다시 선택</button>
+        </>
+      )}
+
+      {step === 5 && (
+        <>
+          <h3 className="text-xl font-bold">현장 정보</h3>
+          <input type="text" defaultValue="한양건설(주)" placeholder="건설사명 *" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
+          <input type="text" defaultValue="서울시 강남구 삼성동 코엑스 신축현장" placeholder="현장주소 *" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
+          <input type="text" defaultValue="김건설" placeholder="요청자명" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
+          <input type="tel" defaultValue="010-1234-5678" placeholder="연락처" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
+          <button onClick={() => setStep(6)} className="w-full py-4 bg-primary text-white text-lg font-bold rounded-xl active:scale-95 transition-all">다음 (전자서명)</button>
+          <button onClick={() => setStep(4)} className="text-text-muted text-sm">← 단가 다시 확인</button>
+        </>
+      )}
+
+      {step === 6 && (
+        <>
+          <h3 className="text-xl font-bold">전자서명</h3>
+          <div className="bg-blue-50 rounded-xl p-3 text-sm space-y-1">
+            <p><b>{selectedEq?.name}</b> {selectedSpec} / {selectedTime}</p>
+            <p className="text-primary font-bold tabular-nums">{formatPrice(parseInt(price) || 0)}원</p>
+          </div>
+          <SignatureCanvas onSave={() => setSigned(true)} />
+          {signed && <p className="text-success text-sm text-center font-semibold">✅ 서명 완료</p>}
+          <button onClick={() => { showToast("장비 요청이 완료되었습니다!"); setTimeout(() => setStep(1), 2000); setSigned(false); }}
+            disabled={!signed}
+            className="w-full py-4 bg-amber-500 text-white text-xl font-bold rounded-xl disabled:opacity-40 active:scale-95 transition-all">
+            장비 요청하기
           </button>
-        ))}
-      </div>
+          <button onClick={() => setStep(5)} className="text-text-muted text-sm">← 현장 정보 수정</button>
+        </>
+      )}
     </div>
   );
 }
 
+/* ═══════════════════════════════════════
+   공통: 이력 조회 (데이터 표시만)
+   ═══════════════════════════════════════ */
 function DemoHistory({ dispatches, title, desc }: { dispatches: typeof DEMO_DISPATCHES; title: string; desc: string }) {
   return (
     <div>
@@ -148,97 +231,108 @@ function DemoRewards() {
   );
 }
 
+/* ═══════════════════════════════════════
+   사장: 단가 설정 (인터랙티브)
+   ═══════════════════════════════════════ */
 function DemoPrices() {
   const ALL_SPECS: Record<string, string[]> = {
-    "크레인": ["25T","50T","70T","100T","200T"],
-    "스카이": ["45m","52m","58m","65m"],
-    "카고크레인": ["5T","8T","11T","15T","25T"],
-    "거미크레인": ["3T","5T","8T","10T"],
-    "펌프카": ["32m","37m","42m","47m","52m"],
-    "굴삭기": ["0.6T","1T","3T","6T","8T","20T","30T"],
-    "지게차": ["2.5T","3T","5T","7T","11T"],
-    "덤프": ["15T","25T"],
+    "크레인": ["25T","50T","70T","100T","200T"], "스카이": ["45m","52m","58m","65m"],
+    "카고크레인": ["5T","8T","11T","15T","25T"], "거미크레인": ["3T","5T","8T","10T"],
+    "펌프카": ["32m","37m","42m","47m","52m"], "굴삭기": ["0.6T","1T","3T","6T","8T","20T","30T"],
+    "지게차": ["2.5T","3T","5T","7T","11T"], "덤프": ["15T","25T"],
   };
   const TYPES = Object.keys(ALL_SPECS);
   const TIMES = ["1시간","오전(4h)","오후(4h)","하루(8h)"];
   const [selectedType, setSelectedType] = useState("크레인");
   const [prices, setPrices] = useState<Record<string, string>>({ "크레인-50T-1시간": "300000", "크레인-50T-오전(4h)": "300000", "크레인-50T-오후(4h)": "300000", "크레인-50T-하루(8h)": "300000" });
   const [saved, setSaved] = useState(false);
-
   const handleSave = () => { setSaved(true); setTimeout(() => setSaved(false), 2000); };
-  const specs = ALL_SPECS[selectedType] || [];
 
   return (
     <div className="space-y-4">
       <PageHeader title="단가 설정" description="장비×규격×시간 매트릭스" action={
-        <button onClick={handleSave} className={`px-6 py-2.5 font-semibold rounded-xl transition-all active:scale-95 ${saved ? "bg-success text-white" : "bg-primary text-white hover:bg-primary-light"}`}>
+        <button onClick={handleSave} className={`px-6 py-2.5 font-semibold rounded-xl transition-all active:scale-95 ${saved ? "bg-success text-white" : "bg-primary text-white"}`}>
           {saved ? "✓ 저장됨" : "저장"}
         </button>
       } />
-      <div className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1">
-        {TYPES.map((t) => (
-          <button
-            key={t}
-            onClick={() => setSelectedType(t)}
-            className={`px-4 py-2.5 rounded-xl whitespace-nowrap text-sm font-semibold transition-all active:scale-95 ${
-              selectedType === t
-                ? "bg-primary text-white shadow-md"
-                : "bg-white border border-gray-200 text-gray-700 hover:border-primary hover:text-primary"
-            }`}
-          >
+      <div className="flex gap-2 overflow-x-auto pb-2">
+        {TYPES.map(t => (
+          <button key={t} onClick={() => setSelectedType(t)}
+            className={`px-4 py-2.5 rounded-xl whitespace-nowrap text-sm font-semibold transition-all active:scale-95 ${selectedType === t ? "bg-primary text-white shadow-md" : "bg-white border border-gray-200 text-gray-700 hover:border-primary"}`}>
             {t}
           </button>
         ))}
       </div>
       <div className="overflow-x-auto bg-white rounded-2xl border border-gray-100 shadow-sm">
         <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b border-gray-100 bg-gray-50/50">
-              <th className="text-left p-3 font-semibold text-gray-500">규격</th>
-              {TIMES.map(t => <th key={t} className="text-center p-3 font-semibold text-gray-500 whitespace-nowrap">{t}</th>)}
-            </tr>
-          </thead>
+          <thead><tr className="border-b border-gray-100 bg-gray-50/50">
+            <th className="text-left p-3 font-semibold text-gray-500">규격</th>
+            {TIMES.map(t => <th key={t} className="text-center p-3 font-semibold text-gray-500 whitespace-nowrap">{t}</th>)}
+          </tr></thead>
           <tbody>
-            {specs.map(spec => (
+            {(ALL_SPECS[selectedType] || []).map(spec => (
               <tr key={spec} className="border-b border-gray-50 hover:bg-blue-50/30 transition-colors">
                 <td className="p-3 font-bold text-gray-900">{spec}</td>
                 {TIMES.map(t => {
-                  const key = `${selectedType}-${spec}-${t}`;
-                  return (
-                    <td key={t} className="p-1.5">
-                      <input
-                        type="text"
-                        inputMode="numeric"
-                        value={prices[key] ?? ""}
-                        onChange={(e) => setPrices(prev => ({ ...prev, [key]: e.target.value.replace(/\D/g, "") }))}
-                        placeholder="0"
-                        className="w-full px-3 py-2.5 text-sm text-right border border-gray-200 rounded-xl tabular-nums focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
-                      />
-                    </td>
-                  );
+                  const k = `${selectedType}-${spec}-${t}`;
+                  return (<td key={t} className="p-1.5">
+                    <input type="text" inputMode="numeric" value={prices[k] ?? ""} onChange={e => setPrices(p => ({ ...p, [k]: e.target.value.replace(/\D/g, "") }))}
+                      placeholder="0" className="w-full px-3 py-2.5 text-sm text-right border border-gray-200 rounded-xl tabular-nums focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all" />
+                  </td>);
                 })}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <p className="text-xs text-text-muted text-center">금액은 원(₩) 단위 정수로 입력하세요</p>
     </div>
   );
 }
 
+/* ═══════════════════════════════════════
+   사장: 기사 관리 (인터랙티브)
+   ═══════════════════════════════════════ */
 function DemoOperators() {
+  const [operators, setOperators] = useState(DEMO_OPERATORS);
+  const [showAdd, setShowAdd] = useState(false);
+  const [newName, setNewName] = useState("");
+  const [newPhone, setNewPhone] = useState("");
+  const [toast, setToast] = useState<string | null>(null);
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+
+  const handleAdd = () => {
+    if (!newName) return;
+    setOperators(prev => [...prev, { id: `new-${Date.now()}`, name: newName, phone: newPhone || "010-0000-0000", created_at: new Date().toISOString() }]);
+    setNewName(""); setNewPhone(""); setShowAdd(false);
+    showToast(`${newName} 기사 등록 완료!`);
+  };
+
   return (
     <div>
-      <PageHeader title="소속 기사 관리" action={<button className="px-4 py-2 bg-primary text-white font-medium rounded-xl text-sm">+ 기사 추가</button>} />
+      {toast && <DemoToast message={toast} />}
+      <PageHeader title="소속 기사 관리" description={`총 ${operators.length}명`} action={
+        <button onClick={() => setShowAdd(!showAdd)} className="px-4 py-2.5 bg-primary text-white font-semibold rounded-xl text-sm active:scale-95 transition-all">
+          {showAdd ? "취소" : "+ 기사 추가"}
+        </button>
+      } />
+      {showAdd && (
+        <Card className="mb-4 space-y-3">
+          <input type="text" value={newName} onChange={e => setNewName(e.target.value)} placeholder="기사 이름" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
+          <input type="tel" value={newPhone} onChange={e => setNewPhone(e.target.value)} placeholder="전화번호 (010-0000-0000)" className="w-full px-4 py-3 border border-gray-200 rounded-xl" />
+          <button onClick={handleAdd} disabled={!newName} className="w-full py-3 bg-primary text-white font-bold rounded-xl disabled:opacity-40 active:scale-95 transition-all">등록</button>
+        </Card>
+      )}
       <div className="space-y-3">
-        {DEMO_OPERATORS.map(op => (
+        {operators.map(op => (
           <Card key={op.id} className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-base">{op.name}</p>
-              <p className="text-sm text-text-muted">{op.phone}</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-lg font-bold">{op.name[0]}</div>
+              <div>
+                <p className="font-semibold text-base">{op.name}</p>
+                <p className="text-sm text-text-muted">{op.phone}</p>
+              </div>
             </div>
-            <button className="px-4 py-2 bg-success text-white rounded-xl text-sm font-medium">전화</button>
+            <a href={`tel:${op.phone}`} className="px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-bold active:scale-95 transition-all">📞 전화</a>
           </Card>
         ))}
       </div>
@@ -246,36 +340,70 @@ function DemoOperators() {
   );
 }
 
+/* ═══════════════════════════════════════
+   사장: 초대 링크 (인터랙티브)
+   ═══════════════════════════════════════ */
 function DemoInvite() {
+  const [copied, setCopied] = useState(false);
+  const url = "https://heavy-match.vercel.app/register?ref=demo-own-1";
+
+  const handleCopy = () => {
+    navigator.clipboard?.writeText(url).catch(() => {});
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div>
       <PageHeader title="장비요청자 초대" description="건설사 현장소장에게 링크를 보내세요" />
       <Card className="space-y-4">
         <div className="bg-blue-50 rounded-xl p-4">
           <p className="text-sm font-medium text-primary mb-2">초대 링크</p>
-          <p className="text-xs text-text-muted break-all font-mono bg-white rounded-lg p-3 border border-border">
-            https://heavy-match.vercel.app/register?ref=demo-own-1
-          </p>
+          <p className="text-xs text-text-muted break-all font-mono bg-white rounded-lg p-3 border border-border select-all">{url}</p>
         </div>
-        <button className="w-full py-4 text-lg font-bold rounded-xl bg-primary text-white">링크 복사</button>
+        <button onClick={handleCopy}
+          className={`w-full py-4 text-lg font-bold rounded-xl transition-all active:scale-95 ${copied ? "bg-success text-white" : "bg-primary text-white"}`}>
+          {copied ? "✓ 복사됨!" : "📋 링크 복사"}
+        </button>
+        <div className="bg-amber-50 rounded-xl p-4 text-sm text-amber-800">
+          <p className="font-semibold mb-1">이 링크로 가입한 장비요청자는:</p>
+          <ul className="space-y-1 ml-4 list-disc">
+            <li>장비 요청 시 사장님에게 <b>전용콜</b>이 먼저 옵니다</li>
+            <li>사장님이 설정한 <b>단가표</b>가 자동 적용됩니다</li>
+          </ul>
+        </div>
+      </Card>
+      <Card className="mt-4">
+        <button onClick={handleCopy} className="w-full py-3 bg-amber-500 text-white text-center font-bold rounded-xl active:scale-95 transition-all">📱 문자로 보내기</button>
       </Card>
     </div>
   );
 }
 
+/* ═══════════════════════════════════════
+   콜센터: 소속 사장 (전화 연결)
+   ═══════════════════════════════════════ */
 function DemoCallcenterOwners() {
+  const [toast, setToast] = useState<string | null>(null);
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+
   return (
     <div>
-      <PageHeader title="소속 사장 관리" />
+      {toast && <DemoToast message={toast} />}
+      <PageHeader title="소속 사장 관리" description={`총 ${DEMO_OWNERS.length}개 업체`} />
       <div className="space-y-3">
         {DEMO_OWNERS.map(o => (
           <Card key={o.id} className="flex items-center justify-between">
-            <div>
-              <p className="font-semibold text-base">{o.name}</p>
-              <p className="text-sm text-text-muted">{o.company_name}</p>
-              <p className="text-xs text-text-muted">{o.region_sido} {o.region_sigungu}</p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-lg font-bold">{o.name[0]}</div>
+              <div>
+                <p className="font-semibold text-base">{o.name}</p>
+                <p className="text-sm text-text-muted">{o.company_name}</p>
+                <p className="text-xs text-gray-400">{o.region_sido} {o.region_sigungu}</p>
+              </div>
             </div>
-            <button className="px-4 py-2 bg-success text-white rounded-xl text-sm font-medium">전화</button>
+            <button onClick={() => showToast(`${o.name}에게 전화 연결`)}
+              className="px-4 py-2.5 bg-emerald-500 text-white rounded-xl text-sm font-bold active:scale-95 transition-all">📞 전화</button>
           </Card>
         ))}
       </div>
@@ -283,10 +411,12 @@ function DemoCallcenterOwners() {
   );
 }
 
+/* ═══════════════════════════════════════
+   수수료 내역 (공통)
+   ═══════════════════════════════════════ */
 function DemoCommission({ type }: { type: "callcenter" | "salesperson" }) {
   const feeKey = type === "callcenter" ? "callcenter_fee" : "salesperson_fee";
   const total = DEMO_COMMISSIONS.reduce((s, c) => s + c[feeKey], 0);
-
   return (
     <div>
       <PageHeader title="수수료 내역" />
@@ -309,10 +439,13 @@ function DemoCommission({ type }: { type: "callcenter" | "salesperson" }) {
   );
 }
 
+/* ═══════════════════════════════════════
+   관리자: 배차 / 사용자 / 수수료 / 설정
+   ═══════════════════════════════════════ */
 function DemoAdminDispatch() {
   return (
     <div>
-      <PageHeader title="전체 배차 현황" />
+      <PageHeader title="전체 배차 현황" description={`총 ${DEMO_DISPATCHES.length}건`} />
       <div className="space-y-3">
         {DEMO_DISPATCHES.map(d => (
           <Card key={d.id}>
@@ -333,27 +466,30 @@ function DemoAdminDispatch() {
 }
 
 function DemoAdminUsers() {
+  const roleCounts: Record<string, number> = {};
+  DEMO_ALL_USERS.forEach(u => { roleCounts[u.role] = (roleCounts[u.role] || 0) + 1; });
+  const labels: Record<string, string> = { requester:"장비요청자", owner:"중장비사장", operator:"기사", callcenter:"콜센터", salesperson:"영업사원", admin:"관리자" };
+
   return (
     <div>
-      <PageHeader title="사용자 관리" />
+      <PageHeader title="사용자 관리" description={`총 ${DEMO_ALL_USERS.length}명`} />
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-6">
-        {(["requester","owner","operator","callcenter","salesperson","admin"] as const).map(role => {
-          const labels: Record<string, string> = { requester:"장비요청자", owner:"중장비사장", operator:"기사", callcenter:"콜센터", salesperson:"영업사원", admin:"관리자" };
-          const count = DEMO_ALL_USERS.filter(u => u.role === role).length;
-          return (
-            <div key={role} className="bg-card rounded-xl p-3 text-center border border-border">
-              <p className="text-xl font-bold tabular-nums">{count}</p>
-              <p className="text-xs text-text-muted">{labels[role]}</p>
-            </div>
-          );
-        })}
+        {Object.entries(labels).map(([role, label]) => (
+          <div key={role} className="bg-white rounded-xl p-3 text-center border border-gray-100 shadow-sm">
+            <p className="text-xl font-bold tabular-nums">{roleCounts[role] ?? 0}</p>
+            <p className="text-xs text-text-muted">{label}</p>
+          </div>
+        ))}
       </div>
       <div className="space-y-2">
         {DEMO_ALL_USERS.map(u => (
           <Card key={u.id} className="flex items-center justify-between">
-            <div>
-              <span className="font-semibold">{u.name}</span>
-              {u.company_name && <span className="text-sm text-text-muted ml-2">{u.company_name}</span>}
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-gray-100 rounded-full flex items-center justify-center text-sm font-bold text-gray-600">{u.name[0]}</div>
+              <div>
+                <span className="font-semibold">{u.name}</span>
+                {u.company_name && <span className="text-sm text-text-muted ml-2">{u.company_name}</span>}
+              </div>
             </div>
             <StatusBadge status={u.role} />
           </Card>
@@ -387,10 +523,10 @@ function DemoAdminCommission() {
               <span className="text-xs text-text-muted">{new Date(c.created_at).toLocaleDateString("ko-KR")}</span>
             </div>
             <div className="grid grid-cols-4 gap-1 text-xs text-center">
-              <div className="bg-green-50 rounded p-1"><p className="text-text-muted">본사</p><p className="font-bold tabular-nums">{formatPrice(c.company_fee)}</p></div>
-              <div className="bg-purple-50 rounded p-1"><p className="text-text-muted">콜센터</p><p className="font-bold tabular-nums">{formatPrice(c.callcenter_fee)}</p></div>
-              <div className="bg-pink-50 rounded p-1"><p className="text-text-muted">영업</p><p className="font-bold tabular-nums">{formatPrice(c.salesperson_fee)}</p></div>
-              <div className="bg-blue-50 rounded p-1"><p className="text-text-muted">적립</p><p className="font-bold tabular-nums">{formatPrice(c.requester_reward)}</p></div>
+              <div className="bg-green-50 rounded-lg p-1.5"><p className="text-gray-500">본사</p><p className="font-bold tabular-nums">{formatPrice(c.company_fee)}</p></div>
+              <div className="bg-purple-50 rounded-lg p-1.5"><p className="text-gray-500">콜센터</p><p className="font-bold tabular-nums">{formatPrice(c.callcenter_fee)}</p></div>
+              <div className="bg-pink-50 rounded-lg p-1.5"><p className="text-gray-500">영업</p><p className="font-bold tabular-nums">{formatPrice(c.salesperson_fee)}</p></div>
+              <div className="bg-blue-50 rounded-lg p-1.5"><p className="text-gray-500">적립</p><p className="font-bold tabular-nums">{formatPrice(c.requester_reward)}</p></div>
             </div>
           </Card>
         ))}
@@ -399,23 +535,55 @@ function DemoAdminCommission() {
   );
 }
 
+/* ═══════════════════════════════════════
+   관리자: 마스터 설정 (8종 전체)
+   ═══════════════════════════════════════ */
 function DemoSettings() {
   const TYPES = [
     { name: "크레인", icon: "🏗️", specs: ["25T","50T","70T","100T","200T"] },
-    { name: "굴삭기", icon: "⛏️", specs: ["0.6T","1T","3T","6T","8T","20T","30T"] },
     { name: "스카이", icon: "🔝", specs: ["45m","52m","58m","65m"] },
+    { name: "카고크레인", icon: "🚛", specs: ["5T","8T","11T","15T","25T"] },
+    { name: "거미크레인", icon: "🕷️", specs: ["3T","5T","8T","10T"] },
+    { name: "펌프카", icon: "💧", specs: ["32m","37m","42m","47m","52m"] },
+    { name: "굴삭기", icon: "⛏️", specs: ["0.6T","1T","3T","6T","8T","20T","30T"] },
+    { name: "지게차", icon: "📦", specs: ["2.5T","3T","5T","7T","11T"] },
+    { name: "덤프", icon: "🚚", specs: ["15T","25T"] },
   ];
+  const TIMES = [{ name: "1시간", hours: "1.0" }, { name: "오전(4h)", hours: "4.0" }, { name: "오후(4h)", hours: "4.0" }, { name: "하루(8h)", hours: "8.0" }];
+  const [selectedType, setSelectedType] = useState<string | null>(null);
+
   return (
     <div>
       <PageHeader title="마스터 데이터 설정" description="장비 종류, 규격, 시간 단위 관리" />
       <Card className="mb-4">
-        <h3 className="font-bold text-lg mb-3">장비 종류</h3>
+        <h3 className="font-bold text-lg mb-3">장비 종류 (8종)</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           {TYPES.map(t => (
-            <div key={t.name} className="p-3 rounded-xl border-2 border-border text-center">
+            <button key={t.name} onClick={() => setSelectedType(selectedType === t.name ? null : t.name)}
+              className={`p-3 rounded-xl border-2 text-center transition-all active:scale-95 ${selectedType === t.name ? "border-primary bg-blue-50" : "border-gray-100 hover:border-primary"}`}>
               <span className="text-2xl block">{t.icon}</span>
               <span className="text-sm font-semibold">{t.name}</span>
-              <p className="text-xs text-text-muted mt-1">{t.specs.join(", ")}</p>
+            </button>
+          ))}
+        </div>
+      </Card>
+      {selectedType && (
+        <Card className="mb-4 animate-fade-in">
+          <h3 className="font-bold text-lg mb-3">{selectedType} 규격</h3>
+          <div className="flex flex-wrap gap-2">
+            {TYPES.find(t => t.name === selectedType)?.specs.map(s => (
+              <span key={s} className="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-sm font-semibold">{s}</span>
+            ))}
+          </div>
+        </Card>
+      )}
+      <Card>
+        <h3 className="font-bold text-lg mb-3">시간 단위</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {TIMES.map(t => (
+            <div key={t.name} className="p-3 bg-gray-50 rounded-xl text-center">
+              <span className="font-semibold">{t.name}</span>
+              <p className="text-xs text-text-muted">{t.hours}시간</p>
             </div>
           ))}
         </div>
