@@ -72,6 +72,10 @@ export default function DemoPage() {
             요청자 화면 체험
             <span className="material-symbols-outlined">visibility</span>
           </Link>
+          <Link href="/demo/simulation" className="flex-1 px-8 py-5 rounded-xl bg-[#26313f] text-white font-extrabold text-lg hover:bg-[#1a2435] transition-all flex items-center justify-center gap-2 active:scale-95">
+            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+            E2E 시뮬레이션
+          </Link>
         </div>
       </section>
 

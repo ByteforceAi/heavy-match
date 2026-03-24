@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import DemoDashboardLayout from "@/components/DemoDashboardLayout";
 import { DemoProvider } from "@/components/DemoProvider";
 import DemoRoleSwitcher from "@/components/DemoRoleSwitcher";
+import GuidedTour from "@/components/GuidedTour";
 import type { UserRole } from "@/types/database";
 
 const NAMES: Record<string, string> = {
@@ -25,6 +26,7 @@ export default function DemoRoleLayout({ children }: { children: React.ReactNode
         {children}
       </DemoDashboardLayout>
       <DemoRoleSwitcher />
+      <GuidedTour role={validRole} />
     </DemoProvider>
   );
 }

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import SignatureCanvas from "@/components/SignatureCanvas";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_OWNERS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
+import { exportDispatchesToCSV, exportCommissionsToCSV, exportUsersToCSV } from "@/lib/exportExcel";
 
 /* ═════ MD3 Primitives ═════ */
 function Md3Card({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -420,7 +421,11 @@ function DemoCommission({ type }: { type: "callcenter"|"salesperson" }) {
 function DemoAdminDispatch() {
   return (
     <div>
-      <PageTitle title="전체 배차 현황" desc={`총 ${DEMO_DISPATCHES.length}건`} />
+      <PageTitle title="전체 배차 현황" desc={`총 ${DEMO_DISPATCHES.length}건`} action={
+        <button onClick={() => exportDispatchesToCSV(DEMO_DISPATCHES)} className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl text-sm active:scale-95 flex items-center gap-1">
+          <span className="material-symbols-outlined text-base">download</span>엑셀
+        </button>
+      } />
       <div className="space-y-2">
         {DEMO_DISPATCHES.map(d => (
           <Md3Card key={d.id}>
@@ -447,7 +452,11 @@ function DemoAdminUsers() {
 
   return (
     <div>
-      <PageTitle title="사용자 관리" desc={`총 ${DEMO_ALL_USERS.length}명`} />
+      <PageTitle title="사용자 관리" desc={`총 ${DEMO_ALL_USERS.length}명`} action={
+        <button onClick={() => exportUsersToCSV(DEMO_ALL_USERS)} className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl text-sm active:scale-95 flex items-center gap-1">
+          <span className="material-symbols-outlined text-base">download</span>엑셀
+        </button>
+      } />
       <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-6">
         {Object.entries(labels).map(([role,label]) => (
           <div key={role} className="bg-white rounded-xl p-3 text-center border border-[#c1c6d6]/30 shadow-sm">
@@ -483,7 +492,11 @@ function DemoAdminCommission() {
   };
   return (
     <div>
-      <PageTitle title="수수료 현황" />
+      <PageTitle title="수수료 현황" action={
+        <button onClick={() => exportCommissionsToCSV(DEMO_COMMISSIONS)} className="px-4 py-2 bg-emerald-600 text-white font-bold rounded-xl text-sm active:scale-95 flex items-center gap-1">
+          <span className="material-symbols-outlined text-base">download</span>엑셀
+        </button>
+      } />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
         <Md3Stat icon="apartment" value={`${formatPrice(t.company)}원`} label="본사 수익" gradient="bg-gradient-to-br from-emerald-600 to-green-700" />
         <Md3Stat icon="support_agent" value={`${formatPrice(t.cc)}원`} label="콜센터" gradient="bg-gradient-to-br from-violet-600 to-purple-700" />
