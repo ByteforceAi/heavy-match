@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { formatPrice } from "@/lib/utils";
 import CountdownTimer from "@/components/CountdownTimer";
+import BarChart from "@/components/charts/BarChart";
+import DonutChart from "@/components/charts/DonutChart";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
 
 /* ═════ MD3 Primitives ═════ */
@@ -373,6 +375,27 @@ function AdminDemo() {
         <Md3Stat icon="task_alt" value={DEMO_DISPATCHES.filter(d => d.status === "completed").length} label="완료" gradient="bg-gradient-to-br from-emerald-600 to-green-700" />
         <Md3Stat icon="account_balance" value={`${formatPrice(rev)}원`} label="본사 수익" gradient="bg-gradient-to-br from-violet-600 to-purple-700" />
       </div>
+      {/* 차트 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <BarChart
+          title="주간 배차 현황"
+          data={[
+            { label: "월", value: 8 }, { label: "화", value: 12 }, { label: "수", value: 6 },
+            { label: "목", value: 15 }, { label: "금", value: 11 }, { label: "토", value: 4 }, { label: "일", value: 2 },
+          ]}
+        />
+        <DonutChart
+          title="상태별 배차"
+          segments={[
+            { label: "전용콜", value: 3, color: "#0059b9" },
+            { label: "공유콜", value: 5, color: "#f59e0b" },
+            { label: "매칭완료", value: 8, color: "#10b981" },
+            { label: "작업중", value: 4, color: "#8b5cf6" },
+            { label: "완료", value: 22, color: "#06b6d4" },
+          ]}
+        />
+      </div>
+
       <section>
         <h3 className="text-lg font-bold text-[#111c29] mb-3">최근 배차</h3>
         <div className="space-y-2">

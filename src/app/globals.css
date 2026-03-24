@@ -71,6 +71,43 @@
 }
 
 /* ═══════════════════════════════════════
+   DARK MODE
+   ═══════════════════════════════════════ */
+
+.dark body {
+  background: #0f1724;
+  color: #eaf1ff;
+}
+
+.dark .bg-white, .dark .bg-card, .dark .bg-\[\\#f8f9ff\] {
+  background: #1a2435 !important;
+}
+
+.dark .border-\[\\#c1c6d6\]\/30, .dark .border-\[\\#c1c6d6\]\/20, .dark .border-border {
+  border-color: rgba(193, 198, 214, 0.1) !important;
+}
+
+.dark .text-\[\\#111c29\], .dark .text-text {
+  color: #eaf1ff !important;
+}
+
+.dark .text-\[\\#414754\], .dark .text-text-muted {
+  color: #acc7ff !important;
+}
+
+.dark .text-\[\\#727785\] {
+  color: #8899b3 !important;
+}
+
+.dark .bg-\[\\#eef4ff\], .dark .bg-\[\\#e5eeff\], .dark .bg-\[\\#dee9fb\] {
+  background: #1e2d42 !important;
+}
+
+.dark .shadow-\[0_2px_12px_rgba\(17\,28\,41\,0\.04\)\] {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ═══════════════════════════════════════
    MOBILE-FIRST BASE STYLES
    Target: 40~60대 건설 현장 작업자
    ═══════════════════════════════════════ */
