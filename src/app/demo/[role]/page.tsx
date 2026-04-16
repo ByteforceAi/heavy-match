@@ -7,6 +7,8 @@ import CountdownTimer from "@/components/CountdownTimer";
 import BarChart from "@/components/charts/BarChart";
 import DonutChart from "@/components/charts/DonutChart";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
+import CrossRoleLink from "@/components/CrossRoleLink";
+import Tooltip from "@/components/Tooltip";
 
 /* ═════ MD3 Primitives ═════ */
 
@@ -112,6 +114,9 @@ function RequesterDemo() {
           ))}
         </div>
       </section>
+
+      {/* 역할간 연결 */}
+      <CrossRoleLink targetRole="owner" description="요청한 콜이 사장님 화면에서 어떻게 보이는지 확인" />
     </div>
   );
 }
@@ -311,6 +316,8 @@ function OperatorDemo() {
           <h3 className="text-xl font-[800]">모든 작업 완료!</h3>
         </Md3Card>
       )}
+
+      <CrossRoleLink targetRole="owner" description="사장님이 나를 어떻게 배정했는지 확인" />
     </div>
   );
 }
@@ -319,36 +326,111 @@ function OperatorDemo() {
    CALLCENTER / SALESPERSON / ADMIN
    ═══════════════════════════════════════ */
 function CallcenterDemo() {
-  const calls = DEMO_DISPATCHES.filter(d => !["completed", "cancelled", "pending"].includes(d.status));
+  const [calls, setCalls] = useState(DEMO_DISPATCHES.filter(d => !["completed","cancelled","pending"].includes(d.status)));
+  const [toast, setToast] = useState<string|null>(null);
+  const [filter, setFilter] = useState<string>("all");
+  const show = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500); };
+
+  const filtered = filter === "all" ? calls : calls.filter(d => d.status === filter);
+  const counts = { all: calls.length, callcenter_call: calls.filter(d => d.status==="callcenter_call").length, shared_call: calls.filter(d => d.status==="shared_call").length, matched: calls.filter(d => d.status==="matched").length };
+
   return (
-    <div className="space-y-6 max-w-2xl">
-      <h2 className="text-2xl font-[800] text-[#111c29]">전달된 콜 관리</h2>
-      {calls.map(d => (
-        <Md3Card key={d.id}>
-          <div className="flex items-center justify-between mb-2">
-            <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-            <Md3Badge label={STATUS_BADGES[d.status]?.label || d.status} color={STATUS_BADGES[d.status]?.color} />
-          </div>
-          <p className="text-sm text-[#414754]">{d.site_address}</p>
-          <p className="text-lg font-black tabular-nums text-[#0059b9] mt-2">{formatPrice(d.price)}원</p>
-        </Md3Card>
-      ))}
+    <div className="space-y-5 max-w-3xl">
+      {toast && <Md3Toast message={toast} />}
+      <div>
+        <h2 className="text-2xl font-[800] text-[#111c29]">전달된 콜 관리</h2>
+        <p className="text-sm text-[#414754]">미수락 콜을 관리하고 소속 사장에게 배정합니다</p>
+      </div>
+
+      {/* 통계 */}
+      <div className="grid grid-cols-4 gap-2">
+        {[{k:"all",l:"전체",g:"from-[#0059b9] to-[#1071e5]"},{k:"callcenter_call",l:"대기",g:"from-amber-500 to-orange-600"},{k:"shared_call",l:"공유콜",g:"from-violet-500 to-purple-600"},{k:"matched",l:"매칭완료",g:"from-emerald-500 to-green-600"}].map(f => (
+          <button key={f.k} onClick={() => setFilter(f.k)}
+            className={`${filter===f.k ? `bg-gradient-to-br ${f.g} text-white` : "bg-white border border-[#c1c6d6]/30 text-[#111c29]"} rounded-xl p-3 text-center transition-all active:scale-95`}>
+            <p className="text-lg font-black tabular-nums">{counts[f.k as keyof typeof counts]||0}</p>
+            <p className="text-[10px] font-semibold opacity-70">{f.l}</p>
+          </button>
+        ))}
+      </div>
+
+      {/* 콜 리스트 */}
+      <div className="space-y-3">
+        {filtered.map(d => (
+          <Md3Card key={d.id} glow={d.status==="callcenter_call"}>
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+              <Md3Badge label={STATUS_BADGES[d.status]?.label||d.status} color={STATUS_BADGES[d.status]?.color} />
+            </div>
+            <p className="text-sm text-[#414754]">{d.company_name} · {d.site_address}</p>
+            <p className="text-lg font-black tabular-nums text-[#0059b9] mt-1">{formatPrice(d.price)}원</p>
+            {d.status === "callcenter_call" && (
+              <div className="flex gap-2 mt-3">
+                <button onClick={() => { setCalls(prev => prev.map(c => c.id===d.id ? {...c,status:"matched"} : c)); show("직접 수락 완료!"); }}
+                  className="flex-1 py-3 bg-emerald-500 text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-lg">check_circle</span>직접 수락
+                </button>
+                <button onClick={() => { setCalls(prev => prev.map(c => c.id===d.id ? {...c,status:"shared_call"} : c)); show("공유콜로 전환됨"); }}
+                  className="flex-1 py-3 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-lg">campaign</span>공유콜 전환
+                </button>
+              </div>
+            )}
+          </Md3Card>
+        ))}
+      </div>
+
+      {/* 역할간 연결 */}
+      <CrossRoleLink targetRole="owner" description="사장님 화면에서 콜이 어떻게 보이는지 확인" />
     </div>
   );
 }
 
 function SalespersonDemo() {
   const total = DEMO_COMMISSIONS.reduce((s, c) => s + c.salesperson_fee, 0);
+  const [period, setPeriod] = useState<"all"|"month"|"week">("all");
+  const [toast, setToast] = useState<string|null>(null);
+  const show = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500); };
+
+  const now = new Date();
+  const filtered = period === "all" ? DEMO_COMMISSIONS
+    : period === "month" ? DEMO_COMMISSIONS.filter(c => { const d=new Date(c.created_at); return d.getMonth()===now.getMonth() && d.getFullYear()===now.getFullYear(); })
+    : DEMO_COMMISSIONS.filter(c => { const d=new Date(c.created_at); return (now.getTime()-d.getTime()) < 7*86400000; });
+  const filteredTotal = filtered.reduce((s,c) => s + c.salesperson_fee, 0);
+
   return (
-    <div className="space-y-6 max-w-2xl">
-      <h2 className="text-2xl font-[800] text-[#111c29]">분양 현황</h2>
+    <div className="space-y-5 max-w-2xl">
+      {toast && <Md3Toast message={toast} />}
+      <div>
+        <h2 className="text-2xl font-[800] text-[#111c29]">분양 현황</h2>
+        <p className="text-sm text-[#414754]">나의 수수료 및 실적 현황</p>
+      </div>
+
       <div className="grid grid-cols-2 gap-3">
         <Md3Stat icon="savings" value={`${formatPrice(total)}원`} label="누적 수수료" gradient="bg-gradient-to-br from-emerald-600 to-teal-700" />
         <Md3Stat icon="receipt_long" value={DEMO_COMMISSIONS.length} label="완료 건수" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
       </div>
+
+      {/* 기간 필터 */}
+      <div className="flex gap-2">
+        {([["all","전체"],["month","이번 달"],["week","이번 주"]] as const).map(([k,l]) => (
+          <button key={k} onClick={() => setPeriod(k)}
+            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all active:scale-95 ${period===k ? "bg-[#0059b9] text-white" : "bg-white border border-[#c1c6d6]/30 text-[#414754]"}`}>
+            {l}
+          </button>
+        ))}
+      </div>
+
+      {/* 필터된 합계 */}
+      <Md3Card className="text-center">
+        <p className="text-sm text-[#727785]">{period==="all"?"전체":"필터된"} 수수료</p>
+        <p className="text-3xl font-black tabular-nums text-emerald-600">{formatPrice(filteredTotal)}원</p>
+        <p className="text-sm text-[#727785]">{filtered.length}건</p>
+      </Md3Card>
+
+      {/* 내역 */}
       <div className="space-y-2">
-        {DEMO_COMMISSIONS.map(c => (
-          <Md3Card key={c.id} className="flex items-center justify-between">
+        {filtered.map(c => (
+          <Md3Card key={c.id} className="flex items-center justify-between" onClick={() => show(`거래 상세: ${formatPrice(c.total_price)}원`)}>
             <div>
               <p className="font-semibold text-[#111c29]">{formatPrice(c.total_price)}원 건</p>
               <p className="text-xs text-[#727785]">{new Date(c.created_at).toLocaleDateString("ko-KR")}</p>
@@ -357,6 +439,8 @@ function SalespersonDemo() {
           </Md3Card>
         ))}
       </div>
+
+      <CrossRoleLink targetRole="callcenter" description="콜센터에서 콜이 어떻게 처리되는지 확인" />
     </div>
   );
 }
@@ -413,6 +497,11 @@ function AdminDemo() {
           ))}
         </div>
       </section>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <CrossRoleLink targetRole="owner" description="사장님 배차 수신 화면 확인" />
+        <CrossRoleLink targetRole="requester" description="요청자 장비 요청 플로우 확인" />
+      </div>
     </div>
   );
 }
