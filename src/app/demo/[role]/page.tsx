@@ -9,6 +9,7 @@ import DonutChart from "@/components/charts/DonutChart";
 import { DEMO_DISPATCHES, DEMO_COMMISSIONS, DEMO_OPERATORS, DEMO_CALL_HISTORY, DEMO_ALL_USERS } from "@/lib/demoData";
 import CrossRoleLink from "@/components/CrossRoleLink";
 import Tooltip from "@/components/Tooltip";
+import SignatureCanvas from "@/components/SignatureCanvas";
 
 /* ═════ MD3 Primitives ═════ */
 
@@ -71,9 +72,9 @@ function RequesterDemo() {
         <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full" />
         <h2 className="text-2xl font-[800] mb-1">장비가 필요하신가요?</h2>
         <p className="text-white/70 text-sm mb-5">8종 장비를 60초 안에 배차합니다</p>
-        <button onClick={() => show("장비 요청 화면으로 이동")} className="py-3 px-6 bg-white text-[#0059b9] font-bold rounded-xl shadow-lg active:scale-95 transition-all flex items-center gap-2">
+        <a href="/demo/requester/request" className="inline-flex py-3 px-6 bg-white text-[#0059b9] font-bold rounded-xl shadow-lg active:scale-95 transition-all items-center gap-2">
           <span className="material-symbols-outlined text-xl">edit_note</span>장비 요청하기
-        </button>
+        </a>
       </div>
 
       <section>
@@ -274,6 +275,7 @@ function OwnerDemo() {
 function OperatorDemo() {
   const [started, setStarted] = useState<Set<string>>(new Set());
   const [completed, setCompleted] = useState<Set<string>>(new Set());
+  const [signing, setSigning] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
   const dispatches = DEMO_DISPATCHES.filter(d => ["operator_assigned", "in_progress"].includes(d.status) && !completed.has(d.id));
@@ -302,10 +304,15 @@ function OperatorDemo() {
                 className="w-full mt-3 py-3.5 bg-amber-500 text-white font-bold rounded-xl text-base active:scale-95 flex items-center justify-center gap-2">
                 <span className="material-symbols-outlined">rocket_launch</span>작업 시작
               </button>
+            ) : signing === d.id ? (
+              <div className="mt-3 space-y-3 animate-fade-in">
+                <p className="text-sm font-bold text-[#111c29]">기사 전자서명</p>
+                <SignatureCanvas onSave={() => { setSigning(null); setCompleted(p => new Set(p).add(d.id)); show("작업 완료! 서명이 저장되었습니다"); }} />
+              </div>
             ) : (
-              <button onClick={() => { setCompleted(p => new Set(p).add(d.id)); show("작업 완료! 서명 저장됨"); }}
+              <button onClick={() => setSigning(d.id)}
                 className="w-full mt-3 py-3.5 bg-emerald-600 text-white font-bold rounded-xl text-base active:scale-95 flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined">task_alt</span>작업 완료 서명
+                <span className="material-symbols-outlined">draw</span>작업 완료 서명
               </button>
             )}
           </Md3Card>
@@ -314,6 +321,7 @@ function OperatorDemo() {
         <Md3Card className="text-center py-12">
           <span className="material-symbols-outlined text-5xl text-emerald-500 block mb-3" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
           <h3 className="text-xl font-[800]">모든 작업 완료!</h3>
+          <p className="text-sm text-[#727785] mt-1">오늘 배정된 작업을 모두 마쳤습니다</p>
         </Md3Card>
       )}
 
@@ -468,43 +476,68 @@ function SalespersonDemo() {
 
 function AdminDemo() {
   const rev = DEMO_COMMISSIONS.reduce((s, c) => s + c.company_fee, 0);
+  const totalVolume = DEMO_COMMISSIONS.reduce((s, c) => s + c.total_price, 0);
+  const completedCount = DEMO_DISPATCHES.filter(d => d.status === "completed").length;
+  const activeCount = DEMO_DISPATCHES.filter(d => !["completed","cancelled"].includes(d.status)).length;
+  const cancelledCount = DEMO_DISPATCHES.filter(d => d.status === "cancelled").length;
+
+  // 주간 차트 — 실제 데이터에서 파생
+  const dayNames = ["일","월","화","수","목","금","토"];
+  const weekData = dayNames.map((label, dayIdx) => ({
+    label,
+    value: DEMO_DISPATCHES.filter(d => {
+      const date = new Date(d.created_at);
+      return date.getDay() === dayIdx;
+    }).length,
+  }));
+
+  // 상태별 도넛 — 실제 데이터에서 파생
+  const statusGroups = [
+    { label: "전용콜", statuses: ["exclusive_call"], color: "#0059b9" },
+    { label: "콜센터/공유", statuses: ["callcenter_call","shared_call"], color: "#f59e0b" },
+    { label: "매칭/배정", statuses: ["matched","operator_assigned"], color: "#10b981" },
+    { label: "작업중", statuses: ["in_progress"], color: "#8b5cf6" },
+    { label: "완료", statuses: ["completed"], color: "#06b6d4" },
+    { label: "취소", statuses: ["cancelled"], color: "#ef4444" },
+  ].map(g => ({ ...g, value: DEMO_DISPATCHES.filter(d => g.statuses.includes(d.status)).length })).filter(g => g.value > 0);
+
   return (
     <div className="space-y-6">
       <div>
         <h2 className="text-2xl font-[800] text-[#111c29]">관리자 대시보드</h2>
-        <p className="text-sm text-[#414754]">Heavy Match 플랫폼 현황</p>
+        <p className="text-sm text-[#414754]">Heavy Match 플랫폼 현황 · 최근 30일</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Md3Stat icon="group" value={DEMO_ALL_USERS.length} label="총 사용자" gradient="bg-gradient-to-br from-[#0059b9] to-[#1071e5]" />
-        <Md3Stat icon="local_shipping" value={DEMO_DISPATCHES.filter(d => !["completed","cancelled"].includes(d.status)).length} label="진행중" gradient="bg-gradient-to-br from-amber-500 to-orange-600" />
-        <Md3Stat icon="task_alt" value={DEMO_DISPATCHES.filter(d => d.status === "completed").length} label="완료" gradient="bg-gradient-to-br from-emerald-600 to-green-700" />
+        <Md3Stat icon="local_shipping" value={activeCount} label="진행중" gradient="bg-gradient-to-br from-amber-500 to-orange-600" />
+        <Md3Stat icon="task_alt" value={completedCount} label="완료" gradient="bg-gradient-to-br from-emerald-600 to-green-700" />
         <Md3Stat icon="account_balance" value={`${formatPrice(rev)}원`} label="본사 수익" gradient="bg-gradient-to-br from-violet-600 to-purple-700" />
       </div>
-      {/* 차트 */}
+      {/* 추가 통계 */}
+      <div className="grid grid-cols-3 gap-3">
+        <Md3Card className="text-center !p-3">
+          <p className="text-2xl font-black tabular-nums text-[#111c29]">{DEMO_DISPATCHES.length}</p>
+          <p className="text-[10px] text-[#727785] font-semibold">총 배차</p>
+        </Md3Card>
+        <Md3Card className="text-center !p-3">
+          <p className="text-2xl font-black tabular-nums text-[#111c29]">{formatPrice(totalVolume)}원</p>
+          <p className="text-[10px] text-[#727785] font-semibold">총 거래액</p>
+        </Md3Card>
+        <Md3Card className="text-center !p-3">
+          <p className="text-2xl font-black tabular-nums text-[#ba1a1a]">{cancelledCount}</p>
+          <p className="text-[10px] text-[#727785] font-semibold">취소</p>
+        </Md3Card>
+      </div>
+      {/* 차트 — 실제 데이터 기반 */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <BarChart
-          title="주간 배차 현황"
-          data={[
-            { label: "월", value: 8 }, { label: "화", value: 12 }, { label: "수", value: 6 },
-            { label: "목", value: 15 }, { label: "금", value: 11 }, { label: "토", value: 4 }, { label: "일", value: 2 },
-          ]}
-        />
-        <DonutChart
-          title="상태별 배차"
-          segments={[
-            { label: "전용콜", value: 3, color: "#0059b9" },
-            { label: "공유콜", value: 5, color: "#f59e0b" },
-            { label: "매칭완료", value: 8, color: "#10b981" },
-            { label: "작업중", value: 4, color: "#8b5cf6" },
-            { label: "완료", value: 22, color: "#06b6d4" },
-          ]}
-        />
+        <BarChart title="요일별 배차 현황" data={weekData} />
+        <DonutChart title="상태별 배차" segments={statusGroups} />
       </div>
 
       <section>
-        <h3 className="text-lg font-bold text-[#111c29] mb-3">최근 배차</h3>
+        <h3 className="text-lg font-bold text-[#111c29] mb-3">최근 배차 (상위 10건)</h3>
         <div className="space-y-2">
-          {DEMO_DISPATCHES.map(d => (
+          {DEMO_DISPATCHES.slice(0, 10).map(d => (
             <Md3Card key={d.id} className="flex items-center justify-between">
               <div>
                 <p className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</p>
