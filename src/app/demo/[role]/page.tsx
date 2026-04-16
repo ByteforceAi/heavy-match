@@ -335,52 +335,73 @@ function CallcenterDemo() {
   const counts = { all: calls.length, callcenter_call: calls.filter(d => d.status==="callcenter_call").length, shared_call: calls.filter(d => d.status==="shared_call").length, matched: calls.filter(d => d.status==="matched").length };
 
   return (
-    <div className="space-y-5 max-w-3xl">
+    <div className="space-y-5">
       {toast && <Md3Toast message={toast} />}
-      <div>
-        <h2 className="text-2xl font-[800] text-[#111c29]">전달된 콜 관리</h2>
-        <p className="text-sm text-[#414754]">미수락 콜을 관리하고 소속 사장에게 배정합니다</p>
-      </div>
 
-      {/* 통계 */}
-      <div className="grid grid-cols-4 gap-2">
-        {[{k:"all",l:"전체",g:"from-[#0059b9] to-[#1071e5]"},{k:"callcenter_call",l:"대기",g:"from-amber-500 to-orange-600"},{k:"shared_call",l:"공유콜",g:"from-violet-500 to-purple-600"},{k:"matched",l:"매칭완료",g:"from-emerald-500 to-green-600"}].map(f => (
-          <button key={f.k} onClick={() => setFilter(f.k)}
-            className={`${filter===f.k ? `bg-gradient-to-br ${f.g} text-white` : "bg-white border border-[#c1c6d6]/30 text-[#111c29]"} rounded-xl p-3 text-center transition-all active:scale-95`}>
-            <p className="text-lg font-black tabular-nums">{counts[f.k as keyof typeof counts]||0}</p>
-            <p className="text-[10px] font-semibold opacity-70">{f.l}</p>
-          </button>
-        ))}
-      </div>
+      {/* 데스크탑: 2컬럼 레이아웃 */}
+      <div className="lg:grid lg:grid-cols-[280px_1fr] lg:gap-6">
 
-      {/* 콜 리스트 */}
-      <div className="space-y-3">
-        {filtered.map(d => (
-          <Md3Card key={d.id} glow={d.status==="callcenter_call"}>
-            <div className="flex items-center justify-between mb-2">
-              <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
-              <Md3Badge label={STATUS_BADGES[d.status]?.label||d.status} color={STATUS_BADGES[d.status]?.color} />
-            </div>
-            <p className="text-sm text-[#414754]">{d.company_name} · {d.site_address}</p>
-            <p className="text-lg font-black tabular-nums text-[#0059b9] mt-1">{formatPrice(d.price)}원</p>
-            {d.status === "callcenter_call" && (
-              <div className="flex gap-2 mt-3">
-                <button onClick={() => { setCalls(prev => prev.map(c => c.id===d.id ? {...c,status:"matched"} : c)); show("직접 수락 완료!"); }}
-                  className="flex-1 py-3 bg-emerald-500 text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
-                  <span className="material-symbols-outlined text-lg">check_circle</span>직접 수락
-                </button>
-                <button onClick={() => { setCalls(prev => prev.map(c => c.id===d.id ? {...c,status:"shared_call"} : c)); show("공유콜로 전환됨"); }}
-                  className="flex-1 py-3 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
-                  <span className="material-symbols-outlined text-lg">campaign</span>공유콜 전환
-                </button>
+        {/* 좌측 사이드 패널 (데스크탑에서만) */}
+        <div className="lg:sticky lg:top-4 lg:self-start space-y-4 mb-5 lg:mb-0">
+          <div>
+            <h2 className="text-2xl font-[800] text-[#111c29]">콜 관리</h2>
+            <p className="text-sm text-[#414754]">미수락 콜 관리 · 사장 배정</p>
+          </div>
+
+          {/* 통계 필터 (세로 스택 — 데스크탑) */}
+          <div className="grid grid-cols-4 lg:grid-cols-1 gap-2">
+            {[{k:"all",l:"전체",g:"from-[#0059b9] to-[#1071e5]"},{k:"callcenter_call",l:"대기",g:"from-amber-500 to-orange-600"},{k:"shared_call",l:"공유콜",g:"from-violet-500 to-purple-600"},{k:"matched",l:"매칭완료",g:"from-emerald-500 to-green-600"}].map(f => (
+              <button key={f.k} onClick={() => setFilter(f.k)}
+                className={`${filter===f.k ? `bg-gradient-to-br ${f.g} text-white` : "bg-white border border-[#c1c6d6]/30 text-[#111c29]"} rounded-xl p-3 text-center transition-all active:scale-95`}>
+                <p className="text-lg font-black tabular-nums">{counts[f.k as keyof typeof counts]||0}</p>
+                <p className="text-[10px] font-semibold opacity-70">{f.l}</p>
+              </button>
+            ))}
+          </div>
+
+          {/* 역할간 연결 (데스크탑 사이드바 하단) */}
+          <div className="hidden lg:block">
+            <CrossRoleLink targetRole="owner" description="사장님 콜 수신 화면" />
+          </div>
+        </div>
+
+        {/* 우측: 콜 리스트 (메인 영역) */}
+        <div className="space-y-3">
+          <div className="hidden lg:flex items-center justify-between mb-2">
+            <h3 className="text-lg font-bold text-[#111c29]">콜 목록 ({filtered.length}건)</h3>
+          </div>
+          {filtered.map(d => (
+            <Md3Card key={d.id} glow={d.status==="callcenter_call"}>
+              <div className="flex items-center justify-between mb-2">
+                <span className="font-bold text-[#111c29]">{EQ_ICONS[d.equipment_types.name]} {d.equipment_types.name} {d.equipment_specs.spec_name}</span>
+                <Tooltip text={STATUS_BADGES[d.status]?.label === "콜센터" ? "사장 미수락 → 콜센터로 자동 전달된 건" : STATUS_BADGES[d.status]?.label === "공유콜" ? "같은 지역 사장 전체에게 선착순 공개된 건" : "매칭이 완료되어 기사 배정 대기중인 건"}>
+                  <Md3Badge label={STATUS_BADGES[d.status]?.label||d.status} color={STATUS_BADGES[d.status]?.color} />
+                </Tooltip>
               </div>
-            )}
-          </Md3Card>
-        ))}
-      </div>
+              <p className="text-sm text-[#414754]">{d.company_name} · {d.site_address}</p>
+              <p className="text-lg font-black tabular-nums text-[#0059b9] mt-1">{formatPrice(d.price)}원</p>
+              {d.status === "callcenter_call" && (
+                <div className="flex gap-2 mt-3">
+                  <button onClick={() => { setCalls(prev => prev.map(c => c.id===d.id ? {...c,status:"matched"} : c)); show("직접 수락 완료!"); }}
+                    className="flex-1 py-3 bg-emerald-500 text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
+                    <span className="material-symbols-outlined text-lg">check_circle</span>직접 수락
+                  </button>
+                  <button onClick={() => { setCalls(prev => prev.map(c => c.id===d.id ? {...c,status:"shared_call"} : c)); show("공유콜로 전환됨"); }}
+                    className="flex-1 py-3 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
+                    <span className="material-symbols-outlined text-lg">campaign</span>공유콜 전환
+                  </button>
+                </div>
+              )}
+            </Md3Card>
+          ))}
+        </div>
 
-      {/* 역할간 연결 */}
-      <CrossRoleLink targetRole="owner" description="사장님 화면에서 콜이 어떻게 보이는지 확인" />
+      </div> {/* end lg:grid */}
+
+      {/* 모바일용 역할간 연결 */}
+      <div className="lg:hidden">
+        <CrossRoleLink targetRole="owner" description="사장님 화면에서 콜이 어떻게 보이는지 확인" />
+      </div>
     </div>
   );
 }

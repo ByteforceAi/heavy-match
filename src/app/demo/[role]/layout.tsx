@@ -6,6 +6,7 @@ import { DemoProvider } from "@/components/DemoProvider";
 import DemoRoleSwitcher from "@/components/DemoRoleSwitcher";
 import GuidedTour, { TourResetButton } from "@/components/GuidedTour";
 import DevNotes from "@/components/DevNotes";
+import DeviceHint from "@/components/DeviceHint";
 import type { UserRole } from "@/types/database";
 
 const NAMES: Record<string, string> = {
@@ -15,6 +16,16 @@ const NAMES: Record<string, string> = {
   callcenter: "정콜센터 (중부콜센터)",
   salesperson: "최영업",
   admin: "관리자 (BYTEFORCE)",
+};
+
+// 역할별 Primary 디바이스 정의
+const DEVICE_PREF: Record<string, "mobile-preferred" | "desktop-preferred"> = {
+  requester: "mobile-preferred",
+  owner: "mobile-preferred",
+  operator: "mobile-preferred",
+  callcenter: "desktop-preferred",
+  salesperson: "desktop-preferred",
+  admin: "desktop-preferred",
 };
 
 export default function DemoRoleLayout({ children }: { children: React.ReactNode }) {
@@ -33,6 +44,7 @@ export default function DemoRoleLayout({ children }: { children: React.ReactNode
       <DemoRoleSwitcher />
       <GuidedTour role={validRole} />
       <DevNotes role={validRole} />
+      <DeviceHint type={DEVICE_PREF[validRole] ?? "mobile-preferred"} role={validRole} />
     </DemoProvider>
   );
 }
