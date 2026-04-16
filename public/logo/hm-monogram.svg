@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <!-- Heavy Match Monogram — Industrial Bolt + HM -->
+  <rect width="64" height="64" rx="14" fill="#0A0A0B"/>
+  <!-- Bolt accent -->
+  <path d="M32 8 L38 28 L30 28 L36 56 L28 32 L36 32 Z" fill="#FF6B1A" opacity="0.15"/>
+  <!-- H -->
+  <path d="M16 18 L16 46 M16 32 L28 32 M28 18 L28 46" stroke="#FAFAFA" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- M -->
+  <path d="M36 46 L36 18 L42 32 L48 18 L48 46" stroke="#FF6B1A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bottom accent bar -->
+  <rect x="14" y="52" width="36" height="2.5" rx="1.25" fill="#FF6B1A"/>
+</svg>

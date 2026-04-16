@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 48" fill="none">
+  <!-- Heavy Match Wordmark -->
+  <text x="0" y="36" font-family="Inter, Pretendard, sans-serif" font-weight="900" font-size="36" letter-spacing="-0.03em" fill="#FAFAFA">HEAVY</text>
+  <text x="138" y="36" font-family="Inter, Pretendard, sans-serif" font-weight="900" font-size="36" letter-spacing="-0.03em" fill="#FF6B1A">MATCH</text>
+  <!-- Accent dot -->
+  <circle cx="130" cy="34" r="3" fill="#FF6B1A"/>
+</svg>
