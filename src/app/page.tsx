@@ -1,179 +1,458 @@
+"use client";
+
+/**
+ * HEAVY MATCH — Masterpiece Landing Page
+ *
+ * 10 섹션 구성:
+ * 1. Hero (100vh)
+ * 2. Social Proof Bar
+ * 3. Problem Statement
+ * 4. Solution (3단계 배차)
+ * 5. Feature Deep Dive (6역할)
+ * 6. Commission Structure
+ * 7. Tech Architecture
+ * 8. Pricing
+ * 9. FAQ
+ * 10. CTA + Footer
+ */
+
 import Link from "next/link";
+import { formatPrice } from "@/lib/utils";
+import { colors } from "@/lib/design-system/tokens";
+import * as copy from "@/content/copy";
+import { HeroText, Reveal, StaggerContainer, StaggerItem, MotionButton, MotionCard, IndustrialGlass, CountUp } from "@/components/motion/MotionPrimitives";
+import HeroBackground from "@/components/motion/HeroBackground";
+import BootSplash from "@/components/motion/BootSplash";
+import { CraneIcon, ExcavatorIcon, SkyIcon, PumpTruckIcon, ForkliftIcon, DumpTruckIcon, CargoCraneIcon, SpiderCraneIcon } from "@/components/icons/EquipmentIcons";
 
-export default function Home() {
+const EQUIPMENT_ICONS = [
+  { name: "크레인", Icon: CraneIcon },
+  { name: "굴삭기", Icon: ExcavatorIcon },
+  { name: "스카이", Icon: SkyIcon },
+  { name: "펌프카", Icon: PumpTruckIcon },
+  { name: "카고크레인", Icon: CargoCraneIcon },
+  { name: "거미크레인", Icon: SpiderCraneIcon },
+  { name: "지게차", Icon: ForkliftIcon },
+  { name: "덤프", Icon: DumpTruckIcon },
+];
+
+export default function LandingPage() {
   return (
-    <main className="bg-[#f8f9ff] text-[#111c29] min-h-screen" style={{ fontFamily: "'Inter','Pretendard',sans-serif", letterSpacing: "-0.02em" }}>
-      {/* ── Glass Nav ── */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-sm">
-        <div className="flex justify-between items-center max-w-5xl mx-auto px-6 h-16">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-2xl font-black tracking-tighter">Heavy Match</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Link href="/demo" className="text-[#414754] font-semibold hover:text-[#0059b9] transition-colors px-3 py-2 rounded-lg text-sm">데모</Link>
-            <Link href="/login" className="text-[#0059b9] font-bold hover:text-[#1071e5] transition-colors px-4 py-2 rounded-lg">로그인</Link>
-          </div>
-        </div>
-      </nav>
+    <main
+      className="min-h-screen text-[#FAFAFA]"
+      style={{
+        fontFamily: "'Pretendard', 'Inter', -apple-system, sans-serif",
+        letterSpacing: "-0.01em",
+        background: colors.black,
+      }}
+    >
+      <BootSplash />
 
-      {/* ── Hero ── */}
-      <section className="pt-28 pb-16 px-6 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e5eeff] text-[#0059b9] font-bold text-sm mb-6">
-          <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
-          현장 장비 매칭의 디지털 전환
-        </div>
-        <h1 className="text-4xl md:text-6xl font-[800] leading-[1.12] mb-5 tracking-tight">
-          장비 요청부터 작업완료까지<br />
-          <span className="text-[#0059b9]">60초</span>면 매칭 끝.
-        </h1>
-        <p className="text-lg md:text-xl text-[#414754] font-medium leading-relaxed mb-6">
-          건설사와 중장비 업체를 실시간으로 연결하는<br className="md:hidden" /> B2B 배차 중개 플랫폼
-        </p>
-
-        {/* Stat Chips */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {[
-            { v: "6개", l: "역할 시스템" }, { v: "15%", l: "수수료 구조" },
-            { v: "60초", l: "전용콜 타이머" }, { v: "8종", l: "장비 지원" },
-          ].map(s => (
-            <span key={s.l} className="px-3 py-1.5 bg-[#dee9fb] rounded-full text-sm font-bold">
-              {s.v} <span className="text-[#414754] font-medium">{s.l}</span>
-            </span>
-          ))}
-        </div>
-
-        {/* CTA */}
-        <div className="flex flex-col md:flex-row gap-3 justify-center max-w-md mx-auto">
-          <Link href="/login" className="flex-1 px-8 py-5 rounded-xl bg-gradient-to-br from-[#0059b9] to-[#1071e5] text-white font-extrabold text-lg shadow-lg hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
-            시작하기 <span className="material-symbols-outlined">arrow_forward</span>
-          </Link>
-          <Link href="/demo" className="flex-1 px-8 py-5 rounded-xl bg-[#dae0ec] text-[#595f69] font-extrabold text-lg hover:bg-[#c1c7d3] transition-all active:scale-95 flex items-center justify-center gap-2">
-            🎮 무료 체험 <span className="material-symbols-outlined">visibility</span>
-          </Link>
-        </div>
-      </section>
-
-      {/* ── 장비 8종 ── */}
-      <section className="py-12 px-6 max-w-5xl mx-auto">
-        <h2 className="text-2xl font-[800] text-center mb-6">지원 장비 8종</h2>
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
-          {[
-            { n: "크레인", i: "🏗️" }, { n: "스카이", i: "🔝" }, { n: "카고크레인", i: "🚛" }, { n: "거미크레인", i: "🕷️" },
-            { n: "펌프카", i: "💧" }, { n: "굴삭기", i: "⛏️" }, { n: "지게차", i: "📦" }, { n: "덤프", i: "🚚" },
-          ].map(eq => (
-            <div key={eq.n} className="bg-white rounded-2xl p-3 text-center border border-[#c1c6d6]/30 shadow-[0_2px_12px_rgba(17,28,41,0.04)]">
-              <span className="text-2xl block">{eq.i}</span>
-              <span className="text-xs font-bold mt-1 block text-[#111c29]">{eq.n}</span>
+      {/* ═══ 1. HERO (100vh) ═══ */}
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <HeroBackground />
+        {/* Nav */}
+        <IndustrialGlass level="subtle" className="fixed top-0 w-full z-50 rounded-none">
+          <div className="flex justify-between items-center max-w-[1280px] mx-auto px-6 h-16">
+            <div className="flex items-center gap-2">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo/hm-monogram.svg" alt="HM" className="w-8 h-8" />
+              <span className="text-lg font-black tracking-[-0.03em] text-[#FAFAFA]">HEAVY<span className="text-[#FF6B1A]">MATCH</span></span>
             </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── 핵심 기능 ── */}
-      <section className="py-12 px-6 max-w-5xl mx-auto">
-        <h2 className="text-2xl font-[800] text-center mb-8">핵심 기능</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {[
-            { icon: "swap_horiz", title: "3단계 배차", desc: "전용콜 → 콜센터 → 공유콜 자동 전환", gradient: "from-[#0059b9] to-[#1071e5]" },
-            { icon: "timer", title: "60초 매칭", desc: "타이머 기반 실시간 선착순 배정", gradient: "from-amber-500 to-orange-600" },
-            { icon: "draw", title: "전자서명", desc: "요청서·작업확인서 디지털 서명", gradient: "from-emerald-600 to-green-700" },
-            { icon: "account_balance", title: "자동 정산", desc: "15% 수수료 4자 자동 분배", gradient: "from-violet-600 to-purple-700" },
-          ].map(f => (
-            <div key={f.title} className={`bg-gradient-to-br ${f.gradient} rounded-2xl p-5 text-white shadow-lg`}>
-              <span className="material-symbols-outlined text-3xl block mb-2 opacity-80" style={{ fontVariationSettings: "'FILL' 1" }}>{f.icon}</span>
-              <h3 className="font-[800] text-base mb-1">{f.title}</h3>
-              <p className="text-white/70 text-xs leading-relaxed">{f.desc}</p>
+            <div className="flex items-center gap-3">
+              <Link href="/demo" className="text-sm font-semibold text-[#9CA3AF] hover:text-[#FF6B1A] transition-colors px-3 py-2">데모</Link>
+              <Link href="/login" className="text-sm font-semibold text-[#FAFAFA] bg-[#FF6B1A] hover:bg-[#FF8A4C] px-5 py-2.5 rounded-xl transition-colors">로그인</Link>
             </div>
-          ))}
-        </div>
-      </section>
+          </div>
+        </IndustrialGlass>
 
-      {/* ── 배차 흐름 6단계 ── */}
-      <section className="py-16 px-6 max-w-4xl mx-auto">
-        <h2 className="text-2xl font-[800] text-center mb-3">배차 흐름 6단계</h2>
-        <p className="text-center text-[#414754] text-sm mb-10">장비 요청부터 작업 완료까지</p>
-        <div className="space-y-4 relative">
-          <div className="absolute left-[23px] top-0 bottom-0 w-0.5 bg-[#d8e3f5]" />
-          {[
-            { n: "1", t: "장비 요청", d: "건설사가 장비/규격/시간 선택 후 전자서명", ic: "edit_note", role: "장비요청자", rc: "bg-[#d7e2ff] text-[#004491]" },
-            { n: "2", t: "전용콜 (60초)", d: "지정 사장에게 SMS 발송, 60초 타이머", ic: "timer", role: "중장비사장", rc: "bg-[#dde3ef] text-[#595f69]", hl: true },
-            { n: "3", t: "콜센터 전달", d: "미수락 시 콜센터로 자동 전달", ic: "swap_horiz", role: "콜센터", rc: "bg-[#ffdad6] text-[#ba1a1a]" },
-            { n: "4", t: "공유콜", d: "같은 지역 사장 전체에게 선착순 발송", ic: "campaign", role: "중장비사장", rc: "bg-[#dde3ef] text-[#595f69]" },
-            { n: "5", t: "기사 배정", d: "매칭된 사장이 소속 기사를 배정", ic: "person_add", role: "중장비사장", rc: "bg-[#dde3ef] text-[#595f69]" },
-            { n: "6", t: "작업 완료", d: "기사 전자서명 → 작업확인서 자동 생성", ic: "task_alt", role: "기사", rc: "bg-[#d5e4f8] text-[#4f5d6e]" },
-          ].map(s => (
-            <div key={s.n} className="relative flex items-start pl-14">
-              <div className={`absolute left-0 w-12 h-12 rounded-full flex items-center justify-center z-10 ring-4 ring-[#f8f9ff] ${s.hl ? "bg-[#ba1a1a]" : "bg-[#0059b9]"}`}>
-                <span className="text-white font-bold text-sm">{s.n}</span>
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 pt-24 pb-16 w-full">
+          <div className="max-w-3xl">
+            {/* Badge */}
+            <Reveal delay={0.1}>
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF6B1A1A] border border-[#FF6B1A40] rounded-full text-sm font-semibold text-[#FF6B1A] mb-6">
+                <span className="w-1.5 h-1.5 bg-[#FF6B1A] rounded-full animate-pulse" />
+                {copy.hero.badge}
+              </span>
+            </Reveal>
+
+            {/* Title */}
+            <h1 className="mb-6" style={{ fontSize: "clamp(3rem, 8vw, 5.5rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em" }}>
+              <HeroText text={copy.hero.title.line1} className="block text-[#FAFAFA]" />
+              <HeroText text={copy.hero.title.line2} className="block text-[#FF6B1A]" />
+            </h1>
+
+            {/* Subtitle */}
+            <Reveal delay={0.4}>
+              <p className="text-xl md:text-2xl font-semibold text-[#D1D5DB] mb-2" style={{ letterSpacing: "-0.02em" }}>
+                {copy.hero.subtitle}
+              </p>
+              <p className="text-base text-[#6B7280] mb-10 max-w-xl">
+                {copy.hero.description}
+              </p>
+            </Reveal>
+
+            {/* CTAs */}
+            <Reveal delay={0.6}>
+              <div className="flex flex-wrap gap-4 mb-12">
+                <Link href="/demo">
+                  <MotionButton variant="primary" className="px-8 py-4 text-lg">
+                    {copy.hero.cta.primary}
+                  </MotionButton>
+                </Link>
+                <MotionButton variant="secondary" className="px-8 py-4 text-lg">
+                  {copy.hero.cta.secondary}
+                </MotionButton>
               </div>
-              <div className={`bg-white p-4 rounded-2xl shadow-[0_2px_12px_rgba(17,28,41,0.04)] border-l-4 w-full ${s.hl ? "border-[#ba1a1a]" : "border-[#0059b9]"}`}>
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="material-symbols-outlined text-[#0059b9] text-lg">{s.ic}</span>
-                  <h4 className="font-bold text-base">{s.t}</h4>
-                  {s.hl && <span className="px-2 py-0.5 bg-[#ffdad6] text-[#ba1a1a] text-[10px] font-bold rounded-full animate-pulse">⏱ 60초</span>}
-                </div>
-                <p className="text-[#414754] text-sm">{s.d}</p>
-                <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${s.rc}`}>{s.role}</span>
+            </Reveal>
+
+            {/* Stats */}
+            <Reveal delay={0.8}>
+              <div className="flex flex-wrap gap-8">
+                {copy.hero.stats.map((stat) => (
+                  <div key={stat.label} className="text-center">
+                    <div className="flex items-baseline gap-0.5">
+                      <span className="text-3xl md:text-4xl font-black text-[#FAFAFA] tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+                        <CountUp target={parseInt(stat.value)} />
+                      </span>
+                      <span className="text-lg font-bold text-[#FF6B1A]">{stat.unit}</span>
+                    </div>
+                    <span className="text-xs text-[#6B7280] font-medium">{stat.label}</span>
+                  </div>
+                ))}
               </div>
-            </div>
-          ))}
+            </Reveal>
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+          <span className="text-[10px] text-[#6B7280] uppercase tracking-widest">Scroll</span>
+          <div className="w-px h-8 bg-gradient-to-b from-[#6B7280] to-transparent" />
         </div>
       </section>
 
-      {/* ── 수수료 ── */}
-      <section className="py-12 px-6 max-w-5xl mx-auto">
-        <div className="bg-[#0059b9] p-8 md:p-12 rounded-[2rem] text-center text-white overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-6 opacity-10">
-            <span className="material-symbols-outlined text-[8rem]">account_balance_wallet</span>
-          </div>
-          <div className="relative">
-            <h2 className="text-2xl md:text-3xl font-[800] mb-2">투명한 15% 수수료 분배</h2>
-            <p className="text-white/60 text-sm mb-8">예시: 크레인 50T 1일 임대비 1,000,000원 기준</p>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              {[
-                { p: "5%", l: "본사", a: "50,000원" }, { p: "2.5%", l: "영업", a: "25,000원" },
-                { p: "2.5%", l: "콜센터", a: "25,000원" }, { p: "5%", l: "건설사 적립", a: "50,000원" },
-              ].map(c => (
-                <div key={c.l} className="bg-white/10 backdrop-blur-md p-4 rounded-2xl border border-white/20">
-                  <div className="text-3xl font-black">{c.p}</div>
-                  <div className="text-white/70 text-sm font-bold">{c.l}</div>
-                  <div className="text-white/50 text-xs mt-1 tabular-nums">{c.a}</div>
+      {/* ═══ 2. EQUIPMENT BAR ═══ */}
+      <section className="py-16 border-t border-b border-[#3A3D45]/30">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-center text-sm text-[#6B7280] font-medium mb-6 uppercase tracking-widest">지원 장비 8종</p>
+          </Reveal>
+          <StaggerContainer className="flex flex-wrap justify-center gap-6 md:gap-10">
+            {EQUIPMENT_ICONS.map(({ name, Icon }) => (
+              <StaggerItem key={name} className="flex flex-col items-center gap-2 group">
+                <div className="w-12 h-12 flex items-center justify-center rounded-xl bg-[#1A1A20] border border-[#3A3D45]/60 group-hover:border-[#FF6B1A]/40 transition-colors text-[#9CA3AF] group-hover:text-[#FF6B1A]">
+                  <Icon size={28} />
                 </div>
+                <span className="text-xs text-[#6B7280] group-hover:text-[#9CA3AF] transition-colors font-medium">{name}</span>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ═══ 3. PROBLEM STATEMENT ═══ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Problem</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>{copy.problems.title}</h2>
+            <p className="text-lg text-[#6B7280] mb-12 max-w-xl">{copy.problems.subtitle}</p>
+          </Reveal>
+
+          <StaggerContainer className="grid md:grid-cols-3 gap-6">
+            {copy.problems.items.map((item) => (
+              <StaggerItem key={item.title}>
+                <MotionCard className="p-6 h-full">
+                  <div className="w-10 h-10 bg-[#FF6B1A1A] rounded-xl flex items-center justify-center mb-4">
+                    <span className="material-symbols-outlined text-[#FF6B1A]" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-[#FAFAFA] mb-2">{item.title}</h3>
+                  <p className="text-sm text-[#6B7280] leading-relaxed mb-4">{item.description}</p>
+                  <div className="pt-4 border-t border-[#3A3D45]/40">
+                    <span className="text-2xl font-black text-[#FF6B1A] tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{item.stat}</span>
+                    <span className="text-xs text-[#6B7280] ml-2">{item.statLabel}</span>
+                  </div>
+                </MotionCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ═══ 4. SOLUTION (3단계 배차) ═══ */}
+      <section className="py-24 md:py-32 bg-[#121216]">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Solution</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>{copy.solution.title}</h2>
+            <p className="text-lg text-[#6B7280] mb-16 max-w-xl">{copy.solution.subtitle}</p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            {copy.solution.steps.map((step, i) => (
+              <Reveal key={step.number} delay={i * 0.15}>
+                <div className="relative">
+                  {/* Step number */}
+                  <span className="text-7xl font-black text-[#242428] absolute -top-6 -left-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>{step.number}</span>
+                  <div className="relative z-10 pt-8">
+                    <div className="flex items-center gap-3 mb-3">
+                      <h3 className="text-2xl font-bold text-[#FAFAFA]">{step.title}</h3>
+                      <span className="px-2 py-0.5 bg-[#FF6B1A1A] text-[#FF6B1A] text-xs font-bold rounded-full">{step.duration}</span>
+                    </div>
+                    <p className="text-base text-[#9CA3AF] mb-3">{step.description}</p>
+                    <p className="text-sm text-[#6B7280] font-mono">{step.detail}</p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Flow arrow */}
+          <Reveal delay={0.5}>
+            <div className="flex justify-center mt-12">
+              <Link href="/demo/simulation" className="inline-flex items-center gap-2 px-6 py-3 bg-[#242428] hover:bg-[#3A3D45] rounded-xl text-sm font-bold text-[#FAFAFA] transition-colors">
+                <span className="material-symbols-outlined text-[#FF6B1A]" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                E2E 시뮬레이션으로 전체 플로우 체험
+              </Link>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ 5. ROLES ═══ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Roles</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>{copy.roles.title}</h2>
+            <p className="text-lg text-[#6B7280] mb-12 max-w-xl">{copy.roles.subtitle}</p>
+          </Reveal>
+
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {copy.roles.items.map((role) => (
+              <StaggerItem key={role.id}>
+                <Link href={`/demo/${role.id}`}>
+                  <MotionCard className="p-5 h-full group">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <h3 className="text-lg font-bold text-[#FAFAFA]">{role.title}</h3>
+                        <p className="text-sm text-[#6B7280]">{role.subtitle}</p>
+                      </div>
+                      <span className="text-xs px-2 py-1 bg-[#242428] text-[#6B7280] rounded-lg font-mono">{role.device}</span>
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {role.features.map((f) => (
+                        <span key={f} className="text-[11px] px-2 py-0.5 bg-[#242428] text-[#9CA3AF] rounded-md font-medium">{f}</span>
+                      ))}
+                    </div>
+                    <span className="text-sm text-[#FF6B1A] font-semibold group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                      체험하기 <span className="material-symbols-outlined text-sm">arrow_forward</span>
+                    </span>
+                  </MotionCard>
+                </Link>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ═══ 6. COMMISSION ═══ */}
+      <section className="py-24 md:py-32 bg-[#121216]">
+        <div className="max-w-[960px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Revenue</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>{copy.commission.title}</h2>
+            <p className="text-lg text-[#6B7280] mb-4">{copy.commission.subtitle}</p>
+            <p className="text-sm text-[#6B7280] mb-12">
+              예시: {copy.commission.example.equipment} {copy.commission.example.duration} 임대비{" "}
+              <span className="text-[#FAFAFA] font-bold tabular-nums">{formatPrice(copy.commission.example.price)}원</span> 기준
+            </p>
+          </Reveal>
+
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            {copy.commission.breakdown.map((item) => (
+              <StaggerItem key={item.label}>
+                <MotionCard className="p-5 text-center">
+                  <p className="text-3xl font-black tabular-nums" style={{ color: item.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                    {item.percent}
+                  </p>
+                  <p className="text-sm font-bold text-[#FAFAFA] mt-1">{item.label}</p>
+                  <p className="text-xs text-[#6B7280] tabular-nums mt-0.5">{formatPrice(item.amount)}원</p>
+                </MotionCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+
+          <Reveal>
+            <div className="bg-[#EF44441A] border border-[#EF444440] rounded-xl p-4 flex items-center gap-3">
+              <span className="material-symbols-outlined text-[#EF4444]" style={{ fontVariationSettings: "'FILL' 1" }}>warning</span>
+              <div>
+                <p className="text-sm font-bold text-[#FAFAFA]">취소 페널티: {copy.commission.cancelPenalty.rate}</p>
+                <p className="text-xs text-[#6B7280]">{copy.commission.cancelPenalty.description}</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ 7. TECH ═══ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Technology</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>{copy.tech.title}</h2>
+            <p className="text-lg text-[#6B7280] mb-12 max-w-xl">{copy.tech.subtitle}</p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-12 mb-16">
+            {/* Stack */}
+            <StaggerContainer className="space-y-3">
+              {copy.tech.stack.map((item) => (
+                <StaggerItem key={item.name}>
+                  <div className="flex items-center gap-4 p-3 rounded-xl bg-[#1A1A20] border border-[#3A3D45]/40">
+                    <span className="text-xs font-mono text-[#FF6B1A] bg-[#FF6B1A15] px-2 py-1 rounded-md w-20 text-center flex-shrink-0">{item.category}</span>
+                    <div>
+                      <p className="text-sm font-bold text-[#FAFAFA]">{item.name}</p>
+                      <p className="text-xs text-[#6B7280]">{item.description}</p>
+                    </div>
+                  </div>
+                </StaggerItem>
               ))}
+            </StaggerContainer>
+
+            {/* Security */}
+            <StaggerContainer className="space-y-3">
+              {copy.tech.security.map((item) => (
+                <StaggerItem key={item.title}>
+                  <div className="flex items-start gap-3 p-3 rounded-xl bg-[#1A1A20] border border-[#3A3D45]/40">
+                    <span className="material-symbols-outlined text-[#10B981] mt-0.5" style={{ fontVariationSettings: "'FILL' 1" }}>{item.icon}</span>
+                    <div>
+                      <p className="text-sm font-bold text-[#FAFAFA]">{item.title}</p>
+                      <p className="text-xs text-[#6B7280]">{item.description}</p>
+                    </div>
+                  </div>
+                </StaggerItem>
+              ))}
+            </StaggerContainer>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 8. PRICING ═══ */}
+      <section className="py-24 md:py-32 bg-[#121216]">
+        <div className="max-w-[960px] mx-auto px-6 text-center">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Pricing</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-4" style={{ letterSpacing: "-0.03em" }}>{copy.pricing.title}</h2>
+            <p className="text-6xl md:text-7xl font-black text-[#FF6B1A] mb-2 tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
+              {copy.pricing.price}
+            </p>
+            <p className="text-sm text-[#6B7280] mb-12">{copy.pricing.priceNote}</p>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 gap-8 text-left">
+            <Reveal delay={0.1}>
+              <MotionCard className="p-6">
+                <h3 className="text-lg font-bold text-[#FAFAFA] mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#10B981]" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+                  포함 사항
+                </h3>
+                <ul className="space-y-2.5">
+                  {copy.pricing.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-[#9CA3AF]">
+                      <span className="material-symbols-outlined text-sm text-[#10B981] mt-0.5">check</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </MotionCard>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <MotionCard className="p-6">
+                <h3 className="text-lg font-bold text-[#FAFAFA] mb-4 flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#FFA523]" style={{ fontVariationSettings: "'FILL' 1" }}>schedule</span>
+                  2단계 (별도 견적)
+                </h3>
+                <ul className="space-y-2.5">
+                  {copy.pricing.notIncluded.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-sm text-[#6B7280]">
+                      <span className="material-symbols-outlined text-sm text-[#6B7280] mt-0.5">arrow_forward</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </MotionCard>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ 9. FAQ ═══ */}
+      <section className="py-24 md:py-32">
+        <div className="max-w-[960px] mx-auto px-6">
+          <Reveal>
+            <h2 className="text-3xl md:text-4xl font-[900] text-[#FAFAFA] mb-12" style={{ letterSpacing: "-0.03em" }}>{copy.faq.title}</h2>
+          </Reveal>
+
+          <StaggerContainer className="space-y-3">
+            {copy.faq.items.map((item) => (
+              <StaggerItem key={item.q}>
+                <details className="group bg-[#1A1A20] border border-[#3A3D45]/40 rounded-xl overflow-hidden">
+                  <summary className="flex items-center justify-between p-5 cursor-pointer select-none">
+                    <span className="text-base font-semibold text-[#FAFAFA] pr-4">{item.q}</span>
+                    <span className="material-symbols-outlined text-[#6B7280] group-open:rotate-180 transition-transform flex-shrink-0">expand_more</span>
+                  </summary>
+                  <div className="px-5 pb-5 text-sm text-[#9CA3AF] leading-relaxed border-t border-[#3A3D45]/30 pt-4">
+                    {item.a}
+                  </div>
+                </details>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ═══ 10. FINAL CTA + FOOTER ═══ */}
+      <section className="py-24 md:py-32 bg-[#121216]">
+        <div className="max-w-[960px] mx-auto px-6 text-center">
+          <Reveal>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-4" style={{ letterSpacing: "-0.03em" }}>
+              직접 체험하고 판단하세요
+            </h2>
+            <p className="text-lg text-[#6B7280] mb-10">
+              로그인 없이 6개 역할, 3가지 시나리오를 즉시 확인할 수 있습니다.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <Link href="/demo">
+                <MotionButton variant="primary" className="px-10 py-5 text-lg">
+                  무료 데모 체험
+                </MotionButton>
+              </Link>
+              <Link href="/demo/simulation">
+                <MotionButton variant="secondary" className="px-10 py-5 text-lg">
+                  E2E 시뮬레이션
+                </MotionButton>
+              </Link>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── 기술 스택 + CTA ── */}
-      <section className="py-12 px-6 max-w-4xl mx-auto text-center">
-        <h2 className="text-xl font-bold mb-5">신뢰할 수 있는 기술력</h2>
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
-          {["Next.js 16","TypeScript","Tailwind CSS","Supabase","PostgreSQL","Realtime","PWA","Vercel","Naver Cloud SMS"].map(t => (
-            <span key={t} className="px-3 py-1.5 bg-[#dee9fb] rounded-lg text-sm font-semibold">{t}</span>
-          ))}
-        </div>
-        <div className="bg-[#dee9fb] p-8 rounded-2xl">
-          <p className="text-[#0059b9] font-extrabold text-xl mb-5">로그인 없이 6개 화면을 바로 체험해보세요</p>
-          <Link href="/demo" className="inline-block px-8 py-4 bg-[#0059b9] text-white font-bold rounded-xl shadow-lg hover:scale-[1.02] transition-transform active:scale-95">
-            무료 체험 시작하기
-          </Link>
-        </div>
-      </section>
-
-      {/* ── Footer ── */}
-      <footer className="bg-[#26313f] text-[#eaf1ff] w-full py-10">
-        <div className="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between gap-6">
-          <div>
-            <div className="text-lg font-black mb-2">Heavy Match</div>
-            <p className="text-[#acc7ff]/70 text-sm mb-1">개발사: <b className="text-[#acc7ff]">BYTEFORCE (바이트포스)</b></p>
-            <p className="text-[#acc7ff]/50 text-xs">© 2026 BYTEFORCE. All rights reserved.</p>
+      {/* Footer */}
+      <footer className="border-t border-[#3A3D45]/30 py-12">
+        <div className="max-w-[1280px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo/hm-monogram.svg" alt="HM" className="w-7 h-7" />
+            <span className="text-sm font-bold text-[#6B7280]">{copy.footer.company}</span>
           </div>
-          <div className="grid grid-cols-2 gap-4 text-sm text-[#acc7ff]/60">
-            <div className="space-y-2"><span className="block">이용약관</span><span className="block">개인정보처리방침</span></div>
-            <div className="space-y-2"><span className="block">고객센터</span><span className="block">인재채용</span></div>
+          <div className="flex gap-6">
+            {copy.footer.links.map((link) => (
+              <a key={link.label} href={link.href} className="text-xs text-[#6B7280] hover:text-[#9CA3AF] transition-colors">{link.label}</a>
+            ))}
           </div>
+          <p className="text-xs text-[#3A3D45]">{copy.footer.copyright}</p>
         </div>
       </footer>
     </main>
