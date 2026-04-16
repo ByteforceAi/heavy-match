@@ -18,25 +18,20 @@ export default function SignatureCanvas({ onSave, width = 600, height = 200 }: P
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-
-    // 모바일 고해상도 대응 (레티나)
     const dpr = window.devicePixelRatio || 1;
     canvas.width = width * dpr;
     canvas.height = height * dpr;
     ctx.scale(dpr, dpr);
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
-
-    ctx.lineWidth = 3; // 두꺼운 선 (모바일에서 잘 보이게)
+    ctx.lineWidth = 3;
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
-    ctx.strokeStyle = "#1E293B";
+    ctx.strokeStyle = "#111c29";
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, width, height);
-
-    // 안내 텍스트
-    ctx.fillStyle = "#CBD5E1";
-    ctx.font = "16px Pretendard, sans-serif";
+    ctx.fillStyle = "#c1c6d6";
+    ctx.font = "16px Inter, Pretendard, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("여기에 서명해주세요", width / 2, height / 2);
   }, [width, height]);
@@ -44,32 +39,22 @@ export default function SignatureCanvas({ onSave, width = 600, height = 200 }: P
   const getPos = (e: React.TouchEvent | React.MouseEvent) => {
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
-
     if ("touches" in e) {
       const touch = e.touches[0];
-      return {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top,
-      };
+      return { x: touch.clientX - rect.left, y: touch.clientY - rect.top };
     }
-    return {
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    };
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
   const startDraw = (e: React.TouchEvent | React.MouseEvent) => {
     e.preventDefault();
     const ctx = canvasRef.current?.getContext("2d");
     if (!ctx) return;
-
-    // 첫 터치 시 안내 텍스트 지우기
     if (isEmpty) {
       ctx.fillStyle = "#FFFFFF";
       ctx.fillRect(0, 0, width, height);
-      ctx.strokeStyle = "#1E293B";
+      ctx.strokeStyle = "#111c29";
     }
-
     const { x, y } = getPos(e);
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -99,8 +84,8 @@ export default function SignatureCanvas({ onSave, width = 600, height = 200 }: P
     if (!ctx) return;
     ctx.fillStyle = "#FFFFFF";
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = "#CBD5E1";
-    ctx.font = "16px Pretendard, sans-serif";
+    ctx.fillStyle = "#c1c6d6";
+    ctx.font = "16px Inter, Pretendard, sans-serif";
     ctx.textAlign = "center";
     ctx.fillText("여기에 서명해주세요", width / 2, height / 2);
     setIsEmpty(true);
@@ -114,7 +99,7 @@ export default function SignatureCanvas({ onSave, width = 600, height = 200 }: P
 
   return (
     <div className="space-y-3">
-      <div className="border-2 border-dashed border-primary/30 rounded-2xl overflow-hidden bg-white">
+      <div className="border-2 border-dashed border-[#0059b9]/20 rounded-2xl overflow-hidden bg-white">
         <canvas
           ref={canvasRef}
           className="w-full touch-none cursor-crosshair"
@@ -129,18 +114,13 @@ export default function SignatureCanvas({ onSave, width = 600, height = 200 }: P
         />
       </div>
       <div className="flex gap-3">
-        <button
-          onClick={clear}
-          className="flex-1 py-3 text-base font-medium border-2 border-border rounded-xl hover:bg-gray-50 active:bg-gray-100 transition touch-active"
-        >
-          🗑️ 지우기
+        <button onClick={clear}
+          className="flex-1 py-3 text-base font-semibold border-2 border-[#c1c6d6]/50 rounded-xl hover:bg-[#eef4ff] active:scale-95 transition-all flex items-center justify-center gap-1">
+          <span className="material-symbols-outlined text-lg">delete</span>지우기
         </button>
-        <button
-          onClick={save}
-          disabled={isEmpty}
-          className="flex-1 py-3 text-base font-bold bg-primary text-white rounded-xl hover:bg-primary-light active:bg-blue-800 transition disabled:opacity-40 touch-active"
-        >
-          ✅ 서명 저장
+        <button onClick={save} disabled={isEmpty}
+          className="flex-1 py-3 text-base font-bold bg-[#0059b9] text-white rounded-xl hover:bg-[#1071e5] active:scale-95 transition-all disabled:opacity-40 flex items-center justify-center gap-1">
+          <span className="material-symbols-outlined text-lg">check_circle</span>서명 저장
         </button>
       </div>
     </div>

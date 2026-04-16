@@ -31,11 +31,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const icons = { success: "✅", error: "❌", info: "ℹ️" };
+  const iconNames = { success: "check_circle", error: "error", info: "info" };
   const colors = {
-    success: "bg-success text-white",
-    error: "bg-danger text-white",
-    info: "bg-primary text-white",
+    success: "bg-emerald-600 text-white",
+    error: "bg-[#ba1a1a] text-white",
+    info: "bg-[#0059b9] text-white",
   };
 
   return (
@@ -45,9 +45,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map((toast) => (
           <div
             key={toast.id}
-            className={`flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg text-base font-medium animate-[slideIn_0.3s_ease-out] ${colors[toast.type]}`}
+            className={`flex items-center gap-2 px-5 py-3.5 rounded-2xl shadow-2xl text-sm font-bold animate-[slideIn_0.3s_ease-out] ${colors[toast.type]}`}
           >
-            <span>{icons[toast.type]}</span>
+            <span className="material-symbols-outlined text-lg" style={{ fontVariationSettings: "'FILL' 1" }}>{iconNames[toast.type]}</span>
             {toast.message}
           </div>
         ))}
