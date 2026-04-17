@@ -1275,6 +1275,87 @@ const ALL_SCENARIOS = {
 
 type ScenarioKey = keyof typeof ALL_SCENARIOS;
 
+// ═════ 시나리오 시작 버튼 (Initializing 연출) ═════
+function ScenarioStartButton({
+  scenarioKey, config, onStart,
+}: {
+  scenarioKey: ScenarioKey;
+  config: typeof ALL_SCENARIOS[ScenarioKey];
+  onStart: () => void;
+}) {
+  const [starting, setStarting] = useState(false);
+  const [stage, setStage] = useState<"idle" | "init" | "connect" | "ready">("idle");
+
+  const handleClick = async () => {
+    if (starting) return;
+    setStarting(true);
+
+    setStage("init");
+    await new Promise((r) => setTimeout(r, 400)); // Supabase 연결
+
+    setStage("connect");
+    await new Promise((r) => setTimeout(r, 500)); // Realtime 구독
+
+    setStage("ready");
+    await new Promise((r) => setTimeout(r, 300)); // Ready signal
+
+    onStart();
+  };
+
+  const stageLabel = {
+    idle: null,
+    init: "Supabase 연결 중...",
+    connect: "Realtime 구독...",
+    ready: "시작!",
+  };
+
+  return (
+    <motion.button
+      onClick={handleClick}
+      disabled={starting}
+      whileHover={starting ? {} : { scale: 1.01 }}
+      whileTap={starting ? {} : { scale: 0.98 }}
+      transition={{ type: "spring", stiffness: 400, damping: 25 }}
+      className={`w-full py-4 bg-gradient-to-br ${config.color} text-white font-bold rounded-xl shadow-lg transition-all flex items-center justify-center gap-3 relative overflow-hidden disabled:cursor-wait`}
+    >
+      {starting && (
+        <motion.div
+          className="absolute inset-0 bg-white/10"
+          initial={{ width: "0%" }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 1.2, ease: "linear" }}
+        />
+      )}
+
+      {!starting ? (
+        <>
+          <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{config.icon}</span>
+          <div className="text-left relative z-10">
+            <p className="text-base font-[800]">{config.label} ({config.count}단계)</p>
+            <p className="text-[11px] opacity-80">{config.desc}</p>
+          </div>
+        </>
+      ) : (
+        <>
+          <motion.span
+            animate={{ rotate: 360 }}
+            transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+            className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full relative z-10"
+          />
+          <motion.span
+            key={stage}
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-sm font-bold relative z-10 font-mono"
+          >
+            {stageLabel[stage]}
+          </motion.span>
+        </>
+      )}
+    </motion.button>
+  );
+}
+
 // ═════ 메인 컴포넌트 ═════
 export default function SimulationPage() {
   const [scenario, setScenario] = useState<ScenarioKey | null>(null);
@@ -1437,23 +1518,41 @@ export default function SimulationPage() {
             <div className="w-full space-y-3">
               <p className="text-center text-sm text-[#8899b3] font-medium mb-2">시나리오를 선택하세요</p>
               {(Object.entries(ALL_SCENARIOS) as [ScenarioKey, typeof ALL_SCENARIOS[ScenarioKey]][]).map(([key, sc]) => (
-                <button key={key} onClick={() => start(key)}
-                  className={`w-full py-4 bg-gradient-to-br ${sc.color} text-white font-bold rounded-xl shadow-lg active:scale-95 transition-all flex items-center justify-center gap-3`}>
-                  <span className="material-symbols-outlined text-xl" style={{ fontVariationSettings: "'FILL' 1" }}>{sc.icon}</span>
-                  <div className="text-left">
-                    <p className="text-base font-[800]">{sc.label} ({sc.count}단계)</p>
-                    <p className="text-[11px] opacity-80">{sc.desc}</p>
-                  </div>
-                </button>
+                <ScenarioStartButton
+                  key={key}
+                  scenarioKey={key}
+                  config={sc}
+                  onStart={() => start(key)}
+                />
               ))}
             </div>
           ) : isComplete ? (
-            <>
-              <button onClick={reset} className="flex-1 py-3 bg-white/10 text-white font-bold rounded-xl active:scale-95">다시 하기</button>
-              <Link href="/demo" className="flex-1 py-3 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 text-center flex items-center justify-center gap-1">
-                역할별 체험 <span className="material-symbols-outlined text-lg">arrow_forward</span>
-              </Link>
-            </>
+            <div className="w-full space-y-2">
+              <div className="flex gap-3">
+                <button onClick={reset} className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl active:scale-95 transition-colors flex items-center justify-center gap-1">
+                  <span className="material-symbols-outlined text-lg">refresh</span>
+                  다른 시나리오
+                </button>
+                <Link href="/demo" className="flex-1 py-3 bg-[#FF6B1A] hover:bg-[#FF8A4C] text-white font-bold rounded-xl active:scale-95 transition-colors text-center flex items-center justify-center gap-1">
+                  역할별 체험 <span className="material-symbols-outlined text-lg">arrow_forward</span>
+                </Link>
+              </div>
+              {/* 다른 시나리오 빠른 전환 */}
+              <div className="flex gap-1.5 justify-center pt-2">
+                {(Object.entries(ALL_SCENARIOS) as [ScenarioKey, typeof ALL_SCENARIOS[ScenarioKey]][])
+                  .filter(([k]) => k !== scenario)
+                  .map(([k, sc]) => (
+                    <button
+                      key={k}
+                      onClick={() => { reset(); setTimeout(() => start(k), 300); }}
+                      className="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white font-bold rounded-lg text-xs transition-colors flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined text-xs">{sc.icon}</span>
+                      {sc.label}
+                    </button>
+                  ))}
+              </div>
+            </div>
           ) : (
             <>
               <button onClick={() => setRunning(!running)} className="flex-1 py-3 bg-white/10 text-white font-bold rounded-xl active:scale-95 flex items-center justify-center gap-1">
