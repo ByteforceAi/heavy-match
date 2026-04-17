@@ -8,6 +8,7 @@ import {
   TypedLog, NetworkActivityBar, SMSSendingIndicator,
   DBWriteIndicator, RealtimeIndicator, StatusTransition, SystemClock, ProcessingPulse,
 } from "@/components/motion/NativeFeel";
+import { CountUp } from "@/components/motion/MotionPrimitives";
 
 /** System Log 문자열을 TypedLog 형식으로 파싱 — 화살표(→) 단위로 분할 */
 function parseSystemLog(log: string): { text: string; color?: string; delay?: number }[] {
@@ -1468,43 +1469,207 @@ export default function SimulationPage() {
 
         {/* ── Completion Summary (시나리오별 차별화) ── */}
         {isComplete && scenario === "A" && (
-          <div className="mt-8 bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6 text-center animate-fade-in">
-            <span className="material-symbols-outlined text-5xl text-emerald-400 block mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>celebration</span>
-            <h3 className="text-xl font-[800] text-white">배차 완료!</h3>
-            <p className="text-sm text-[#8899b3] mt-1 mb-4">전용콜 → 즉시 수락 → 기사 배정 → 작업 완료</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-white tabular-nums">{formatPrice(SCENARIO.price)}원</p><p className="text-[10px] text-[#8899b3]">임대비</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-emerald-400 tabular-nums">{formatPrice(SCENARIO.commission)}원</p><p className="text-[10px] text-[#8899b3]">총 수수료 (15%)</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-[#FF6B1A] tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">본사 수익</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-amber-400 tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">건설사 적립</p></div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="mt-8 bg-gradient-to-br from-emerald-500/10 to-transparent backdrop-blur rounded-2xl border border-emerald-500/30 p-6 md:p-8 text-center"
+          >
+            <motion.span
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 }}
+              className="material-symbols-outlined text-6xl text-emerald-400 block mb-2"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              celebration
+            </motion.span>
+            <motion.h3
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-2xl md:text-3xl font-[900] text-white"
+              style={{ letterSpacing: "-0.03em" }}
+            >
+              배차 완료!
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.55 }}
+              className="text-sm text-[#8899b3] mt-1 mb-6"
+            >
+              전용콜 → 즉시 수락 → 기사 배정 → 작업 완료 (6단계)
+            </motion.p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+              {[
+                { target: SCENARIO.price, label: "임대비", color: "text-white", delay: 0.7 },
+                { target: SCENARIO.commission, label: "총 수수료 (15%)", color: "text-emerald-400", delay: 0.9 },
+                { target: 60000, label: "본사 수익", color: "text-[#FF6B1A]", delay: 1.1 },
+                { target: 60000, label: "건설사 적립", color: "text-amber-400", delay: 1.3 },
+              ].map((item) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: item.delay, type: "spring", stiffness: 200 }}
+                  className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+                >
+                  <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                    <CountUp target={item.target} duration={1.8} />원
+                  </p>
+                  <p className="text-[10px] text-[#8899b3] mt-1">{item.label}</p>
+                </motion.div>
+              ))}
             </div>
-          </div>
+          </motion.div>
         )}
         {isComplete && scenario === "B" && (
-          <div className="mt-8 bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-6 text-center animate-fade-in">
-            <span className="material-symbols-outlined text-5xl text-amber-400 block mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>swap_horiz</span>
-            <h3 className="text-xl font-[800] text-white">에스컬레이션 후 배차 완료!</h3>
-            <p className="text-sm text-[#8899b3] mt-1 mb-2">전용콜 미수락 → 콜센터 전달 → 공유콜 → <b className="text-amber-400">선착순 매칭</b></p>
-            <p className="text-xs text-[#8899b3] mb-4">원래 사장(박중장비) 미수락 → 다른 사장(최장비)이 공유콜에서 수락</p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-white tabular-nums">{formatPrice(SCENARIO.price)}원</p><p className="text-[10px] text-[#8899b3]">임대비</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-emerald-400 tabular-nums">{formatPrice(SCENARIO.commission)}원</p><p className="text-[10px] text-[#8899b3]">총 수수료</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-[#FF6B1A] tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">본사</p></div>
-              <div className="bg-amber-500/20 rounded-xl p-3 border border-amber-500/30"><p className="text-sm font-black text-amber-400">3단계 폴백</p><p className="text-[10px] text-amber-400/70">전용→콜센터→공유</p></div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="mt-8 bg-gradient-to-br from-amber-500/10 to-transparent backdrop-blur rounded-2xl border border-amber-500/30 p-6 md:p-8 text-center"
+          >
+            <motion.span
+              initial={{ scale: 0, rotate: -90 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 }}
+              className="material-symbols-outlined text-6xl text-amber-400 block mb-2"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              swap_horiz
+            </motion.span>
+            <motion.h3
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-2xl md:text-3xl font-[900] text-white"
+              style={{ letterSpacing: "-0.03em" }}
+            >
+              에스컬레이션 후 배차 완료!
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.55 }}
+              className="text-sm text-[#8899b3] mt-2"
+            >
+              전용콜 미수락 → 콜센터 전달 → 공유콜 → <b className="text-amber-400">선착순 매칭</b>
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+              className="text-xs text-[#8899b3] mb-6"
+            >
+              원래 사장(박중장비) 미수락 → 다른 사장(최장비)이 공유콜에서 수락
+            </motion.p>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
+              {[
+                { target: SCENARIO.price, label: "임대비", color: "text-white", delay: 0.9 },
+                { target: SCENARIO.commission, label: "총 수수료", color: "text-emerald-400", delay: 1.1 },
+                { target: 60000, label: "본사", color: "text-[#FF6B1A]", delay: 1.3 },
+              ].map((item) => (
+                <motion.div
+                  key={item.label}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: item.delay, type: "spring", stiffness: 200 }}
+                  className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+                >
+                  <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                    <CountUp target={item.target} duration={1.8} />원
+                  </p>
+                  <p className="text-[10px] text-[#8899b3] mt-1">{item.label}</p>
+                </motion.div>
+              ))}
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+                className="bg-amber-500/20 rounded-xl p-3.5 border border-amber-500/30"
+              >
+                <p className="text-base font-black text-amber-400">3단계 폴백</p>
+                <p className="text-[10px] text-amber-400/70 mt-1">전용→콜센터→공유</p>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         )}
         {isComplete && scenario === "C" && (
-          <div className="mt-8 bg-[#ba1a1a]/10 backdrop-blur rounded-2xl border border-[#ba1a1a]/20 p-6 text-center animate-fade-in">
-            <span className="material-symbols-outlined text-5xl text-[#ba1a1a] block mb-2" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span>
-            <h3 className="text-xl font-[800] text-white">배차 취소 — 페널티 정산</h3>
-            <p className="text-sm text-[#8899b3] mt-1 mb-4">매칭 후 취소 시 7.5% 페널티 수수료가 발생합니다</p>
-            <div className="grid grid-cols-3 gap-2">
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-white tabular-nums">{formatPrice(SCENARIO.price)}원</p><p className="text-[10px] text-[#8899b3]">임대비</p></div>
-              <div className="bg-[#ba1a1a]/20 rounded-xl p-3 border border-[#ba1a1a]/30"><p className="text-lg font-black text-[#ba1a1a] tabular-nums">{formatPrice(90000)}원</p><p className="text-[10px] text-[#ba1a1a]/70">페널티 (7.5%)</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-emerald-400 tabular-nums">{formatPrice(90000)}원</p><p className="text-[10px] text-[#8899b3]">본사 귀속</p></div>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            className="mt-8 bg-gradient-to-br from-[#EF4444]/10 to-transparent backdrop-blur rounded-2xl border border-[#EF4444]/30 p-6 md:p-8 text-center"
+          >
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1, rotate: [0, -10, 10, 0] }}
+              transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 }}
+              className="material-symbols-outlined text-6xl text-[#EF4444] block mb-2"
+              style={{ fontVariationSettings: "'FILL' 1" }}
+            >
+              cancel
+            </motion.span>
+            <motion.h3
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="text-2xl md:text-3xl font-[900] text-white"
+              style={{ letterSpacing: "-0.03em" }}
+            >
+              배차 취소 — 페널티 정산
+            </motion.h3>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.55 }}
+              className="text-sm text-[#8899b3] mt-2 mb-6"
+            >
+              매칭 후 취소 시 <b className="text-[#EF4444]">7.5% 페널티</b>가 발생합니다
+            </motion.p>
+
+            <div className="grid grid-cols-3 gap-2.5">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
+                className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+              >
+                <p className="text-xl md:text-2xl font-black tabular-nums text-white" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                  <CountUp target={SCENARIO.price} duration={1.8} />원
+                </p>
+                <p className="text-[10px] text-[#8899b3] mt-1">임대비</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, type: "spring", stiffness: 200 }}
+                className="bg-[#EF4444]/20 rounded-xl p-3.5 border border-[#EF4444]/40"
+              >
+                <p className="text-xl md:text-2xl font-black tabular-nums text-[#EF4444]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                  <CountUp target={90000} duration={2.0} />원
+                </p>
+                <p className="text-[10px] text-[#EF4444]/70 mt-1">페널티 (7.5%)</p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1, type: "spring", stiffness: 200 }}
+                className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+              >
+                <p className="text-xl md:text-2xl font-black tabular-nums text-emerald-400" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                  <CountUp target={90000} duration={1.8} />원
+                </p>
+                <p className="text-[10px] text-[#8899b3] mt-1">본사 귀속</p>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         )}
 
         {/* ── Step Overview (mini) ── */}

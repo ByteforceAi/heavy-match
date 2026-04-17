@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { formatPrice } from "@/lib/utils";
 import CountdownTimer from "@/components/CountdownTimer";
 import BarChart from "@/components/charts/BarChart";
@@ -131,7 +132,25 @@ function OwnerDemo() {
   const [assigned, setAssigned] = useState<Set<string>>(new Set());
   const [toast, setToast] = useState<string | null>(null);
   const [assignModal, setAssignModal] = useState<string | null>(null);
+  const [processing, setProcessing] = useState<string | null>(null); // "accept-{id}" | "reject-{id}"
   const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
+
+  // 실제 서버 호출을 모사하는 delay
+  const handleAccept = async (id: string, equipName: string) => {
+    setProcessing(`accept-${id}`);
+    await new Promise(r => setTimeout(r, 800)); // "서버 처리 중..."
+    setAccepted(p => new Set(p).add(id));
+    setProcessing(null);
+    show(`${equipName} 수락! 기사를 배정해주세요`);
+  };
+
+  const handleReject = async (id: string) => {
+    setProcessing(`reject-${id}`);
+    await new Promise(r => setTimeout(r, 600));
+    setRejected(p => new Set(p).add(id));
+    setProcessing(null);
+    show("거절 → 콜센터로 전달");
+  };
 
   const exclusive = DEMO_DISPATCHES.filter(d => d.status === "exclusive_call" && !accepted.has(d.id) && !rejected.has(d.id));
   const shared = DEMO_DISPATCHES.filter(d => d.status === "shared_call" && !accepted.has(d.id));
@@ -172,13 +191,45 @@ function OwnerDemo() {
                 <span className="text-sm text-[#727785]">{c.time_units.name}</span>
               </div>
               <div className="flex gap-2 mt-4">
-                <button onClick={() => { setAccepted(p => new Set(p).add(c.id)); show(`${c.equipment_types.name} 수락! 기사를 배정해주세요`); }}
-                  className="flex-1 py-3.5 bg-[#0059b9] text-white font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1">
-                  <span className="material-symbols-outlined text-lg">check_circle</span>수락
+                <button
+                  onClick={() => handleAccept(c.id, c.equipment_types.name)}
+                  disabled={processing !== null}
+                  className="flex-1 py-3.5 bg-[#0059b9] text-white font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1 disabled:bg-[#6B7280] disabled:cursor-wait relative overflow-hidden"
+                >
+                  {processing === `accept-${c.id}` ? (
+                    <>
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                        className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                      />
+                      처리중...
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-lg">check_circle</span>수락
+                    </>
+                  )}
                 </button>
-                <button onClick={() => { setRejected(p => new Set(p).add(c.id)); show("거절 → 콜센터로 전달"); }}
-                  className="flex-1 py-3.5 bg-[#ffdad6] text-[#ba1a1a] font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1">
-                  <span className="material-symbols-outlined text-lg">cancel</span>거절
+                <button
+                  onClick={() => handleReject(c.id)}
+                  disabled={processing !== null}
+                  className="flex-1 py-3.5 bg-[#ffdad6] text-[#ba1a1a] font-bold rounded-xl text-base active:scale-95 transition-all flex items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-wait"
+                >
+                  {processing === `reject-${c.id}` ? (
+                    <>
+                      <motion.span
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                        className="inline-block w-4 h-4 border-2 border-[#ba1a1a]/30 border-t-[#ba1a1a] rounded-full"
+                      />
+                      처리중...
+                    </>
+                  ) : (
+                    <>
+                      <span className="material-symbols-outlined text-lg">cancel</span>거절
+                    </>
+                  )}
                 </button>
               </div>
             </Md3Card>
