@@ -3,6 +3,24 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
+import {
+  TypedLog, NetworkActivityBar, PhaseIndicator, SMSSendingIndicator,
+  DBWriteIndicator, RealtimeIndicator, StatusTransition, SystemClock, ProcessingPulse,
+} from "@/components/motion/NativeFeel";
+
+/** System Log 문자열을 TypedLog 형식으로 파싱 — 화살표(→) 단위로 분할 */
+function parseSystemLog(log: string): { text: string; color?: string; delay?: number }[] {
+  const parts = log.split("→").map((p) => p.trim()).filter(Boolean);
+  return parts.map((text, i) => ({
+    text,
+    // POST/GET은 주황, UPDATE/INSERT는 파랑, 나머지는 초록
+    color: /^(POST|GET|DELETE|PUT)/i.test(text) ? "#FFA523"
+         : /^(UPDATE|INSERT|SELECT|UPSERT)/i.test(text) ? "#3B82F6"
+         : /SMS/i.test(text) ? "#FF6B1A"
+         : "#10B981",
+    delay: i === 0 ? 100 : 300,  // 각 줄 사이 300ms 지연
+  }));
+}
 
 // ═════ 시나리오 데이터 ═════
 const SCENARIO = {
@@ -500,13 +518,26 @@ export default function SimulationPage() {
 
   const currentSteps = scenario ? ALL_SCENARIOS[scenario].steps : [];
 
-  // 자동 진행
+  const [networkActive, setNetworkActive] = useState(false);
+
+  // 자동 진행 — 각 스텝 전후에 "네트워크 작업 중" 지연을 삽입
   useEffect(() => {
     if (!running || step >= currentSteps.length - 1) { if (step >= currentSteps.length - 1) setRunning(false); return; }
     const nextStep = currentSteps[step + 1];
-    const delay = nextStep?.timer ? nextStep.timer * 1000 + 1500 : 3000;
-    const t = setTimeout(() => setStep(s => s + 1), delay);
-    return () => clearTimeout(t);
+
+    // 타이머가 있는 스텝은 타이머 + 처리시간, 없으면 기본 처리시간
+    const delay = nextStep?.timer ? nextStep.timer * 1000 + 1500 : 3500;
+
+    // 진행 전 네트워크 활동 바 활성화 (1.2초)
+    const networkTimeout = setTimeout(() => setNetworkActive(true), delay - 1200);
+    const doneTimeout = setTimeout(() => setNetworkActive(false), delay - 100);
+    const stepTimeout = setTimeout(() => setStep(s => s + 1), delay);
+
+    return () => {
+      clearTimeout(networkTimeout);
+      clearTimeout(doneTimeout);
+      clearTimeout(stepTimeout);
+    };
   }, [running, step, currentSteps]);
 
   // 타이머 카운트다운
@@ -526,6 +557,9 @@ export default function SimulationPage() {
 
   return (
     <main className="min-h-screen bg-[#0A0A0B]" style={{ fontFamily: "'Inter','Pretendard',sans-serif", letterSpacing: "-0.02em" }}>
+      {/* Top network activity indicator (iOS-style) */}
+      <NetworkActivityBar active={networkActive} />
+
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-[#0A0A0B]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex justify-between items-center max-w-6xl mx-auto px-4 md:px-6 h-14">
@@ -533,10 +567,14 @@ export default function SimulationPage() {
             <span className="material-symbols-outlined text-[#FF6B1A]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
             <span className="font-black text-white tracking-tight">Heavy Match</span>
           </Link>
-          <span className="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold flex items-center gap-1">
-            <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-            E2E 시뮬레이션
-          </span>
+          <div className="flex items-center gap-3">
+            <RealtimeIndicator />
+            {running && !isComplete && <ProcessingPulse label="Running" />}
+            <span className="px-3 py-1 bg-[#FF6B1A]/20 text-[#FF6B1A] rounded-full text-xs font-bold flex items-center gap-1">
+              <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+              E2E 시뮬레이션
+            </span>
+          </div>
         </div>
       </nav>
 
@@ -601,15 +639,29 @@ export default function SimulationPage() {
           </div>
         )}
 
-        {/* ── System Log ── */}
+        {/* ── System Log with Typed effect ── */}
         {current && (
-          <div className="bg-[#1A1A20] rounded-xl border border-[#3A3D45]/30 p-3 mb-6 animate-fade-in font-mono text-[11px]">
-            <div className="flex items-center gap-1.5 mb-1">
-              <span className="material-symbols-outlined text-amber-400 text-xs">terminal</span>
-              <span className="text-amber-400 font-bold text-[10px]">SYSTEM LOG</span>
-              <span className="text-white/20 text-[10px]">Step {step + 1}/{currentSteps.length}</span>
+          <div className="bg-[#111] rounded-xl border border-[#3A3D45]/40 p-4 mb-6 animate-fade-in">
+            <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#3A3D45]/30">
+              <div className="flex items-center gap-2">
+                <div className="flex gap-1">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#FFA523]/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]/60" />
+                </div>
+                <span className="text-[10px] text-[#6B7280] font-mono ml-2">heavy-match@server:~$</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <RealtimeIndicator />
+                <SystemClock />
+                <span className="text-[10px] text-[#6B7280] font-mono">Step {step + 1}/{currentSteps.length}</span>
+              </div>
             </div>
-            <p className="text-emerald-400">{current.systemLog}</p>
+            <TypedLog
+              key={`log-${step}`}
+              lines={parseSystemLog(current.systemLog)}
+              speed={16}
+            />
           </div>
         )}
 
