@@ -2,9 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { formatPrice } from "@/lib/utils";
 import {
-  TypedLog, NetworkActivityBar, PhaseIndicator, SMSSendingIndicator,
+  TypedLog, NetworkActivityBar, SMSSendingIndicator,
   DBWriteIndicator, RealtimeIndicator, StatusTransition, SystemClock, ProcessingPulse,
 } from "@/components/motion/NativeFeel";
 
@@ -97,103 +98,212 @@ const STEPS: Step[] = [
   },
   {
     id: 1, label: "전용콜 (60초)", timer: 10,
-    leftRole: "시스템", leftIcon: "sms", leftTitle: "SMS 발송",
+    leftRole: "시스템", leftIcon: "sms", leftTitle: "Naver Cloud SMS API",
     leftContent: (
-      <div className="space-y-1.5">
-        <div className="bg-[#111c29] text-white rounded-lg p-2 text-[10px]">
-          <p className="text-[#8899b3] text-[9px]">수신: 박중장비 사장 (010-9876-****)</p>
-          <p className="mt-1 leading-relaxed">[Heavy Match] 크레인 50T 요청<br />현장: 코엑스 신축현장<br />금액: 1,200,000원<br />확인: heavy-match.kr/call/...</p>
-        </div>
-        <div className="text-center text-[10px] text-[#727785]">sms_logs INSERT · token: a8Kf...</div>
-      </div>
+      <SMSSendingIndicator
+        recipient="박중장비 (010-9876-****)"
+        message={`[Heavy Match] 크레인 50T 요청\n현장: 코엑스 신축현장\n금액: 1,200,000원\n확인: heavy-match.kr/call/...`}
+        duration={1800}
+      />
     ),
-    rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "콜 수신",
+    rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "콜 수신 (Realtime)",
     rightContent: (
-      <div className="space-y-1.5">
-        <MiniCard glow>
-          <div className="flex items-center justify-between mb-1">
-            <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
-            <MiniBadge label="전용콜" color="bg-[#d7e2ff] text-[#004491]" />
-          </div>
-          <p className="text-[9px] text-[#414754]">코엑스 신축현장</p>
-          <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
-          <div className="flex gap-1 mt-1.5">
-            <div className="flex-1 py-1 bg-emerald-500 text-white text-center rounded text-[10px] font-bold">수락</div>
-            <div className="flex-1 py-1 bg-[#ba1a1a] text-white text-center rounded text-[10px] font-bold">거절</div>
-          </div>
-        </MiniCard>
+      <div className="space-y-2">
+        {/* Realtime 수신 시뮬레이션 */}
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ delay: 1.9, type: "spring", stiffness: 300, damping: 18 }}
+        >
+          <MiniCard glow>
+            <div className="flex items-center justify-between mb-1">
+              <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
+              <motion.span
+                animate={{ scale: [1, 1.08, 1] }}
+                transition={{ duration: 1, repeat: Infinity }}
+              >
+                <MiniBadge label="전용콜 ● NEW" color="bg-[#d7e2ff] text-[#004491]" />
+              </motion.span>
+            </div>
+            <p className="text-[9px] text-[#414754]">코엑스 신축현장</p>
+            <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+            <div className="flex gap-1 mt-1.5">
+              <motion.div
+                className="flex-1 py-1 bg-emerald-500 text-white text-center rounded text-[10px] font-bold"
+                whileHover={{ scale: 1.02 }}
+                animate={{ boxShadow: ["0 0 0 0 rgba(16,185,129,0.4)", "0 0 0 6px rgba(16,185,129,0)", "0 0 0 0 rgba(16,185,129,0)"] }}
+                transition={{ duration: 1.5, repeat: Infinity }}
+              >
+                수락
+              </motion.div>
+              <div className="flex-1 py-1 bg-[#ba1a1a]/60 text-white text-center rounded text-[10px] font-bold">거절</div>
+            </div>
+          </MiniCard>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.2 }}
+          className="flex items-center justify-center gap-1.5 text-[9px] text-emerald-400 font-mono"
+        >
+          <motion.span
+            className="w-1 h-1 bg-emerald-400 rounded-full"
+            animate={{ opacity: [0.3, 1, 0.3] }}
+            transition={{ duration: 1, repeat: Infinity }}
+          />
+          Realtime channel 구독 중 · dispatch_requests
+        </motion.div>
       </div>
     ),
-    systemLog: "SMS 발송 → Naver Cloud API → exclusive_call_at = NOW() → 60초 타이머 시작",
+    systemLog: "POST /api/dispatch/create → INSERT dispatch_requests (status='exclusive_call') → INSERT sms_logs → exclusive_call_at = NOW() → Naver Cloud SMS 발송",
   },
   {
     id: 2, label: "사장 수락",
-    leftRole: "장비요청자", leftIcon: "person_search", leftTitle: "매칭 알림 수신",
+    leftRole: "장비요청자", leftIcon: "person_search", leftTitle: "Realtime push",
     leftContent: (
-      <div className="space-y-1.5">
-        <div className="bg-emerald-50 rounded-lg p-2 text-center">
-          <span className="material-symbols-outlined text-2xl text-emerald-500" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-          <p className="text-[11px] font-bold text-emerald-700 mt-0.5">배차 매칭 완료!</p>
-          <p className="text-[9px] text-[#414754]">대한크레인 박중장비</p>
-        </div>
-        <MiniCard>
-          <div className="flex justify-between text-[10px]">
-            <span className="text-[#727785]">업체</span>
-            <span className="font-bold">대한크레인</span>
-          </div>
-          <div className="flex justify-between text-[10px]">
-            <span className="text-[#727785]">상태</span>
-            <MiniBadge label="매칭완료" color="bg-emerald-100 text-emerald-700" />
-          </div>
-        </MiniCard>
+      <div className="space-y-2">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 18 }}
+          className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2 text-center"
+        >
+          <motion.span
+            className="material-symbols-outlined text-2xl text-emerald-400"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+            animate={{ scale: [0.8, 1.15, 1] }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            check_circle
+          </motion.span>
+          <p className="text-[11px] font-bold text-emerald-400 mt-0.5">📩 배차 매칭 완료!</p>
+          <p className="text-[9px] text-[#8899b3]">대한크레인 박중장비 수락</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0 }}
+        >
+          <StatusTransition
+            from="exclusive_call"
+            to="matched"
+            fromColor="#FF6B1A"
+            toColor="#10B981"
+            duration={900}
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.6 }}
+          className="text-[9px] text-[#6B7280] font-mono flex items-center gap-1.5"
+        >
+          <span className="w-1 h-1 bg-emerald-400 rounded-full animate-pulse" />
+          Supabase Realtime → 요청자 디바이스 푸시
+        </motion.div>
       </div>
     ),
-    rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "수락 완료",
+    rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "수락 & 정산 생성",
     rightContent: (
-      <div className="space-y-1.5">
-        <div className="bg-emerald-50 rounded-lg p-2 text-center">
-          <span className="material-symbols-outlined text-2xl text-emerald-500" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-          <p className="text-[11px] font-bold text-emerald-700">수락 완료</p>
-        </div>
-        <MiniCard>
-          <p className="text-[10px] font-bold mb-1">수수료 자동 계산</p>
-          <div className="grid grid-cols-2 gap-0.5 text-[9px]">
-            <div className="bg-emerald-50 rounded p-0.5 text-center"><p className="text-[#727785]">본사</p><p className="font-bold tabular-nums">60,000</p></div>
-            <div className="bg-blue-50 rounded p-0.5 text-center"><p className="text-[#727785]">적립</p><p className="font-bold tabular-nums">60,000</p></div>
-            <div className="bg-purple-50 rounded p-0.5 text-center"><p className="text-[#727785]">콜센터</p><p className="font-bold tabular-nums">30,000</p></div>
-            <div className="bg-pink-50 rounded p-0.5 text-center"><p className="text-[#727785]">영업</p><p className="font-bold tabular-nums">30,000</p></div>
-          </div>
-        </MiniCard>
+      <div className="space-y-2">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2 text-center"
+        >
+          <span className="material-symbols-outlined text-xl text-emerald-400" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+          <p className="text-[10px] font-bold text-emerald-400">수락 완료 · 200 OK</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <DBWriteIndicator
+            operation="INSERT"
+            table="commissions"
+            fields={["company_fee: 60,000", "callcenter_fee: 30,000", "salesperson_fee: 30,000", "requester_reward: 60,000"]}
+            duration={1100}
+          />
+        </motion.div>
       </div>
     ),
-    systemLog: "UPDATE dispatch_requests SET status='matched' WHERE status='exclusive_call' → commissions INSERT → call_history UPSERT",
+    systemLog: "POST /api/dispatch/accept → UPDATE dispatch_requests SET status='matched', matched_at=NOW() → INSERT commissions (15% split) → UPSERT call_history (재주문 이력)",
   },
   {
     id: 3, label: "기사 배정",
-    leftRole: "시스템", leftIcon: "sms", leftTitle: "기사 SMS 발송",
+    leftRole: "시스템", leftIcon: "sms", leftTitle: "Naver Cloud SMS API",
     leftContent: (
-      <div className="space-y-1.5">
-        <div className="bg-[#111c29] text-white rounded-lg p-2 text-[10px]">
-          <p className="text-[#8899b3] text-[9px]">수신: 이기사 (010-5555-****)</p>
-          <p className="mt-1">[Heavy Match] 배차 안내<br />크레인 50T · 코엑스 신축현장<br />담당자: 홍현장 010-9876-****</p>
-        </div>
+      <div className="space-y-2">
+        <SMSSendingIndicator
+          recipient="이기사 (010-5555-****)"
+          message={`[Heavy Match] 배차 안내\n크레인 50T · 코엑스 신축현장\n담당자: 홍현장 010-9876-****`}
+          duration={1400}
+        />
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5 }}
+        >
+          <StatusTransition
+            from="matched"
+            to="operator_assigned"
+            fromColor="#10B981"
+            toColor="#0059b9"
+            duration={800}
+          />
+        </motion.div>
       </div>
     ),
-    rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "기사 선택",
+    rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "기사 선택 UI",
     rightContent: (
-      <div className="space-y-1">
+      <div className="space-y-1.5">
+        <p className="text-[9px] text-[#6B7280] font-mono mb-1">소속 기사 3명 · 선택 대기</p>
         {["이기사","장운전","손기술"].map((name, i) => (
-          <div key={name} className={`flex items-center justify-between p-1.5 rounded-lg border text-[10px] ${i === 0 ? "border-[#0059b9] bg-[#eef4ff]" : "border-[#c1c6d6]/30"}`}>
+          <motion.div
+            key={name}
+            initial={{ opacity: 0, x: -5 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 + i * 0.15 }}
+            className={`flex items-center justify-between p-1.5 rounded-lg border text-[10px] ${i === 0 ? "border-[#FF6B1A] bg-[#FF6B1A]/10 ring-2 ring-[#FF6B1A]/20" : "border-[#c1c6d6]/30"}`}
+          >
             <div className="flex items-center gap-1.5">
               <div className="w-5 h-5 bg-[#d7e2ff] rounded-full flex items-center justify-center text-[8px] font-bold text-[#0059b9]">{name[0]}</div>
               <span className="font-bold">{name}</span>
             </div>
-            {i === 0 ? <MiniBadge label="배정" color="bg-[#0059b9] text-white" /> : <span className="text-[#c1c6d6]">선택</span>}
-          </div>
+            {i === 0 ? (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1.2, type: "spring", stiffness: 400, damping: 15 }}
+              >
+                <MiniBadge label="✓ 배정" color="bg-[#FF6B1A] text-white" />
+              </motion.span>
+            ) : <span className="text-[#c1c6d6]">선택</span>}
+          </motion.div>
         ))}
+
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.8 }}
+        >
+          <DBWriteIndicator
+            operation="UPDATE"
+            table="dispatch_requests"
+            fields={["status = 'operator_assigned'", "assigned_operator_id = '이기사'"]}
+            duration={900}
+          />
+        </motion.div>
       </div>
     ),
-    systemLog: "POST /api/dispatch/assign → UPDATE status='operator_assigned', assigned_operator_id=이기사",
+    systemLog: "POST /api/dispatch/assign → UPDATE dispatch_requests SET status='operator_assigned', assigned_operator_id='이기사' WHERE status='matched' → Naver Cloud SMS 발송",
   },
   {
     id: 4, label: "작업 시작",
@@ -232,37 +342,105 @@ const STEPS: Step[] = [
   },
   {
     id: 5, label: "작업 완료",
-    leftRole: "기사", leftIcon: "engineering", leftTitle: "전자서명",
+    leftRole: "기사", leftIcon: "engineering", leftTitle: "전자서명 + 완료 전송",
     leftContent: (
-      <div className="space-y-1.5">
-        <div className="border-2 border-dashed border-[#0059b9]/20 rounded-lg p-1 bg-white">
-          <div className="h-10 bg-[#f8f9ff] rounded flex items-center justify-center">
-            <span className="text-[10px] italic text-[#0059b9]">✍️ 기사 서명 완료</span>
-          </div>
+      <div className="space-y-2">
+        {/* 서명 캔버스 시뮬레이션 */}
+        <div className="border-2 border-dashed border-[#0059b9]/30 rounded-lg p-2 bg-white relative overflow-hidden">
+          <motion.svg
+            viewBox="0 0 200 40"
+            className="w-full h-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+          >
+            <motion.path
+              d="M 10 25 Q 30 10, 50 25 T 90 25 Q 100 15, 110 28 T 150 22 Q 165 18, 180 26"
+              stroke="#0059b9"
+              strokeWidth="2.5"
+              fill="none"
+              strokeLinecap="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1.4, delay: 0.2, ease: "easeInOut" }}
+            />
+          </motion.svg>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.7 }}
+            className="text-[9px] text-emerald-600 text-right italic"
+          >
+            ✓ 기사 서명 저장됨
+          </motion.p>
         </div>
-        <div className="py-1 bg-emerald-600 text-white text-center rounded text-[10px] font-bold flex items-center justify-center gap-0.5">
-          <span className="material-symbols-outlined text-xs">task_alt</span>작업 완료 확인
-        </div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.9 }}
+        >
+          <StatusTransition
+            from="in_progress"
+            to="completed"
+            fromColor="#8B5CF6"
+            toColor="#10B981"
+            duration={900}
+          />
+        </motion.div>
       </div>
     ),
     rightRole: "시스템", rightIcon: "receipt_long", rightTitle: "작업확인서 생성",
     rightContent: (
-      <div className="space-y-1">
-        <div className="bg-[#eef4ff] rounded-lg p-2">
-          <p className="text-[10px] font-bold text-center text-[#0059b9] mb-1">📋 작업확인서</p>
+      <div className="space-y-2">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+        >
+          <DBWriteIndicator
+            operation="UPDATE"
+            table="dispatch_requests"
+            fields={["status = 'completed'", "operator_signature = base64...", "completed_at = NOW()"]}
+            duration={1100}
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.7, type: "spring", stiffness: 300, damping: 18 }}
+          className="bg-[#eef4ff] rounded-lg p-2 border border-[#0059b9]/20"
+        >
+          <p className="text-[10px] font-bold text-center text-[#0059b9] mb-1">📋 작업확인서 PDF 생성됨</p>
           <div className="text-[9px] text-[#414754] space-y-0.5">
-            <p>장비: 크레인 50T</p>
-            <p>금액: {formatPrice(SCENARIO.price)}원</p>
+            <p>장비: 크레인 50T · 오전(4h)</p>
             <p>건설사: {SCENARIO.company}</p>
+            <p>금액: <span className="font-black">{formatPrice(SCENARIO.price)}원</span></p>
           </div>
-          <div className="grid grid-cols-2 gap-1 mt-1">
-            <div className="bg-white rounded p-0.5 text-center text-[8px]"><p className="text-[#727785]">요청자 서명</p><p className="italic text-[#0059b9]">✓</p></div>
-            <div className="bg-white rounded p-0.5 text-center text-[8px]"><p className="text-[#727785]">기사 서명</p><p className="italic text-[#0059b9]">✓</p></div>
+          <div className="grid grid-cols-2 gap-1 mt-1.5">
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 2.0, type: "spring" }}
+              className="bg-emerald-50 rounded p-1 text-center text-[8px] border border-emerald-200"
+            >
+              <p className="text-[#727785]">요청자 서명</p>
+              <p className="italic text-emerald-600 font-bold">✓ 검증됨</p>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0.5, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: 2.15, type: "spring" }}
+              className="bg-emerald-50 rounded p-1 text-center text-[8px] border border-emerald-200"
+            >
+              <p className="text-[#727785]">기사 서명</p>
+              <p className="italic text-emerald-600 font-bold">✓ 검증됨</p>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </div>
     ),
-    systemLog: "POST /api/dispatch/complete → status='completed' → operator_signature 저장 → 작업확인서 자동 생성",
+    systemLog: "POST /api/dispatch/complete → UPDATE status='completed' → operator_signature (base64 PNG) 저장 → completed_at=NOW() → PDF 작업확인서 자동 생성 → 요청자+기사 SMS 발송",
   },
 ];
 
@@ -275,31 +453,76 @@ const STEPS_B: Step[] = [
   STEPS[1], // B-2: 전용콜 발송 (동일, 10초 타이머)
   { // B-3: 타이머 만료 → 콜센터 전달
     id: 20, label: "⚠️ 타이머 만료",
-    leftRole: "시스템", leftIcon: "timer_off", leftTitle: "자동 에스컬레이션",
+    leftRole: "Vercel Cron", leftIcon: "schedule", leftTitle: "1분 간격 자동 체크",
     leftContent: (
       <div className="space-y-2">
-        <div className="bg-[#ffdad6]/20 border border-[#ba1a1a]/20 rounded-lg p-2 text-center">
-          <span className="material-symbols-outlined text-2xl text-[#ba1a1a]" style={{ fontVariationSettings: "'FILL' 1" }}>timer_off</span>
-          <p className="text-[11px] font-bold text-[#ba1a1a] mt-0.5">전용콜 60초 만료</p>
-          <p className="text-[9px] text-[#414754]">박중장비 사장 미수락</p>
-        </div>
-        <div className="text-center text-[10px] text-amber-400 font-bold">▼ 자동 에스컬레이션 ▼</div>
+        <motion.div
+          animate={{ boxShadow: ["0 0 0 0 rgba(239,68,68,0.4)", "0 0 0 10px rgba(239,68,68,0)", "0 0 0 0 rgba(239,68,68,0)"] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-lg p-3 text-center"
+        >
+          <motion.span
+            className="material-symbols-outlined text-3xl text-[#EF4444]"
+            style={{ fontVariationSettings: "'FILL' 1" }}
+            animate={{ rotate: [0, -8, 8, 0] }}
+            transition={{ duration: 0.4, delay: 0.2 }}
+          >
+            timer_off
+          </motion.span>
+          <p className="text-[11px] font-bold text-[#EF4444] mt-1">전용콜 60초 만료</p>
+          <p className="text-[9px] text-[#9CA3AF]">박중장비 사장 · 미수락</p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
+        >
+          <StatusTransition
+            from="exclusive_call"
+            to="callcenter_call"
+            fromColor="#FF6B1A"
+            toColor="#FFA523"
+            duration={900}
+          />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 5 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.4 }}
+          className="text-[9px] text-amber-400 font-bold text-center"
+        >
+          ▼ 자동 에스컬레이션 실행 ▼
+        </motion.div>
       </div>
     ),
-    rightRole: "콜센터", rightIcon: "support_agent", rightTitle: "콜 전달 수신",
+    rightRole: "콜센터", rightIcon: "support_agent", rightTitle: "콜 자동 전달됨",
     rightContent: (
-      <div className="space-y-1.5">
-        <MiniCard glow>
-          <div className="flex items-center justify-between mb-1">
-            <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
-            <MiniBadge label="콜센터 전달" color="bg-[#ffdad6] text-[#ba1a1a]" />
-          </div>
-          <p className="text-[9px] text-[#414754]">박중장비 미수락 → 콜센터 자동 전달</p>
-          <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
-        </MiniCard>
+      <div className="space-y-2">
+        <SMSSendingIndicator
+          recipient="정콜센터 (중부콜센터)"
+          message={`[Heavy Match] 콜 전달\n박중장비 미수락 건\n크레인 50T · 코엑스 현장\n처리: heavy-match.kr/call/...`}
+          duration={1400}
+        />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.5, type: "spring" }}
+        >
+          <MiniCard glow>
+            <div className="flex items-center justify-between mb-1">
+              <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
+              <MiniBadge label="콜센터 전달" color="bg-amber-100 text-amber-700" />
+            </div>
+            <p className="text-[9px] text-[#414754]">박중장비 미수락 → 콜센터 자동 전달</p>
+            <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+          </MiniCard>
+        </motion.div>
       </div>
     ),
-    systemLog: "GET /api/cron/timer → UPDATE status='callcenter_call', callcenter_call_at=NOW() → 콜센터 SMS 발송",
+    systemLog: "GET /api/cron/timer → SELECT dispatch_requests WHERE exclusive_call_at < NOW() - 60s → UPDATE status='callcenter_call', callcenter_call_at=NOW() → Naver Cloud SMS to 콜센터",
   },
   { // B-4: 콜센터 60초 대기
     id: 21, label: "콜센터 대기", timer: 8,
@@ -334,41 +557,124 @@ const STEPS_B: Step[] = [
     ),
     systemLog: "콜센터 상담원이 60초간 처리 대기중... 직접 수락 또는 공유콜 전환 가능",
   },
-  { // B-5: 공유콜 전환
+  { // B-5: 공유콜 전환 (Broadcast)
     id: 22, label: "공유콜 전환",
-    leftRole: "시스템", leftIcon: "campaign", leftTitle: "SMS 일괄 발송",
+    leftRole: "시스템", leftIcon: "campaign", leftTitle: "지역 사장 Broadcast",
     leftContent: (
-      <div className="space-y-1.5">
-        <div className="bg-[#111c29] text-white rounded-lg p-2 text-[10px]">
-          <p className="text-amber-400 text-[9px] font-bold mb-1">📢 공유콜 일괄 발송 (3명)</p>
-          {["김임대 (한국중기)","최장비 (경인중장비)","강중장 (충청크레인)"].map(n => (
-            <p key={n} className="text-[#8899b3] text-[9px]">→ {n}</p>
+      <div className="space-y-2">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <StatusTransition
+            from="callcenter_call"
+            to="shared_call"
+            fromColor="#FFA523"
+            toColor="#3B82F6"
+            duration={700}
+          />
+        </motion.div>
+
+        <div className="bg-[#111] rounded-lg border border-[#3A3D45] p-2">
+          <div className="flex items-center gap-1.5 mb-1.5 text-[9px] font-mono">
+            <motion.span
+              className="w-1.5 h-1.5 bg-[#3B82F6] rounded-full"
+              animate={{ opacity: [0.3, 1, 0.3] }}
+              transition={{ duration: 1, repeat: Infinity }}
+            />
+            <span className="text-[#3B82F6] font-bold uppercase tracking-wider">Broadcasting · 3 recipients</span>
+          </div>
+          {["김임대 (한국중기)", "최장비 (경인중장비)", "강중장 (충청크레인)"].map((n, i) => (
+            <motion.div
+              key={n}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.9 + i * 0.25 }}
+              className="flex items-center gap-2 text-[10px] font-mono py-0.5"
+            >
+              <motion.span
+                className="material-symbols-outlined text-xs text-emerald-400"
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 1.0 + i * 0.25, type: "spring" }}
+                style={{ fontVariationSettings: "'FILL' 1" }}
+              >
+                send
+              </motion.span>
+              <span className="text-[#D1D5DB]">{n}</span>
+              <motion.span
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.5 + i * 0.25 }}
+                className="ml-auto text-[8px] text-emerald-400 font-bold"
+              >
+                ✓ Sent
+              </motion.span>
+            </motion.div>
           ))}
         </div>
-        <div className="text-center text-[10px] text-[#727785]">선착순 매칭 시작</div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.3 }}
+          className="text-center text-[9px] text-amber-400 font-bold"
+        >
+          🏁 선착순 매칭 시작
+        </motion.p>
       </div>
     ),
-    rightRole: "중장비사장들", rightIcon: "groups", rightTitle: "공유콜 수신 (선착순)",
+    rightRole: "중장비사장 3명", rightIcon: "groups", rightTitle: "동시 수신 · 선착순 경쟁",
     rightContent: (
-      <div className="space-y-1">
-        {["김임대","최장비","강중장"].map((name, i) => (
-          <MiniCard key={name} glow={i === 1}>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <div className="w-4 h-4 bg-[#d7e2ff] rounded-full flex items-center justify-center text-[7px] font-bold text-[#0059b9]">{name[0]}</div>
-                <span className="text-[10px] font-bold">{name}</span>
+      <div className="space-y-1.5">
+        {["김임대", "최장비", "강중장"].map((name, i) => (
+          <motion.div
+            key={name}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2 + i * 0.2 }}
+          >
+            <MiniCard glow={i === 1}>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold ${i === 1 ? "bg-emerald-500 text-white" : "bg-[#d7e2ff] text-[#0059b9]"}`}>{name[0]}</div>
+                  <span className="text-[10px] font-bold">{name}</span>
+                </div>
+                {i === 1 ? (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1, rotate: [0, -10, 0] }}
+                    transition={{ delay: 2.4, type: "spring", stiffness: 400 }}
+                    className="text-[9px] bg-emerald-500 text-white px-2 py-0.5 rounded-full font-bold shadow-lg"
+                  >
+                    ⚡ 수락!
+                  </motion.span>
+                ) : (
+                  <motion.span
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 1, repeat: 3, delay: 1.5 + i * 0.2 }}
+                    className="text-[9px] text-[#FFA523]"
+                  >
+                    대기중...
+                  </motion.span>
+                )}
               </div>
-              {i === 1 ? (
-                <span className="text-[9px] bg-emerald-500 text-white px-1.5 py-0.5 rounded font-bold">수락!</span>
-              ) : (
-                <span className="text-[9px] text-[#c1c6d6]">대기</span>
-              )}
-            </div>
-          </MiniCard>
+            </MiniCard>
+          </motion.div>
         ))}
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.7 }}
+          className="text-[9px] text-[#6B7280] font-mono text-center pt-1"
+        >
+          Race condition 방지: UPDATE WHERE status=&apos;shared_call&apos;
+        </motion.div>
       </div>
     ),
-    systemLog: "UPDATE status='shared_call', shared_call_at=NOW() → 같은 지역 사장 3명에게 SMS 일괄 발송",
+    systemLog: "UPDATE dispatch_requests SET status='shared_call', shared_call_at=NOW() → 지역 매칭 알고리즘 실행 → Broadcast SMS to 3명 (지역+장비종류 일치) → 선착순 대기",
   },
   { // B-6: 다른 사장 수락
     id: 23, label: "다른 사장 수락",
