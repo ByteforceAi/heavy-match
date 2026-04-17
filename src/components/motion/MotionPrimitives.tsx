@@ -7,7 +7,8 @@
  * tokens.ts의 motion/blur 값을 직접 참조.
  */
 
-import { motion, type Variants } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, animate, useInView, useMotionValue, useTransform, type Variants } from "framer-motion";
 import { motion as tokens } from "@/lib/design-system";
 
 // ═══════════════════════════════════════
@@ -187,27 +188,60 @@ export function HeroText({ text, className = "" }: { text: string; className?: s
 }
 
 // ═══════════════════════════════════════
-// COUNTER (숫자 카운트업)
+// COUNTER — 실제 숫자 증가 애니메이션
+// useMotionValue + animate() + useTransform 패턴
 // ═══════════════════════════════════════
 
-export function CountUp({ target, suffix = "", className = "" }: { target: number; suffix?: string; className?: string }) {
+interface CountUpProps {
+  target: number;
+  duration?: number;
+  suffix?: string;
+  className?: string;
+  /** 소수점 자리수 */
+  decimals?: number;
+}
+
+export function CountUp({ target, duration = 1.6, suffix = "", className = "", decimals = 0 }: CountUpProps) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const value = useMotionValue(0);
+  const display = useTransform(value, (v) => {
+    const rounded = decimals > 0 ? v.toFixed(decimals) : Math.round(v).toString();
+    const [intPart, decPart] = rounded.split(".");
+    const formatted = Number(intPart).toLocaleString("ko-KR") + (decPart ? `.${decPart}` : "");
+    return formatted + suffix;
+  });
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(value, target, {
+      duration,
+      ease: [0.16, 1, 0.3, 1], // expo-out — 빠르게 시작해서 부드럽게 안착
+    });
+    return () => controls.stop();
+  }, [inView, target, duration, value]);
+
   return (
-    <motion.span
-      className={className}
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-    >
-      <motion.span
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5 }}
-      >
-        {target.toLocaleString()}{suffix}
-      </motion.span>
+    <motion.span ref={ref} className={className}>
+      {display}
     </motion.span>
   );
+}
+
+// ═══════════════════════════════════════
+// REDUCED MOTION HOOK
+// ═══════════════════════════════════════
+
+export function useReducedMotion() {
+  const [reduced, setReduced] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduced(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
+    mq.addEventListener("change", handler);
+    return () => mq.removeEventListener("change", handler);
+  }, []);
+  return reduced;
 }
 
 // ═══════════════════════════════════════
