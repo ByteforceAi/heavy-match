@@ -328,8 +328,17 @@ function OperatorDemo() {
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [signing, setSigning] = useState<string | null>(null);
   const [toast, setToast] = useState<string | null>(null);
+  const [processing, setProcessing] = useState<string | null>(null);
   const show = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 2500); };
   const dispatches = DEMO_DISPATCHES.filter(d => ["operator_assigned", "in_progress"].includes(d.status) && !completed.has(d.id));
+
+  const handleStart = async (id: string) => {
+    setProcessing(`start-${id}`);
+    await new Promise(r => setTimeout(r, 700)); // API 호출 시뮬레이션
+    setStarted(p => new Set(p).add(id));
+    setProcessing(null);
+    show("작업 시작! 현장 도착 확인됨");
+  };
 
   return (
     <div className="space-y-6 max-w-2xl">
@@ -351,9 +360,25 @@ function OperatorDemo() {
               </div>
             )}
             {!isStarted ? (
-              <button onClick={() => { setStarted(p => new Set(p).add(d.id)); show("작업 시작!"); }}
-                className="w-full mt-3 py-3.5 bg-amber-500 text-white font-bold rounded-xl text-base active:scale-95 flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined">rocket_launch</span>작업 시작
+              <button
+                onClick={() => handleStart(d.id)}
+                disabled={processing !== null}
+                className="w-full mt-3 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-base active:scale-95 flex items-center justify-center gap-2 disabled:bg-[#6B7280] disabled:cursor-wait transition-colors"
+              >
+                {processing === `start-${d.id}` ? (
+                  <>
+                    <motion.span
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 0.9, repeat: Infinity, ease: "linear" }}
+                      className="inline-block w-4 h-4 border-2 border-white/30 border-t-white rounded-full"
+                    />
+                    GPS 확인 중...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-symbols-outlined">rocket_launch</span>작업 시작
+                  </>
+                )}
               </button>
             ) : signing === d.id ? (
               <div className="mt-3 space-y-3 animate-fade-in">

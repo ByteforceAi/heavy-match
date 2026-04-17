@@ -9,6 +9,7 @@ import {
   DBWriteIndicator, RealtimeIndicator, StatusTransition, SystemClock, ProcessingPulse,
 } from "@/components/motion/NativeFeel";
 import { CountUp } from "@/components/motion/MotionPrimitives";
+import Confetti from "@/components/motion/Confetti";
 
 /** System Log 문자열을 TypedLog 형식으로 파싱 — 화살표(→) 단위로 분할 */
 function parseSystemLog(log: string): { text: string; color?: string; delay?: number }[] {
@@ -1407,6 +1408,9 @@ export default function SimulationPage() {
       {/* Top network activity indicator (iOS-style) */}
       <NetworkActivityBar active={networkActive} />
 
+      {/* Confetti on completion (A and B only — C is a cancellation) */}
+      <Confetti active={isComplete && (scenario === "A" || scenario === "B")} count={60} duration={3.5} />
+
       {/* Nav */}
       <nav className="fixed top-0 w-full z-50 bg-[#0A0A0B]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex justify-between items-center max-w-6xl mx-auto px-4 md:px-6 h-14">
@@ -1555,13 +1559,41 @@ export default function SimulationPage() {
             </div>
           ) : (
             <>
-              <button onClick={() => setRunning(!running)} className="flex-1 py-3 bg-white/10 text-white font-bold rounded-xl active:scale-95 flex items-center justify-center gap-1">
-                <span className="material-symbols-outlined text-lg">{running ? "pause" : "play_arrow"}</span>
+              <motion.button
+                onClick={() => setRunning(!running)}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+              >
+                <motion.span
+                  key={running ? "pause" : "play"}
+                  initial={{ scale: 0.5, rotate: -90 }}
+                  animate={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  className="material-symbols-outlined text-lg"
+                  style={{ fontVariationSettings: "'FILL' 1" }}
+                >
+                  {running ? "pause" : "play_arrow"}
+                </motion.span>
                 {running ? "일시정지" : "자동 진행"}
-              </button>
-              <button onClick={next} className="flex-1 py-3 bg-[#0059b9] text-white font-bold rounded-xl active:scale-95 flex items-center justify-center gap-1">
-                다음 단계 <span className="material-symbols-outlined text-lg">skip_next</span>
-              </button>
+              </motion.button>
+              <motion.button
+                onClick={next}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.97 }}
+                transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                className="flex-1 py-3 bg-[#0059b9] hover:bg-[#1071e5] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+              >
+                다음 단계
+                <motion.span
+                  className="material-symbols-outlined text-lg"
+                  animate={{ x: [0, 3, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  skip_next
+                </motion.span>
+              </motion.button>
             </>
           )}
         </div>

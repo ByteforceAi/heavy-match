@@ -100,7 +100,23 @@ function DemoRequest() {
   const [price, setPrice] = useState("300000");
   const [signed, setSigned] = useState(false);
   const [toast, setToast] = useState<string|null>(null);
+  const [submitting, setSubmitting] = useState<"idle"|"uploading"|"creating"|"notifying"|"done">("idle");
   const show = (m: string) => { setToast(m); setTimeout(() => setToast(null), 2500); };
+
+  const handleSubmit = async () => {
+    if (!signed) return;
+    setSubmitting("uploading");
+    await new Promise(r => setTimeout(r, 600));
+    setSubmitting("creating");
+    await new Promise(r => setTimeout(r, 700));
+    setSubmitting("notifying");
+    await new Promise(r => setTimeout(r, 800));
+    setSubmitting("done");
+    show("장비 요청 완료! 사장님에게 SMS 발송됨");
+    setTimeout(() => {
+      setStep(1); setSigned(false); setSubmitting("idle");
+    }, 2500);
+  };
 
   return (
     <div className="max-w-md mx-auto space-y-5">
@@ -180,9 +196,63 @@ function DemoRequest() {
         </div>
         <SignatureCanvas onSave={() => setSigned(true)} />
         {signed && <p className="text-emerald-600 text-sm text-center font-bold">✅ 서명 완료</p>}
-        <button onClick={() => { show("장비 요청 완료!"); setTimeout(() => { setStep(1); setSigned(false); }, 2000); }} disabled={!signed}
-          className="w-full py-4 bg-amber-500 text-white text-lg font-black rounded-xl disabled:opacity-40 active:scale-95 transition-all flex items-center justify-center gap-2">
-          <span className="material-symbols-outlined">send</span>장비 요청하기
+
+        {/* 진행 단계 표시 (submitting 중) */}
+        {submitting !== "idle" && submitting !== "done" && (
+          <div className="space-y-1.5 bg-[#f8f9ff] border border-[#c1c6d6]/30 rounded-xl p-3">
+            {[
+              { key: "uploading", label: "서명 이미지 업로드 중...", icon: "cloud_upload" },
+              { key: "creating", label: "배차 요청 생성 중...", icon: "sync" },
+              { key: "notifying", label: "사장님에게 SMS 발송 중...", icon: "send" },
+            ].map(s => {
+              const isActive = submitting === s.key;
+              const isPast = ["uploading","creating","notifying"].indexOf(submitting) > ["uploading","creating","notifying"].indexOf(s.key);
+              return (
+                <div key={s.key} className="flex items-center gap-2 text-xs">
+                  <span
+                    className="material-symbols-outlined text-base"
+                    style={{
+                      color: isPast ? "#10B981" : isActive ? "#0059b9" : "#c1c6d6",
+                      fontVariationSettings: isPast ? "'FILL' 1" : undefined,
+                      animation: isActive ? "spin 1s linear infinite" : undefined,
+                    }}
+                  >
+                    {isPast ? "check_circle" : s.icon}
+                  </span>
+                  <span className={isPast ? "text-emerald-600 line-through" : isActive ? "text-[#0059b9] font-bold" : "text-[#c1c6d6]"}>
+                    {s.label}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {submitting === "done" && (
+          <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-center">
+            <span className="material-symbols-outlined text-3xl text-emerald-500 block" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
+            <p className="text-sm font-bold text-emerald-700 mt-1">요청 완료!</p>
+          </div>
+        )}
+
+        <button
+          onClick={handleSubmit}
+          disabled={!signed || submitting !== "idle"}
+          className="w-full py-4 bg-amber-500 hover:bg-amber-600 text-white text-lg font-black rounded-xl disabled:opacity-40 disabled:cursor-wait active:scale-95 transition-all flex items-center justify-center gap-2"
+        >
+          {submitting === "idle" ? (
+            <><span className="material-symbols-outlined">send</span>장비 요청하기</>
+          ) : submitting === "done" ? (
+            <><span className="material-symbols-outlined">check_circle</span>완료</>
+          ) : (
+            <>
+              <span
+                className="inline-block w-5 h-5 border-2 border-white/30 border-t-white rounded-full"
+                style={{ animation: "spin 0.9s linear infinite" }}
+              />
+              처리중...
+            </>
+          )}
         </button>
         <button onClick={() => setStep(5)} className="text-sm text-[#727785] flex items-center gap-1"><span className="material-symbols-outlined text-base">arrow_back</span>이전</button>
       </>)}
