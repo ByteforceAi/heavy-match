@@ -525,12 +525,12 @@ export default function SimulationPage() {
   const current = step >= 0 && step < currentSteps.length ? currentSteps[step] : null;
 
   return (
-    <main className="min-h-screen bg-[#0f1724]" style={{ fontFamily: "'Inter','Pretendard',sans-serif", letterSpacing: "-0.02em" }}>
+    <main className="min-h-screen bg-[#0A0A0B]" style={{ fontFamily: "'Inter','Pretendard',sans-serif", letterSpacing: "-0.02em" }}>
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0f1724]/80 backdrop-blur-xl border-b border-white/5">
+      <nav className="fixed top-0 w-full z-50 bg-[#0A0A0B]/80 backdrop-blur-xl border-b border-white/5">
         <div className="flex justify-between items-center max-w-6xl mx-auto px-4 md:px-6 h-14">
           <Link href="/demo" className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#acc7ff]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
+            <span className="material-symbols-outlined text-[#FF6B1A]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
             <span className="font-black text-white tracking-tight">Heavy Match</span>
           </Link>
           <span className="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs font-bold flex items-center gap-1">
@@ -556,7 +556,7 @@ export default function SimulationPage() {
               <p className="text-[#8899b3] text-sm">{SCENARIO.site}</p>
             </div>
           </div>
-          <p className="text-2xl font-black text-[#acc7ff] tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+          <p className="text-2xl font-black text-[#FF6B1A] tabular-nums">{formatPrice(SCENARIO.price)}원</p>
         </div>
 
         {/* ── Progress Bar ── */}
@@ -564,7 +564,7 @@ export default function SimulationPage() {
           {currentSteps.map((s, i) => (
             <div key={s.id} className="flex-1 flex flex-col items-center gap-1">
               <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${i <= step ? "bg-[#0059b9]" : "bg-white/10"}`} />
-              <span className={`text-[9px] font-bold transition-colors hidden md:block ${i <= step ? "text-[#acc7ff]" : "text-white/20"}`}>{s.label}</span>
+              <span className={`text-[9px] font-bold transition-colors hidden md:block ${i <= step ? "text-[#FF6B1A]" : "text-white/20"}`}>{s.label}</span>
             </div>
           ))}
         </div>
@@ -575,8 +575,8 @@ export default function SimulationPage() {
             {/* LEFT DEVICE */}
             <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
               <div className="px-3 py-2 bg-white/5 border-b border-white/5 flex items-center gap-2">
-                <span className={`material-symbols-outlined text-sm text-[#acc7ff]`}>{current.leftIcon}</span>
-                <span className="text-xs font-bold text-[#acc7ff]">{current.leftRole}</span>
+                <span className={`material-symbols-outlined text-sm text-[#FF6B1A]`}>{current.leftIcon}</span>
+                <span className="text-xs font-bold text-[#FF6B1A]">{current.leftRole}</span>
                 <span className="text-[10px] text-white/40 ml-auto">{current.leftTitle}</span>
               </div>
               <div className="p-3 min-h-[160px]">
@@ -587,8 +587,8 @@ export default function SimulationPage() {
             {/* RIGHT DEVICE */}
             <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
               <div className="px-3 py-2 bg-white/5 border-b border-white/5 flex items-center gap-2">
-                <span className={`material-symbols-outlined text-sm text-[#acc7ff]`}>{current.rightIcon}</span>
-                <span className="text-xs font-bold text-[#acc7ff]">{current.rightRole}</span>
+                <span className={`material-symbols-outlined text-sm text-[#FF6B1A]`}>{current.rightIcon}</span>
+                <span className="text-xs font-bold text-[#FF6B1A]">{current.rightRole}</span>
                 <span className="text-[10px] text-white/40 ml-auto">{current.rightTitle}</span>
                 {current.timer && timer > 0 && (
                   <span className="px-2 py-0.5 bg-[#ba1a1a] text-white rounded-full text-[10px] font-bold animate-pulse tabular-nums">⏱ {timer}초</span>
@@ -603,7 +603,7 @@ export default function SimulationPage() {
 
         {/* ── System Log ── */}
         {current && (
-          <div className="bg-[#111c29] rounded-xl border border-white/5 p-3 mb-6 animate-fade-in font-mono text-[11px]">
+          <div className="bg-[#1A1A20] rounded-xl border border-[#3A3D45]/30 p-3 mb-6 animate-fade-in font-mono text-[11px]">
             <div className="flex items-center gap-1.5 mb-1">
               <span className="material-symbols-outlined text-amber-400 text-xs">terminal</span>
               <span className="text-amber-400 font-bold text-[10px]">SYSTEM LOG</span>
@@ -658,7 +658,7 @@ export default function SimulationPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-white tabular-nums">{formatPrice(SCENARIO.price)}원</p><p className="text-[10px] text-[#8899b3]">임대비</p></div>
               <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-emerald-400 tabular-nums">{formatPrice(SCENARIO.commission)}원</p><p className="text-[10px] text-[#8899b3]">총 수수료 (15%)</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-[#acc7ff] tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">본사 수익</p></div>
+              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-[#FF6B1A] tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">본사 수익</p></div>
               <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-amber-400 tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">건설사 적립</p></div>
             </div>
           </div>
@@ -672,7 +672,7 @@ export default function SimulationPage() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
               <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-white tabular-nums">{formatPrice(SCENARIO.price)}원</p><p className="text-[10px] text-[#8899b3]">임대비</p></div>
               <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-emerald-400 tabular-nums">{formatPrice(SCENARIO.commission)}원</p><p className="text-[10px] text-[#8899b3]">총 수수료</p></div>
-              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-[#acc7ff] tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">본사</p></div>
+              <div className="bg-white/5 rounded-xl p-3"><p className="text-lg font-black text-[#FF6B1A] tabular-nums">{formatPrice(60000)}원</p><p className="text-[10px] text-[#8899b3]">본사</p></div>
               <div className="bg-amber-500/20 rounded-xl p-3 border border-amber-500/30"><p className="text-sm font-black text-amber-400">3단계 폴백</p><p className="text-[10px] text-amber-400/70">전용→콜센터→공유</p></div>
             </div>
           </div>
@@ -695,7 +695,7 @@ export default function SimulationPage() {
           {currentSteps.map((s, i) => (
             <button key={s.id} onClick={() => { setStep(i); setRunning(false); }}
               className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
-                i === step ? "bg-[#0059b9] text-white" : i < step ? "bg-emerald-500/20 text-emerald-400" : "bg-white/5 text-white/30"
+                i === step ? "bg-[#FF6B1A] text-white" : i < step ? "bg-emerald-500/20 text-emerald-400" : "bg-white/5 text-white/30"
               }`}>
               {i + 1}. {s.label}
             </button>

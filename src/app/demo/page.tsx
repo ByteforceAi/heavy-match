@@ -1,204 +1,374 @@
+"use client";
+
+/**
+ * Demo Intro — Dark Masterpiece Theme (Hybrid Option C)
+ *
+ * /와 동일한 Safety Orange + Dark Industrial 팔레트.
+ * 역할 카드 클릭 시 → 라이트 MD3 대시보드로 전환 (실제 앱 미리보기 느낌).
+ */
+
 import Link from "next/link";
+import { colors } from "@/lib/design-system/tokens";
+import {
+  HeroText, Reveal, StaggerContainer, StaggerItem,
+  MotionButton, MotionCard, IndustrialGlass,
+} from "@/components/motion/MotionPrimitives";
+import HeroBackground from "@/components/motion/HeroBackground";
+import {
+  CraneIcon, ExcavatorIcon, SkyIcon, PumpTruckIcon,
+  ForkliftIcon, DumpTruckIcon, CargoCraneIcon, SpiderCraneIcon,
+} from "@/components/icons/EquipmentIcons";
 
+// ═══════════════════════════════════════
+// ROLE DATA — 6개 역할
+// ═══════════════════════════════════════
 const ROLES = [
-  { value: "requester", label: "장비요청자", icon: "person_search", desc: "현장 맞춤형 장비 요청", color: "bg-[#d7e2ff]", iconColor: "text-[#0059b9]", tags: ["장비 요청", "배차 현황", "적립금"] },
-  { value: "owner", label: "중장비사장", icon: "local_shipping", desc: "배차 및 매출 통합 관리", color: "bg-[#dde3ef]", iconColor: "text-[#595f69]", tags: ["콜 수신", "단가 설정", "기사 관리"] },
-  { value: "operator", label: "기사", icon: "engineering", desc: "스마트한 업무 스케줄", color: "bg-[#d5e4f8]", iconColor: "text-[#4f5d6e]", tags: ["배차 확인", "전자서명", "작업 이력"] },
-  { value: "callcenter", label: "콜센터", icon: "support_agent", desc: "실시간 상담 및 매칭", color: "bg-[#ffdad6]", iconColor: "text-[#ba1a1a]", tags: ["콜 관리", "사장 관리", "수수료"] },
-  { value: "salesperson", label: "영업사원", icon: "payments", desc: "파트너 확장 및 정산", color: "bg-[#acc7ff]", iconColor: "text-[#1071e5]", tags: ["분양 현황", "수수료", "월별 실적"] },
-  { value: "admin", label: "관리자", icon: "admin_panel_settings", desc: "전체 시스템 통합 모니터링", color: "bg-[#26313f]", iconColor: "text-[#eaf1ff]", tags: ["대시보드", "사용자 관리", "마스터 데이터"] },
+  {
+    id: "requester", label: "장비요청자", desc: "건설사 현장소장",
+    icon: "person_search", orangeAccent: true,
+    tags: ["장비 요청", "배차 현황", "적립금"],
+    device: "모바일 우선",
+  },
+  {
+    id: "owner", label: "중장비사장", desc: "장비 임대 업체",
+    icon: "local_shipping", orangeAccent: false,
+    tags: ["콜 수신", "단가 설정", "기사 관리"],
+    device: "모바일 100%",
+  },
+  {
+    id: "operator", label: "기사", desc: "장비 운전 기사",
+    icon: "engineering", orangeAccent: false,
+    tags: ["배차 확인", "전자서명", "작업 이력"],
+    device: "모바일 전용",
+  },
+  {
+    id: "callcenter", label: "콜센터", desc: "상담원",
+    icon: "support_agent", orangeAccent: false,
+    tags: ["콜 관리", "사장 관리", "수수료"],
+    device: "데스크탑",
+  },
+  {
+    id: "salesperson", label: "영업사원", desc: "앱 분양 담당",
+    icon: "payments", orangeAccent: false,
+    tags: ["분양 현황", "수수료", "월별 실적"],
+    device: "데스크탑",
+  },
+  {
+    id: "admin", label: "관리자", desc: "플랫폼 운영자",
+    icon: "admin_panel_settings", orangeAccent: true,
+    tags: ["대시보드", "사용자", "마스터"],
+    device: "데스크탑",
+  },
 ];
 
+// ═══════════════════════════════════════
+// 배차 6단계
+// ═══════════════════════════════════════
 const FLOW_STEPS = [
-  { num: "1", title: "장비 요청", desc: "건설사가 장비/규격/시간 선택 후 전자서명으로 요청", icon: "edit_note", role: "장비요청자", roleColor: "bg-[#d7e2ff] text-[#004491]" },
-  { num: "2", title: "전용콜 (60초)", desc: "요청자 지정 사장에게 SMS 발송, 60초 타이머 시작", icon: "timer", role: "중장비사장", roleColor: "bg-[#dde3ef] text-[#595f69]", highlight: true },
-  { num: "3", title: "콜센터 전달", desc: "60초 미수락 시 해당 사장의 콜센터로 자동 전달", icon: "swap_horiz", role: "콜센터", roleColor: "bg-[#ffdad6] text-[#ba1a1a]" },
-  { num: "4", title: "공유콜 (선착순)", desc: "같은 지역 사장 전체에게 동시 발송, 선착순 매칭", icon: "campaign", role: "중장비사장", roleColor: "bg-[#dde3ef] text-[#595f69]" },
-  { num: "5", title: "기사 배정", desc: "매칭된 사장이 소속 기사를 선택하여 배정", icon: "person_add", role: "중장비사장", roleColor: "bg-[#dde3ef] text-[#595f69]" },
-  { num: "6", title: "작업 완료", desc: "기사 전자서명 → 작업확인서 자동 생성, 수수료 정산", icon: "task_alt", role: "기사", roleColor: "bg-[#d5e4f8] text-[#4f5d6e]" },
+  { num: "01", title: "장비 요청", desc: "건설사가 장비·규격·시간 선택 후 전자서명으로 요청", actor: "장비요청자", accent: "#FF6B1A" },
+  { num: "02", title: "전용콜", desc: "지정 사장에게 SMS 발송 — 60초 타이머 시작", actor: "중장비사장", accent: "#FFA523", highlight: "60초" },
+  { num: "03", title: "콜센터 전달", desc: "60초 미수락 시 해당 사장의 콜센터로 자동 전달", actor: "콜센터", accent: "#FF6B1A" },
+  { num: "04", title: "공유콜", desc: "같은 지역 사장 전체에게 동시 발송 — 선착순 매칭", actor: "중장비사장", accent: "#FFA523" },
+  { num: "05", title: "기사 배정", desc: "매칭된 사장이 소속 기사를 선택하여 배정", actor: "중장비사장", accent: "#FF6B1A" },
+  { num: "06", title: "작업 완료", desc: "기사 전자서명 → 작업확인서 자동 생성, 수수료 정산", actor: "기사", accent: "#10B981" },
 ];
 
-const STATS = [
-  { value: "6개", label: "역할 시스템" },
-  { value: "15%", label: "수수료 구조" },
-  { value: "60초", label: "전용콜 타이머" },
-  { value: "3단계", label: "배차 로직" },
+// ═══════════════════════════════════════
+// 장비 8종
+// ═══════════════════════════════════════
+const EQUIPMENT = [
+  { name: "크레인", Icon: CraneIcon },
+  { name: "굴삭기", Icon: ExcavatorIcon },
+  { name: "스카이", Icon: SkyIcon },
+  { name: "펌프카", Icon: PumpTruckIcon },
+  { name: "카고크레인", Icon: CargoCraneIcon },
+  { name: "거미크레인", Icon: SpiderCraneIcon },
+  { name: "지게차", Icon: ForkliftIcon },
+  { name: "덤프", Icon: DumpTruckIcon },
 ];
 
 export default function DemoPage() {
   return (
-    <main className="bg-[#f8f9ff] text-[#111c29] min-h-screen" style={{ fontFamily: "'Inter', 'Pretendard', sans-serif", letterSpacing: "-0.02em" }}>
-      {/* ── TopAppBar ── */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-xl border-b border-gray-100 shadow-sm">
-        <div className="flex justify-between items-center max-w-5xl mx-auto px-6 h-16">
-          <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-2xl font-black text-[#111c29] tracking-tighter">Heavy Match</span>
-          </div>
-          <Link href="/login" className="text-[#0059b9] font-bold hover:text-[#1071e5] transition-colors px-4 py-2 rounded-lg">로그인</Link>
-        </div>
-      </nav>
-
-      {/* ── Hero Section ── */}
-      <section className="pt-32 pb-16 px-6 max-w-4xl mx-auto text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#e5eeff] text-[#0059b9] font-bold text-sm mb-6">
-          <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>bolt</span>
-          현장 장비 매칭의 디지털 전환
-        </div>
-        <h1 className="text-4xl md:text-6xl font-[800] leading-[1.15] text-[#111c29] mb-4 tracking-tight">
-          장비 요청부터 작업완료까지<br />
-          <span className="text-[#0059b9]">60초</span>면 매칭 끝.
-        </h1>
-        <p className="text-lg md:text-xl text-[#414754] font-medium leading-relaxed mb-6">
-          실시간 현장 맞춤 배차부터 정산까지 한 번에.
-        </p>
-
-        {/* Stat Chips */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {STATS.map((s) => (
-            <span key={s.label} className="px-3 py-1.5 bg-[#dee9fb] text-[#111c29] rounded-full text-sm font-bold">
-              {s.value} <span className="text-[#414754] font-medium">{s.label}</span>
+    <main
+      className="min-h-screen text-[#FAFAFA] relative"
+      style={{
+        fontFamily: "'Pretendard', 'Inter', -apple-system, sans-serif",
+        letterSpacing: "-0.01em",
+        background: colors.black,
+      }}
+    >
+      {/* ═══ Navigation ═══ */}
+      <IndustrialGlass level="subtle" className="fixed top-0 w-full z-50 rounded-none">
+        <div className="flex justify-between items-center max-w-[1280px] mx-auto px-6 h-16">
+          <Link href="/" className="flex items-center gap-2 group">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo/hm-monogram.svg" alt="HM" className="w-8 h-8" />
+            <span className="text-lg font-black tracking-[-0.03em] text-[#FAFAFA]">
+              HEAVY<span className="text-[#FF6B1A]">MATCH</span>
             </span>
-          ))}
-        </div>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col md:flex-row gap-4 justify-center max-w-lg mx-auto">
-          <Link href="/demo/owner" className="flex-1 px-8 py-5 rounded-xl bg-gradient-to-br from-[#0059b9] to-[#1071e5] text-white font-extrabold text-lg shadow-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 active:scale-95">
-            사장님 화면 체험
-            <span className="material-symbols-outlined">arrow_forward</span>
           </Link>
-          <Link href="/demo/requester" className="flex-1 px-8 py-5 rounded-xl bg-[#dae0ec] text-[#595f69] font-extrabold text-lg hover:bg-[#c1c7d3] transition-all flex items-center justify-center gap-2 active:scale-95">
-            요청자 화면 체험
-            <span className="material-symbols-outlined">visibility</span>
-          </Link>
-          <Link href="/demo/simulation" className="flex-1 px-8 py-5 rounded-xl bg-[#26313f] text-white font-extrabold text-lg hover:bg-[#1a2435] transition-all flex items-center justify-center gap-2 active:scale-95">
-            <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-            E2E 시뮬레이션
-          </Link>
-        </div>
-      </section>
-
-      {/* ── Role Cards ── */}
-      <section className="py-16 px-6 max-w-5xl mx-auto bg-[#eef4ff] rounded-[2rem] mb-16">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-[800] text-[#111c29] mb-3">6가지 맞춤형 역할 시스템</h2>
-          <p className="text-[#414754]">현장의 모든 구성원을 위한 세분화된 인터페이스</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-          {ROLES.map((role) => (
-            <Link key={role.value} href={`/demo/${role.value}`} className="group">
-              <div className="bg-white p-5 rounded-2xl shadow-[0_20px_40px_rgba(17,28,41,0.06)] border border-white/50 flex flex-col items-center text-center hover:shadow-lg transition-all active:scale-[0.98]">
-                <div className={`w-12 h-12 ${role.color} rounded-xl flex items-center justify-center mb-3`}>
-                  <span className={`material-symbols-outlined text-2xl ${role.iconColor}`}>{role.icon}</span>
-                </div>
-                <h3 className="font-bold text-[#111c29] text-base mb-0.5">{role.label}</h3>
-                <p className="text-xs text-[#414754] mb-3">{role.desc}</p>
-                {/* Feature Tags */}
-                <div className="flex flex-wrap justify-center gap-1 mb-3">
-                  {role.tags.map((tag) => (
-                    <span key={tag} className="text-[10px] px-2 py-0.5 bg-[#e5eeff] text-[#0059b9] rounded-full font-medium">{tag}</span>
-                  ))}
-                </div>
-                <span className="w-full py-2 bg-[#e5eeff] text-[#0059b9] font-bold rounded-lg text-sm group-hover:bg-[#0059b9] group-hover:text-white transition-all">체험하기</span>
-              </div>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="text-sm font-semibold text-[#9CA3AF] hover:text-[#FF6B1A] transition-colors px-3 py-2 flex items-center gap-1">
+              <span className="material-symbols-outlined text-sm">arrow_back</span>
+              메인으로
             </Link>
-          ))}
+            <Link href="/demo/simulation" className="text-sm font-semibold text-[#FAFAFA] bg-[#FF6B1A] hover:bg-[#FF8A4C] px-5 py-2.5 rounded-xl transition-colors">
+              E2E 시뮬레이션
+            </Link>
+          </div>
+        </div>
+      </IndustrialGlass>
+
+      {/* ═══ Hero ═══ */}
+      <section className="relative overflow-hidden pt-32 pb-20">
+        <HeroBackground />
+
+        <div className="relative z-10 max-w-[1280px] mx-auto px-6 text-center">
+          <Reveal delay={0.1}>
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#FF6B1A1A] border border-[#FF6B1A40] rounded-full text-sm font-semibold text-[#FF6B1A] mb-8">
+              <span className="w-1.5 h-1.5 bg-[#FF6B1A] rounded-full animate-pulse" />
+              Demo Environment · 로그인 없이 바로 체험
+            </span>
+          </Reveal>
+
+          <h1 className="mb-6 max-w-4xl mx-auto" style={{ fontSize: "clamp(2.5rem, 7vw, 5rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.03em" }}>
+            <HeroText text="6개 역할을" className="block text-[#FAFAFA]" />
+            <HeroText text="직접 조작해보세요" className="block text-[#FF6B1A]" />
+          </h1>
+
+          <Reveal delay={0.4}>
+            <p className="text-xl md:text-2xl font-semibold text-[#D1D5DB] mb-3" style={{ letterSpacing: "-0.02em" }}>
+              전용콜 → 콜센터 → 공유콜. 3단계 폴백 자동화.
+            </p>
+            <p className="text-base text-[#6B7280] max-w-2xl mx-auto mb-12">
+              각 역할별 대시보드가 실제로 어떻게 작동하는지 확인하세요. 시뮬레이션 데이터로 안전하게 체험 가능합니다.
+            </p>
+          </Reveal>
+
+          <Reveal delay={0.6}>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/demo/simulation">
+                <MotionButton variant="primary" className="px-8 py-4 text-lg flex items-center gap-2">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                  E2E 시뮬레이션 실행
+                </MotionButton>
+              </Link>
+              <Link href="#roles">
+                <MotionButton variant="secondary" className="px-8 py-4 text-lg">
+                  역할 선택하기 ↓
+                </MotionButton>
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── 6-Step Flow Timeline ── */}
-      <section className="py-16 px-6 max-w-4xl mx-auto">
-        <h2 className="text-3xl font-[800] text-center mb-4">한 눈에 보는 배차 흐름</h2>
-        <p className="text-center text-[#414754] mb-12">장비 요청부터 작업 완료까지 6단계</p>
-
-        <div className="space-y-6 relative">
-          <div className="absolute left-[23px] md:left-6 top-0 bottom-0 w-1 bg-[#d8e3f5]" />
-
-          {FLOW_STEPS.map((step) => (
-            <div key={step.num} className="relative flex items-start pl-16 md:pl-20">
-              <div className={`absolute left-0 w-12 h-12 rounded-full flex items-center justify-center z-10 ring-4 ring-[#f8f9ff] ${step.highlight ? "bg-[#ba1a1a]" : "bg-[#0059b9]"}`}>
-                <span className="text-white font-bold text-sm">{step.num}</span>
-              </div>
-              <div className={`bg-white p-5 rounded-2xl shadow-[0_20px_40px_rgba(17,28,41,0.06)] border-l-4 w-full ${step.highlight ? "border-[#ba1a1a]" : "border-[#0059b9]"}`}>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="material-symbols-outlined text-[#0059b9] text-xl">{step.icon}</span>
-                  <h4 className="font-bold text-lg">{step.title}</h4>
-                  {step.highlight && (
-                    <span className="px-2 py-0.5 bg-[#ffdad6] text-[#ba1a1a] text-xs font-bold rounded-full animate-pulse">⏱ 60초</span>
-                  )}
+      {/* ═══ Equipment 8종 ═══ */}
+      <section className="py-16 border-t border-b border-[#3A3D45]/30">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-center text-sm text-[#6B7280] font-medium mb-6 uppercase tracking-widest">
+              지원 장비 · 8 Equipment Types
+            </p>
+          </Reveal>
+          <StaggerContainer className="flex flex-wrap justify-center gap-6 md:gap-10">
+            {EQUIPMENT.map(({ name, Icon }) => (
+              <StaggerItem key={name} className="flex flex-col items-center gap-2 group">
+                <div className="w-14 h-14 flex items-center justify-center rounded-xl bg-[#1A1A20] border border-[#3A3D45]/60 group-hover:border-[#FF6B1A]/40 transition-colors text-[#9CA3AF] group-hover:text-[#FF6B1A]">
+                  <Icon size={32} />
                 </div>
-                <p className="text-[#414754] text-sm mb-2">{step.desc}</p>
-                <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-bold ${step.roleColor}`}>{step.role}</span>
-              </div>
-            </div>
-          ))}
+                <span className="text-xs text-[#6B7280] group-hover:text-[#9CA3AF] transition-colors font-medium">{name}</span>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
       </section>
 
-      {/* ── Commission Section ── */}
-      <section className="py-16 px-6 max-w-5xl mx-auto">
-        <div className="bg-[#0059b9] p-10 md:p-12 rounded-[2rem] text-center text-white overflow-hidden relative">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            <span className="material-symbols-outlined text-[10rem]">account_balance_wallet</span>
-          </div>
-          <div className="relative">
-            <h2 className="text-3xl font-[800] mb-2">공정하고 투명한 15% 수수료 분배</h2>
-            <p className="text-white/80 mb-3">모든 파트너가 상생할 수 있는 최적의 분배 시스템</p>
-            <p className="text-white/60 text-sm mb-10">예시: 크레인 50T 1일 임대비 1,000,000원 기준</p>
+      {/* ═══ Role Selection (핵심) ═══ */}
+      <section id="roles" className="py-24">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Select a Role</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>
+              어떤 역할을 체험하시겠어요?
+            </h2>
+            <p className="text-lg text-[#6B7280] mb-12 max-w-xl">
+              각 역할별 실제 앱 화면으로 이동합니다. 모든 데이터는 시뮬레이션입니다.
+            </p>
+          </Reveal>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-              {[
-                { pct: "5%", label: "본사", amount: "50,000원" },
-                { pct: "2.5%", label: "영업", amount: "25,000원" },
-                { pct: "2.5%", label: "콜센터", amount: "25,000원" },
-                { pct: "5%", label: "건설사 적립", amount: "50,000원" },
-              ].map((item) => (
-                <div key={item.label} className="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/20">
-                  <div className="text-3xl font-black mb-1">{item.pct}</div>
-                  <div className="text-white/70 text-sm font-bold">{item.label}</div>
-                  <div className="text-white/50 text-xs mt-1 tabular-nums">{item.amount}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {ROLES.map((role) => (
+              <StaggerItem key={role.id}>
+                <Link href={`/demo/${role.id}`}>
+                  <MotionCard className="p-6 h-full group relative overflow-hidden">
+                    {role.orangeAccent && (
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-[#FF6B1A] opacity-[0.03] rounded-full -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                    )}
+
+                    <div className="flex items-start justify-between mb-4 relative">
+                      <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${role.orangeAccent ? "bg-[#FF6B1A1A] text-[#FF6B1A]" : "bg-[#242428] text-[#9CA3AF]"}`}>
+                        <span className="material-symbols-outlined text-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>{role.icon}</span>
+                      </div>
+                      <span className="text-[10px] px-2 py-1 bg-[#242428] text-[#6B7280] rounded-md font-mono">{role.device}</span>
+                    </div>
+
+                    <h3 className="text-xl font-[800] text-[#FAFAFA] mb-1" style={{ letterSpacing: "-0.02em" }}>{role.label}</h3>
+                    <p className="text-sm text-[#6B7280] mb-4">{role.desc}</p>
+
+                    <div className="flex flex-wrap gap-1.5 mb-5">
+                      {role.tags.map((tag) => (
+                        <span key={tag} className="text-[11px] px-2 py-0.5 bg-[#242428] text-[#9CA3AF] rounded-md font-medium">{tag}</span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between pt-4 border-t border-[#3A3D45]/40">
+                      <span className="text-sm text-[#FF6B1A] font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                        체험하기
+                        <span className="material-symbols-outlined text-base">arrow_forward</span>
+                      </span>
+                      <span className="text-[10px] text-[#3A3D45] font-mono">/{role.id}</span>
+                    </div>
+                  </MotionCard>
+                </Link>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
       </section>
 
-      {/* ── Trust / Tech Stack ── */}
-      <section className="py-16 px-6 max-w-4xl mx-auto text-center">
-        <h2 className="text-2xl font-bold text-[#111c29] mb-6">신뢰할 수 있는 기술력</h2>
-        <div className="flex flex-wrap justify-center items-center gap-4 mb-10">
-          {["Next.js 16", "TypeScript", "Tailwind CSS", "Supabase", "PostgreSQL", "Realtime", "PWA", "Vercel", "Naver Cloud SMS"].map((tech) => (
-            <span key={tech} className="px-3 py-1.5 bg-[#dee9fb] text-[#111c29] rounded-lg text-sm font-semibold">{tech}</span>
-          ))}
-        </div>
-        <div className="bg-[#dee9fb] p-8 rounded-2xl">
-          <p className="text-[#0059b9] font-extrabold text-xl mb-5">로그인 없이 6개 화면을 바로 체험해보세요</p>
-          <Link href="/demo/owner" className="inline-block px-8 py-4 bg-[#0059b9] text-white font-bold rounded-xl shadow-lg hover:scale-[1.02] transition-transform active:scale-95">
-            무료 체험 시작하기
-          </Link>
+      {/* ═══ 6-Step Flow ═══ */}
+      <section className="py-24 bg-[#121216] border-y border-[#3A3D45]/30">
+        <div className="max-w-[1280px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Dispatch Flow</p>
+            <h2 className="text-3xl md:text-5xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>
+              한 번에 이해하는 배차 흐름
+            </h2>
+            <p className="text-lg text-[#6B7280] mb-12 max-w-xl">
+              장비 요청부터 작업 완료까지 6단계. 각 단계마다 서로 다른 역할이 관여합니다.
+            </p>
+          </Reveal>
+
+          <StaggerContainer className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {FLOW_STEPS.map((step) => (
+              <StaggerItem key={step.num}>
+                <MotionCard className="p-6 h-full relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <span
+                      className="text-5xl font-black tabular-nums"
+                      style={{ color: step.accent, fontFamily: "'JetBrains Mono', monospace", letterSpacing: "-0.05em" }}
+                    >
+                      {step.num}
+                    </span>
+                    {step.highlight && (
+                      <span className="px-2 py-1 bg-[#FFA52315] border border-[#FFA52340] rounded-full text-xs font-bold text-[#FFA523] animate-pulse">
+                        ⏱ {step.highlight}
+                      </span>
+                    )}
+                  </div>
+
+                  <h3 className="text-xl font-bold text-[#FAFAFA] mb-2" style={{ letterSpacing: "-0.02em" }}>{step.title}</h3>
+                  <p className="text-sm text-[#9CA3AF] leading-relaxed mb-4">{step.desc}</p>
+
+                  <div className="pt-4 border-t border-[#3A3D45]/40">
+                    <span className="text-[10px] uppercase tracking-widest text-[#6B7280] block mb-1">Actor</span>
+                    <span className="text-sm font-bold text-[#D1D5DB]">{step.actor}</span>
+                  </div>
+                </MotionCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+
+          <Reveal delay={0.3}>
+            <div className="flex justify-center mt-12">
+              <Link href="/demo/simulation">
+                <MotionButton variant="primary" className="px-8 py-4 text-lg flex items-center gap-2">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+                  전체 6단계 시뮬레이션 실행
+                </MotionButton>
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── Footer ── */}
-      <footer className="bg-gray-50 w-full py-10 border-t border-gray-200">
-        <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <div className="text-lg font-bold text-[#111c29] mb-3">Heavy Match</div>
-            <p className="text-[#414754] font-medium mb-2">개발사: <b>BYTEFORCE (바이트포스)</b></p>
-            <p className="text-sm text-[#727785]">© 2026 BYTEFORCE. All rights reserved.</p>
-          </div>
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div className="space-y-2">
-              <span className="block text-[#727785]">이용약관</span>
-              <span className="block text-[#727785]">개인정보처리방침</span>
+      {/* ═══ Commission ═══ */}
+      <section className="py-24">
+        <div className="max-w-[960px] mx-auto px-6">
+          <Reveal>
+            <p className="text-sm text-[#FF6B1A] font-semibold uppercase tracking-widest mb-3">Revenue Model</p>
+            <h2 className="text-3xl md:text-4xl font-[900] text-[#FAFAFA] mb-3" style={{ letterSpacing: "-0.03em" }}>
+              투명한 15% 수수료 분배
+            </h2>
+            <p className="text-sm text-[#6B7280] mb-10">
+              예시: 크레인 50T 1일 임대비{" "}
+              <span className="text-[#FAFAFA] font-bold tabular-nums" style={{ fontFamily: "'JetBrains Mono', monospace" }}>1,000,000원</span> 기준
+            </p>
+          </Reveal>
+
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { label: "본사 수익", percent: "5%", amount: "50,000", color: "#FF6B1A" },
+              { label: "콜센터", percent: "2.5%", amount: "25,000", color: "#FFA523" },
+              { label: "영업사원", percent: "2.5%", amount: "25,000", color: "#8B5CF6" },
+              { label: "건설사 적립", percent: "5%", amount: "50,000", color: "#10B981" },
+            ].map((item) => (
+              <StaggerItem key={item.label}>
+                <MotionCard className="p-5 text-center">
+                  <p className="text-3xl font-black tabular-nums" style={{ color: item.color, fontFamily: "'JetBrains Mono', monospace" }}>
+                    {item.percent}
+                  </p>
+                  <p className="text-sm font-bold text-[#FAFAFA] mt-1">{item.label}</p>
+                  <p className="text-xs text-[#6B7280] tabular-nums mt-0.5">{item.amount}원</p>
+                </MotionCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
+        </div>
+      </section>
+
+      {/* ═══ Final CTA ═══ */}
+      <section className="py-24 bg-[#121216] border-t border-[#3A3D45]/30">
+        <div className="max-w-[960px] mx-auto px-6 text-center">
+          <Reveal>
+            <h2 className="text-3xl md:text-4xl font-[900] text-[#FAFAFA] mb-4" style={{ letterSpacing: "-0.03em" }}>
+              이제 직접 체험해보세요
+            </h2>
+            <p className="text-lg text-[#6B7280] mb-10">
+              6개 역할, 3가지 시나리오. 로그인 없이 모든 기능을 확인할 수 있습니다.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link href="/demo/simulation">
+                <MotionButton variant="primary" className="px-8 py-4 text-lg flex items-center gap-2">
+                  <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>movie</span>
+                  E2E 시뮬레이션
+                </MotionButton>
+              </Link>
+              <Link href="/demo/owner">
+                <MotionButton variant="secondary" className="px-8 py-4 text-lg">
+                  사장님 화면 체험
+                </MotionButton>
+              </Link>
+              <Link href="/demo/requester">
+                <MotionButton variant="secondary" className="px-8 py-4 text-lg">
+                  요청자 화면 체험
+                </MotionButton>
+              </Link>
             </div>
-            <div className="space-y-2">
-              <span className="block text-[#727785]">고객센터</span>
-              <span className="block text-[#727785]">인재채용</span>
-            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ═══ Footer ═══ */}
+      <footer className="border-t border-[#3A3D45]/30 py-10">
+        <div className="max-w-[1280px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/logo/hm-monogram.svg" alt="HM" className="w-6 h-6 opacity-60" />
+            <span className="text-xs font-bold text-[#6B7280]">BYTEFORCE (바이트포스)</span>
           </div>
+          <p className="text-xs text-[#3A3D45]">© 2026 BYTEFORCE. All rights reserved.</p>
         </div>
       </footer>
     </main>
