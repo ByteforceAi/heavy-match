@@ -96,7 +96,7 @@ function CallPage() {
         <div className="text-center">
           <div className="inline-flex items-center gap-2 mb-1">
             <span className="material-symbols-outlined text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-lg font-black text-[#111c29]">Heavy Match</span>
+            <span className="text-lg font-black text-[#0A1628]">철연 CHEOLYEON</span>
           </div>
           <p className="text-xs text-[#727785]">장비 요청 상세</p>
         </div>

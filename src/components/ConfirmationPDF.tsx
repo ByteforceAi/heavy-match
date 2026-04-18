@@ -46,7 +46,7 @@ export default function ConfirmationPDF({ data }: { data: ConfirmationData }) {
         <div className="bg-[#0059b9] text-white p-6 text-center">
           <span className="material-symbols-outlined text-3xl block mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
           <h1 className="text-2xl font-[800]">작업확인서</h1>
-          <p className="text-white/60 text-sm mt-1">Heavy Match</p>
+          <p className="text-white/60 text-sm mt-1">철연 CHEOLYEON</p>
         </div>
 
         <div className="p-6 space-y-4">

@@ -37,7 +37,7 @@ export default async function RequesterHome() {
     <div className="space-y-6">
       {/* CTA 배너 */}
       <div className="bg-gradient-to-r from-primary to-blue-600 rounded-2xl p-6 text-white shadow-lg">
-        <h2 className="text-2xl font-bold mb-1">장비가 필요하신가요?</h2>
+        <h2 className="text-2xl font-bold mb-1">장비 요청 시작</h2>
         <p className="text-blue-100 text-sm mb-4">크레인, 굴삭기 등 8종 장비를 즉시 요청하세요</p>
         <Link
           href="/requester/request"

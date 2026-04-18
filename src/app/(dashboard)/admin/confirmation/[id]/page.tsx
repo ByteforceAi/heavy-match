@@ -36,7 +36,7 @@ export default async function WorkConfirmationPage(props: { params: Promise<{ id
       {/* 헤더 */}
       <div className="bg-primary text-white p-6 text-center">
         <h1 className="text-2xl font-bold">작업확인서</h1>
-        <p className="text-blue-100 text-sm mt-1">Heavy Match</p>
+        <p className="text-blue-100 text-sm mt-1">철연 CHEOLYEON</p>
       </div>
 
       <div className="p-6 space-y-4">

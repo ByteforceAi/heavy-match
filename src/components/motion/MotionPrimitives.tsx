@@ -25,10 +25,10 @@ interface MotionButtonProps {
 
 export function MotionButton({ children, className = "", variant = "primary", onClick, disabled }: MotionButtonProps) {
   const variantStyles = {
-    primary: "bg-[#FF6B1A] hover:bg-[#FF8A4C] text-white",
-    secondary: "bg-[#242428] hover:bg-[#3A3D45] text-[#D1D5DB]",
-    ghost: "bg-transparent hover:bg-[#242428] text-[#9CA3AF]",
-    danger: "bg-[#EF4444] hover:bg-[#DC2626] text-white",
+    primary: "bg-[#002C5F] hover:bg-[#0046A4] text-white",
+    secondary: "bg-white hover:bg-[#F4F6FA] text-[#0A1628] border border-[#E3E8EF]",
+    ghost: "bg-transparent hover:bg-[#EEF1F5] text-[#3A4A5F]",
+    danger: "bg-[#E5484D] hover:bg-[#C82B30] text-white",
   };
 
   return (
@@ -65,7 +65,7 @@ export function MotionCard({ children, className = "", delay = 0, onClick }: Mot
       transition={{ ...tokens.spring.smooth, delay }}
       whileHover={{ y: -2, scale: tokens.haptic.lift.scale }}
       onClick={onClick}
-      className={`bg-[#1A1A20] border border-[#3A3D45]/60 rounded-2xl transition-shadow hover:shadow-[0_8px_24px_rgba(10,10,11,0.3),0_0_0_1px_rgba(255,107,26,0.1)] ${onClick ? "cursor-pointer" : ""} ${className}`}
+      className={`bg-white border border-[#E3E8EF] rounded-2xl transition-shadow hover:shadow-[0_8px_20px_rgba(0,44,95,0.08),0_0_0_1px_rgba(0,44,95,0.05)] ${onClick ? "cursor-pointer" : ""} ${className}`}
     >
       {children}
     </motion.div>
@@ -263,23 +263,7 @@ export function ModalEntrance({ children, className = "" }: { children: React.Re
 }
 
 // ═══════════════════════════════════════
-// INDUSTRIAL GLASS WRAPPER
+// IndustrialGlass (v1 Masterpiece Dark 잔재) — 제거됨
+// v2 철연 CHEOLYEON 노선에서는 라이트 글래스가 필요하면
+// blur.usage.header/modal/overlay를 tokens에서 직접 참조.
 // ═══════════════════════════════════════
-
-export function IndustrialGlass({ level = "subtle", children, className = "" }: {
-  level?: "subtle" | "medium" | "strong";
-  children: React.ReactNode;
-  className?: string;
-}) {
-  const styles = {
-    subtle: { backdropFilter: "blur(12px) saturate(150%)", background: "rgba(18,18,22,0.75)", border: "1px solid rgba(58,61,69,0.3)" },
-    medium: { backdropFilter: "blur(20px) saturate(180%)", background: "rgba(18,18,22,0.82)", border: "1px solid rgba(58,61,69,0.25)" },
-    strong: { backdropFilter: "blur(40px) saturate(200%)", background: "rgba(18,18,22,0.9)", border: "1px solid rgba(58,61,69,0.15)" },
-  };
-
-  return (
-    <div style={styles[level]} className={className}>
-      {children}
-    </div>
-  );
-}

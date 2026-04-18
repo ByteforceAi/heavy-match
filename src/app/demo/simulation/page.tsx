@@ -16,11 +16,11 @@ function parseSystemLog(log: string): { text: string; color?: string; delay?: nu
   const parts = log.split("→").map((p) => p.trim()).filter(Boolean);
   return parts.map((text, i) => ({
     text,
-    // POST/GET은 주황, UPDATE/INSERT는 파랑, 나머지는 초록
-    color: /^(POST|GET|DELETE|PUT)/i.test(text) ? "#FFA523"
-         : /^(UPDATE|INSERT|SELECT|UPSERT)/i.test(text) ? "#3B82F6"
-         : /SMS/i.test(text) ? "#FF6B1A"
-         : "#10B981",
+    // POST/GET은 시안, UPDATE/INSERT는 네이비, SMS는 Navy 강조, 나머지는 초록
+    color: /^(POST|GET|DELETE|PUT)/i.test(text) ? "#00AAD2"
+         : /^(UPDATE|INSERT|SELECT|UPSERT)/i.test(text) ? "#0046A4"
+         : /SMS/i.test(text) ? "#002C5F"
+         : "#00A86B",
     delay: i === 0 ? 100 : 300,  // 각 줄 사이 300ms 지연
   }));
 }
@@ -167,9 +167,9 @@ const STEPS: Step[] = [
             cloud_sync
           </span>
         </motion.div>
-        <div className="flex items-center gap-1.5 text-[10px] text-[#6B7280] font-mono">
+        <div className="flex items-center gap-1.5 text-[10px] text-[#6B7B8F] font-mono">
           <motion.span
-            className="w-1 h-1 bg-[#6B7280] rounded-full"
+            className="w-1 h-1 bg-[#6B7B8F] rounded-full"
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 1.2, repeat: Infinity }}
           />
@@ -185,7 +185,7 @@ const STEPS: Step[] = [
     leftContent: (
       <SMSSendingIndicator
         recipient="박중장비 (010-9876-****)"
-        message={`[Heavy Match] 크레인 50T 요청\n현장: 코엑스 신축현장\n금액: 1,200,000원\n확인: heavy-match.kr/call/...`}
+        message={`[철연] 크레인 50T 요청\n현장: 코엑스 신축현장\n금액: 1,200,000원\n확인: cheolyeon.kr/call/...`}
         duration={1800}
       />
     ),
@@ -228,10 +228,10 @@ const STEPS: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.2 }}
-          className="flex items-center justify-center gap-1.5 text-[9px] text-emerald-400 font-mono"
+          className="flex items-center justify-center gap-1.5 text-[9px] text-emerald-600 font-mono"
         >
           <motion.span
-            className="w-1 h-1 bg-emerald-400 rounded-full"
+            className="w-1 h-1 bg-emerald-500 rounded-full"
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 1, repeat: Infinity }}
           />
@@ -250,18 +250,18 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, type: "spring", stiffness: 300, damping: 18 }}
-          className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2 text-center"
+          className="bg-emerald-50 border border-emerald-200 rounded-lg p-2 text-center"
         >
           <motion.span
-            className="material-symbols-outlined text-2xl text-emerald-400"
+            className="material-symbols-outlined text-2xl text-emerald-600"
             style={{ fontVariationSettings: "'FILL' 1" }}
             animate={{ scale: [0.8, 1.15, 1] }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             check_circle
           </motion.span>
-          <p className="text-[11px] font-bold text-emerald-400 mt-0.5">📩 배차 매칭 완료!</p>
-          <p className="text-[9px] text-[#8899b3]">대한크레인 박중장비 수락</p>
+          <p className="text-[11px] font-bold text-emerald-600 mt-0.5">📩 배차 매칭 완료!</p>
+          <p className="text-[9px] text-[#6B7B8F]">대한크레인 박중장비 수락</p>
         </motion.div>
 
         <motion.div
@@ -272,7 +272,7 @@ const STEPS: Step[] = [
           <StatusTransition
             from="exclusive_call"
             to="matched"
-            fromColor="#FF6B1A"
+            fromColor="#002C5F"
             toColor="#10B981"
             duration={900}
           />
@@ -282,9 +282,9 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.6 }}
-          className="text-[9px] text-[#6B7280] font-mono flex items-center gap-1.5"
+          className="text-[9px] text-[#6B7B8F] font-mono flex items-center gap-1.5"
         >
-          <span className="w-1 h-1 bg-emerald-400 rounded-full animate-pulse" />
+          <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
           Supabase Realtime → 요청자 디바이스 푸시
         </motion.div>
       </div>
@@ -296,10 +296,10 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.3 }}
-          className="bg-emerald-500/10 border border-emerald-500/30 rounded-lg p-2 text-center"
+          className="bg-emerald-50 border border-emerald-200 rounded-lg p-2 text-center"
         >
-          <span className="material-symbols-outlined text-xl text-emerald-400" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
-          <p className="text-[10px] font-bold text-emerald-400">수락 완료 · 200 OK</p>
+          <span className="material-symbols-outlined text-xl text-emerald-600" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
+          <p className="text-[10px] font-bold text-emerald-600">수락 완료 · 200 OK</p>
         </motion.div>
 
         <motion.div
@@ -325,7 +325,7 @@ const STEPS: Step[] = [
       <div className="space-y-2">
         <SMSSendingIndicator
           recipient="이기사 (010-5555-****)"
-          message={`[Heavy Match] 배차 안내\n크레인 50T · 코엑스 신축현장\n담당자: 홍현장 010-9876-****`}
+          message={`[철연] 배차 안내\n크레인 50T · 코엑스 신축현장\n담당자: 홍현장 010-9876-****`}
           duration={1400}
         />
 
@@ -347,14 +347,14 @@ const STEPS: Step[] = [
     rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "기사 선택 UI",
     rightContent: (
       <div className="space-y-1.5">
-        <p className="text-[9px] text-[#6B7280] font-mono mb-1">소속 기사 3명 · 선택 대기</p>
+        <p className="text-[9px] text-[#6B7B8F] font-mono mb-1">소속 기사 3명 · 선택 대기</p>
         {["이기사","장운전","손기술"].map((name, i) => (
           <motion.div
             key={name}
             initial={{ opacity: 0, x: -5 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.15 }}
-            className={`flex items-center justify-between p-1.5 rounded-lg border text-[10px] ${i === 0 ? "border-[#FF6B1A] bg-[#FF6B1A]/10 ring-2 ring-[#FF6B1A]/20" : "border-[#c1c6d6]/30"}`}
+            className={`flex items-center justify-between p-1.5 rounded-lg border text-[10px] ${i === 0 ? "border-[#002C5F] bg-[#002C5F]/10 ring-2 ring-[#002C5F]/20" : "border-[#E3E8EF]"}`}
           >
             <div className="flex items-center gap-1.5">
               <div className="w-5 h-5 bg-[#d7e2ff] rounded-full flex items-center justify-center text-[8px] font-bold text-[#0059b9]">{name[0]}</div>
@@ -366,7 +366,7 @@ const STEPS: Step[] = [
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.2, type: "spring", stiffness: 400, damping: 15 }}
               >
-                <MiniBadge label="✓ 배정" color="bg-[#FF6B1A] text-white" />
+                <MiniBadge label="✓ 배정" color="bg-[#002C5F] text-white" />
               </motion.span>
             ) : <span className="text-[#c1c6d6]">선택</span>}
           </motion.div>
@@ -398,7 +398,7 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2, type: "spring" }}
-          className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2"
+          className="bg-amber-50 border border-amber-200 rounded-lg p-2"
         >
           <div className="flex items-center gap-1.5 mb-1">
             <motion.span
@@ -411,7 +411,7 @@ const STEPS: Step[] = [
             </motion.span>
             <span className="text-[10px] font-bold text-amber-500">현장 도착 확인</span>
           </div>
-          <p className="text-[9px] text-[#9CA3AF]">서울시 강남구 삼성동 · 08:47 AM</p>
+          <p className="text-[9px] text-[#3A4A5F]">서울시 강남구 삼성동 · 08:47 AM</p>
         </motion.div>
 
         {/* 작업 시작 버튼 애니메이션 */}
@@ -652,7 +652,7 @@ const STEPS_B: Step[] = [
         <motion.div
           animate={{ boxShadow: ["0 0 0 0 rgba(239,68,68,0.4)", "0 0 0 10px rgba(239,68,68,0)", "0 0 0 0 rgba(239,68,68,0)"] }}
           transition={{ duration: 1.5, repeat: Infinity }}
-          className="bg-[#EF4444]/10 border border-[#EF4444]/40 rounded-lg p-3 text-center"
+          className="bg-red-50 border border-red-300 rounded-lg p-3 text-center"
         >
           <motion.span
             className="material-symbols-outlined text-3xl text-[#EF4444]"
@@ -663,7 +663,7 @@ const STEPS_B: Step[] = [
             timer_off
           </motion.span>
           <p className="text-[11px] font-bold text-[#EF4444] mt-1">전용콜 60초 만료</p>
-          <p className="text-[9px] text-[#9CA3AF]">박중장비 사장 · 미수락</p>
+          <p className="text-[9px] text-[#3A4A5F]">박중장비 사장 · 미수락</p>
         </motion.div>
 
         <motion.div
@@ -674,8 +674,8 @@ const STEPS_B: Step[] = [
           <StatusTransition
             from="exclusive_call"
             to="callcenter_call"
-            fromColor="#FF6B1A"
-            toColor="#FFA523"
+            fromColor="#002C5F"
+            toColor="#00AAD2"
             duration={900}
           />
         </motion.div>
@@ -684,7 +684,7 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4 }}
-          className="text-[9px] text-amber-400 font-bold text-center"
+          className="text-[9px] text-amber-600 font-bold text-center"
         >
           ▼ 자동 에스컬레이션 실행 ▼
         </motion.div>
@@ -695,7 +695,7 @@ const STEPS_B: Step[] = [
       <div className="space-y-2">
         <SMSSendingIndicator
           recipient="정콜센터 (중부콜센터)"
-          message={`[Heavy Match] 콜 전달\n박중장비 미수락 건\n크레인 50T · 코엑스 현장\n처리: heavy-match.kr/call/...`}
+          message={`[철연] 콜 전달\n박중장비 미수락 건\n크레인 50T · 코엑스 현장\n처리: cheolyeon.kr/call/...`}
           duration={1400}
         />
 
@@ -726,7 +726,7 @@ const STEPS_B: Step[] = [
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-2"
+          className="bg-amber-50 border border-amber-200 rounded-lg p-2"
         >
           <div className="flex items-center justify-between text-[9px] font-mono mb-1">
             <span className="text-amber-500 font-bold">INCOMING CALL</span>
@@ -781,10 +781,10 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="flex items-center gap-2 text-[9px] text-[#FFA523]"
+          className="flex items-center gap-2 text-[9px] text-[#00AAD2]"
         >
           <span className="material-symbols-outlined text-xs">timer</span>
-          <div className="flex-1 h-1 bg-[#242428] rounded-full overflow-hidden">
+          <div className="flex-1 h-1 bg-[#F4F6FA] rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-amber-500"
               initial={{ width: "100%" }}
@@ -808,7 +808,7 @@ const STEPS_B: Step[] = [
               <span className="font-bold text-[11px]">크레인 50T</span>
               <MiniBadge label="콜센터 전달됨" color="bg-amber-100 text-amber-700" />
             </div>
-            <p className="text-[9px] text-[#414754] mb-1.5">콜센터에서 처리 중입니다...</p>
+            <p className="text-[9px] text-[#414754] mb-1.5">콜센터에서 처리 중</p>
 
             <div className="h-1 bg-[#d8e3f5] rounded-full overflow-hidden">
               <motion.div
@@ -836,12 +836,12 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.0 }}
-          className="bg-[#1A1A20] border border-[#3A3D45]/40 rounded-lg p-2 text-[9px] font-mono"
+          className="bg-white border border-[#E3E8EF] rounded-lg p-2 text-[9px] font-mono"
         >
-          <p className="text-[#6B7280] mb-1">다음 단계 예상</p>
+          <p className="text-[#6B7B8F] mb-1">다음 단계 예상</p>
           <div className="space-y-0.5">
-            <div className="flex items-center gap-1.5 text-emerald-400">
-              <span className="w-1 h-1 bg-emerald-400 rounded-full" />
+            <div className="flex items-center gap-1.5 text-emerald-600">
+              <span className="w-1 h-1 bg-emerald-500 rounded-full" />
               <span className="flex-1">A) 콜센터 직접 수락</span>
               <span>→ 즉시 매칭</span>
             </div>
@@ -869,13 +869,13 @@ const STEPS_B: Step[] = [
           <StatusTransition
             from="callcenter_call"
             to="shared_call"
-            fromColor="#FFA523"
-            toColor="#3B82F6"
+            fromColor="#00AAD2"
+            toColor="#0046A4"
             duration={700}
           />
         </motion.div>
 
-        <div className="bg-[#111] rounded-lg border border-[#3A3D45] p-2">
+        <div className="bg-white rounded-lg border border-[#E3E8EF] p-2">
           <div className="flex items-center gap-1.5 mb-1.5 text-[9px] font-mono">
             <motion.span
               className="w-1.5 h-1.5 bg-[#3B82F6] rounded-full"
@@ -893,7 +893,7 @@ const STEPS_B: Step[] = [
               className="flex items-center gap-2 text-[10px] font-mono py-0.5"
             >
               <motion.span
-                className="material-symbols-outlined text-xs text-emerald-400"
+                className="material-symbols-outlined text-xs text-emerald-600"
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.0 + i * 0.25, type: "spring" }}
@@ -901,12 +901,12 @@ const STEPS_B: Step[] = [
               >
                 send
               </motion.span>
-              <span className="text-[#D1D5DB]">{n}</span>
+              <span className="text-[#9AA8B8]">{n}</span>
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5 + i * 0.25 }}
-                className="ml-auto text-[8px] text-emerald-400 font-bold"
+                className="ml-auto text-[8px] text-emerald-600 font-bold"
               >
                 ✓ Sent
               </motion.span>
@@ -918,7 +918,7 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.3 }}
-          className="text-center text-[9px] text-amber-400 font-bold"
+          className="text-center text-[9px] text-amber-600 font-bold"
         >
           🏁 선착순 매칭 시작
         </motion.p>
@@ -953,7 +953,7 @@ const STEPS_B: Step[] = [
                   <motion.span
                     animate={{ opacity: [0.4, 1, 0.4] }}
                     transition={{ duration: 1, repeat: 3, delay: 1.5 + i * 0.2 }}
-                    className="text-[9px] text-[#FFA523]"
+                    className="text-[9px] text-[#00AAD2]"
                   >
                     대기중...
                   </motion.span>
@@ -967,7 +967,7 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.7 }}
-          className="text-[9px] text-[#6B7280] font-mono text-center pt-1"
+          className="text-[9px] text-[#6B7B8F] font-mono text-center pt-1"
         >
           Race condition 방지: UPDATE WHERE status=&apos;shared_call&apos;
         </motion.div>
@@ -1045,7 +1045,7 @@ const STEPS_C: Step[] = [
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 300, damping: 20 }}
-          className="bg-[#EF4444]/10 border border-[#EF4444]/30 rounded-lg p-3"
+          className="bg-red-50 border border-red-200 rounded-lg p-3"
         >
           <div className="flex items-center gap-2 mb-2">
             <motion.span
@@ -1064,7 +1064,7 @@ const STEPS_C: Step[] = [
             initial={{ opacity: 0, y: 5 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="bg-[#EF4444]/20 rounded-lg p-2 text-center border border-[#EF4444]/40"
+            className="bg-red-100 rounded-lg p-2 text-center border border-red-300"
           >
             <p className="text-[9px] text-[#EF4444] font-bold mb-0.5">⚠️ 7.5% 취소 수수료 발생</p>
             <motion.p
@@ -1097,7 +1097,7 @@ const STEPS_C: Step[] = [
             >
               취소 확인
             </motion.div>
-            <div className="flex-1 py-1.5 bg-[#242428] text-[#9CA3AF] text-center rounded text-[10px] font-bold">
+            <div className="flex-1 py-1.5 bg-[#F4F6FA] text-[#3A4A5F] text-center rounded text-[10px] font-bold">
               돌아가기
             </div>
           </motion.div>
@@ -1125,14 +1125,14 @@ const STEPS_C: Step[] = [
           initial={{ opacity: 0, y: -15, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ delay: 1.7, type: "spring", stiffness: 300, damping: 18 }}
-          className="bg-[#1A1A20] border border-[#EF4444]/30 rounded-lg p-2 shadow-xl"
+          className="bg-white border border-red-200 rounded-lg p-2 shadow-xl"
         >
           <div className="flex items-center justify-between mb-1 text-[9px] font-mono">
-            <span className="text-[#EF4444] font-bold">🔔 Heavy Match</span>
-            <span className="text-[#6B7280]">지금</span>
+            <span className="text-[#EF4444] font-bold">🔔 철연</span>
+            <span className="text-[#6B7B8F]">지금</span>
           </div>
-          <p className="text-[10px] font-bold text-[#FAFAFA]">배차 취소 알림</p>
-          <p className="text-[9px] text-[#9CA3AF] mt-0.5">요청자가 배차를 취소했습니다. 페널티 수수료 {formatPrice(90000)}원 발생</p>
+          <p className="text-[10px] font-bold text-[#0A1628]">배차 취소 알림</p>
+          <p className="text-[9px] text-[#3A4A5F] mt-0.5">요청자가 배차를 취소했다. 페널티 수수료 {formatPrice(90000)}원 발생</p>
         </motion.div>
 
         <motion.div
@@ -1145,7 +1145,7 @@ const STEPS_C: Step[] = [
               <span className="text-[10px] font-bold">크레인 50T</span>
               <MiniBadge label="취소됨" color="bg-[#ffdad6] text-[#ba1a1a]" />
             </div>
-            <p className="text-[9px] text-[#6B7280] mt-1">매칭 후 취소 → 페널티 적용</p>
+            <p className="text-[9px] text-[#6B7B8F] mt-1">매칭 후 취소 → 페널티 적용</p>
           </MiniCard>
         </motion.div>
       </div>
@@ -1160,7 +1160,7 @@ const STEPS_C: Step[] = [
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-[#EF4444]/10 rounded-lg p-2.5 border border-[#EF4444]/30"
+          className="bg-red-50 rounded-lg p-2.5 border border-red-200"
         >
           <p className="text-[10px] font-bold text-[#EF4444] text-center mb-2">📋 취소 수수료 계산서</p>
 
@@ -1171,8 +1171,8 @@ const STEPS_C: Step[] = [
               transition={{ delay: 0.2 }}
               className="flex justify-between"
             >
-              <span className="text-[#9CA3AF]">임대비</span>
-              <span className="font-bold tabular-nums text-[#D1D5DB]">{formatPrice(SCENARIO.price)}원</span>
+              <span className="text-[#3A4A5F]">임대비</span>
+              <span className="font-bold tabular-nums text-[#9AA8B8]">{formatPrice(SCENARIO.price)}원</span>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: -5 }}
@@ -1180,7 +1180,7 @@ const STEPS_C: Step[] = [
               transition={{ delay: 0.5 }}
               className="flex justify-between"
             >
-              <span className="text-[#9CA3AF]">페널티율</span>
+              <span className="text-[#3A4A5F]">페널티율</span>
               <span className="font-bold text-[#EF4444]">× 7.5%</span>
             </motion.div>
 
@@ -1188,7 +1188,7 @@ const STEPS_C: Step[] = [
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
               transition={{ delay: 0.8 }}
-              className="border-t border-[#EF4444]/30 pt-1 mt-1 origin-left"
+              className="border-t border-red-200 pt-1 mt-1 origin-left"
             >
               <div className="flex justify-between items-baseline">
                 <span className="font-bold text-[#EF4444]">취소 수수료</span>
@@ -1197,7 +1197,7 @@ const STEPS_C: Step[] = [
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.0, type: "spring", stiffness: 400 }}
                   className="font-black text-lg text-[#EF4444] tabular-nums"
-                  style={{ fontFamily: "var(--font-jetbrains), monospace" }}
+                  style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {formatPrice(90000)}원
                 </motion.span>
@@ -1210,7 +1210,7 @@ const STEPS_C: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
-          className="text-[9px] text-[#6B7280] text-center font-mono"
+          className="text-[9px] text-[#6B7B8F] text-center font-mono"
         >
           💰 전액 본사 귀속 · 콜센터/영업 수수료 없음
         </motion.div>
@@ -1236,18 +1236,18 @@ const STEPS_C: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8 }}
-          className="bg-[#1A1A20] border border-[#3A3D45]/40 rounded-lg p-2"
+          className="bg-white border border-[#E3E8EF] rounded-lg p-2"
         >
-          <p className="text-[10px] font-bold text-[#FAFAFA] mb-1.5 flex items-center gap-1">
+          <p className="text-[10px] font-bold text-[#0A1628] mb-1.5 flex items-center gap-1">
             <span className="material-symbols-outlined text-xs text-[#EF4444]" style={{ fontVariationSettings: "'FILL' 1" }}>receipt_long</span>
             취소 건 정산 내역
           </p>
           <div className="space-y-0.5 text-[9px] font-mono">
             {[
-              { label: "본사 수익", value: formatPrice(90000), color: "text-emerald-400" },
-              { label: "콜센터", value: "0", color: "text-[#6B7280]" },
-              { label: "영업사원", value: "0", color: "text-[#6B7280]" },
-              { label: "건설사 적립", value: "0", color: "text-[#6B7280]" },
+              { label: "본사 수익", value: formatPrice(90000), color: "text-emerald-600" },
+              { label: "콜센터", value: "0", color: "text-[#6B7B8F]" },
+              { label: "영업사원", value: "0", color: "text-[#6B7B8F]" },
+              { label: "건설사 적립", value: "0", color: "text-[#6B7B8F]" },
             ].map((row, i) => (
               <motion.div
                 key={row.label}
@@ -1256,7 +1256,7 @@ const STEPS_C: Step[] = [
                 transition={{ delay: 2.0 + i * 0.1 }}
                 className="flex justify-between"
               >
-                <span className="text-[#9CA3AF]">{row.label}</span>
+                <span className="text-[#3A4A5F]">{row.label}</span>
                 <span className={`font-bold tabular-nums ${row.color}`}>{row.value}원</span>
               </motion.div>
             ))}
@@ -1404,7 +1404,7 @@ export default function SimulationPage() {
   const current = step >= 0 && step < currentSteps.length ? currentSteps[step] : null;
 
   return (
-    <main className="min-h-screen bg-[#0A0A0B]" style={{ fontFamily: "'Inter','Pretendard',sans-serif", letterSpacing: "-0.02em" }}>
+    <main className="min-h-screen bg-[#F4F6FA] text-[#0A1628]" style={{ fontFamily: "'Pretendard','IBM Plex Sans KR',sans-serif", letterSpacing: "-0.01em" }}>
       {/* Top network activity indicator (iOS-style) */}
       <NetworkActivityBar active={networkActive} />
 
@@ -1412,16 +1412,16 @@ export default function SimulationPage() {
       <Confetti active={isComplete && (scenario === "A" || scenario === "B")} count={60} duration={3.5} />
 
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0A0A0B]/80 backdrop-blur-xl border-b border-white/5">
+      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-[#E3E8EF]" style={{ backdropFilter: "blur(12px) saturate(180%)" }}>
         <div className="flex justify-between items-center max-w-6xl mx-auto px-4 md:px-6 h-14">
-          <Link href="/demo" className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#FF6B1A]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="font-black text-white tracking-tight">Heavy Match</span>
+          <Link href="/demo" className="flex items-baseline gap-2.5" aria-label="철연 홈">
+            <span style={{ color: "#002C5F", fontWeight: 900 }} className="text-[20px] tracking-[-0.03em]">철연</span>
+            <span style={{ fontFamily: "var(--font-roboto-mono), monospace", letterSpacing: "0.3em", fontSize: "10px", color: "#6B7B8F" }}>CHEOLYEON</span>
           </Link>
           <div className="flex items-center gap-3">
             <RealtimeIndicator />
             {running && !isComplete && <ProcessingPulse label="Running" />}
-            <span className="px-3 py-1 bg-[#FF6B1A]/20 text-[#FF6B1A] rounded-full text-xs font-bold flex items-center gap-1">
+            <span className="px-3 py-1 bg-[#E8F1FB] text-[#002C5F] rounded-full text-xs font-bold flex items-center gap-1">
               <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
               E2E 시뮬레이션
             </span>
@@ -1432,28 +1432,28 @@ export default function SimulationPage() {
       <div className="pt-16 pb-10 px-4 md:px-6 max-w-6xl mx-auto">
         {/* ── Header ── */}
         <div className="text-center mb-6">
-          <h1 className="text-2xl md:text-3xl font-[800] text-white mb-1">배차 플로우 시뮬레이션</h1>
-          <p className="text-[#8899b3] text-sm">장비 요청 → 전용콜 → 수락 → 기사배정 → 작업완료 전 과정</p>
+          <h1 className="text-2xl md:text-3xl font-[800] text-[#0A1628] mb-1" style={{ letterSpacing: "-0.03em" }}>배차 플로우 시뮬레이션</h1>
+          <p className="text-[#6B7B8F] text-sm">장비 요청 → 전용콜 → 수락 → 기사배정 → 작업완료 전 과정</p>
         </div>
 
         {/* ── Scenario Card ── */}
-        <div className="bg-white/5 backdrop-blur rounded-2xl border border-white/10 p-4 mb-6 flex items-center justify-between flex-wrap gap-3">
+        <div className="bg-white rounded-2xl border border-[#E3E8EF] p-4 mb-6 flex items-center justify-between flex-wrap gap-3" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
           <div className="flex items-center gap-3">
             <span className="text-2xl">🏗️</span>
             <div>
-              <p className="text-white font-[800] text-lg">{SCENARIO.equipment} · {SCENARIO.time}</p>
-              <p className="text-[#8899b3] text-sm">{SCENARIO.site}</p>
+              <p className="text-[#0A1628] font-[800] text-lg">{SCENARIO.equipment} · {SCENARIO.time}</p>
+              <p className="text-[#6B7B8F] text-sm">{SCENARIO.site}</p>
             </div>
           </div>
-          <p className="text-2xl font-black text-[#FF6B1A] tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+          <p className="text-2xl font-black text-[#002C5F] tabular-nums">{formatPrice(SCENARIO.price)}원</p>
         </div>
 
         {/* ── Progress Bar ── */}
         <div className="flex gap-1 mb-6">
           {currentSteps.map((s, i) => (
             <div key={s.id} className="flex-1 flex flex-col items-center gap-1">
-              <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${i <= step ? "bg-[#0059b9]" : "bg-white/10"}`} />
-              <span className={`text-[9px] font-bold transition-colors hidden md:block ${i <= step ? "text-[#FF6B1A]" : "text-white/20"}`}>{s.label}</span>
+              <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${i <= step ? "bg-[#002C5F]" : "bg-[#E3E8EF]"}`} />
+              <span className={`text-[9px] font-bold transition-colors hidden md:block ${i <= step ? "text-[#002C5F]" : "text-[#9AA8B8]"}`}>{s.label}</span>
             </div>
           ))}
         </div>
@@ -1462,11 +1462,11 @@ export default function SimulationPage() {
         {current && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 animate-fade-in" key={step}>
             {/* LEFT DEVICE */}
-            <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
-              <div className="px-3 py-2 bg-white/5 border-b border-white/5 flex items-center gap-2">
-                <span className={`material-symbols-outlined text-sm text-[#FF6B1A]`}>{current.leftIcon}</span>
-                <span className="text-xs font-bold text-[#FF6B1A]">{current.leftRole}</span>
-                <span className="text-[10px] text-white/40 ml-auto">{current.leftTitle}</span>
+            <div className="bg-white rounded-2xl border border-[#E3E8EF] overflow-hidden" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
+              <div className="px-3 py-2 bg-[#F4F6FA] border-b border-[#E3E8EF] flex items-center gap-2">
+                <span className={`material-symbols-outlined text-sm text-[#002C5F]`}>{current.leftIcon}</span>
+                <span className="text-xs font-bold text-[#002C5F]">{current.leftRole}</span>
+                <span className="text-[10px] text-[#6B7B8F] ml-auto">{current.leftTitle}</span>
               </div>
               <div className="p-3 min-h-[160px]">
                 {current.leftContent}
@@ -1474,11 +1474,11 @@ export default function SimulationPage() {
             </div>
 
             {/* RIGHT DEVICE */}
-            <div className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden">
-              <div className="px-3 py-2 bg-white/5 border-b border-white/5 flex items-center gap-2">
-                <span className={`material-symbols-outlined text-sm text-[#FF6B1A]`}>{current.rightIcon}</span>
-                <span className="text-xs font-bold text-[#FF6B1A]">{current.rightRole}</span>
-                <span className="text-[10px] text-white/40 ml-auto">{current.rightTitle}</span>
+            <div className="bg-white rounded-2xl border border-[#E3E8EF] overflow-hidden" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
+              <div className="px-3 py-2 bg-[#F4F6FA] border-b border-[#E3E8EF] flex items-center gap-2">
+                <span className={`material-symbols-outlined text-sm text-[#002C5F]`}>{current.rightIcon}</span>
+                <span className="text-xs font-bold text-[#002C5F]">{current.rightRole}</span>
+                <span className="text-[10px] text-[#6B7B8F] ml-auto">{current.rightTitle}</span>
                 {current.timer && timer > 0 && (
                   <span className="px-2 py-0.5 bg-[#ba1a1a] text-white rounded-full text-[10px] font-bold animate-pulse tabular-nums">⏱ {timer}초</span>
                 )}
@@ -1492,20 +1492,20 @@ export default function SimulationPage() {
 
         {/* ── System Log with Typed effect ── */}
         {current && (
-          <div className="bg-[#111] rounded-xl border border-[#3A3D45]/40 p-4 mb-6 animate-fade-in">
-            <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#3A3D45]/30">
+          <div className="bg-white rounded-xl border border-[#E3E8EF] p-4 mb-6 animate-fade-in">
+            <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#E3E8EF]">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#FFA523]/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#00AAD2]/60" />
                   <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]/60" />
                 </div>
-                <span className="text-[10px] text-[#6B7280] font-mono ml-2">heavy-match@server:~$</span>
+                <span className="text-[10px] text-[#6B7B8F] font-mono ml-2">cheolyeon@server:~$</span>
               </div>
               <div className="flex items-center gap-3">
                 <RealtimeIndicator />
                 <SystemClock />
-                <span className="text-[10px] text-[#6B7280] font-mono">Step {step + 1}/{currentSteps.length}</span>
+                <span className="text-[10px] text-[#6B7B8F] font-mono">Step {step + 1}/{currentSteps.length}</span>
               </div>
             </div>
             <TypedLog
@@ -1520,7 +1520,7 @@ export default function SimulationPage() {
         <div className="flex gap-3 max-w-md mx-auto">
           {scenario === null ? (
             <div className="w-full space-y-3">
-              <p className="text-center text-sm text-[#8899b3] font-medium mb-2">시나리오를 선택하세요</p>
+              <p className="text-center text-sm text-[#6B7B8F] font-medium mb-2">시나리오를 선택하세요</p>
               {(Object.entries(ALL_SCENARIOS) as [ScenarioKey, typeof ALL_SCENARIOS[ScenarioKey]][]).map(([key, sc]) => (
                 <ScenarioStartButton
                   key={key}
@@ -1533,11 +1533,11 @@ export default function SimulationPage() {
           ) : isComplete ? (
             <div className="w-full space-y-2">
               <div className="flex gap-3">
-                <button onClick={reset} className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl active:scale-95 transition-colors flex items-center justify-center gap-1">
+                <button onClick={reset} className="flex-1 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] font-bold rounded-xl border border-[#E3E8EF] active:scale-95 transition-colors flex items-center justify-center gap-1">
                   <span className="material-symbols-outlined text-lg">refresh</span>
                   다른 시나리오
                 </button>
-                <Link href="/demo" className="flex-1 py-3 bg-[#FF6B1A] hover:bg-[#FF8A4C] text-white font-bold rounded-xl active:scale-95 transition-colors text-center flex items-center justify-center gap-1">
+                <Link href="/demo" className="flex-1 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white font-bold rounded-xl active:scale-95 transition-colors text-center flex items-center justify-center gap-1">
                   역할별 체험 <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </Link>
               </div>
@@ -1549,7 +1549,7 @@ export default function SimulationPage() {
                     <button
                       key={k}
                       onClick={() => { reset(); setTimeout(() => start(k), 300); }}
-                      className="px-3 py-1.5 bg-white/5 hover:bg-white/10 text-white/70 hover:text-white font-bold rounded-lg text-xs transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 bg-white hover:bg-[#E8F1FB] text-[#3A4A5F] hover:text-[#002C5F] border border-[#E3E8EF] font-bold rounded-lg text-xs transition-colors flex items-center gap-1"
                     >
                       <span className="material-symbols-outlined text-xs">{sc.icon}</span>
                       {sc.label}
@@ -1564,7 +1564,7 @@ export default function SimulationPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className="flex-1 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] border border-[#E3E8EF] font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
               >
                 <motion.span
                   key={running ? "pause" : "play"}
@@ -1583,7 +1583,7 @@ export default function SimulationPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className="flex-1 py-3 bg-[#0059b9] hover:bg-[#1071e5] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
               >
                 다음 단계
                 <motion.span
@@ -1604,13 +1604,14 @@ export default function SimulationPage() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="mt-8 bg-gradient-to-br from-emerald-500/10 to-transparent backdrop-blur rounded-2xl border border-emerald-500/30 p-6 md:p-8 text-center"
+            className="mt-8 bg-gradient-to-br from-emerald-50 to-white rounded-2xl border border-emerald-200 p-6 md:p-8 text-center"
+            style={{ boxShadow: "0 4px 12px rgba(0,44,95,0.06)" }}
           >
             <motion.span
               initial={{ scale: 0, rotate: -180 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 }}
-              className="material-symbols-outlined text-6xl text-emerald-400 block mb-2"
+              className="material-symbols-outlined text-6xl text-emerald-500 block mb-2"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               celebration
@@ -1619,38 +1620,38 @@ export default function SimulationPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl font-[900] text-white"
+              className="text-2xl md:text-3xl font-[900] text-[#0A1628]"
               style={{ letterSpacing: "-0.03em" }}
             >
-              배차 완료!
+              배차 완료
             </motion.h3>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="text-sm text-[#8899b3] mt-1 mb-6"
+              className="text-sm text-[#6B7B8F] mt-1 mb-6"
             >
               전용콜 → 즉시 수락 → 기사 배정 → 작업 완료 (6단계)
             </motion.p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
               {[
-                { target: SCENARIO.price, label: "임대비", color: "text-white", delay: 0.7 },
-                { target: SCENARIO.commission, label: "총 수수료 (15%)", color: "text-emerald-400", delay: 0.9 },
-                { target: 60000, label: "본사 수익", color: "text-[#FF6B1A]", delay: 1.1 },
-                { target: 60000, label: "건설사 적립", color: "text-amber-400", delay: 1.3 },
+                { target: SCENARIO.price, label: "임대비", color: "text-[#0A1628]", delay: 0.7 },
+                { target: SCENARIO.commission, label: "총 수수료 (15%)", color: "text-emerald-600", delay: 0.9 },
+                { target: 60000, label: "본사 수익", color: "text-[#002C5F]", delay: 1.1 },
+                { target: 60000, label: "건설사 적립", color: "text-amber-600", delay: 1.3 },
               ].map((item) => (
                 <motion.div
                   key={item.label}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: item.delay, type: "spring", stiffness: 200 }}
-                  className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+                  className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
                 >
-                  <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                  <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                     <CountUp target={item.target} duration={1.8} />원
                   </p>
-                  <p className="text-[10px] text-[#8899b3] mt-1">{item.label}</p>
+                  <p className="text-[10px] text-[#6B7B8F] mt-1">{item.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -1661,13 +1662,14 @@ export default function SimulationPage() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="mt-8 bg-gradient-to-br from-amber-500/10 to-transparent backdrop-blur rounded-2xl border border-amber-500/30 p-6 md:p-8 text-center"
+            className="mt-8 bg-gradient-to-br from-amber-50 to-white rounded-2xl border border-amber-200 p-6 md:p-8 text-center"
+            style={{ boxShadow: "0 4px 12px rgba(0,44,95,0.06)" }}
           >
             <motion.span
               initial={{ scale: 0, rotate: -90 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 }}
-              className="material-symbols-outlined text-6xl text-amber-400 block mb-2"
+              className="material-symbols-outlined text-6xl text-amber-500 block mb-2"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               swap_horiz
@@ -1676,55 +1678,55 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl font-[900] text-white"
+              className="text-2xl md:text-3xl font-[900] text-[#0A1628]"
               style={{ letterSpacing: "-0.03em" }}
             >
-              에스컬레이션 후 배차 완료!
+              에스컬레이션 후 배차 완료
             </motion.h3>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="text-sm text-[#8899b3] mt-2"
+              className="text-sm text-[#6B7B8F] mt-2"
             >
-              전용콜 미수락 → 콜센터 전달 → 공유콜 → <b className="text-amber-400">선착순 매칭</b>
+              전용콜 미수락 → 콜센터 전달 → 공유콜 → <b className="text-amber-600">선착순 매칭</b>
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="text-xs text-[#8899b3] mb-6"
+              className="text-xs text-[#6B7B8F] mb-6"
             >
               원래 사장(박중장비) 미수락 → 다른 사장(최장비)이 공유콜에서 수락
             </motion.p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
               {[
-                { target: SCENARIO.price, label: "임대비", color: "text-white", delay: 0.9 },
-                { target: SCENARIO.commission, label: "총 수수료", color: "text-emerald-400", delay: 1.1 },
-                { target: 60000, label: "본사", color: "text-[#FF6B1A]", delay: 1.3 },
+                { target: SCENARIO.price, label: "임대비", color: "text-[#0A1628]", delay: 0.9 },
+                { target: SCENARIO.commission, label: "총 수수료", color: "text-emerald-600", delay: 1.1 },
+                { target: 60000, label: "본사", color: "text-[#002C5F]", delay: 1.3 },
               ].map((item) => (
                 <motion.div
                   key={item.label}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: item.delay, type: "spring", stiffness: 200 }}
-                  className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+                  className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
                 >
-                  <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                  <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                     <CountUp target={item.target} duration={1.8} />원
                   </p>
-                  <p className="text-[10px] text-[#8899b3] mt-1">{item.label}</p>
+                  <p className="text-[10px] text-[#6B7B8F] mt-1">{item.label}</p>
                 </motion.div>
               ))}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
-                className="bg-amber-500/20 rounded-xl p-3.5 border border-amber-500/30"
+                className="bg-amber-100 rounded-xl p-3.5 border border-amber-200"
               >
-                <p className="text-base font-black text-amber-400">3단계 폴백</p>
-                <p className="text-[10px] text-amber-400/70 mt-1">전용→콜센터→공유</p>
+                <p className="text-base font-black text-amber-700">3단계 폴백</p>
+                <p className="text-[10px] text-amber-600 mt-1">전용→콜센터→공유</p>
               </motion.div>
             </div>
           </motion.div>
@@ -1734,7 +1736,8 @@ export default function SimulationPage() {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className="mt-8 bg-gradient-to-br from-[#EF4444]/10 to-transparent backdrop-blur rounded-2xl border border-[#EF4444]/30 p-6 md:p-8 text-center"
+            className="mt-8 bg-gradient-to-br from-red-50 to-white rounded-2xl border border-red-200 p-6 md:p-8 text-center"
+            style={{ boxShadow: "0 4px 12px rgba(0,44,95,0.06)" }}
           >
             <motion.span
               initial={{ scale: 0 }}
@@ -1749,7 +1752,7 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl font-[900] text-white"
+              className="text-2xl md:text-3xl font-[900] text-[#0A1628]"
               style={{ letterSpacing: "-0.03em" }}
             >
               배차 취소 — 페널티 정산
@@ -1758,9 +1761,9 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="text-sm text-[#8899b3] mt-2 mb-6"
+              className="text-sm text-[#6B7B8F] mt-2 mb-6"
             >
-              매칭 후 취소 시 <b className="text-[#EF4444]">7.5% 페널티</b>가 발생합니다
+              매칭 후 취소 시 <b className="text-[#EF4444]">7.5% 페널티</b>가 발생한다
             </motion.p>
 
             <div className="grid grid-cols-3 gap-2.5">
@@ -1768,21 +1771,21 @@ export default function SimulationPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
-                className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+                className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
               >
-                <p className="text-xl md:text-2xl font-black tabular-nums text-white" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                <p className="text-xl md:text-2xl font-black tabular-nums text-[#0A1628]" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                   <CountUp target={SCENARIO.price} duration={1.8} />원
                 </p>
-                <p className="text-[10px] text-[#8899b3] mt-1">임대비</p>
+                <p className="text-[10px] text-[#6B7B8F] mt-1">임대비</p>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.9, type: "spring", stiffness: 200 }}
-                className="bg-[#EF4444]/20 rounded-xl p-3.5 border border-[#EF4444]/40"
+                className="bg-red-100 rounded-xl p-3.5 border border-red-300"
               >
-                <p className="text-xl md:text-2xl font-black tabular-nums text-[#EF4444]" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                <p className="text-xl md:text-2xl font-black tabular-nums text-[#EF4444]" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                   <CountUp target={90000} duration={2.0} />원
                 </p>
                 <p className="text-[10px] text-[#EF4444]/70 mt-1">페널티 (7.5%)</p>
@@ -1792,12 +1795,12 @@ export default function SimulationPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.1, type: "spring", stiffness: 200 }}
-                className="bg-white/5 rounded-xl p-3.5 border border-white/5"
+                className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
               >
-                <p className="text-xl md:text-2xl font-black tabular-nums text-emerald-400" style={{ fontFamily: "var(--font-jetbrains), monospace" }}>
+                <p className="text-xl md:text-2xl font-black tabular-nums text-emerald-600" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                   <CountUp target={90000} duration={1.8} />원
                 </p>
-                <p className="text-[10px] text-[#8899b3] mt-1">본사 귀속</p>
+                <p className="text-[10px] text-[#6B7B8F] mt-1">본사 귀속</p>
               </motion.div>
             </div>
           </motion.div>
@@ -1808,7 +1811,7 @@ export default function SimulationPage() {
           {currentSteps.map((s, i) => (
             <button key={s.id} onClick={() => { setStep(i); setRunning(false); }}
               className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
-                i === step ? "bg-[#FF6B1A] text-white" : i < step ? "bg-emerald-500/20 text-emerald-400" : "bg-white/5 text-white/30"
+                i === step ? "bg-[#002C5F] text-white" : i < step ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : "bg-white text-[#9AA8B8] border border-[#E3E8EF]"
               }`}>
               {i + 1}. {s.label}
             </button>

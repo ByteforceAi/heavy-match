@@ -1,72 +1,97 @@
 /**
- * HEAVY MATCH — Design Token System
+ * 철연 CHEOLYEON — Design Token System v2
  *
- * 중장비 배차 B2B 플랫폼의 시각 언어를 정의하는 핵심 토큰.
- * 산업/중장비의 무게감 + 디지털 플랫폼의 세련됨.
+ * 중장비 배차·계약·정산 통합 플랫폼의 시각 언어.
+ * 업계 표준 엔터프라이즈 UI (HD현대 블루) + 판결문 톤 타이포그래피.
  *
  * 모든 컴포넌트는 이 토큰만 참조해야 함 — 하드코딩 색상 금지.
+ *
+ * v1 Masterpiece Dark → v2 HD Navy Light 전환. 변경 이력은
+ * docs/brand/PR-proposals/PR-06-rebrand-to-cheolyeon.md 참조.
  */
 
 // ═══════════════════════════════════════
-// COLOR TOKENS
+// COLOR TOKENS — HD Navy Light Palette
 // ═══════════════════════════════════════
 
 export const colors = {
   // ── Foundation ──
-  black: "#0A0A0B",        // Pure black 금지 — 이 값만 사용
-  white: "#FAFAFA",        // Pure white 대신 약간의 따뜻함
+  ink: "#0A1628",           // 본문 최고 명도
+  white: "#FFFFFF",         // 순수 화이트 (카드/컨테이너 배경)
+  bg: "#F4F6FA",            // 페이지 기본 배경
+  bgAlt: "#EEF1F5",         // 얕은 대체 배경 (섹션 구분)
 
-  // ── Surface Layers (3단계 깊이) ──
+  // ── Surface Layers (밝은 톤, 3단계 깊이) ──
   surface: {
-    base: "#121216",       // 가장 깊은 배경
-    raised: "#1A1A20",     // 카드, 패널
-    elevated: "#242428",   // 호버, 활성 상태
-    overlay: "#2E2E34",    // 모달 배경
+    /** 페이지 기반 배경 */
+    base: "#F4F6FA",
+    /** 카드·패널 기본 */
+    raised: "#FFFFFF",
+    /** 호버·활성 상태 카드 (얕은 틴트) */
+    elevated: "#F8FAFD",
+    /** 모달·오버레이 백드롭 전용 (dark overlay) */
+    overlay: "rgba(10, 22, 40, 0.6)",
   },
 
-  // ── Signature Colors ──
-  orange: {
-    DEFAULT: "#FF6B1A",    // Safety Orange — 브랜드 핵심
-    muted: "#E55D15",      // 버튼 active
-    light: "#FF8A4C",      // 호버
-    subtle: "#FF6B1A1A",   // 10% opacity 배경
-    glow: "#FF6B1A33",     // 20% 글로우 효과
-  },
-  amber: {
-    DEFAULT: "#FFA523",    // 하이라이트, 배지
-    light: "#FFB84D",
-    subtle: "#FFA52315",
+  // ── Signature Colors — HD Hyundai Navy ──
+  /** 브랜드 핵심 네이비 계열 */
+  navy: {
+    DEFAULT: "#002C5F",     // HD Hyundai primary navy
+    dark: "#001A3D",        // 깊이감 섀도·gradient bottom
+    mid: "#0046A4",         // gradient mid / link hover
+    light: "#4A90E2",       // 강조 텍스트 / 차트 보조선
+    pale: "#E8F1FB",        // 틴트 배경 (ink-on-pale 카드)
+    subtle: "#002C5F1A",    // 10% 투명도 — 배지 배경
+    glow: "#002C5F33",      // 20% 글로우 (섀도 컬러)
   },
 
-  // ── Neutral / Steel ──
-  steel: {
-    900: "#1A1A20",
-    800: "#2E2E34",
-    700: "#3A3D45",
-    600: "#4B4F58",
-    500: "#6B7280",        // 본문 텍스트
-    400: "#9CA3AF",        // 보조 텍스트
-    300: "#D1D5DB",        // 구분선
-    200: "#E5E7EB",
-    100: "#F3F4F6",
+  /** 엑센트 시안 — "장비 파트너 계열" 포인트 */
+  cyan: {
+    DEFAULT: "#00AAD2",
+    light: "#33BEDB",
+    subtle: "#00AAD21A",
+  },
+
+  // ── Neutral / Ink Scale (라이트 테마 기준) ──
+  /** 본문·보조 텍스트·보더를 위한 9단계 잉크 스케일 */
+  ink9: {
+    900: "#0A1628",         // 최고 명도 본문
+    800: "#1F2937",         // 강조 본문
+    700: "#374151",
+    600: "#4B5563",
+    500: "#6B7280",         // 캡션·보조
+    400: "#9CA3AF",         // 비활성 / 플레이스홀더
+    300: "#D1D5DB",         // 기본 보더
+    200: "#E3E8EF",         // 구분선 얕음
+    100: "#EDF0F5",         // 가장 얕은 보더
     50: "#F9FAFB",
   },
 
-  // ── Semantic ──
-  success: "#10B981",
-  danger: "#EF4444",
-  warning: "#F59E0B",
-  info: "#3B82F6",
+  /** cheolyeon_v2.html의 잉크 별칭 (빠른 교차 참조용) */
+  ink1: "#0A1628",          // v2 HTML --ink
+  ink2: "#3A4A5F",          // v2 HTML --ink-2 (보조 본문)
+  ink3: "#6B7B8F",          // v2 HTML --ink-3 (캡션)
+  ink4: "#9AA8B8",          // v2 HTML --ink-4 (비활성)
 
-  // ── Status Colors (배차 상태) ──
+  // ── Borders ──
+  line: "#E3E8EF",          // 기본 보더
+  lineSoft: "#EDF0F5",      // 얕은 보더
+
+  // ── Semantic ──
+  success: "#00A86B",       // v2 --ok (판결문 톤에 맞춘 딥 그린)
+  danger: "#E5484D",        // v2 --err
+  warning: "#FFB020",       // v2 --warn
+  info: "#0046A4",          // navy-mid 재사용
+
+  // ── Status Colors (배차 상태 — HD Navy 팔레트 재매핑) ──
   status: {
-    exclusiveCall: "#FF6B1A",   // 전용콜 — 브랜드 오렌지
-    callcenterCall: "#FFA523",  // 콜센터 전달 — 앰버
-    sharedCall: "#3B82F6",      // 공유콜 — 블루
-    matched: "#10B981",         // 매칭 완료 — 그린
-    inProgress: "#8B5CF6",      // 작업중 — 퍼플
-    completed: "#059669",       // 완료 — 딥 그린
-    cancelled: "#EF4444",       // 취소 — 레드
+    exclusiveCall: "#002C5F",   // 전용콜 — 브랜드 네이비
+    callcenterCall: "#FFB020",  // 콜센터 전달 — 워닝 옐로
+    sharedCall: "#00AAD2",      // 공유콜 — 시안 엑센트
+    matched: "#00A86B",         // 매칭 완료 — OK 그린
+    inProgress: "#0046A4",      // 작업중 — 네이비 미드
+    completed: "#006E4D",       // 완료 — 딥 그린
+    cancelled: "#E5484D",       // 취소 — 에러 레드
   },
 } as const;
 
@@ -75,29 +100,32 @@ export const colors = {
 // ═══════════════════════════════════════
 
 export const typography = {
-  // ── Font Families ──
+  // ── Font Families (v2: Pretendard + IBM Plex Sans KR + Roboto Mono) ──
   family: {
-    display: "'Pretendard', 'Inter Tight', -apple-system, sans-serif",
-    body: "'Pretendard', 'Inter', -apple-system, sans-serif",
-    mono: "'JetBrains Mono', 'Fira Code', monospace",
+    /** 디스플레이 (헤드라인) — Pretendard Black/900 */
+    display: "'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif",
+    /** 본문 — Pretendard 일반 */
+    body: "'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif",
+    /** 서사·보고서 톤 — IBM Plex Sans KR (판결문 어미에 부합) */
+    serif: "'IBM Plex Sans KR', 'Pretendard', -apple-system, serif",
+    /** 숫자·라벨·출처 표기 — Roboto Mono */
+    mono: "'Roboto Mono', 'JetBrains Mono', 'Fira Code', monospace",
   },
 
   // ── Perfect Fourth Scale (1.333 ratio) ──
-  // 12 → 16 → 21 → 28 → 37 → 49 → 65 → 87
   size: {
-    xs: "0.75rem",    // 12px
-    sm: "0.875rem",   // 14px
-    base: "1rem",     // 16px
-    lg: "1.3125rem",  // 21px
-    xl: "1.75rem",    // 28px
-    "2xl": "2.3125rem", // 37px
-    "3xl": "3.0625rem", // 49px
-    "4xl": "4.0625rem", // 65px
-    "5xl": "5.4375rem", // 87px
-    hero: "clamp(3rem, 8vw, 7.5rem)", // 반응형 Hero
+    xs: "0.75rem",
+    sm: "0.875rem",
+    base: "1rem",
+    lg: "1.3125rem",
+    xl: "1.75rem",
+    "2xl": "2.3125rem",
+    "3xl": "3.0625rem",
+    "4xl": "4.0625rem",
+    "5xl": "5.4375rem",
+    hero: "clamp(2.75rem, 6vw, 4.5rem)",
   },
 
-  // ── Weights ──
   weight: {
     regular: 400,
     medium: 500,
@@ -107,21 +135,20 @@ export const typography = {
     black: 900,
   },
 
-  // ── Letter Spacing ──
   tracking: {
-    display: "-0.03em",   // 조밀한 무게감
+    display: "-0.03em",
     heading: "-0.02em",
     body: "-0.01em",
-    wide: "0.05em",       // 라벨, 뱃지
+    wide: "0.05em",
+    mono: "0.1em",          // Roboto Mono 라벨용 와이드
   },
 
-  // ── Line Height ──
   leading: {
     none: 1,
-    tight: 1.15,         // Display
-    snug: 1.3,           // Heading
-    normal: 1.6,         // Body
-    relaxed: 1.8,        // Long-form
+    tight: 1.15,
+    snug: 1.3,
+    normal: 1.6,
+    relaxed: 1.75,          // 판결문 본문
   },
 } as const;
 
@@ -130,34 +157,32 @@ export const typography = {
 // ═══════════════════════════════════════
 
 export const spacing = {
-  // ── 8pt Grid ──
   px: "1px",
   0: "0",
-  1: "0.25rem",   // 4px
-  2: "0.5rem",    // 8px
-  3: "0.75rem",   // 12px
-  4: "1rem",      // 16px
-  5: "1.25rem",   // 20px
-  6: "1.5rem",    // 24px
-  8: "2rem",      // 32px
-  10: "2.5rem",   // 40px
-  12: "3rem",     // 48px
-  16: "4rem",     // 64px
-  20: "5rem",     // 80px
-  24: "6rem",     // 96px
-  32: "8rem",     // 128px
+  1: "0.25rem",
+  2: "0.5rem",
+  3: "0.75rem",
+  4: "1rem",
+  5: "1.25rem",
+  6: "1.5rem",
+  8: "2rem",
+  10: "2.5rem",
+  12: "3rem",
+  16: "4rem",
+  20: "5rem",
+  24: "6rem",
+  32: "8rem",
 
-  // ── Section Padding ──
   section: {
-    desktop: "7.5rem",   // 120px
-    tablet: "5rem",      // 80px
-    mobile: "3rem",      // 48px
+    desktop: "5rem",         // 80px — v2 더 조밀
+    tablet: "4rem",
+    mobile: "2.5rem",
   },
 } as const;
 
 export const layout = {
   maxWidth: "1440px",
-  contentWidth: "1280px",
+  contentWidth: "1400px",    // v2 HTML 기준
   narrowWidth: "960px",
 
   breakpoints: {
@@ -169,40 +194,40 @@ export const layout = {
   },
 
   borderRadius: {
-    sm: "0.375rem",   // 6px
-    md: "0.5rem",     // 8px
-    lg: "0.75rem",    // 12px
-    xl: "1rem",       // 16px
-    "2xl": "1.25rem", // 20px
-    "3xl": "1.5rem",  // 24px
+    sm: "0.25rem",           // 4px — v2 HTML 쿨톤 라디우스
+    md: "0.5rem",
+    lg: "0.75rem",
+    xl: "1rem",
+    "2xl": "1.25rem",
+    "3xl": "1.5rem",
     full: "9999px",
   },
 } as const;
 
 // ═══════════════════════════════════════
-// SHADOW TOKENS
+// SHADOW TOKENS — Navy 기반 섀도
 // ═══════════════════════════════════════
 
 export const shadows = {
-  sm: "0 1px 2px rgba(10, 10, 11, 0.3)",
-  md: "0 4px 12px rgba(10, 10, 11, 0.25)",
-  lg: "0 12px 32px rgba(10, 10, 11, 0.3)",
-  xl: "0 24px 48px rgba(10, 10, 11, 0.35)",
+  // v2 HTML: 0 20px 50px rgba(0,44,95,0.15) 패턴
+  sm: "0 1px 2px rgba(0, 44, 95, 0.05)",
+  md: "0 4px 12px rgba(0, 44, 95, 0.08)",
+  lg: "0 10px 30px rgba(0, 44, 95, 0.12)",
+  xl: "0 20px 50px rgba(0, 44, 95, 0.15)",
   glow: {
-    orange: "0 0 30px rgba(255, 107, 26, 0.3)",
-    amber: "0 0 20px rgba(255, 165, 35, 0.2)",
-    success: "0 0 20px rgba(16, 185, 129, 0.2)",
+    navy: "0 0 30px rgba(0, 44, 95, 0.18)",
+    cyan: "0 0 20px rgba(0, 170, 210, 0.25)",
+    success: "0 0 20px rgba(0, 168, 107, 0.2)",
   },
-  // 카드 호버 시 상승 효과
   card: {
-    rest: "0 2px 8px rgba(10, 10, 11, 0.2)",
-    hover: "0 8px 24px rgba(10, 10, 11, 0.3), 0 0 0 1px rgba(255, 107, 26, 0.1)",
-    active: "0 4px 12px rgba(10, 10, 11, 0.25)",
+    rest: "0 2px 8px rgba(0, 44, 95, 0.06)",
+    hover: "0 8px 20px rgba(0, 44, 95, 0.1), 0 0 0 1px rgba(0, 44, 95, 0.05)",
+    active: "0 1px 4px rgba(0, 44, 95, 0.08)",
   },
 } as const;
 
 // ═══════════════════════════════════════
-// ANIMATION TOKENS (Legacy — motion으로 마이그레이션)
+// ANIMATION TOKENS (Legacy 호환 유지)
 // ═══════════════════════════════════════
 
 export const animation = {
@@ -217,7 +242,7 @@ export const animation = {
     in: "cubic-bezier(0.4, 0, 1, 1)",
     out: "cubic-bezier(0, 0, 0.2, 1)",
     spring: "cubic-bezier(0.34, 1.56, 0.64, 1)",
-    heavy: "cubic-bezier(0.7, 0, 0.3, 1)",  // 중장비 무게감
+    heavy: "cubic-bezier(0.7, 0, 0.3, 1)",
   },
   stagger: {
     fast: "0.05s",
@@ -227,95 +252,69 @@ export const animation = {
 } as const;
 
 // ═══════════════════════════════════════
-// MOTION TOKENS (Native-Feel Physics)
-// Framer Motion variants에서 직접 참조
+// MOTION TOKENS (Native-Feel Physics — 보존)
 // ═══════════════════════════════════════
 
 export const motion = {
-  // ── 물리 기반 Spring (네이티브 필수) ──
   spring: {
-    /** 버튼 press, 탭 피드백 — 빠르고 단단한 스냅 */
     snappy: { type: "spring" as const, stiffness: 400, damping: 30 },
-    /** 카드 호버, 일반 전환 — 자연스러운 중간값 */
     smooth: { type: "spring" as const, stiffness: 200, damping: 25 },
-    /** 페이지 전환, 큰 UI 이동 — 부드럽고 여유로운 */
     gentle: { type: "spring" as const, stiffness: 120, damping: 20 },
-    /** 모달 등장, 알림 팝업 — 살짝 튀는 느낌 */
     bouncy: { type: "spring" as const, stiffness: 300, damping: 15 },
   },
-
-  // ── Apple HIG 기반 Duration (ms) ──
   duration: {
-    instant: 100,     // 버튼 press feedback — 즉각 반응 인지 임계값
-    fast: 200,        // hover, small transitions
-    normal: 300,      // 기본 transition
-    slow: 500,        // 큰 UI 변화 (패널 열기 등)
-    deliberate: 800,  // 의도적 attention grabbing
-    splash: 3000,     // 부팅 스플래시
+    instant: 100,
+    fast: 200,
+    normal: 300,
+    slow: 500,
+    deliberate: 800,
+    splash: 3000,
   },
-
-  // ── 이징 함수 (iOS Material 기본값) ──
   easing: {
-    /** 기본 — 등가감속 */
     standard: "cubic-bezier(0.4, 0.0, 0.2, 1)",
-    /** 등장 — 빠르게 나타나서 천천히 안착 */
     decelerate: "cubic-bezier(0.0, 0.0, 0.2, 1)",
-    /** 퇴장 — 천천히 시작해서 빠르게 사라짐 */
     accelerate: "cubic-bezier(0.4, 0.0, 1, 1)",
-    /** 임시 상태 — 날카롭고 의도적인 전환 */
     sharp: "cubic-bezier(0.4, 0.0, 0.6, 1)",
-    /** 중장비 무게감 — 무거운 가감속 (커스텀) */
     heavy: "cubic-bezier(0.7, 0, 0.3, 1)",
   },
-
-  // ── 시각적 햅틱 (네이티브 느낌의 핵심) ──
   haptic: {
-    /** 버튼 눌림 — 3% 축소 (0.95는 과도, 0.99는 인지 불가) */
     press: { scale: 0.97, duration: 100 },
-    /** 카드/요소 호버 리프트 — 2% 확대 */
     lift: { scale: 1.02, duration: 200 },
-    /** 주의 환기 — 펄스 (알림 배지 등) */
     attention: { scale: [1, 1.05, 1] as readonly number[], duration: 400 },
   },
-
-  // ── Stagger 값 ──
   stagger: {
-    fast: 0.05,    // 빠른 리스트 순차 등장
-    normal: 0.08,  // 기본 stagger 간격
-    slow: 0.12,    // 느긋한 등장 (Hero 텍스트)
+    fast: 0.05,
+    normal: 0.08,
+    slow: 0.12,
   },
 } as const;
 
 // ═══════════════════════════════════════
-// BLUR TOKENS (Industrial Glass)
-// Apple Liquid Glass와 차별화 —
-// "frosted metal" = blur + 불투명 어두운 배경 + subtle border
+// BLUR TOKENS — v2는 라이트 글래스
 // ═══════════════════════════════════════
 
 export const blur = {
-  // ── Blur 강도 단계 ──
   subtle: {
     backdropFilter: "blur(12px) saturate(150%)",
-    background: "rgba(18, 18, 22, 0.75)",
-    border: "1px solid rgba(58, 61, 69, 0.3)",
+    background: "rgba(255, 255, 255, 0.75)",
+    border: "1px solid rgba(227, 232, 239, 0.6)",
   },
   medium: {
     backdropFilter: "blur(20px) saturate(180%)",
-    background: "rgba(18, 18, 22, 0.82)",
-    border: "1px solid rgba(58, 61, 69, 0.25)",
+    background: "rgba(255, 255, 255, 0.82)",
+    border: "1px solid rgba(227, 232, 239, 0.5)",
   },
   strong: {
     backdropFilter: "blur(40px) saturate(200%)",
-    background: "rgba(18, 18, 22, 0.9)",
-    border: "1px solid rgba(58, 61, 69, 0.15)",
+    background: "rgba(255, 255, 255, 0.9)",
+    border: "1px solid rgba(227, 232, 239, 0.3)",
   },
 
-  // ── 용도 매핑 ──
   usage: {
-    header: "subtle" as const,    // 상단 고정 네비게이션
-    modal: "medium" as const,     // 다이얼로그 백드롭
-    overlay: "strong" as const,   // 풀스크린 오버레이 (스플래시 등)
-    sidebar: "subtle" as const,   // 사이드바 (모바일 드로어)
+    header: "subtle" as const,
+    modal: "medium" as const,
+    overlay: "strong" as const,
+    sidebar: "subtle" as const,
   },
 } as const;
 
@@ -326,19 +325,23 @@ export const blur = {
 /** Tailwind @theme inline에 주입할 CSS 변수 문자열 생성 */
 export function generateCSSVars(): string {
   return `
-    --hm-black: ${colors.black};
-    --hm-white: ${colors.white};
-    --hm-surface-base: ${colors.surface.base};
-    --hm-surface-raised: ${colors.surface.raised};
-    --hm-surface-elevated: ${colors.surface.elevated};
-    --hm-orange: ${colors.orange.DEFAULT};
-    --hm-orange-muted: ${colors.orange.muted};
-    --hm-orange-light: ${colors.orange.light};
-    --hm-amber: ${colors.amber.DEFAULT};
-    --hm-steel-500: ${colors.steel[500]};
-    --hm-steel-400: ${colors.steel[400]};
-    --hm-steel-300: ${colors.steel[300]};
-    --hm-success: ${colors.success};
-    --hm-danger: ${colors.danger};
+    --cy-ink: ${colors.ink};
+    --cy-bg: ${colors.bg};
+    --cy-bg-alt: ${colors.bgAlt};
+    --cy-white: ${colors.white};
+    --cy-navy: ${colors.navy.DEFAULT};
+    --cy-navy-dark: ${colors.navy.dark};
+    --cy-navy-mid: ${colors.navy.mid};
+    --cy-navy-light: ${colors.navy.light};
+    --cy-navy-pale: ${colors.navy.pale};
+    --cy-cyan: ${colors.cyan.DEFAULT};
+    --cy-ink-500: ${colors.ink9[500]};
+    --cy-ink-400: ${colors.ink9[400]};
+    --cy-ink-300: ${colors.ink9[300]};
+    --cy-line: ${colors.line};
+    --cy-line-soft: ${colors.lineSoft};
+    --cy-success: ${colors.success};
+    --cy-danger: ${colors.danger};
+    --cy-warning: ${colors.warning};
   `;
 }

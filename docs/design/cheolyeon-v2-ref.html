@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>철연 · CHEOLYEON — 브랜드 시안 v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700;800;900&family=IBM+Plex+Sans+KR:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* HD현대 블루 계열 */
+    --brand:#002C5F;        /* HD Hyundai primary navy */
+    --brand-dark:#001A3D;
+    --brand-mid:#0046A4;
+    --brand-light:#4A90E2;
+    --brand-pale:#E8F1FB;
+    --brand-accent:#00AAD2;  /* cyan accent - 장비파트너 계열 */
+    
+    --ok:#00A86B;
+    --warn:#FFB020;
+    --err:#E5484D;
+    
+    --ink:#0A1628;
+    --ink-2:#3A4A5F;
+    --ink-3:#6B7B8F;
+    --ink-4:#9AA8B8;
+    
+    --bg:#F4F6FA;
+    --card:#FFFFFF;
+    --line:#E3E8EF;
+    --line-soft:#EDF0F5;
+    
+    --font:'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif;
+    --mono:'Roboto Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-font-smoothing:antialiased;}
+  html,body{
+    font-family:var(--font);background:#EEF1F5;color:var(--ink);
+    min-height:100vh;overflow-x:hidden;letter-spacing:-0.01em;
+  }
+
+  /* ===== SHOWCASE SHELL ===== */
+  .showcase-head{
+    max-width:1400px;margin:0 auto;padding:48px 32px 24px;
+  }
+  .showcase-head .brand{
+    display:flex;align-items:baseline;gap:14px;margin-bottom:8px;
+  }
+  .showcase-head .brand h1{
+    font-size:36px;font-weight:900;color:var(--brand);letter-spacing:-0.03em;
+  }
+  .showcase-head .brand .en{
+    font-family:var(--mono);font-size:13px;color:var(--ink-3);letter-spacing:3px;
+  }
+  .showcase-head .lede{
+    font-size:15px;color:var(--ink-2);line-height:1.6;max-width:640px;
+  }
+  .showcase-meta{
+    display:flex;gap:18px;margin-top:16px;flex-wrap:wrap;
+    font-family:var(--mono);font-size:11px;color:var(--ink-3);
+  }
+  .showcase-meta span{padding:4px 10px;background:#fff;border:1px solid var(--line);border-radius:4px;}
+  
+  .screens{
+    max-width:1400px;margin:0 auto;padding:12px 32px 80px;
+    display:grid;grid-template-columns:320px 320px 1fr;gap:28px;align-items:start;
+  }
+  .screen-label{
+    font-family:var(--mono);font-size:10px;color:var(--ink-3);
+    letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-left:4px;
+  }
+  .screen-label strong{color:var(--brand);}
+  
+  /* Phone frame */
+  .phone{
+    width:320px;height:680px;background:#1a1a1a;border-radius:38px;padding:10px;
+    box-shadow:0 20px 50px rgba(0,44,95,0.15), 0 0 0 1px rgba(0,0,0,0.05);
+    position:relative;
+  }
+  .phone::before{
+    content:"";position:absolute;top:24px;left:50%;transform:translateX(-50%);
+    width:90px;height:28px;background:#000;border-radius:20px;z-index:10;
+  }
+  .phone-inner{
+    width:100%;height:100%;background:var(--bg);border-radius:30px;overflow:hidden;position:relative;
+  }
+  
+  /* Desktop frame */
+  .desktop{
+    background:#fff;border-radius:12px;overflow:hidden;
+    box-shadow:0 20px 50px rgba(0,44,95,0.12), 0 0 0 1px var(--line);
+  }
+  .desk-bar{
+    height:32px;background:#F4F6FA;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;padding:0 14px;gap:6px;
+  }
+  .desk-bar .d{width:10px;height:10px;border-radius:50%;background:#D6DAE0;}
+  .desk-bar .u{
+    margin-left:16px;font-family:var(--mono);font-size:11px;color:var(--ink-3);
+    background:#fff;padding:3px 12px;border-radius:4px;border:1px solid var(--line);
+  }
+  
+  /* ========================= */
+  /* MOBILE 1 — 현장소장 (배차)  */
+  /* ========================= */
+  .m1{background:var(--bg);width:100%;height:100%;overflow-y:auto;padding-top:56px;}
+  .m1-status{
+    height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;
+    font-size:13px;font-weight:600;color:var(--ink);
+  }
+  .m1-status .right{display:flex;gap:5px;align-items:center;font-size:11px;}
+  
+  .m1-top{
+    background:var(--brand);color:#fff;padding:16px 20px 22px;position:relative;
+  }
+  .m1-top::after{
+    content:"";position:absolute;bottom:-20px;left:0;right:0;height:30px;
+    background:var(--brand);border-radius:0 0 24px 24px;
+  }
+  .m1-greet{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;
+  }
+  .m1-greet .hi{font-size:13px;color:rgba(255,255,255,0.7);}
+  .m1-greet .bell{
+    width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:10px;
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .m1-greet .bell::before{
+    content:"";width:16px;height:16px;
+    background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6V11c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>') no-repeat center/contain;
+  }
+  .m1-greet .bell::after{
+    content:"";position:absolute;top:6px;right:6px;width:8px;height:8px;
+    background:#FF4458;border-radius:50%;border:2px solid var(--brand);
+  }
+  .m1-name{font-size:20px;font-weight:700;margin-bottom:18px;}
+  .m1-site{
+    background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);
+    border-radius:12px;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;
+  }
+  .m1-site-l{display:flex;flex-direction:column;gap:3px;}
+  .m1-site-l .k{font-size:11px;color:rgba(255,255,255,0.6);}
+  .m1-site-l .v{font-size:14px;font-weight:600;}
+  .m1-site-r{
+    font-size:11px;padding:5px 10px;border-radius:20px;
+    background:var(--brand-accent);color:#fff;font-weight:600;
+  }
+  
+  .m1-body{padding:28px 20px 100px;}
+  
+  .m1-cta{
+    background:linear-gradient(135deg, var(--brand-mid) 0%, var(--brand) 100%);
+    border-radius:16px;padding:20px;color:#fff;margin-bottom:24px;position:relative;overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,44,95,0.25);
+  }
+  .m1-cta::before{
+    content:"";position:absolute;right:-30px;top:-30px;width:140px;height:140px;
+    background:radial-gradient(circle, var(--brand-accent) 0%, transparent 70%);opacity:0.4;
+  }
+  .m1-cta-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;position:relative;}
+  .m1-cta-h .t{font-size:13px;color:rgba(255,255,255,0.75);font-weight:500;}
+  .m1-cta-h .live{
+    display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;
+    background:rgba(255,255,255,0.18);padding:3px 8px;border-radius:4px;letter-spacing:0.5px;
+  }
+  .m1-cta-h .live::before{content:"";width:6px;height:6px;background:#00E676;border-radius:50%;animation:pulse 1.5s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+  .m1-cta-big{font-size:22px;font-weight:800;margin-bottom:4px;position:relative;}
+  .m1-cta-sub{font-size:13px;color:rgba(255,255,255,0.8);margin-bottom:16px;position:relative;}
+  .m1-cta-btn{
+    width:100%;background:#fff;color:var(--brand);border:none;padding:14px;
+    border-radius:12px;font-size:15px;font-weight:700;font-family:inherit;position:relative;
+    display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;
+  }
+  .m1-cta-btn::after{content:"→";font-size:18px;}
+  
+  .m1-sect{margin-bottom:24px;}
+  .m1-sect-h{
+    display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:0 4px;
+  }
+  .m1-sect-h .t{font-size:15px;font-weight:700;color:var(--ink);}
+  .m1-sect-h .m{font-size:12px;color:var(--brand-mid);font-weight:500;}
+  
+  .m1-eq-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .m1-eq{
+    background:#fff;border-radius:14px;padding:14px 6px;text-align:center;
+    border:1px solid var(--line);cursor:pointer;transition:all 0.15s;
+  }
+  .m1-eq:active{transform:scale(0.96);background:var(--brand-pale);border-color:var(--brand-light);}
+  .m1-eq-icon{
+    width:36px;height:36px;margin:0 auto 6px;background:var(--brand-pale);
+    border-radius:10px;display:flex;align-items:center;justify-content:center;
+  }
+  .m1-eq-icon svg{width:22px;height:22px;color:var(--brand);}
+  .m1-eq-name{font-size:11px;color:var(--ink-2);font-weight:500;}
+  
+  .m1-list{display:flex;flex-direction:column;gap:10px;}
+  .m1-job{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;
+    display:flex;gap:12px;align-items:center;
+  }
+  .m1-job-ic{
+    width:44px;height:44px;border-radius:12px;background:var(--brand-pale);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .m1-job-ic svg{width:24px;height:24px;color:var(--brand);}
+  .m1-job-m{flex:1;min-width:0;}
+  .m1-job-t1{
+    display:flex;align-items:center;gap:6px;margin-bottom:3px;
+  }
+  .m1-job-name{font-size:14px;font-weight:600;color:var(--ink);}
+  .m1-job-badge{
+    font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600;
+  }
+  .m1-job-badge.ok{background:#E6F7EF;color:var(--ok);}
+  .m1-job-badge.ing{background:#E6F3FF;color:var(--brand-mid);}
+  .m1-job-badge.wait{background:#FFF4DE;color:#B87400;}
+  .m1-job-sub{font-size:12px;color:var(--ink-3);line-height:1.4;}
+  .m1-job-r{text-align:right;display:flex;flex-direction:column;gap:2px;flex-shrink:0;}
+  .m1-job-price{font-size:14px;font-weight:700;color:var(--ink);}
+  .m1-job-time{font-size:10px;color:var(--ink-4);font-family:var(--mono);}
+  
+  .m1-tab{
+    position:absolute;bottom:0;left:0;right:0;height:72px;background:#fff;
+    border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);
+    padding-bottom:12px;
+  }
+  .m1-tab-i{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    padding-top:10px;font-size:10px;color:var(--ink-3);cursor:pointer;
+  }
+  .m1-tab-i.active{color:var(--brand);}
+  .m1-tab-i svg{width:22px;height:22px;}
+  .m1-tab-fab{
+    position:absolute;bottom:44px;left:50%;transform:translateX(-50%);
+    width:56px;height:56px;background:var(--brand);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+    box-shadow:0 6px 16px rgba(0,44,95,0.35);
+  }
+  .m1-tab-fab svg{width:26px;height:26px;}
+  
+  /* =============================== */
+  /* MOBILE 2 — 대표 (경영 대시보드) */
+  /* =============================== */
+  .m2{background:var(--bg);width:100%;height:100%;overflow-y:auto;padding-top:56px;}
+  .m2-status{
+    height:44px;display:flex;justify-content:space-between;align-items:center;padding:0 24px;
+    font-size:13px;font-weight:600;color:var(--ink);
+  }
+  
+  .m2-head{padding:12px 20px 14px;background:#fff;border-bottom:1px solid var(--line);}
+  .m2-head-r1{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .m2-head-br{display:flex;align-items:baseline;gap:8px;}
+  .m2-head-br .logo{font-size:18px;font-weight:900;color:var(--brand);letter-spacing:-0.02em;}
+  .m2-head-br .en{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:2px;}
+  .m2-head-av{
+    width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;
+  }
+  .m2-head-r2{
+    display:flex;justify-content:space-between;align-items:center;
+    background:var(--brand-pale);border-radius:10px;padding:8px 12px;
+  }
+  .m2-head-r2 .l{font-size:12px;color:var(--brand-dark);font-weight:500;}
+  .m2-head-r2 .v{font-size:13px;color:var(--brand);font-weight:700;font-family:var(--mono);}
+  
+  .m2-body{padding:16px 16px 24px;}
+  
+  .m2-kpi{
+    background:linear-gradient(160deg, #004A99 0%, var(--brand) 55%, #001A3D 100%);
+    border-radius:18px;padding:18px;color:#fff;margin-bottom:14px;
+    box-shadow:0 10px 24px rgba(0,44,95,0.2);position:relative;overflow:hidden;
+  }
+  .m2-kpi::before{
+    content:"";position:absolute;right:-50px;bottom:-50px;width:180px;height:180px;
+    border:1px solid rgba(255,255,255,0.1);border-radius:50%;
+  }
+  .m2-kpi::after{
+    content:"";position:absolute;right:-80px;bottom:-80px;width:240px;height:240px;
+    border:1px solid rgba(255,255,255,0.06);border-radius:50%;
+  }
+  .m2-kpi-l{font-size:11px;color:rgba(255,255,255,0.7);letter-spacing:1px;margin-bottom:6px;}
+  .m2-kpi-v{font-size:32px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;}
+  .m2-kpi-v .w{font-size:16px;font-weight:500;color:rgba(255,255,255,0.8);margin-left:3px;}
+  .m2-kpi-d{display:flex;gap:8px;align-items:center;font-size:12px;color:rgba(255,255,255,0.85);}
+  .m2-kpi-d .up{
+    background:#00A86B;color:#fff;padding:2px 7px;border-radius:4px;
+    font-weight:600;font-size:11px;
+  }
+  .m2-kpi-line{
+    height:1px;background:rgba(255,255,255,0.15);margin:14px 0 12px;position:relative;
+  }
+  .m2-kpi-row{display:flex;justify-content:space-between;position:relative;}
+  .m2-kpi-col{flex:1;}
+  .m2-kpi-col .k{font-size:10px;color:rgba(255,255,255,0.6);margin-bottom:3px;}
+  .m2-kpi-col .n{font-size:16px;font-weight:700;font-family:var(--mono);}
+  
+  .m2-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .m2-mini{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;
+  }
+  .m2-mini-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .m2-mini-h .t{font-size:11px;color:var(--ink-3);letter-spacing:0.5px;}
+  .m2-mini-h .ic{width:22px;height:22px;border-radius:6px;background:var(--brand-pale);display:flex;align-items:center;justify-content:center;}
+  .m2-mini-h .ic svg{width:14px;height:14px;color:var(--brand);}
+  .m2-mini-v{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;}
+  .m2-mini-d{font-size:11px;color:var(--ok);font-weight:500;margin-top:2px;}
+  .m2-mini-d.down{color:var(--err);}
+  
+  .m2-chart{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;
+  }
+  .m2-chart-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+  .m2-chart-h .t{font-size:14px;font-weight:700;color:var(--ink);}
+  .m2-chart-h .tab{display:flex;gap:4px;}
+  .m2-chart-h .tab span{font-size:11px;padding:4px 10px;border-radius:6px;color:var(--ink-3);cursor:pointer;}
+  .m2-chart-h .tab span.active{background:var(--brand-pale);color:var(--brand);font-weight:600;}
+  .m2-chart-svg{width:100%;height:120px;}
+  
+  .m2-alert{
+    background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;
+    border-left:3px solid var(--warn);display:flex;gap:10px;
+  }
+  .m2-alert.err{border-left-color:var(--err);}
+  .m2-alert-ic{
+    width:32px;height:32px;border-radius:8px;background:#FFF4DE;
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .m2-alert.err .m2-alert-ic{background:#FEEBEC;}
+  .m2-alert-ic svg{width:18px;height:18px;color:var(--warn);}
+  .m2-alert.err .m2-alert-ic svg{color:var(--err);}
+  .m2-alert-m .t{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+  .m2-alert-m .s{font-size:11px;color:var(--ink-3);line-height:1.4;}
+  
+  /* =============== */
+  /* DESKTOP — 웹      */
+  /* =============== */
+  .d1{background:#fff;width:100%;}
+  
+  .d1-nav{
+    height:60px;background:#fff;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;padding:0 32px;gap:48px;
+  }
+  .d1-nav .logo{display:flex;align-items:baseline;gap:10px;}
+  .d1-nav .logo h1{font-size:22px;font-weight:900;color:var(--brand);letter-spacing:-0.03em;}
+  .d1-nav .logo .en{font-family:var(--mono);font-size:10px;color:var(--ink-3);letter-spacing:3px;}
+  .d1-nav ul{display:flex;gap:28px;list-style:none;flex:1;}
+  .d1-nav ul li{font-size:14px;color:var(--ink-2);font-weight:500;cursor:pointer;position:relative;padding:4px 0;}
+  .d1-nav ul li.active{color:var(--brand);font-weight:600;}
+  .d1-nav ul li.active::after{
+    content:"";position:absolute;bottom:-20px;left:0;right:0;height:2px;background:var(--brand);
+  }
+  .d1-nav .actions{display:flex;gap:10px;}
+  .d1-nav .btn-g{padding:9px 16px;font-size:13px;color:var(--ink-2);background:transparent;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-weight:500;}
+  .d1-nav .btn-p{padding:9px 18px;font-size:13px;color:#fff;background:var(--brand);border:none;border-radius:8px;cursor:pointer;font-weight:600;}
+  
+  .d1-hero{
+    padding:60px 64px 72px;background:
+      radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 0% 80%, rgba(0,44,95,0.04) 0%, transparent 50%),
+      linear-gradient(180deg, #F8FAFD 0%, #fff 100%);
+    display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:center;
+    border-bottom:1px solid var(--line);
+  }
+  .d1-hero-l .tag{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--brand);
+    background:var(--brand-pale);padding:6px 12px;border-radius:20px;margin-bottom:18px;font-weight:600;
+  }
+  .d1-hero-l .tag::before{content:"";width:6px;height:6px;background:var(--brand-accent);border-radius:50%;}
+  .d1-hero-l h2{
+    font-size:44px;font-weight:900;line-height:1.15;letter-spacing:-0.03em;color:var(--ink);
+    margin-bottom:16px;
+  }
+  .d1-hero-l h2 .em{color:var(--brand);}
+  .d1-hero-l h2 .dim{color:var(--ink-3);font-weight:700;}
+  .d1-hero-l .lede{font-size:16px;color:var(--ink-2);line-height:1.7;margin-bottom:28px;max-width:520px;}
+  .d1-hero-l .cta{display:flex;gap:10px;margin-bottom:28px;}
+  .d1-hero-l .cta .p{
+    padding:14px 24px;background:var(--brand);color:#fff;border:none;border-radius:10px;
+    font-size:14px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:8px;
+    font-family:inherit;
+  }
+  .d1-hero-l .cta .p::after{content:"→";}
+  .d1-hero-l .cta .g{
+    padding:14px 22px;background:#fff;color:var(--ink);border:1px solid var(--line);
+    border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;
+  }
+  .d1-hero-l .trust{display:flex;gap:22px;padding-top:20px;border-top:1px solid var(--line);}
+  .d1-hero-l .trust .item{display:flex;flex-direction:column;gap:2px;}
+  .d1-hero-l .trust .item .v{font-size:18px;font-weight:800;color:var(--brand);letter-spacing:-0.02em;}
+  .d1-hero-l .trust .item .k{font-size:11px;color:var(--ink-3);}
+  
+  /* Right side mini dashboard mockup */
+  .d1-hero-r{
+    background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;
+    box-shadow:0 20px 50px rgba(0,44,95,0.08);position:relative;
+  }
+  .d1-hero-r::before{
+    content:"LIVE PREVIEW";position:absolute;top:-10px;right:16px;
+    background:var(--brand-accent);color:#fff;font-size:10px;padding:3px 10px;
+    border-radius:4px;font-weight:700;letter-spacing:1px;font-family:var(--mono);
+  }
+  .dr-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .dr-top .t{font-size:13px;font-weight:700;color:var(--ink);}
+  .dr-top .live{font-size:10px;color:var(--ok);display:flex;align-items:center;gap:4px;font-family:var(--mono);}
+  .dr-top .live::before{content:"";width:6px;height:6px;background:var(--ok);border-radius:50%;animation:pulse 1.5s infinite;}
+  .dr-kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+  .dr-kpi-c{background:var(--bg);border-radius:10px;padding:10px;}
+  .dr-kpi-c .k{font-size:10px;color:var(--ink-3);margin-bottom:3px;}
+  .dr-kpi-c .v{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-0.02em;}
+  .dr-kpi-c .d{font-size:10px;color:var(--ok);font-weight:500;}
+  .dr-chart{
+    background:var(--bg);border-radius:10px;padding:14px;height:140px;position:relative;
+  }
+  .dr-chart .h{display:flex;justify-content:space-between;margin-bottom:8px;}
+  .dr-chart .h .t{font-size:11px;color:var(--ink-3);}
+  .dr-chart .h .v{font-size:11px;font-weight:700;color:var(--brand);font-family:var(--mono);}
+  .dr-chart svg{width:100%;height:90px;}
+  .dr-rows{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+  .dr-row{
+    display:flex;justify-content:space-between;align-items:center;padding:8px 10px;
+    background:var(--bg);border-radius:8px;font-size:11px;
+  }
+  .dr-row .l{display:flex;gap:8px;align-items:center;color:var(--ink);font-weight:500;}
+  .dr-row .dot{width:6px;height:6px;border-radius:50%;background:var(--ok);}
+  .dr-row .dot.w{background:var(--warn);}
+  .dr-row .dot.b{background:var(--brand);}
+  .dr-row .r{font-family:var(--mono);font-weight:700;color:var(--ink);}
+  
+  /* Stats strip */
+  .d1-strip{
+    background:var(--brand);color:#fff;padding:28px 64px;
+    display:grid;grid-template-columns:repeat(4,1fr);gap:32px;position:relative;overflow:hidden;
+  }
+  .d1-strip::before{
+    content:"";position:absolute;left:-50px;top:-50px;width:300px;height:300px;
+    background:radial-gradient(circle, rgba(0,170,210,0.15) 0%, transparent 70%);
+  }
+  .d1-strip-c{position:relative;}
+  .d1-strip-c .k{font-size:11px;color:rgba(255,255,255,0.65);letter-spacing:1.5px;margin-bottom:6px;text-transform:uppercase;}
+  .d1-strip-c .v{font-size:30px;font-weight:800;letter-spacing:-0.02em;margin-bottom:2px;}
+  .d1-strip-c .s{font-size:11px;color:rgba(255,255,255,0.7);}
+  
+  /* Feature section */
+  .d1-feat{padding:64px;border-bottom:1px solid var(--line);}
+  .d1-feat-h{text-align:center;margin-bottom:40px;}
+  .d1-feat-h .t{font-size:30px;font-weight:800;letter-spacing:-0.02em;color:var(--ink);margin-bottom:10px;}
+  .d1-feat-h .s{font-size:15px;color:var(--ink-3);}
+  .d1-feat-g{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+  .d1-feat-c{
+    padding:28px;border:1px solid var(--line);border-radius:14px;background:#fff;
+    transition:all 0.2s;
+  }
+  .d1-feat-c:hover{border-color:var(--brand-light);box-shadow:0 8px 20px rgba(0,44,95,0.08);}
+  .d1-feat-c .ic{
+    width:46px;height:46px;background:var(--brand-pale);border-radius:12px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+  }
+  .d1-feat-c .ic svg{width:24px;height:24px;color:var(--brand);}
+  .d1-feat-c .t{font-size:17px;font-weight:700;color:var(--ink);margin-bottom:8px;}
+  .d1-feat-c .s{font-size:13px;color:var(--ink-3);line-height:1.6;}
+  
+  /* Heritage (legacy) — 부산일보 기사 */
+  .d1-heri{
+    padding:64px;background:var(--bg);
+    display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:center;
+  }
+  .d1-heri-l .tag{
+    display:inline-block;font-size:11px;letter-spacing:2px;color:var(--brand);
+    font-weight:700;margin-bottom:12px;font-family:var(--mono);
+  }
+  .d1-heri-l h3{font-size:28px;font-weight:800;color:var(--ink);line-height:1.3;letter-spacing:-0.02em;margin-bottom:14px;}
+  .d1-heri-l h3 .em{color:var(--brand);}
+  .d1-heri-l p{font-size:14px;color:var(--ink-2);line-height:1.75;margin-bottom:10px;}
+  .d1-heri-l p .hl{color:var(--ink);font-weight:600;}
+  .d1-heri-l a{
+    display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:13px;
+    color:var(--brand);text-decoration:none;font-weight:600;
+  }
+  .d1-heri-l a::after{content:"↗";}
+  .d1-heri-r{
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:28px;
+    font-family:'IBM Plex Sans KR', serif;position:relative;
+    box-shadow:0 10px 30px rgba(0,44,95,0.06);
+  }
+  .d1-heri-r::before{
+    content:"釜山日報";position:absolute;top:16px;right:20px;
+    font-size:11px;color:var(--ink-4);letter-spacing:4px;
+  }
+  .d1-heri-r .date{font-size:11px;color:var(--ink-3);font-family:var(--mono);margin-bottom:12px;}
+  .d1-heri-r .head{font-size:18px;font-weight:700;color:var(--ink);margin-bottom:6px;border-bottom:2px solid var(--ink);padding-bottom:8px;display:inline-block;}
+  .d1-heri-r .sub{font-size:12px;color:var(--ink-2);margin-bottom:16px;margin-top:8px;}
+  .d1-heri-r .body{font-size:13px;color:var(--ink-2);line-height:1.8;}
+  .d1-heri-r .body .name{font-weight:700;color:var(--ink);background:linear-gradient(transparent 60%, #FFE082 60%);}
+
+  /* Footer mini */
+  .d1-foot{padding:28px 64px;color:var(--ink-3);font-size:12px;display:flex;justify-content:space-between;border-top:1px solid var(--line);}
+  
+  /* Mobile responsive of the SHOWCASE itself */
+  @media(max-width:1200px){
+    .screens{grid-template-columns:1fr;justify-items:center;}
+    .screens .desktop-wrap{width:100%;max-width:900px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="showcase-head">
+  <div class="brand">
+    <h1>철연</h1>
+    <span class="en">CHEOLYEON</span>
+  </div>
+  <p class="lede">
+    현장이 다시는 떼이지 않게. 중장비 배차·계약·정산 통합 플랫폼. 
+    HD현대 블루 톤의 업계 표준 UI 위에, 철연의 계보(系譜)를 얹다.
+  </p>
+  <div class="showcase-meta">
+    <span>v2 · 2026.04.17</span>
+    <span>브랜드: 철연 (CHEOLYEON)</span>
+    <span>메인 컬러: #002C5F</span>
+    <span>폰트: Pretendard + IBM Plex KR</span>
+    <span>시안: 모바일 2종 + 웹 1종</span>
+  </div>
+</div>
+
+<div class="screens">
+
+  <!-- =========== MOBILE 1: 현장소장 =========== -->
+  <div>
+    <div class="screen-label"><strong>모바일</strong> · 현장소장 · 배차 화면</div>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="m1">
+          <div class="m1-status">
+            <span>9:41</span>
+            <span class="right">● ● ● ●</span>
+          </div>
+          
+          <div class="m1-top">
+            <div class="m1-greet">
+              <span class="hi">안녕하세요</span>
+              <div class="bell"></div>
+            </div>
+            <div class="m1-name">김민철 소장님</div>
+            <div class="m1-site">
+              <div class="m1-site-l">
+                <span class="k">현재 현장</span>
+                <span class="v">해운대 센텀 2공구</span>
+              </div>
+              <span class="m1-site-r">가동중</span>
+            </div>
+          </div>
+          
+          <div class="m1-body">
+            
+            <div class="m1-cta">
+              <div class="m1-cta-h">
+                <span class="t">지금 바로 배차</span>
+                <span class="live">LIVE</span>
+              </div>
+              <div class="m1-cta-big">현장에 뭐가 필요하세요?</div>
+              <div class="m1-cta-sub">평균 매칭 2분 · 떼임 방지 보장</div>
+              <button class="m1-cta-btn">장비 요청하기</button>
+            </div>
+            
+            <div class="m1-sect">
+              <div class="m1-sect-h">
+                <span class="t">장비 선택</span>
+                <span class="m">전체 →</span>
+              </div>
+              <div class="m1-eq-grid">
+                <div class="m1-eq">
+                  <div class="m1-eq-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18v-1h18v1H3zm0-3V9l3-3h4V3h6v6l4 4v2H3zm4-7h2V7H7v1z"/></svg>
+                  </div>
+                  <div class="m1-eq-name">굴삭기</div>
+                </div>
+                <div class="m1-eq">
+                  <div class="m1-eq-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17h2v-5h8v5h2v-2h2v2h4v-2l-5-3h-1V7l-3-4H6v4H3v10zm6-11h3v2H9V6z"/></svg>
+                  </div>
+                  <div class="m1-eq-name">크레인</div>
+                </div>
+                <div class="m1-eq">
+                  <div class="m1-eq-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2l-3-7h-3V5H6v6H3v7zm3-5h3v3H6v-3zm6 0h3v3h-3v-3z"/></svg>
+                  </div>
+                  <div class="m1-eq-name">덤프</div>
+                </div>
+                <div class="m1-eq">
+                  <div class="m1-eq-icon">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 19V8h3l2-3h8l2 3h3v11H3zm3-2h12V10H6v7zm6-2a3 3 0 100-6 3 3 0 000 6z"/></svg>
+                  </div>
+                  <div class="m1-eq-name">지게차</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="m1-sect">
+              <div class="m1-sect-h">
+                <span class="t">최근 배차</span>
+                <span class="m">더보기 →</span>
+              </div>
+              <div class="m1-list">
+                <div class="m1-job">
+                  <div class="m1-job-ic">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18v-1h18v1H3zm0-3V9l3-3h4V3h6v6l4 4v2H3z"/></svg>
+                  </div>
+                  <div class="m1-job-m">
+                    <div class="m1-job-t1">
+                      <span class="m1-job-name">굴삭기 3.5t</span>
+                      <span class="m1-job-badge ing">진행중</span>
+                    </div>
+                    <div class="m1-job-sub">기사 이재홍 · 5분 후 도착</div>
+                  </div>
+                  <div class="m1-job-r">
+                    <span class="m1-job-price">₩450,000</span>
+                    <span class="m1-job-time">14:30</span>
+                  </div>
+                </div>
+                <div class="m1-job">
+                  <div class="m1-job-ic">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2l-3-7h-3V5H6v6H3v7z"/></svg>
+                  </div>
+                  <div class="m1-job-m">
+                    <div class="m1-job-t1">
+                      <span class="m1-job-name">덤프 15t</span>
+                      <span class="m1-job-badge ok">완료</span>
+                    </div>
+                    <div class="m1-job-sub">기사 박상진 · 정산 완료</div>
+                  </div>
+                  <div class="m1-job-r">
+                    <span class="m1-job-price">₩320,000</span>
+                    <span class="m1-job-time">오전 11:20</span>
+                  </div>
+                </div>
+                <div class="m1-job">
+                  <div class="m1-job-ic">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 17h2v-5h8v5h2v-2h2v2h4v-2l-5-3h-1V7l-3-4H6v4H3v10z"/></svg>
+                  </div>
+                  <div class="m1-job-m">
+                    <div class="m1-job-t1">
+                      <span class="m1-job-name">크레인 25t</span>
+                      <span class="m1-job-badge wait">승인대기</span>
+                    </div>
+                    <div class="m1-job-sub">견적서 도착 · 확인 필요</div>
+                  </div>
+                  <div class="m1-job-r">
+                    <span class="m1-job-price">₩1,200,000</span>
+                    <span class="m1-job-time">오전 9:15</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+          
+          <div class="m1-tab">
+            <div class="m1-tab-i active">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L2 12h3v8h6v-6h2v6h6v-8h3L12 3z"/></svg>
+              <span>홈</span>
+            </div>
+            <div class="m1-tab-i">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"/></svg>
+              <span>배차</span>
+            </div>
+            <div class="m1-tab-i">
+              <span style="opacity:0;">_</span>
+              <span style="opacity:0;">_</span>
+            </div>
+            <div class="m1-tab-i">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              <span>계약·정산</span>
+            </div>
+            <div class="m1-tab-i">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12a5 5 0 100-10 5 5 0 000 10zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
+              <span>내 정보</span>
+            </div>
+          </div>
+          <div class="m1-tab-fab">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== MOBILE 2: 대표 대시보드 =========== -->
+  <div>
+    <div class="screen-label"><strong>모바일</strong> · 대표 · 경영 대시보드</div>
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="m2">
+          <div class="m2-status">
+            <span>9:41</span>
+            <span>● ● ● ●</span>
+          </div>
+          
+          <div class="m2-head">
+            <div class="m2-head-r1">
+              <div class="m2-head-br">
+                <span class="logo">철연</span>
+                <span class="en">CHEOLYEON</span>
+              </div>
+              <div class="m2-head-av">이</div>
+            </div>
+            <div class="m2-head-r2">
+              <span class="l">📊 경영 리포트 · 2026-04</span>
+              <span class="v">4월 3주차</span>
+            </div>
+          </div>
+          
+          <div class="m2-body">
+            
+            <div class="m2-kpi">
+              <div class="m2-kpi-l">이번 달 보호 정산액</div>
+              <div class="m2-kpi-v">₩83,240,000</div>
+              <div class="m2-kpi-d">
+                <span class="up">+23.4%</span>
+                <span>전월 동기 대비</span>
+              </div>
+              <div class="m2-kpi-line"></div>
+              <div class="m2-kpi-row">
+                <div class="m2-kpi-col">
+                  <div class="k">진행 배차</div>
+                  <div class="n">12</div>
+                </div>
+                <div class="m2-kpi-col">
+                  <div class="k">대기</div>
+                  <div class="n">3</div>
+                </div>
+                <div class="m2-kpi-col">
+                  <div class="k">완료 (오늘)</div>
+                  <div class="n">47</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="m2-row">
+              <div class="m2-mini">
+                <div class="m2-mini-h">
+                  <span class="t">배차 성공률</span>
+                  <div class="ic">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2l-3.5-3.5L4 14.2 9 19.2 20 8.2l-1.5-1.5z"/></svg>
+                  </div>
+                </div>
+                <div class="m2-mini-v">99.3%</div>
+                <div class="m2-mini-d">+0.5% ↑</div>
+              </div>
+              <div class="m2-mini">
+                <div class="m2-mini-h">
+                  <span class="t">평균 매칭</span>
+                  <div class="ic">
+                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v6h-2zM12 2a10 10 0 100 20 10 10 0 000-20zm0 18a8 8 0 110-16 8 8 0 010 16z"/></svg>
+                  </div>
+                </div>
+                <div class="m2-mini-v">2분 12초</div>
+                <div class="m2-mini-d">-18초 ↓</div>
+              </div>
+            </div>
+            
+            <div class="m2-chart">
+              <div class="m2-chart-h">
+                <span class="t">주간 배차 추이</span>
+                <div class="tab">
+                  <span>일</span>
+                  <span class="active">주</span>
+                  <span>월</span>
+                </div>
+              </div>
+              <svg class="m2-chart-svg" viewBox="0 0 280 120" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="gradA" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#002C5F" stop-opacity="0.25"/>
+                    <stop offset="1" stop-color="#002C5F" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <!-- grid -->
+                <g stroke="#EDF0F5" stroke-width="1">
+                  <line x1="0" y1="30" x2="280" y2="30"/>
+                  <line x1="0" y1="60" x2="280" y2="60"/>
+                  <line x1="0" y1="90" x2="280" y2="90"/>
+                </g>
+                <!-- area -->
+                <path d="M0,80 L40,60 L80,70 L120,45 L160,50 L200,25 L240,35 L280,18 L280,120 L0,120 Z" fill="url(#gradA)"/>
+                <!-- line -->
+                <path d="M0,80 L40,60 L80,70 L120,45 L160,50 L200,25 L240,35 L280,18" fill="none" stroke="#002C5F" stroke-width="2.5"/>
+                <!-- points -->
+                <g fill="#002C5F">
+                  <circle cx="40" cy="60" r="3"/>
+                  <circle cx="80" cy="70" r="3"/>
+                  <circle cx="120" cy="45" r="3"/>
+                  <circle cx="160" cy="50" r="3"/>
+                  <circle cx="200" cy="25" r="3"/>
+                  <circle cx="240" cy="35" r="3"/>
+                  <circle cx="280" cy="18" r="4" fill="#00AAD2"/>
+                </g>
+                <!-- labels -->
+                <g fill="#9AA8B8" font-size="9" font-family="Roboto Mono">
+                  <text x="0" y="115">월</text>
+                  <text x="40" y="115">화</text>
+                  <text x="80" y="115">수</text>
+                  <text x="120" y="115">목</text>
+                  <text x="160" y="115">금</text>
+                  <text x="200" y="115">토</text>
+                  <text x="240" y="115">일</text>
+                </g>
+              </svg>
+            </div>
+            
+            <div class="m2-alert err">
+              <div class="m2-alert-ic">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 16h-2v-2h2v2zm0-4h-2v-5h2v5z"/></svg>
+              </div>
+              <div class="m2-alert-m">
+                <div class="t">정산 지연 1건</div>
+                <div class="s">(주)대한토건 · ₩2,800,000 · 48시간 경과 · 자동 독촉 발송 완료</div>
+              </div>
+            </div>
+            
+            <div class="m2-alert">
+              <div class="m2-alert-ic">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13 9h-2V7h2v2zm0 8h-2v-6h2v6zm-1-15a10 10 0 100 20 10 10 0 000-20z"/></svg>
+              </div>
+              <div class="m2-alert-m">
+                <div class="t">신규 파트너 가입</div>
+                <div class="s">(주)대한중기 · 장비 3기 등록 · 사업자번호 검증 대기</div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========== DESKTOP: 웹 랜딩 =========== -->
+  <div class="desktop-wrap">
+    <div class="screen-label"><strong>웹</strong> · 랜딩 페이지 · cheolyeon.com</div>
+    <div class="desktop">
+      <div class="desk-bar">
+        <span class="d" style="background:#FF5F57;"></span>
+        <span class="d" style="background:#FEBC2E;"></span>
+        <span class="d" style="background:#28C840;"></span>
+        <span class="u">🔒 cheolyeon.com</span>
+      </div>
+      <div class="d1">
+        
+        <nav class="d1-nav">
+          <div class="logo">
+            <h1>철연</h1>
+            <span class="en">CHEOLYEON</span>
+          </div>
+          <ul>
+            <li class="active">플랫폼</li>
+            <li>도입 효과</li>
+            <li>요금</li>
+            <li>고객사</li>
+            <li>철연 이야기</li>
+          </ul>
+          <div class="actions">
+            <button class="btn-g">로그인</button>
+            <button class="btn-p">무료 체험</button>
+          </div>
+        </nav>
+        
+        <section class="d1-hero">
+          <div class="d1-hero-l">
+            <span class="tag">부산·울산·경남 · 현장 183곳이 사용중</span>
+            <h2>
+              현장이 <span class="em">다시는 떼이지 않게.</span><br/>
+              <span class="dim">그 일을 시스템이 합니다.</span>
+            </h2>
+            <p class="lede">
+              중장비 배차·계약·정산을 하나로 연결한 통합 플랫폼. 
+              전용콜부터 공유콜까지 3단계 폴백으로 배차 실패를 없애고, 
+              전자계약과 자동정산으로 현장의 대금을 지킵니다.
+            </p>
+            <div class="cta">
+              <button class="p">30일 무료 체험</button>
+              <button class="g">데모 요청</button>
+            </div>
+            <div class="trust">
+              <div class="item">
+                <span class="v">99.3%</span>
+                <span class="k">배차 성공률</span>
+              </div>
+              <div class="item">
+                <span class="v">2분 12초</span>
+                <span class="k">평균 매칭</span>
+              </div>
+              <div class="item">
+                <span class="v">₩8.3억</span>
+                <span class="k">이번 달 보호액</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="d1-hero-r">
+            <div class="dr-top">
+              <span class="t">부산권 실시간 현황</span>
+              <span class="live">LIVE</span>
+            </div>
+            <div class="dr-kpi">
+              <div class="dr-kpi-c">
+                <div class="k">진행</div>
+                <div class="v">12</div>
+                <div class="d">+3 ↑</div>
+              </div>
+              <div class="dr-kpi-c">
+                <div class="k">완료</div>
+                <div class="v">47</div>
+                <div class="d">목표 117%</div>
+              </div>
+              <div class="dr-kpi-c">
+                <div class="k">SLA</div>
+                <div class="v">99%</div>
+                <div class="d">+0.5% ↑</div>
+              </div>
+            </div>
+            <div class="dr-chart">
+              <div class="h">
+                <span class="t">시간별 배차량</span>
+                <span class="v">₩12.4M</span>
+              </div>
+              <svg viewBox="0 0 260 80" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="gradB" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="0" stop-color="#00AAD2" stop-opacity="0.4"/>
+                    <stop offset="1" stop-color="#00AAD2" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,55 L30,45 L60,50 L90,35 L120,40 L150,20 L180,28 L210,15 L240,22 L260,10 L260,80 L0,80 Z" fill="url(#gradB)"/>
+                <path d="M0,55 L30,45 L60,50 L90,35 L120,40 L150,20 L180,28 L210,15 L240,22 L260,10" fill="none" stroke="#00AAD2" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="dr-rows">
+              <div class="dr-row">
+                <span class="l"><span class="dot b"></span>굴삭기 3.5t · 해운대→기장</span>
+                <span class="r">₩450K</span>
+              </div>
+              <div class="dr-row">
+                <span class="l"><span class="dot"></span>덤프 15t · 강서→사상</span>
+                <span class="r">₩320K</span>
+              </div>
+              <div class="dr-row">
+                <span class="l"><span class="dot w"></span>크레인 25t · 양산→울산</span>
+                <span class="r">₩1.2M</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <section class="d1-strip">
+          <div class="d1-strip-c">
+            <div class="k">LIVE PARTNERS</div>
+            <div class="v">183</div>
+            <div class="s">활성 파트너사</div>
+          </div>
+          <div class="d1-strip-c">
+            <div class="k">PROTECTED</div>
+            <div class="v">₩8.3억</div>
+            <div class="s">이번 달 정산 보호액</div>
+          </div>
+          <div class="d1-strip-c">
+            <div class="k">SUCCESS RATE</div>
+            <div class="v">99.3%</div>
+            <div class="s">3-Fallback 배차 성공률</div>
+          </div>
+          <div class="d1-strip-c">
+            <div class="k">SINCE</div>
+            <div class="v">1998</div>
+            <div class="s">기록된 의제, 28년 후 시스템으로</div>
+          </div>
+        </section>
+        
+        <section class="d1-feat">
+          <div class="d1-feat-h">
+            <div class="t">현장의 세 가지 문제, 하나의 시스템</div>
+            <div class="s">배차 실패 · 불법 하도급 · 대금 미수 — 철연이 구조적으로 해결합니다.</div>
+          </div>
+          <div class="d1-feat-g">
+            <div class="d1-feat-c">
+              <div class="ic">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zm0 13L2 10v7l10 5 10-5v-7l-10 5z"/></svg>
+              </div>
+              <div class="t">3단계 폴백 배차</div>
+              <div class="s">전용콜 → 콜센터 → 공유콜. 어떤 상황에서도 장비가 도착합니다. 평균 매칭 2분.</div>
+            </div>
+            <div class="d1-feat-c">
+              <div class="ic">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-2 16H8v-2h4v2zm4-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+              </div>
+              <div class="t">전자 계약 · 증빙</div>
+              <div class="s">구두 약속 없음. 모든 거래가 문서로 남고, 하도급 구조가 투명하게 기록됩니다.</div>
+            </div>
+            <div class="d1-feat-c">
+              <div class="ic">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a11 11 0 100 22 11 11 0 000-22zm1 17h-2v-2h2v2zm2-7c-.7.7-1.5 1.1-2 1.5v1.5h-2v-2c0-.8.5-1.5 1-2l1.5-1.5c.4-.4.5-1 .5-1.5a2 2 0 10-4 0H7a4 4 0 018 0c0 1-.5 2-1 2.5z"/></svg>
+              </div>
+              <div class="t">자동 정산 · 독촉</div>
+              <div class="s">작업 완료 → 정산 예약 → 미지급 시 자동 알림. 48시간 규칙으로 대금이 돌아옵니다.</div>
+            </div>
+          </div>
+        </section>
+        
+        <section class="d1-heri">
+          <div class="d1-heri-l">
+            <div class="tag">CHEOLYEON · 철연의 유래</div>
+            <h3>
+              1998년, <span class="em">부산 중장비 업계의 기록.</span>
+            </h3>
+            <p>
+              1998년 2월, <span class="hl">대한건설기계협회 부산지회 기종분과회 위원장 나철연</span>이 부산일보에 실린다. 
+              그가 대표한 의제는 세 가지였다. 
+              장기어음의 장기화, 무허가 중간업자를 통한 하도급, 사업자의 생계 미보장.
+            </p>
+            <p>
+              같은 해, 그는 사재를 처분하여 업계 동료들의 자금난을 해소하고자 하였다. 
+              <span class="hl">회수되지 않았다.</span>
+            </p>
+            <p>
+              그의 요구는 제도로 응답받지 못한 채 <span class="hl">28년이 지났다.</span> 
+              같은 문제가 오늘의 건설 현장에서 동일하게 반복된다.
+            </p>
+            <p>
+              철연은 그의 이름을 따른다. 
+              업의 구조를 시스템으로 재설계하여, 1998년의 문제를 2026년의 기술 위에서 종결하는 것을 목표로 한다.
+            </p>
+            <p style="font-size:12px;color:var(--ink-3);margin-top:16px;padding-top:14px;border-top:1px solid var(--line);">
+              운영: BYTEFORCE. 창업자 이한결.
+            </p>
+            <a href="https://www.busan.com/view/busan/view.php?code=19980224000512" target="_blank">부산일보 1998.02.24 원문</a>
+          </div>
+          <div class="d1-heri-r">
+            <div class="date">1998-02-24 · 부산일보</div>
+            <div class="head">불법 하도급 근절 해야</div>
+            <div class="sub">건설기계업자 보험료·경유가 인하도 촉구</div>
+            <div class="body">
+              IMF 한파로 건설공사 현장에 투입되는 각종 중장비 등 건설 기계 운행이 중단되는 사태가 속출하자 사업자들이 산업용 경유가를 인하하고 불법 하도급을 근절해 줄 것을 요구하는 등 생존권 보장 대책을 촉구하고 나섰다.<br/><br/>
+              대한건설기계협회 부산지회 기종분과회(위원장 <span class="name">나철연</span>)는 25일 부산진구 전포동 적십자회관 대강당에서 "건설기계 사업자 결의대회"를 개최한다.
+            </div>
+          </div>
+        </section>
+        
+        <div class="d1-foot">
+          <span>© 2026 BYTEFORCE · 철연 CHEOLYEON은 ㈜바이트포스의 중장비 통합 플랫폼입니다.</span>
+          <span>부산 해운대구 오션타워 608호 · contact@cheolyeon.com</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -10,9 +10,9 @@ interface TourStep {
 
 const TOUR_STEPS: Record<string, TourStep[]> = {
   owner: [
-    { title: "전용콜 수신", description: "장비요청자가 사장님을 지정하면 여기에 전용콜이 표시됩니다. 60초 안에 수락/거절하세요!", icon: "call" },
-    { title: "수락 & 거절", description: "수락하면 매칭 완료! 거절하면 콜센터로 자동 전달됩니다.", icon: "check_circle" },
-    { title: "공유콜 (선착순)", description: "전용콜이 만료되면 같은 지역 사장님 전체에게 공유됩니다. 먼저 수락하면 내 건!", icon: "campaign" },
+    { title: "전용콜 수신", description: "장비요청자가 사장을 지정하면 여기에 전용콜이 표시된다. 60초 안에 수락 또는 거절.", icon: "call" },
+    { title: "수락 · 거절", description: "수락 시 매칭 완료. 거절 시 콜센터로 자동 전달된다.", icon: "check_circle" },
+    { title: "공유콜 (선착순)", description: "전용콜이 만료되면 같은 지역 사장 전체에게 공유된다. 먼저 수락한 사장이 매칭된다.", icon: "campaign" },
     { title: "기사 배정", description: "매칭 완료 후 소속 기사를 선택하여 배정합니다.", icon: "person_add" },
   ],
   requester: [

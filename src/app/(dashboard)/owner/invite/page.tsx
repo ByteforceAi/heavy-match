@@ -66,7 +66,7 @@ export default function OwnerInvitePage() {
           위 링크를 복사해서 카카오톡이나 문자로 현장소장에게 보내주세요.
         </p>
         <a
-          href={`sms:?body=중장비 배차 앱 Heavy Match 설치 링크: ${inviteUrl}`}
+          href={`sms:?body=중장비 배차 플랫폼 철연 CHEOLYEON 설치 링크: ${inviteUrl}`}
           className="block w-full py-3 bg-accent text-white text-center font-semibold rounded-xl"
         >
           문자로 보내기

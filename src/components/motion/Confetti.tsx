@@ -20,7 +20,7 @@ interface ConfettiProps {
 
 export default function Confetti({
   active,
-  colors = ["#FF6B1A", "#FFA523", "#10B981", "#3B82F6", "#FAFAFA"],
+  colors = ["#002C5F", "#00AAD2", "#0046A4", "#00A86B", "#FFFFFF"],
   count = 50,
   duration = 3,
 }: ConfettiProps) {

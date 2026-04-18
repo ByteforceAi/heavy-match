@@ -85,7 +85,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-3">
             <span className="material-symbols-outlined text-3xl text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-2xl font-black text-[#111c29] tracking-tighter">Heavy Match</span>
+            <span className="text-2xl font-black text-[#0A1628] tracking-tighter">철연 CHEOLYEON</span>
           </div>
           <p className="text-sm text-[#727785]">중장비 배차 실시간 매칭 플랫폼</p>
         </div>

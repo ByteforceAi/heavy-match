@@ -12,7 +12,7 @@ interface IconProps {
   accent?: string;
 }
 
-const D = ({ className = "", size = 24, accent = "#FF6B1A" }: IconProps) => ({ className, size, accent });
+const D = ({ className = "", size = 24, accent = "#002C5F" }: IconProps) => ({ className, size, accent });
 
 // 1. 크레인
 export function CraneIcon(props: IconProps) {
