@@ -1,10 +1,115 @@
 <!DOCTYPE html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Heavy Match — 오프라인</title>
-<style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:Inter,Pretendard,sans-serif;background:#f8f9ff;display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:2rem;color:#111c29}.c{max-width:320px}h1{font-size:1.5rem;font-weight:800;margin-bottom:.5rem}p{color:#414754;font-size:.875rem;margin-bottom:1.5rem}button{background:#0059b9;color:#fff;border:none;padding:14px 32px;border-radius:12px;font-weight:700;font-size:1rem;cursor:pointer}</style>
-</head><body><div class="c">
-<div style="font-size:3rem;margin-bottom:1rem">📡</div>
-<h1>인터넷 연결 없음</h1>
-<p>인터넷 연결을 확인한 후 다시 시도해주세요.</p>
-<button onclick="location.reload()">다시 시도</button>
-</div></body></html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>철연 CHEOLYEON · 오프라인</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @font-face{
+    font-family:'Pretendard';
+    src:url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
+    font-weight:700;
+  }
+  @font-face{
+    font-family:'Pretendard';
+    src:url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2205-pro@1.0/Pretendard-Black.woff') format('woff');
+    font-weight:900;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:'Pretendard','IBM Plex Sans KR',-apple-system,sans-serif;
+    background:linear-gradient(180deg,#F8FAFD 0%,#FFFFFF 100%);
+    background-image:
+      radial-gradient(ellipse at 80% 20%,rgba(0,170,210,0.08) 0%,transparent 50%),
+      radial-gradient(ellipse at 0% 80%,rgba(0,44,95,0.04) 0%,transparent 50%),
+      linear-gradient(180deg,#F8FAFD 0%,#FFFFFF 100%);
+    display:flex;align-items:center;justify-content:center;
+    padding:2rem;color:#0A1628;letter-spacing:-0.01em;
+  }
+  .brand{
+    position:fixed;top:24px;left:24px;display:flex;align-items:baseline;gap:10px;
+  }
+  .brand .ko{font-size:22px;font-weight:900;color:#002C5F;letter-spacing:-0.03em}
+  .brand .en{font-family:'Roboto Mono',monospace;font-size:10px;color:#6B7B8F;letter-spacing:0.3em}
+  .container{max-width:440px;text-align:center}
+  .label{
+    font-family:'Roboto Mono',monospace;font-size:11px;font-weight:700;
+    color:#002C5F;letter-spacing:0.25em;margin-bottom:20px;
+  }
+  .icon{
+    width:80px;height:80px;margin:0 auto 24px;border-radius:20px;
+    background:#E8F1FB;display:flex;align-items:center;justify-content:center;
+  }
+  .icon svg{width:40px;height:40px;color:#002C5F}
+  h1{
+    font-size:32px;font-weight:900;color:#0A1628;letter-spacing:-0.02em;
+    line-height:1.2;margin-bottom:12px;
+  }
+  p{
+    color:#3A4A5F;font-size:15px;line-height:1.75;margin-bottom:28px;
+    font-family:'IBM Plex Sans KR','Pretendard',serif;
+  }
+  .actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:32px}
+  button,a.btn{
+    background:#002C5F;color:#fff;border:none;padding:12px 24px;
+    border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;
+    font-family:inherit;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+    transition:background 0.2s;
+  }
+  button:hover,a.btn:hover{background:#0046A4}
+  a.btn-secondary{
+    background:#fff;color:#0A1628;border:1px solid #E3E8EF;
+  }
+  a.btn-secondary:hover{background:#F4F6FA;border-color:#002C5F}
+  .meta{
+    font-family:'Roboto Mono',monospace;font-size:11px;color:#9AA8B8;
+    padding-top:20px;border-top:1px solid #E3E8EF;letter-spacing:0.05em;
+  }
+  .meta a{color:#002C5F;text-decoration:none;font-weight:500}
+  .meta a:hover{color:#0046A4}
+  @media (max-width:480px){
+    h1{font-size:26px}
+    p{font-size:14px}
+    .brand{top:16px;left:16px}
+    .brand .ko{font-size:18px}
+  }
+</style>
+</head>
+<body>
+  <div class="brand">
+    <span class="ko">철연</span>
+    <span class="en">CHEOLYEON</span>
+  </div>
+  <div class="container">
+    <p class="label">OFFLINE · 네트워크 단절</p>
+    <div class="icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M3 9l2-2c3.85-3.85 10.15-3.85 14 0l2 2-2 2c-.45-.45-.94-.86-1.46-1.22l1.46-1.22c-2.34-2.34-6.13-2.34-8.47 0l2.22 2.22c.47-.14.97-.22 1.49-.22 1.45 0 2.78.53 3.82 1.39l-1.41 1.41c-.69-.54-1.55-.87-2.48-.87-.19 0-.38.02-.57.05l3.57 3.57-1.06 1.06L2.05 4.55l1.06-1.06L5.84 6.22C5.15 6.58 4.5 7.01 3.93 7.51L3 9zm9 9c.83 0 1.5.67 1.5 1.5S12.83 21 12 21s-1.5-.67-1.5-1.5.67-1.5 1.5-1.5zm0-6.5L10.35 13.35C9.8 13.8 9.31 14.29 8.86 14.86l3.08 3.08c.03-.19.06-.37.06-.56V14.5L12 11.5z"/>
+      </svg>
+    </div>
+    <h1>인터넷 연결이 단절되었다</h1>
+    <p>네트워크 상태를 확인한 후 다시 시도한다. 연결이 복구되면 이전 페이지로 자동 복귀한다.</p>
+    <div class="actions">
+      <button onclick="location.reload()">
+        <span>다시 시도</span>
+        <span aria-hidden="true">↻</span>
+      </button>
+      <a href="/" class="btn btn-secondary">메인으로</a>
+    </div>
+    <p class="meta">
+      지속 발생 시 <a href="mailto:ceo@byteforce.ai.kr">ceo@byteforce.ai.kr</a>
+    </p>
+  </div>
+  <script>
+    // 연결 복구 자동 감지 — online 이벤트 발생 시 이전 페이지 재시도
+    window.addEventListener('online', function() {
+      setTimeout(function() { location.reload(); }, 500);
+    });
+  </script>
+</body>
+</html>

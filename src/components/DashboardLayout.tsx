@@ -43,6 +43,7 @@ const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   admin: [
     { href: "/admin", label: "대시보드", icon: "dashboard" },
     { href: "/admin/dispatch", label: "배차 현황", icon: "local_shipping" },
+    { href: "/admin/inquiries", label: "문의 관리", icon: "inbox" },
     { href: "/admin/users", label: "사용자", icon: "group" },
     { href: "/admin/commission", label: "수수료", icon: "account_balance" },
     { href: "/admin/settings", label: "설정", icon: "settings" },

@@ -1,4 +1,5 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 /**
  * 철연 CHEOLYEON — Landing Page v2 (HD Navy Light)
@@ -23,9 +24,11 @@
  * 관련 문서: docs/brand/PR-proposals/PR-06-rebrand-to-cheolyeon.md
  */
 
+import { useState } from "react";
 import Link from "next/link";
 import { formatPrice } from "@/lib/utils";
 import * as copy from "@/content/copy";
+import { Events } from "@/lib/analytics";
 import {
   Reveal,
   StaggerContainer,
@@ -36,6 +39,8 @@ import {
 import HeritageSection from "@/components/cheolyeon/HeritageSection";
 import LivePreviewCard from "@/components/cheolyeon/LivePreviewCard";
 import ContactForm from "@/components/landing/ContactForm";
+import ProductTour from "@/components/cheolyeon/ProductTour";
+import { landingTourSteps } from "@/content/product-tour";
 import {
   OrganizationSchema,
   WebSiteSchema,
@@ -47,6 +52,8 @@ const SECTION_BASE =
   "py-16 md:py-20 max-w-[1400px] mx-auto px-6 md:px-12";
 
 export default function LandingPage() {
+  const [tourOpen, setTourOpen] = useState(false);
+
   return (
     <main
       className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
@@ -67,10 +74,17 @@ export default function LandingPage() {
       />
 
       {/* ═══ 1. NAV ═══ */}
-      <Navigation />
+      <Navigation onTourStart={() => setTourOpen(true)} />
 
       {/* ═══ 2. HERO ═══ */}
-      <HeroSection />
+      <HeroSection onTourStart={() => setTourOpen(true)} />
+
+      {/* Product Tour */}
+      <ProductTour
+        open={tourOpen}
+        onClose={() => setTourOpen(false)}
+        steps={landingTourSteps}
+      />
 
       {/* ═══ 3. STATS STRIP ═══ */}
       <StatsStrip />
@@ -108,7 +122,7 @@ export default function LandingPage() {
 // ═══════════════════════════════════════
 // 1. NAVIGATION
 // ═══════════════════════════════════════
-function Navigation() {
+function Navigation({ onTourStart }: { onTourStart?: () => void } = {}) {
   return (
     <nav
       className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
@@ -151,6 +165,18 @@ function Navigation() {
       </ul>
 
       <div className="flex gap-2.5 ml-auto">
+        {onTourStart && (
+          <button
+            onClick={onTourStart}
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent hover:text-[#002C5F] transition-colors min-h-0"
+            aria-label="제품 투어 시작"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
+              tour
+            </span>
+            투어
+          </button>
+        )}
         <Link
           href="/login"
           className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
@@ -171,7 +197,7 @@ function Navigation() {
 // ═══════════════════════════════════════
 // 2. HERO
 // ═══════════════════════════════════════
-function HeroSection() {
+function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
   return (
     <section
       className="relative border-b border-[#E3E8EF]"
@@ -217,13 +243,25 @@ function HeroSection() {
 
           <Reveal delay={0.35}>
             <div className="flex flex-wrap gap-2.5 mb-8">
-              <a href="#contact">
+              <a href="#contact" onClick={() => Events.heroCtaClicked("contact")}>
                 <MotionButton variant="primary" className="px-6 py-3.5 text-[14px] inline-flex items-center gap-2">
                   {copy.hero.cta.primary}
                   <span aria-hidden="true">→</span>
                 </MotionButton>
               </a>
-              <Link href="/demo">
+              {onTourStart && (
+                <button
+                  onClick={onTourStart}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-bold text-[#002C5F] bg-white border border-[#002C5F]/30 hover:bg-[#E8F1FB] hover:border-[#002C5F] rounded-xl transition-colors min-h-0"
+                  aria-label="제품 투어 시작"
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
+                    tour
+                  </span>
+                  제품 투어
+                </button>
+              )}
+              <Link href="/demo" onClick={() => Events.heroCtaClicked("demo")}>
                 <MotionButton variant="secondary" className="px-6 py-3.5 text-[14px]">
                   {copy.hero.cta.secondary}
                 </MotionButton>

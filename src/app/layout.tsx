@@ -1,6 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_KR, Roboto_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
+import { Analytics } from "@/components/analytics/Analytics";
+import { PageViewTracker } from "@/components/analytics/PageViewTracker";
+import { ConsentBanner } from "@/components/analytics/ConsentBanner";
 
 // ═══════════════════════════════════════
 // Fonts — next/font 자동 preload + FOIT 방지
@@ -125,6 +129,13 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col overscroll-none" id="main-content">
         {children}
+        {/* Analytics — GA4 · Naver · PostHog 3중 스택.
+            각 스크립트는 NEXT_PUBLIC_*_ID 환경 변수가 설정된 경우에만 로드된다. */}
+        <Analytics />
+        <Suspense fallback={null}>
+          <PageViewTracker />
+        </Suspense>
+        <ConsentBanner />
         <script
           dangerouslySetInnerHTML={{
             __html: `if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')})}`,

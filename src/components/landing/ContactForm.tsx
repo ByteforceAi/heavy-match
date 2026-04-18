@@ -3,14 +3,15 @@
 /**
  * Contact / Inquiry Form — 8천만원 구매 결정 지점의 리드 캡처
  *
- * v2 철연 CHEOLYEON HD Navy 라이트 테마로 재작성.
- * Supabase 저장 + 관리자 이메일 알림은 2차 구현.
- * 현재는 localStorage + console.log 기반 mock.
+ * v2 철연 CHEOLYEON HD Navy 라이트 테마.
+ * POST /api/inquiry → Supabase 저장 + Resend 관리자 메일 알림.
+ * 네트워크 장애 시 localStorage 임시 저장 폴백 유지.
  */
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { motion as tokens } from "@/lib/design-system";
+import { Events } from "@/lib/analytics";
 
 interface FormData {
   name: string;
@@ -27,31 +28,65 @@ export default function ContactForm() {
   const [data, setData] = useState<FormData>(EMPTY);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const submit = async () => {
     if (!data.name || !data.company || !data.phone) {
-      alert("이름, 회사명, 연락처는 필수입니다.");
+      setError("이름, 회사명, 연락처는 필수 입력 항목이다.");
       return;
     }
+    setError(null);
     setSubmitting(true);
 
-    // Mock API — 실제 배포 시 /api/inquiry 엔드포인트로 POST
-    await new Promise((r) => setTimeout(r, 1200));
     try {
-      const inquiries = JSON.parse(localStorage.getItem("cy-inquiries") || "[]");
-      inquiries.push({ ...data, timestamp: new Date().toISOString() });
-      localStorage.setItem("cy-inquiries", JSON.stringify(inquiries));
-    } catch {
-      // storage fail — 무시
-    }
-    console.info("[CHEOLYEON Inquiry]", data);
+      const res = await fetch("/api/inquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-    setSubmitting(false);
-    setDone(true);
-    setTimeout(() => {
-      setDone(false);
-      setData(EMPTY);
-    }, 6000);
+      const payload = (await res.json().catch(() => null)) as
+        | { ok?: boolean; error?: string; id?: string; emailed?: boolean }
+        | null;
+
+      if (!res.ok || !payload?.ok) {
+        const msg =
+          payload?.error ||
+          (res.status === 429
+            ? "요청이 일시적으로 제한되었다. 잠시 후 다시 시도한다."
+            : "전송이 실패했다. 잠시 후 다시 시도한다.");
+        setError(msg);
+        setSubmitting(false);
+        return;
+      }
+
+      console.info("[CHEOLYEON Inquiry] 접수 완료:", {
+        id: payload.id,
+        emailed: payload.emailed,
+      });
+
+      // Analytics — 상담 제출 성공 시 3중 스택에 이벤트 전송.
+      Events.contactFormSubmitted(data.role || "unspecified");
+
+      setSubmitting(false);
+      setDone(true);
+      setTimeout(() => {
+        setDone(false);
+        setData(EMPTY);
+      }, 6000);
+    } catch (networkErr) {
+      // 네트워크 단절: localStorage 폴백 저장
+      console.warn("[CHEOLYEON Inquiry] 네트워크 오류, 임시 저장으로 폴백:", networkErr);
+      try {
+        const inquiries = JSON.parse(localStorage.getItem("cy-inquiries-pending") || "[]");
+        inquiries.push({ ...data, timestamp: new Date().toISOString() });
+        localStorage.setItem("cy-inquiries-pending", JSON.stringify(inquiries));
+        setError("임시 저장되었다. 네트워크 복구 후 자동 재전송한다.");
+      } catch {
+        setError("전송이 실패했다. 잠시 후 다시 시도한다.");
+      }
+      setSubmitting(false);
+    }
   };
 
   const field = (
@@ -199,6 +234,25 @@ export default function ContactForm() {
               </>
             )}
           </motion.button>
+
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={tokens.spring.snappy}
+              role="alert"
+              className="px-4 py-3 bg-[#E5484D]/8 border border-[#E5484D]/30 rounded-lg text-[13px] text-[#E5484D] flex items-start gap-2"
+            >
+              <span
+                className="material-symbols-outlined mt-[1px]"
+                style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}
+                aria-hidden="true"
+              >
+                error
+              </span>
+              <span className="leading-relaxed">{error}</span>
+            </motion.div>
+          )}
 
           <p className="text-[11px] text-[#6B7B8F] text-center">
             제출된 정보는 상담 목적으로만 사용되며 24시간 이내에 담당자가 연락을 회신한다.
