@@ -703,43 +703,98 @@ function FinalCtaSection() {
 // ═══════════════════════════════════════
 function FooterSection() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
-      <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="flex items-baseline gap-2.5">
-          <span
-            className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]"
-            style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
-          >
-            {copy.footer.brand.ko}
-          </span>
-          <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
-            style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
-          >
-            {copy.footer.brand.en}
-          </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-3 hidden md:inline">
-            {copy.footer.description}
-          </span>
-        </div>
-        <div className="flex gap-5">
-          {copy.footer.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-[11px] text-[#6B7B8F] hover:text-[#3A4A5F] transition-colors min-h-0"
+    <footer className="border-t border-[#E3E8EF] pt-10 pb-8 bg-[#EEF1F5]">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+        {/* 상단: 브랜드 + 링크 */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-[#E3E8EF]">
+          <div className="flex items-baseline gap-2.5">
+            <span
+              className="text-[18px] font-black text-[#002C5F] tracking-[-0.03em]"
+              style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
             >
-              {link.label}
-            </a>
-          ))}
+              {copy.footer.brand.ko}
+            </span>
+            <span
+              className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+              style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
+            >
+              {copy.footer.brand.en}
+            </span>
+            <span className="text-[12px] text-[#6B7B8F] ml-2 hidden md:inline">
+              {copy.footer.description}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-2">
+            {copy.footer.links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="text-[12px] text-[#3A4A5F] hover:text-[#002C5F] font-medium transition-colors min-h-0"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">
-          {copy.footer.address} · {copy.footer.email}
-        </p>
+
+        {/* 중단: 사업자 정보 (통신판매업 고시 의무 표기) */}
+        <div
+          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-[#6B7B8F] leading-[1.8]"
+          style={{ fontFamily: "var(--font-roboto-mono), 'Pretendard', sans-serif" }}
+        >
+          <div className="space-y-0.5">
+            <p>
+              <span className="text-[#9AA8B8]">대표:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.representative}</span>
+            </p>
+            <p>
+              <span className="text-[#9AA8B8]">사업자등록번호:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.registrationNumber}</span>
+            </p>
+            <p>
+              <span className="text-[#9AA8B8]">통신판매업신고번호:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.eCommerceNumber}</span>
+            </p>
+            <p>
+              <span className="text-[#9AA8B8]">호스팅 제공자:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.hostingProvider}</span>
+            </p>
+          </div>
+          <div className="space-y-0.5">
+            <p>
+              <span className="text-[#9AA8B8]">주소:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.address}</span>
+            </p>
+            <p>
+              <span className="text-[#9AA8B8]">전화:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.phone}</span>
+            </p>
+            <p>
+              <span className="text-[#9AA8B8]">이메일:</span>{" "}
+              <a
+                href={`mailto:${copy.footer.business.email}`}
+                className="text-[#002C5F] hover:text-[#0046A4] font-medium transition-colors"
+              >
+                {copy.footer.business.email}
+              </a>
+            </p>
+            <p>
+              <span className="text-[#9AA8B8]">개인정보보호책임자:</span>{" "}
+              <span className="text-[#3A4A5F] font-medium">
+                {copy.footer.dpo.name} {copy.footer.dpo.title} ({copy.footer.dpo.email})
+              </span>
+            </p>
+          </div>
+        </div>
+
+        {/* 하단: 저작권 + 면책 */}
+        <div className="mt-6 pt-5 border-t border-[#E3E8EF] flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+          <p className="text-[10px] text-[#9AA8B8]">{copy.footer.copyright}</p>
+          <p className="text-[10px] text-[#9AA8B8]">
+            철연 · CHEOLYEON은 ㈜바이트포스의 중장비 배차·계약·정산 통합 플랫폼 상표다.
+          </p>
+        </div>
       </div>
-      <p className="max-w-[1400px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-[#9AA8B8]">
-        {copy.footer.copyright}
-      </p>
     </footer>
   );
 }

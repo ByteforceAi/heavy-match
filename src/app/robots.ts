@@ -20,11 +20,16 @@ export default function robots(): MetadataRoute.Robots {
           "/demo/simulation",
           "/demo/field-manager",
           "/demo/executive",
+          "/cases",
+          "/help",
+          "/terms",
+          "/privacy",
         ],
         disallow: [
           "/api/",
           "/login",
           "/register",
+          "/onboarding/", // 로그인 필수 경로 — 크롤링 제외
           "/requester/",
           "/owner/",
           "/operator/",
@@ -34,11 +39,11 @@ export default function robots(): MetadataRoute.Robots {
           "/call/",
         ],
       },
-      // GoogleBot은 풀 인덱싱 허용, 민감 경로만 차단
+      // GoogleBot은 풀 인덱싱 허용, 민감 경로·쿼리스트링만 차단
       {
         userAgent: "Googlebot",
-        allow: ["/", "/demo"],
-        disallow: ["/api/", "/*?*"],
+        allow: ["/", "/story", "/demo", "/cases", "/help", "/terms", "/privacy"],
+        disallow: ["/api/", "/onboarding/", "/*?*"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

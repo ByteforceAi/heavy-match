@@ -433,6 +433,12 @@ export const faq = {
 // FOOTER — 철연 브랜드 표기
 // ═══════════════════════════════════════
 
+/**
+ * Footer 정보.
+ *
+ * 통신판매업 고시 · 개인정보처리방침 법정 표기 필드를 포함한다.
+ * `[TODO]` 마커가 있는 필드는 이한결 대표가 실제 값으로 교체해야 한다.
+ */
 export const footer = {
   brand: {
     ko: "철연",
@@ -440,14 +446,35 @@ export const footer = {
   },
   company: "BYTEFORCE (바이트포스)",
   description: "철연 CHEOLYEON은 ㈜바이트포스의 중장비 통합 플랫폼이다.",
-  address: "부산 해운대구 오션타워 608호",
-  email: "contact@cheolyeon.com",
-  copyright: "© 2026 BYTEFORCE. All rights reserved.",
+  /** 통신판매업 고시 · 전자상거래법 제10조 의무 표기 */
+  business: {
+    representative: "이한결",
+    registrationNumber: "[TODO · 사업자등록번호 입력 필요]", // 예: 123-45-67890
+    eCommerceNumber: "[TODO · 통신판매업신고번호 입력 필요]", // 예: 2026-부산해운대-0123
+    address: "부산 해운대구 오션타워 608호",
+    phone: "[TODO · 대표 전화 입력 필요]", // 예: 051-000-0000
+    email: "ceo@byteforce.ai.kr",
+    hostingProvider: "Vercel Inc.",
+  },
+  /** 정보통신망법 제27조의2 · 개인정보보호책임자 */
+  dpo: {
+    name: "이한결",
+    title: "대표",
+    email: "ceo@byteforce.ai.kr",
+    phone: "[TODO · DPO 전화 입력 필요]",
+  },
   links: [
-    { label: "이용약관", href: "#" },
-    { label: "개인정보처리방침", href: "#" },
-    { label: "고객센터", href: "#" },
+    { label: "이용약관", href: "/terms" },
+    { label: "개인정보처리방침", href: "/privacy" },
+    { label: "고객센터", href: "/help" },
+    { label: "도입 사례", href: "/cases" },
+    { label: "철연 이야기", href: "/story" },
   ],
+  copyright: "© 2026 BYTEFORCE. All rights reserved.",
+  /** @deprecated v1 호환용 — 새 코드는 `business.address` 사용 */
+  address: "부산 해운대구 오션타워 608호",
+  /** @deprecated v1 호환용 — 새 코드는 `business.email` 사용 */
+  email: "ceo@byteforce.ai.kr",
 } as const;
 
 // ═══════════════════════════════════════

@@ -35,6 +35,39 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
+    // ── 도입 사례 ──
+    {
+      url: `${baseUrl}/cases`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.88,
+    },
+    ...["a", "b", "c"].map((slug) => ({
+      url: `${baseUrl}/cases/${slug}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    })),
+    // ── Help Center ──
+    {
+      url: `${baseUrl}/help`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    // ── Legal ──
+    {
+      url: `${baseUrl}/terms`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
+    {
+      url: `${baseUrl}/privacy`,
+      lastModified: now,
+      changeFrequency: "yearly",
+      priority: 0.4,
+    },
     {
       url: `${baseUrl}/demo/simulation`,
       lastModified: now,
