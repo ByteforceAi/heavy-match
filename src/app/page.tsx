@@ -36,6 +36,12 @@ import {
 import HeritageSection from "@/components/cheolyeon/HeritageSection";
 import LivePreviewCard from "@/components/cheolyeon/LivePreviewCard";
 import ContactForm from "@/components/landing/ContactForm";
+import {
+  OrganizationSchema,
+  WebSiteSchema,
+  SoftwareApplicationSchema,
+  FAQPageSchema,
+} from "@/components/seo/StructuredData";
 
 const SECTION_BASE =
   "py-16 md:py-20 max-w-[1400px] mx-auto px-6 md:px-12";
@@ -49,6 +55,17 @@ export default function LandingPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      {/* ═══ Schema.org JSON-LD ═══ */}
+      <OrganizationSchema />
+      <WebSiteSchema />
+      <SoftwareApplicationSchema />
+      <FAQPageSchema
+        items={copy.faq.items.map((f) => ({
+          question: f.q,
+          answer: f.a,
+        }))}
+      />
+
       {/* ═══ 1. NAV ═══ */}
       <Navigation />
 

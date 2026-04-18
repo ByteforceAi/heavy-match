@@ -12,7 +12,9 @@
  *  - §3.2.3 느낌표·1인칭 금지
  */
 
+import Link from "next/link";
 import { Reveal } from "@/components/motion/MotionPrimitives";
+import { PhoneFrame } from "@/components/cheolyeon/PhoneFrame";
 import { nav as navCopy } from "@/content/copy";
 
 // ═══════════════════════════════════════
@@ -101,10 +103,63 @@ function statusStyles(status: DispatchStatus) {
   }
 }
 
-export default function FieldManagerPage() {
+// ═══════════════════════════════════════
+// DESKTOP CONTEXT STRIP — 데스크톱 전용 쇼케이스 헤더
+// ═══════════════════════════════════════
+function DesktopContextStrip() {
+  return (
+    <div
+      className="hidden md:block w-full"
+      style={{ background: "#EEF1F5", paddingTop: 64 }}
+    >
+      <div className="max-w-[1120px] mx-auto px-8">
+        <p
+          className="text-[11px] font-semibold tracking-[0.22em] uppercase"
+          style={{
+            color: "#002C5F",
+            fontFamily: "var(--font-roboto-mono), monospace",
+          }}
+        >
+          데모 / 현장소장
+        </p>
+        <h1
+          className="mt-3 text-[36px] font-black text-[#002C5F]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
+        >
+          현장소장 모바일 화면
+        </h1>
+        <p
+          className="mt-3 text-[15px] text-[#3A4A5F] max-w-[640px]"
+          style={{ lineHeight: 1.7 }}
+        >
+          실제 앱이 이 모바일 디바이스에서 어떻게 작동하는지 쇼케이스. 화면은 터치 입력 · 60초 타이머 · 실시간 상태 전환을 포함한다.
+        </p>
+        <div className="mt-5">
+          <Link
+            href="/demo/executive"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#002C5F] text-white text-[13px] font-bold hover:bg-[#0046A4] transition-colors"
+          >
+            다른 화면 보기
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: 16 }}
+            >
+              arrow_forward
+            </span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// MOBILE SCREEN — 실 앱 화면 (모바일 기준 레이아웃)
+// ═══════════════════════════════════════
+function FieldManagerScreen() {
   return (
     <main
-      className="max-w-md mx-auto min-h-screen bg-[#F4F6FA] text-[#0A1628] relative"
+      className="w-full md:max-w-none max-w-md mx-auto min-h-screen md:min-h-0 md:h-full bg-[#F4F6FA] text-[#0A1628] relative"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif",
         letterSpacing: "-0.01em",
@@ -385,9 +440,10 @@ export default function FieldManagerPage() {
         </div>
       </section>
 
-      {/* ═══ Bottom Tab Bar ═══ */}
+      {/* ═══ Bottom Tab Bar ═══
+           모바일: viewport에 fixed · 데스크톱: 폰 베젤 바닥에 absolute */}
       <nav
-        className="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-[#E3E8EF] h-[72px] z-40"
+        className="fixed md:absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-[#E3E8EF] h-[72px] z-40"
         style={{ boxShadow: "0 -4px 16px rgba(0, 44, 95, 0.06)" }}
         aria-label="하단 탭"
       >
@@ -448,5 +504,19 @@ export default function FieldManagerPage() {
         </div>
       </nav>
     </main>
+  );
+}
+
+// ═══════════════════════════════════════
+// PAGE EXPORT — 데스크톱에서는 iPhone 베젤 쇼케이스로 감싼다
+// ═══════════════════════════════════════
+export default function FieldManagerPage() {
+  return (
+    <>
+      <DesktopContextStrip />
+      <PhoneFrame caption="모바일 · 현장소장 · 배차 화면">
+        <FieldManagerScreen />
+      </PhoneFrame>
+    </>
   );
 }

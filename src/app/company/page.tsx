@@ -22,6 +22,10 @@ import {
   StaggerItem,
   MotionCard,
 } from "@/components/motion/MotionPrimitives";
+import {
+  OrganizationSchema,
+  BreadcrumbSchema,
+} from "@/components/seo/StructuredData";
 
 const SECTION_BASE =
   "py-16 md:py-20 max-w-[1280px] mx-auto px-6 md:px-12";
@@ -38,6 +42,13 @@ export default function CompanyPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      <OrganizationSchema detailed />
+      <BreadcrumbSchema
+        items={[
+          { label: "홈", href: "/" },
+          { label: "회사 소개", href: "/company" },
+        ]}
+      />
       <CompanyNav />
       <HeroSection />
       <MissionSection />

@@ -12,7 +12,9 @@
  *  - §3.2.5 의문형 훅 금지
  */
 
+import Link from "next/link";
 import { Reveal } from "@/components/motion/MotionPrimitives";
+import { PhoneFrame } from "@/components/cheolyeon/PhoneFrame";
 import { nav as navCopy } from "@/content/copy";
 
 // ═══════════════════════════════════════
@@ -65,10 +67,63 @@ const ALERTS: AlertRow[] = [
   },
 ];
 
-export default function ExecutivePage() {
+// ═══════════════════════════════════════
+// DESKTOP CONTEXT STRIP — 데스크톱 전용 쇼케이스 헤더
+// ═══════════════════════════════════════
+function DesktopContextStrip() {
+  return (
+    <div
+      className="hidden md:block w-full"
+      style={{ background: "#EEF1F5", paddingTop: 64 }}
+    >
+      <div className="max-w-[1120px] mx-auto px-8">
+        <p
+          className="text-[11px] font-semibold tracking-[0.22em] uppercase"
+          style={{
+            color: "#002C5F",
+            fontFamily: "var(--font-roboto-mono), monospace",
+          }}
+        >
+          데모 / 대표
+        </p>
+        <h1
+          className="mt-3 text-[36px] font-black text-[#002C5F]"
+          style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
+        >
+          대표 모바일 화면
+        </h1>
+        <p
+          className="mt-3 text-[15px] text-[#3A4A5F] max-w-[640px]"
+          style={{ lineHeight: 1.7 }}
+        >
+          실제 앱이 이 모바일 디바이스에서 어떻게 작동하는지 쇼케이스. 화면은 경영 KPI · 주간 추이 · 실시간 알림을 포함한다.
+        </p>
+        <div className="mt-5">
+          <Link
+            href="/demo/field-manager"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#002C5F] text-white text-[13px] font-bold hover:bg-[#0046A4] transition-colors"
+          >
+            다른 화면 보기
+            <span
+              className="material-symbols-outlined"
+              style={{ fontSize: 16 }}
+            >
+              arrow_forward
+            </span>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════
+// MOBILE SCREEN — 실 앱 화면 (모바일 기준 레이아웃)
+// ═══════════════════════════════════════
+function ExecutiveScreen() {
   return (
     <main
-      className="max-w-md mx-auto min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="w-full md:max-w-none max-w-md mx-auto min-h-screen md:min-h-0 md:h-full bg-[#F4F6FA] text-[#0A1628]"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif",
         letterSpacing: "-0.01em",
@@ -489,5 +544,19 @@ export default function ExecutivePage() {
         </Reveal>
       </section>
     </main>
+  );
+}
+
+// ═══════════════════════════════════════
+// PAGE EXPORT — 데스크톱에서는 iPhone 베젤 쇼케이스로 감싼다
+// ═══════════════════════════════════════
+export default function ExecutivePage() {
+  return (
+    <>
+      <DesktopContextStrip />
+      <PhoneFrame caption="모바일 · 대표 · 경영 대시보드">
+        <ExecutiveScreen />
+      </PhoneFrame>
+    </>
   );
 }

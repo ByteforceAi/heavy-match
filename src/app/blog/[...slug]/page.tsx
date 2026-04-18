@@ -34,6 +34,10 @@ import {
   type BlogBlock,
   type BlogPost,
 } from "@/content/blog-posts";
+import {
+  BlogPostingSchema,
+  BreadcrumbSchema,
+} from "@/components/seo/StructuredData";
 
 export default function BlogPostPage() {
   const params = useParams<{ slug: string | string[] }>();
@@ -58,6 +62,25 @@ export default function BlogPostPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      <BlogPostingSchema
+        headline={post.title}
+        description={post.summary}
+        urlPath={`/blog/${post.slug}`}
+        datePublished={`${post.publishedAt}T00:00:00+09:00`}
+        author={{ name: post.author.name, role: post.author.role }}
+        readingTime={post.readingTime}
+        keywords={post.seoKeywords}
+        articleSection={post.categoryLabel}
+        imageUrl={post.heroImage}
+      />
+      <BreadcrumbSchema
+        items={[
+          { label: "홈", href: "/" },
+          { label: "블로그", href: "/blog" },
+          { label: post.categoryLabel, href: `/blog?category=${post.category}` },
+          { label: post.title, href: `/blog/${post.slug}` },
+        ]}
+      />
       <PostNav />
       <Breadcrumb post={post} />
       <ArticleHeader post={post} />

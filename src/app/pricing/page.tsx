@@ -35,6 +35,10 @@ import {
 } from "@/components/motion/MotionPrimitives";
 import ContactForm from "@/components/landing/ContactForm";
 import * as copy from "@/content/copy";
+import {
+  SoftwareApplicationSchema,
+  BreadcrumbSchema,
+} from "@/components/seo/StructuredData";
 
 // ═══════════════════════════════════════════
 // 타입 & 데이터
@@ -266,6 +270,13 @@ export default function PricingPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      <SoftwareApplicationSchema withOffers />
+      <BreadcrumbSchema
+        items={[
+          { label: "홈", href: "/" },
+          { label: "도입 요금", href: "/pricing" },
+        ]}
+      />
       <Navigation />
       <Hero
         currency={currency}

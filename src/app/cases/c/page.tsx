@@ -19,6 +19,7 @@ import {
   MotionCard,
 } from "@/components/motion/MotionPrimitives";
 import { nav as navCopy, footer as footerCopy } from "@/content/copy";
+import { ArticleSchema, BreadcrumbSchema } from "@/components/seo/StructuredData";
 
 const MONO = "var(--font-roboto-mono), monospace";
 const PLEX = "var(--font-plex-kr), 'IBM Plex Sans KR', Pretendard, sans-serif";
@@ -91,6 +92,20 @@ export default function CaseCPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      <ArticleSchema
+        headline="파트너 C · 상담원 1인당 처리 콜 1.8배"
+        description="콜센터 운영 도입 사례. 수기 엑셀 정산에서 공유콜 자동화로 전환."
+        urlPath="/cases/c"
+        datePublished="2026-04-18T00:00:00+09:00"
+        articleSection="Customer Cases"
+      />
+      <BreadcrumbSchema
+        items={[
+          { label: "홈", href: "/" },
+          { label: "도입 사례", href: "/cases" },
+          { label: "파트너 C", href: "/cases/c" },
+        ]}
+      />
       <CaseNav />
       <HeroSection data={caseData} />
       <MetricsSection metrics={caseData.metrics} />

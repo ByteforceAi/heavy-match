@@ -23,6 +23,7 @@ import {
   MotionCard,
 } from "@/components/motion/MotionPrimitives";
 import { nav as navCopy, footer as footerCopy } from "@/content/copy";
+import { ArticleSchema, BreadcrumbSchema } from "@/components/seo/StructuredData";
 
 const MONO = "var(--font-roboto-mono), monospace";
 const PLEX = "var(--font-plex-kr), 'IBM Plex Sans KR', Pretendard, sans-serif";
@@ -102,6 +103,20 @@ export default function CaseAPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      <ArticleSchema
+        headline="파트너 A · 배차 실패 15% → 0.3%"
+        description="대형 건설사 도입 사례. 수기 배차에서 자동 배차로 전환한 30일 기록."
+        urlPath="/cases/a"
+        datePublished="2026-04-18T00:00:00+09:00"
+        articleSection="Customer Cases"
+      />
+      <BreadcrumbSchema
+        items={[
+          { label: "홈", href: "/" },
+          { label: "도입 사례", href: "/cases" },
+          { label: "파트너 A", href: "/cases/a" },
+        ]}
+      />
       <CaseNav />
       <HeroSection data={caseData} />
       <MetricsSection metrics={caseData.metrics} />

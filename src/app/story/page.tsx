@@ -24,6 +24,7 @@ import {
   nav as navCopy,
   footer as footerCopy,
 } from "@/content/copy";
+import { ArticleSchema, BreadcrumbSchema } from "@/components/seo/StructuredData";
 
 // ═══════════════════════════════════════
 // PAGE METADATA — /story 전용 OG
@@ -41,6 +42,21 @@ export default function StoryPage() {
         letterSpacing: "-0.01em",
       }}
     >
+      {/* ═══ Schema.org ═══ */}
+      <ArticleSchema
+        headline="철연 이야기 — 1998년 부산의 기록"
+        description="1998년 2월, 대한건설기계협회 부산지회 기종분과회 위원장 나철연이 부산일보에 실린다. 그의 요구는 제도로 응답받지 못한 채 28년이 지났다. 철연은 그의 이름을 따른다."
+        urlPath="/story"
+        datePublished="2026-04-18T00:00:00+09:00"
+        articleSection="Heritage"
+      />
+      <BreadcrumbSchema
+        items={[
+          { label: "홈", href: "/" },
+          { label: "철연 이야기", href: "/story" },
+        ]}
+      />
+
       {/* ═══ Sticky Nav ═══ */}
       <StoryNav />
 
