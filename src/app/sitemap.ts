@@ -48,6 +48,40 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.75,
     })),
+    // ── Pricing ──
+    {
+      url: `${baseUrl}/pricing`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.92,
+    },
+    // ── Company / Press ──
+    {
+      url: `${baseUrl}/company`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/press`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.7,
+    },
+    // ── Blog ──
+    {
+      url: `${baseUrl}/blog`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    // ── International ──
+    {
+      url: `${baseUrl}/global`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
     // ── Help Center ──
     {
       url: `${baseUrl}/help`,

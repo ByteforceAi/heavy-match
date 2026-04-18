@@ -93,8 +93,8 @@ export const nav: {
   },
   menu: [
     { label: "플랫폼", href: "#platform", active: true },
-    { label: "도입 효과", href: "#impact" },
-    { label: "요금", href: "#pricing" },
+    { label: "도입 사례", href: "/cases" },
+    { label: "요금", href: "/pricing" },
     { label: "철연 이야기", href: "/story" },
   ],
   cta: {
