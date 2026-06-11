@@ -2,6 +2,12 @@
 
 import { useState, useEffect } from "react";
 
+/**
+ * 배차 카운트다운 — 60초가 이 제품의 심장 박동이다.
+ * 3단계 위상: 안정(네이비) → 주의(앰버, 50%) → 긴급(레드, 15초).
+ * 진행 바는 linear(시간은 일정하게 흐른다), 색 전환만 ease.
+ */
+
 interface Props {
   startedAt: string;
   durationSeconds?: number;
@@ -22,30 +28,40 @@ export default function CountdownTimer({ startedAt, durationSeconds = 60 }: Prop
   }, [startedAt, durationSeconds]);
 
   const percentage = (remaining / durationSeconds) * 100;
-  const isUrgent = remaining <= 15;
+  const phase = remaining <= 15 ? "urgent" : percentage <= 50 ? "caution" : "stable";
   const isExpired = remaining <= 0;
 
   if (isExpired) {
     return (
-      <div className="flex items-center gap-2 text-[#ba1a1a]">
+      <div role="status" className="flex items-center gap-2 text-cy-danger-deep">
         <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>timer_off</span>
         <span className="text-sm font-bold">시간 만료</span>
       </div>
     );
   }
 
+  const numColor =
+    phase === "urgent" ? "text-cy-danger" : phase === "caution" ? "text-cy-warning-deep" : "text-cy-navy-mid";
+  const barColor =
+    phase === "urgent" ? "bg-cy-danger" : phase === "caution" ? "bg-cy-warning" : "bg-cy-navy-mid";
+
   return (
-    <div className="space-y-1">
-      <div className="flex items-center justify-between">
-        <span className={`text-sm font-bold tabular-nums flex items-center gap-1 ${isUrgent ? "text-[#ba1a1a]" : "text-[#0059b9]"}`}>
+    <div className="space-y-1.5" role="timer" aria-label={`남은 시간 ${remaining}초`}>
+      <div className="flex items-baseline justify-between">
+        <span className={`flex items-center gap-1 font-mono font-bold tabular-nums text-[15px] transition-colors duration-500 ${numColor}`}>
           <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>timer</span>
-          {remaining}초
+          {remaining}
+          <span className="text-xs font-semibold">초</span>
         </span>
-        <span className="text-xs text-[#727785]">남은 시간</span>
+        <span className="mono-label text-cy-ink-4">REMAINING</span>
       </div>
-      <div className="w-full h-2 bg-[#d8e3f5] rounded-full overflow-hidden">
+      <div
+        className={`w-full h-1.5 bg-cy-line-soft rounded-full overflow-hidden ${
+          phase === "urgent" ? "animate-[urgentPulse_1s_ease-in-out_infinite]" : ""
+        }`}
+      >
         <div
-          className={`h-full rounded-full transition-all duration-1000 ${isUrgent ? "bg-[#ba1a1a]" : "bg-[#0059b9]"}`}
+          className={`h-full rounded-full transition-[width] duration-1000 ease-linear ${barColor} transition-colors`}
           style={{ width: `${percentage}%` }}
         />
       </div>

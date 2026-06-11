@@ -75,11 +75,11 @@ export default function CompanyPage() {
   return (
     <OnboardingShell step={2}>
       <Reveal delay={0.05}>
-        <h1 className="text-[28px] md:text-[32px] font-[800] text-[#0A1628] tracking-[-0.02em] mb-2">
+        <h1 className="text-[28px] md:text-[32px] font-[800] text-cy-ink tracking-[-0.02em] mb-2">
           회사 정보
         </h1>
         <p
-          className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] mb-8"
+          className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] mb-8"
           style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
         >
           사업자 단위로 계정이 고정된다. 이후 단계의 팀원·장비·단가는 이 법인에 귀속된다.
@@ -97,8 +97,8 @@ export default function CompanyPage() {
         {/* 상호 */}
         <Reveal delay={0.1}>
           <div>
-            <label className="block text-[13px] font-bold text-[#0A1628] mb-1.5">
-              상호 <span className="text-[#E5484D]">*</span>
+            <label className="block text-[13px] font-bold text-cy-ink mb-1.5">
+              상호 <span className="text-cy-danger">*</span>
             </label>
             <input
               type="text"
@@ -106,11 +106,11 @@ export default function CompanyPage() {
               onChange={(e) => setName(e.target.value)}
               placeholder="예: 부산중기 주식회사"
               autoComplete="organization"
-              className="w-full px-4 py-3 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[14px]"
+              className="w-full px-4 py-3 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[14px]"
               aria-invalid={submitted && !nameValid}
             />
             {submitted && !nameValid && (
-              <p className="mt-1.5 text-[12px] text-[#E5484D]">상호는 2자 이상으로 기재한다.</p>
+              <p className="mt-1.5 text-[12px] text-cy-danger">상호는 2자 이상으로 기재한다.</p>
             )}
           </div>
         </Reveal>
@@ -118,9 +118,9 @@ export default function CompanyPage() {
         {/* 사업자등록번호 */}
         <Reveal delay={0.15}>
           <div>
-            <label className="block text-[13px] font-bold text-[#0A1628] mb-1.5">
-              사업자등록번호 <span className="text-[#E5484D]">*</span>
-              <span className="ml-2 font-normal text-[11px] text-[#6B7B8F]">000-00-00000</span>
+            <label className="block text-[13px] font-bold text-cy-ink mb-1.5">
+              사업자등록번호 <span className="text-cy-danger">*</span>
+              <span className="ml-2 font-normal text-[11px] text-cy-ink-3">000-00-00000</span>
             </label>
             <input
               type="text"
@@ -129,12 +129,12 @@ export default function CompanyPage() {
               onChange={(e) => setBizNo(formatBizNo(e.target.value))}
               placeholder="000-00-00000"
               autoComplete="off"
-              className="w-full px-4 py-3 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[14px] tabular-nums"
+              className="w-full px-4 py-3 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[14px] tabular-nums"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               aria-invalid={submitted && !bizNoValid}
             />
             {submitted && !bizNoValid && (
-              <p className="mt-1.5 text-[12px] text-[#E5484D]">
+              <p className="mt-1.5 text-[12px] text-cy-danger">
                 10자리 사업자등록번호를 정확히 기재한다.
               </p>
             )}
@@ -144,12 +144,12 @@ export default function CompanyPage() {
         {/* 업종 */}
         <Reveal delay={0.2}>
           <div>
-            <label className="block text-[13px] font-bold text-[#0A1628] mb-1.5">업종</label>
+            <label className="block text-[13px] font-bold text-cy-ink mb-1.5">업종</label>
             <div className="relative">
               <select
                 value={industry}
                 onChange={(e) => setIndustry(e.target.value)}
-                className="w-full appearance-none px-4 py-3 pr-10 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[14px] text-[#0A1628]"
+                className="w-full appearance-none px-4 py-3 pr-10 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[14px] text-cy-ink"
               >
                 {INDUSTRIES.map((i) => (
                   <option key={i.value} value={i.value}>
@@ -159,7 +159,7 @@ export default function CompanyPage() {
               </select>
               <span
                 aria-hidden="true"
-                className="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[#6B7B8F]"
+                className="material-symbols-outlined pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-cy-ink-3"
                 style={{ fontSize: 20 }}
               >
                 expand_more
@@ -171,7 +171,7 @@ export default function CompanyPage() {
         {/* 직원 규모 */}
         <Reveal delay={0.25}>
           <div>
-            <label className="block text-[13px] font-bold text-[#0A1628] mb-2">직원 규모</label>
+            <label className="block text-[13px] font-bold text-cy-ink mb-2">직원 규모</label>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
               {SIZES.map((opt) => {
                 const active = size === opt.value;
@@ -183,8 +183,8 @@ export default function CompanyPage() {
                     aria-pressed={active}
                     className={`px-3 py-3 rounded-lg border text-left transition-colors ${
                       active
-                        ? "bg-[#E8F1FB] border-[#002C5F] text-[#002C5F]"
-                        : "bg-white border-[#E3E8EF] text-[#3A4A5F] hover:border-[#002C5F]/40"
+                        ? "bg-cy-navy-pale border-cy-navy text-cy-navy"
+                        : "bg-white border-cy-line text-cy-ink-2 hover:border-cy-navy/40"
                     }`}
                   >
                     <p

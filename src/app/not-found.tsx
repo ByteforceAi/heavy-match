@@ -13,20 +13,20 @@ import { nav as navCopy } from "@/content/copy";
 export default function NotFound() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628] flex flex-col"
+      className="min-h-screen bg-cy-bg text-cy-ink flex flex-col"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
       }}
     >
       {/* Minimal nav */}
-      <nav className="h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8">
+      <nav className="h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8">
         <Link href="/" className="flex items-baseline gap-2.5">
-          <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
             {navCopy.brand.ko}
           </span>
           <span
-            className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {navCopy.brand.en}
@@ -49,7 +49,7 @@ export default function NotFound() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             ERROR 404 · NOT FOUND
@@ -59,7 +59,7 @@ export default function NotFound() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-[88px] md:text-[128px] font-black text-[#0A1628] tracking-[-0.04em] leading-[0.9] mb-4"
+            className="text-[88px] md:text-[128px] font-black text-cy-ink tracking-[-0.04em] leading-[0.9] mb-4"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             404
@@ -69,7 +69,7 @@ export default function NotFound() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-[18px] md:text-[20px] text-[#0A1628] mb-2 font-bold tracking-[-0.02em]"
+            className="text-[18px] md:text-[20px] text-cy-ink mb-2 font-bold tracking-[-0.02em]"
           >
             요청한 경로는 기록되지 않았다
           </motion.p>
@@ -78,7 +78,7 @@ export default function NotFound() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="text-[14px] text-[#6B7B8F] mb-10 leading-[1.75]"
+            className="text-[14px] text-cy-ink-3 mb-10 leading-[1.75]"
             style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
           >
             주소가 변경되었거나 삭제된 페이지일 수 있다.
@@ -94,7 +94,7 @@ export default function NotFound() {
           >
             <Link
               href="/"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
             >
               <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
                 home
@@ -103,13 +103,13 @@ export default function NotFound() {
             </Link>
             <Link
               href="/demo"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] border border-[#E3E8EF] text-[14px] font-bold rounded-lg transition-colors min-h-0"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-cy-bg text-cy-ink border border-cy-line text-[14px] font-bold rounded-lg transition-colors min-h-0"
             >
               데모 체험
             </Link>
             <Link
               href="/help"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-[#F4F6FA] text-[#3A4A5F] border border-[#E3E8EF] text-[14px] font-semibold rounded-lg transition-colors min-h-0"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-cy-bg text-cy-ink-2 border border-cy-line text-[14px] font-semibold rounded-lg transition-colors min-h-0"
             >
               고객센터
             </Link>
@@ -119,13 +119,13 @@ export default function NotFound() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.6 }}
-            className="pt-6 border-t border-[#E3E8EF]"
+            className="pt-6 border-t border-cy-line"
           >
             <p
-              className="text-[11px] text-[#9AA8B8] tracking-[0.1em]"
+              className="text-[11px] text-cy-ink-4 tracking-[0.1em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
-              경로를 찾을 수 없다면 <a href="mailto:ceo@byteforce.ai.kr" className="text-[#002C5F] hover:text-[#0046A4] font-medium">ceo@byteforce.ai.kr</a> 로 문의
+              경로를 찾을 수 없다면 <a href="mailto:ceo@byteforce.ai.kr" className="text-cy-navy hover:text-cy-navy-mid font-medium">ceo@byteforce.ai.kr</a> 로 문의
             </p>
           </motion.div>
         </div>

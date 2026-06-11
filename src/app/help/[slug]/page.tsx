@@ -41,7 +41,7 @@ export default function HelpArticlePage() {
 
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -62,7 +62,7 @@ export default function HelpArticlePage() {
 function ArticleNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link
@@ -70,11 +70,11 @@ function ArticleNav() {
         className="flex items-baseline gap-2.5"
         aria-label="철연 홈"
       >
-        <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+        <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
           {copy.nav.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {copy.nav.brand.en}
@@ -84,7 +84,7 @@ function ArticleNav() {
       <div className="ml-auto flex items-center gap-3">
         <Link
           href="/help"
-          className="text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
+          className="text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
         >
           <span
             className="material-symbols-outlined"
@@ -105,26 +105,26 @@ function ArticleNav() {
 // ═══════════════════════════════════════
 function Breadcrumb({ article }: { article: HelpArticle }) {
   return (
-    <div className="bg-white border-b border-[#E3E8EF]">
+    <div className="bg-white border-b border-cy-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-4">
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-[12px] text-[#6B7B8F] flex-wrap"
+          className="flex items-center gap-1.5 text-[12px] text-cy-ink-3 flex-wrap"
         >
-          <Link href="/" className="hover:text-[#002C5F] transition-colors">
+          <Link href="/" className="hover:text-cy-navy transition-colors">
             홈
           </Link>
           <Separator />
           <Link
             href="/help"
-            className="hover:text-[#002C5F] transition-colors"
+            className="hover:text-cy-navy transition-colors"
           >
             지원 센터
           </Link>
           <Separator />
           <span>{article.categoryLabel}</span>
           <Separator />
-          <span className="text-[#0A1628] font-semibold truncate max-w-[320px]">
+          <span className="text-cy-ink font-semibold truncate max-w-[320px]">
             {article.title}
           </span>
         </nav>
@@ -136,7 +136,7 @@ function Breadcrumb({ article }: { article: HelpArticle }) {
 function Separator() {
   return (
     <span
-      className="material-symbols-outlined text-[#9AA8B8]"
+      className="material-symbols-outlined text-cy-ink-4"
       style={{ fontSize: 14 }}
       aria-hidden="true"
     >
@@ -168,16 +168,16 @@ function ArticleBody({ article }: { article: HelpArticle }) {
         <article>
           <Reveal>
             <div
-              className="bg-white border border-[#E3E8EF] rounded-2xl p-6 md:p-10"
+              className="bg-white border border-cy-line rounded-2xl p-6 md:p-10"
               style={{ boxShadow: "0 4px 16px rgba(0, 44, 95, 0.06)" }}
             >
               {/* Header */}
-              <header className="mb-8 pb-6 border-b border-[#E3E8EF]">
-                <span className="inline-block px-2.5 py-1 bg-[#E8F1FB] text-[#002C5F] text-[11px] font-bold rounded-md mb-4 tracking-[0.05em]">
+              <header className="mb-8 pb-6 border-b border-cy-line">
+                <span className="inline-block px-2.5 py-1 bg-cy-navy-pale text-cy-navy text-[11px] font-bold rounded-md mb-4 tracking-[0.05em]">
                   {article.categoryLabel}
                 </span>
                 <h1
-                  className="font-[900] text-[#0A1628] mb-4"
+                  className="font-[900] text-cy-ink mb-4"
                   style={{
                     fontSize: "clamp(1.75rem, 3.5vw, 2.25rem)",
                     lineHeight: 1.2,
@@ -187,7 +187,7 @@ function ArticleBody({ article }: { article: HelpArticle }) {
                   {article.title}
                 </h1>
                 <p
-                  className="text-[12px] text-[#6B7B8F] tabular-nums"
+                  className="text-[12px] text-cy-ink-3 tabular-nums"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   최종 업데이트 · {article.lastUpdated}
@@ -196,7 +196,7 @@ function ArticleBody({ article }: { article: HelpArticle }) {
 
               {/* Body blocks */}
               <div
-                className="max-w-[720px] mx-auto text-[15px] md:text-[16px] text-[#0A1628]"
+                className="max-w-[720px] mx-auto text-[15px] md:text-[16px] text-cy-ink"
                 style={{
                   fontFamily:
                     "var(--font-plex-kr), 'IBM Plex Sans KR', Pretendard, sans-serif",
@@ -219,7 +219,7 @@ function ArticleBody({ article }: { article: HelpArticle }) {
           {/* Disclaimer */}
           <Reveal>
             <p
-              className="mt-8 text-[12px] text-[#9AA8B8] text-center"
+              className="mt-8 text-[12px] text-cy-ink-4 text-center"
               style={{ fontFamily: "var(--font-plex-kr), serif" }}
             >
               최종 업데이트: {article.lastUpdated}. 문서는 수시로 갱신된다.
@@ -247,7 +247,7 @@ function BlockRenderer({ block }: { block: HelpBlock }) {
         return (
           <h2
             id={id}
-            className="text-[22px] font-bold text-[#0A1628] pt-6 mt-6 mb-3 border-t border-[#E3E8EF] scroll-mt-24"
+            className="text-[22px] font-bold text-cy-ink pt-6 mt-6 mb-3 border-t border-cy-line scroll-mt-24"
             style={{ letterSpacing: "-0.02em" }}
           >
             {block.text}
@@ -257,7 +257,7 @@ function BlockRenderer({ block }: { block: HelpBlock }) {
       return (
         <h3
           id={id}
-          className="text-[17px] font-bold text-[#0A1628] mt-4 mb-2 scroll-mt-24"
+          className="text-[17px] font-bold text-cy-ink mt-4 mb-2 scroll-mt-24"
           style={{ letterSpacing: "-0.015em" }}
         >
           {block.text}
@@ -272,7 +272,7 @@ function BlockRenderer({ block }: { block: HelpBlock }) {
           {block.items.map((item, i) => (
             <li key={i} className="flex items-start gap-2.5 text-[15px] md:text-[16px]">
               <span
-                className="material-symbols-outlined text-[#002C5F] mt-1 flex-shrink-0"
+                className="material-symbols-outlined text-cy-navy mt-1 flex-shrink-0"
                 style={{ fontSize: 16 }}
                 aria-hidden="true"
               >
@@ -286,7 +286,7 @@ function BlockRenderer({ block }: { block: HelpBlock }) {
     case "code":
       return (
         <pre
-          className="bg-[#0A1628] text-[#E8F1FB] p-4 rounded-lg text-[13px] overflow-x-auto my-5"
+          className="bg-cy-ink text-cy-navy-pale p-4 rounded-lg text-[13px] overflow-x-auto my-5"
           style={{
             fontFamily: "var(--font-roboto-mono), monospace",
             lineHeight: 1.7,
@@ -303,7 +303,7 @@ function BlockRenderer({ block }: { block: HelpBlock }) {
         <img
           src={block.src}
           alt={block.alt}
-          className="w-full rounded-lg border border-[#E3E8EF] my-5"
+          className="w-full rounded-lg border border-cy-line my-5"
         />
       );
     default:
@@ -391,14 +391,14 @@ function TableOfContents({
     <>
       {/* Mobile: collapsible */}
       <details
-        className="lg:hidden bg-white border border-[#E3E8EF] rounded-xl mb-6"
+        className="lg:hidden bg-white border border-cy-line rounded-xl mb-6"
         open={open}
         onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
       >
         <summary className="flex items-center justify-between p-4 cursor-pointer select-none list-none">
-          <span className="text-[13px] font-bold text-[#0A1628] flex items-center gap-2">
+          <span className="text-[13px] font-bold text-cy-ink flex items-center gap-2">
             <span
-              className="material-symbols-outlined text-[#002C5F]"
+              className="material-symbols-outlined text-cy-navy"
               style={{ fontSize: 18 }}
               aria-hidden="true"
             >
@@ -407,7 +407,7 @@ function TableOfContents({
             목차
           </span>
           <span
-            className="material-symbols-outlined text-[#6B7B8F] transition-transform"
+            className="material-symbols-outlined text-cy-ink-3 transition-transform"
             style={{
               fontSize: 18,
               transform: open ? "rotate(180deg)" : "none",
@@ -423,7 +423,7 @@ function TableOfContents({
       {/* Desktop: sticky */}
       <div className="hidden lg:block sticky top-[80px]">
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.2em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.2em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           ON THIS PAGE
@@ -447,7 +447,7 @@ function TocList({
         <li key={h.id}>
           <a
             href={`#${h.id}`}
-            className={`block text-[12px] text-[#6B7B8F] hover:text-[#002C5F] transition-colors leading-[1.5] py-1 border-l-2 border-[#E3E8EF] hover:border-[#002C5F] ${
+            className={`block text-[12px] text-cy-ink-3 hover:text-cy-navy transition-colors leading-[1.5] py-1 border-l-2 border-cy-line hover:border-cy-navy ${
               h.level === 3 ? "pl-5 ml-2" : "pl-3"
             }`}
           >
@@ -466,17 +466,17 @@ function Feedback() {
   const [choice, setChoice] = useState<"good" | "bad" | null>(null);
 
   return (
-    <div className="mt-10 pt-8 border-t border-[#E3E8EF]">
+    <div className="mt-10 pt-8 border-t border-cy-line">
       {choice === null ? (
         <div className="flex items-center gap-4 flex-wrap">
-          <p className="text-[14px] font-semibold text-[#0A1628]">
+          <p className="text-[14px] font-semibold text-cy-ink">
             이 문서가 도움이 되었습니까?
           </p>
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => setChoice("good")}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-[#E3E8EF] hover:border-[#002C5F] hover:bg-[#E8F1FB] text-[#3A4A5F] hover:text-[#002C5F] rounded-lg text-[13px] font-semibold transition-colors min-h-0"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-cy-line hover:border-cy-navy hover:bg-cy-navy-pale text-cy-ink-2 hover:text-cy-navy rounded-lg text-[13px] font-semibold transition-colors min-h-0"
             >
               <span
                 className="material-symbols-outlined"
@@ -490,7 +490,7 @@ function Feedback() {
             <button
               type="button"
               onClick={() => setChoice("bad")}
-              className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-[#E3E8EF] hover:border-[#E5484D] hover:bg-[#FEEBEC] text-[#3A4A5F] hover:text-[#C13438] rounded-lg text-[13px] font-semibold transition-colors min-h-0"
+              className="inline-flex items-center gap-1.5 px-4 py-2 bg-white border border-cy-line hover:border-cy-danger hover:bg-cy-danger/8 text-cy-ink-2 hover:text-cy-danger-deep rounded-lg text-[13px] font-semibold transition-colors min-h-0"
             >
               <span
                 className="material-symbols-outlined"
@@ -537,20 +537,20 @@ function RelatedArticles({ slug }: { slug: string }) {
   return (
     <Reveal>
       <section className="mt-10">
-        <h2 className="text-[18px] font-bold text-[#0A1628] mb-4">
+        <h2 className="text-[18px] font-bold text-cy-ink mb-4">
           관련 아티클
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
           {related.map((a) => (
             <Link key={a.slug} href={`/help/${a.slug}`} className="block group">
               <MotionCard className="p-5 h-full">
-                <span className="inline-block px-2 py-0.5 bg-[#E8F1FB] text-[#002C5F] text-[10px] font-bold rounded-md mb-2.5 tracking-[0.05em]">
+                <span className="inline-block px-2 py-0.5 bg-cy-navy-pale text-cy-navy text-[10px] font-bold rounded-md mb-2.5 tracking-[0.05em]">
                   {a.categoryLabel}
                 </span>
-                <h3 className="text-[14px] font-bold text-[#0A1628] mb-1 leading-[1.4] group-hover:text-[#002C5F] transition-colors">
+                <h3 className="text-[14px] font-bold text-cy-ink mb-1 leading-[1.4] group-hover:text-cy-navy transition-colors">
                   {a.title}
                 </h3>
-                <p className="text-[12px] text-[#6B7B8F] leading-[1.6] line-clamp-2">
+                <p className="text-[12px] text-cy-ink-3 leading-[1.6] line-clamp-2">
                   {a.summary}
                 </p>
               </MotionCard>
@@ -568,7 +568,7 @@ function RelatedArticles({ slug }: { slug: string }) {
 function ArticleNotFound({ slug }: { slug: string }) {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628] flex flex-col"
+      className="min-h-screen bg-cy-bg text-cy-ink flex flex-col"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -578,19 +578,19 @@ function ArticleNotFound({ slug }: { slug: string }) {
       <div className="flex-1 flex items-center justify-center px-6 py-20">
         <div className="max-w-[480px] text-center">
           <span
-            className="material-symbols-outlined text-[#9AA8B8] mb-4 inline-block"
+            className="material-symbols-outlined text-cy-ink-4 mb-4 inline-block"
             style={{ fontSize: 64 }}
             aria-hidden="true"
           >
             search_off
           </span>
-          <h1 className="text-[24px] font-[800] text-[#0A1628] mb-2">
+          <h1 className="text-[24px] font-[800] text-cy-ink mb-2">
             문서가 존재하지 않는다
           </h1>
-          <p className="text-[14px] text-[#6B7B8F] mb-6">
+          <p className="text-[14px] text-cy-ink-3 mb-6">
             요청한 문서 식별자{" "}
             <code
-              className="px-1.5 py-0.5 bg-white border border-[#E3E8EF] rounded text-[12px]"
+              className="px-1.5 py-0.5 bg-white border border-cy-line rounded text-[12px]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {slug || "(empty)"}
@@ -599,7 +599,7 @@ function ArticleNotFound({ slug }: { slug: string }) {
           </p>
           <Link
             href="/help"
-            className="inline-flex items-center gap-2 px-5 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
+            className="inline-flex items-center gap-2 px-5 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
           >
             <span
               className="material-symbols-outlined"
@@ -622,23 +622,23 @@ function ArticleNotFound({ slug }: { slug: string }) {
 // ═══════════════════════════════════════
 function ArticleFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-3">
         <div className="flex items-baseline gap-2.5">
-          <span className="text-[15px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[15px] font-black text-cy-navy tracking-[-0.03em]">
             {copy.footer.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {copy.footer.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-2">
+          <span className="text-[11px] text-cy-ink-3 ml-2">
             {copy.footer.company}
           </span>
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">{copy.footer.copyright}</p>
+        <p className="text-[11px] text-cy-ink-4">{copy.footer.copyright}</p>
       </div>
     </footer>
   );

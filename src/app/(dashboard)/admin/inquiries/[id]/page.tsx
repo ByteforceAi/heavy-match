@@ -40,10 +40,10 @@ const STATUS_LABELS: Record<InquiryStatus, string> = {
 };
 
 const STATUS_STYLES: Record<InquiryStatus, { bg: string; fg: string; dot: string }> = {
-  new: { bg: "bg-[#FFB02015]", fg: "text-[#B87400]", dot: "bg-[#FFB020]" },
-  contacted: { bg: "bg-[#00AAD215]", fg: "text-[#007792]", dot: "bg-[#00AAD2]" },
-  qualified: { bg: "bg-[#002C5F15]", fg: "text-[#002C5F]", dot: "bg-[#002C5F]" },
-  closed: { bg: "bg-[#9AA8B815]", fg: "text-[#6B7B8F]", dot: "bg-[#9AA8B8]" },
+  new: { bg: "bg-[#FFB02015]", fg: "text-cy-warning-deep", dot: "bg-cy-warning" },
+  contacted: { bg: "bg-[#00AAD215]", fg: "text-cy-cyan-deep", dot: "bg-cy-cyan" },
+  qualified: { bg: "bg-[#002C5F15]", fg: "text-cy-navy", dot: "bg-cy-navy" },
+  closed: { bg: "bg-[#9AA8B815]", fg: "text-cy-ink-3", dot: "bg-cy-ink-4" },
 };
 
 function StatusBadge({ status }: { status: InquiryStatus }) {
@@ -88,10 +88,10 @@ export default async function InquiryDetailPage({ params }: PageProps) {
 
   // 타임라인 항목 구성
   const timeline: Array<{ at: string; label: string; dot: string }> = [
-    { at: inquiry.created_at, label: "문의 접수", dot: "bg-[#FFB020]" },
+    { at: inquiry.created_at, label: "문의 접수", dot: "bg-cy-warning" },
   ];
   if (inquiry.contacted_at) {
-    timeline.push({ at: inquiry.contacted_at, label: "연락 완료 기록", dot: "bg-[#00AAD2]" });
+    timeline.push({ at: inquiry.contacted_at, label: "연락 완료 기록", dot: "bg-cy-cyan" });
   }
   timeline.sort((a, b) => new Date(a.at).getTime() - new Date(b.at).getTime());
 
@@ -105,7 +105,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
       <div className="flex items-center justify-between">
         <Link
           href="/admin/inquiries"
-          className="inline-flex items-center gap-1 text-sm font-semibold text-[#3A4A5F] hover:text-[#002C5F]"
+          className="inline-flex items-center gap-1 text-sm font-semibold text-cy-ink-2 hover:text-cy-navy"
         >
           <span className="material-symbols-outlined text-base">arrow_back</span>
           문의 목록
@@ -115,8 +115,8 @@ export default async function InquiryDetailPage({ params }: PageProps) {
 
       {/* 헤더: 이름 + 회사 */}
       <div>
-        <h2 className="text-2xl font-black text-[#0A1628]">{inquiry.name}</h2>
-        <p className="text-sm text-[#6B7B8F] mt-0.5">
+        <h2 className="text-2xl font-black text-cy-ink">{inquiry.name}</h2>
+        <p className="text-sm text-cy-ink-3 mt-0.5">
           {inquiry.company ?? "소속 미기재"}
           {inquiry.role ? ` · ${inquiry.role}` : ""}
           {inquiry.source ? ` · 유입 ${inquiry.source}` : ""}
@@ -129,7 +129,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
           {inquiry.phone && (
             <a
               href={`tel:${inquiry.phone}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#002C5F] text-white text-sm font-bold hover:bg-[#001d40] transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cy-navy text-white text-sm font-bold hover:bg-cy-navy-dark transition-all"
             >
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>call</span>
               전화 걸기 · {formatPhone(inquiry.phone)}
@@ -138,7 +138,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
           {inquiry.email && (
             <a
               href={`mailto:${inquiry.email}?subject=${mailtoSubject}&body=${mailtoBody}`}
-              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#00AAD2] text-white text-sm font-bold hover:bg-[#007792] transition-all"
+              className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-cy-cyan text-white text-sm font-bold hover:bg-cy-cyan-deep transition-all"
             >
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>mail</span>
               이메일 회신
@@ -152,7 +152,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
         <div className="lg:col-span-2 space-y-5">
           {/* 상세 패널 */}
           <Card>
-            <h3 className="text-base font-bold text-[#0A1628] mb-3">문의 상세</h3>
+            <h3 className="text-base font-bold text-cy-ink mb-3">문의 상세</h3>
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
               <DetailRow label="이름" value={inquiry.name} />
               <DetailRow label="회사명" value={inquiry.company ?? "—"} />
@@ -160,7 +160,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
                 label="연락처"
                 value={
                   inquiry.phone
-                    ? <a href={`tel:${inquiry.phone}`} className="text-[#007792] hover:underline">{formatPhone(inquiry.phone)}</a>
+                    ? <a href={`tel:${inquiry.phone}`} className="text-cy-cyan-deep hover:underline">{formatPhone(inquiry.phone)}</a>
                     : "—"
                 }
               />
@@ -168,7 +168,7 @@ export default async function InquiryDetailPage({ params }: PageProps) {
                 label="이메일"
                 value={
                   inquiry.email
-                    ? <a href={`mailto:${inquiry.email}`} className="text-[#007792] hover:underline break-all">{inquiry.email}</a>
+                    ? <a href={`mailto:${inquiry.email}`} className="text-cy-cyan-deep hover:underline break-all">{inquiry.email}</a>
                     : "—"
                 }
               />
@@ -181,25 +181,25 @@ export default async function InquiryDetailPage({ params }: PageProps) {
 
           {/* 원본 메시지 */}
           <Card>
-            <h3 className="text-base font-bold text-[#0A1628] mb-3">원본 메시지</h3>
-            <blockquote className="border-l-4 border-[#002C5F] bg-[#F8FAFD] rounded-r-xl p-4 text-sm text-[#0A1628] whitespace-pre-wrap leading-relaxed">
+            <h3 className="text-base font-bold text-cy-ink mb-3">원본 메시지</h3>
+            <blockquote className="border-l-4 border-cy-navy bg-cy-elevated rounded-r-xl p-4 text-sm text-cy-ink whitespace-pre-wrap leading-relaxed">
               {inquiry.message}
             </blockquote>
           </Card>
 
           {/* 타임라인 */}
           <Card>
-            <h3 className="text-base font-bold text-[#0A1628] mb-4">처리 이력</h3>
+            <h3 className="text-base font-bold text-cy-ink mb-4">처리 이력</h3>
             <ol className="space-y-3">
               {timeline.map((ev, idx) => (
                 <li key={idx} className="flex items-start gap-3">
                   <div className="flex flex-col items-center">
                     <span className={`w-2.5 h-2.5 rounded-full ${ev.dot} ring-4 ring-white shadow`} />
-                    {idx < timeline.length - 1 && <span className="w-px flex-1 bg-[#E3E8EF] mt-1" style={{ minHeight: 20 }} />}
+                    {idx < timeline.length - 1 && <span className="w-px flex-1 bg-cy-line mt-1" style={{ minHeight: 20 }} />}
                   </div>
                   <div className="flex-1 -mt-0.5">
-                    <p className="text-sm font-semibold text-[#0A1628]">{ev.label}</p>
-                    <p className="text-xs text-[#6B7B8F] tabular-nums">{formatFull(ev.at)}</p>
+                    <p className="text-sm font-semibold text-cy-ink">{ev.label}</p>
+                    <p className="text-xs text-cy-ink-3 tabular-nums">{formatFull(ev.at)}</p>
                   </div>
                 </li>
               ))}
@@ -210,15 +210,15 @@ export default async function InquiryDetailPage({ params }: PageProps) {
         {/* 오른쪽: 상태 변경 + 노트 */}
         <div className="space-y-5">
           <Card>
-            <h3 className="text-base font-bold text-[#0A1628] mb-3">상태 변경</h3>
+            <h3 className="text-base font-bold text-cy-ink mb-3">상태 변경</h3>
             <StatusChanger id={inquiry.id} current={inquiry.status} />
-            <p className="text-xs text-[#6B7B8F] mt-3 leading-relaxed">
+            <p className="text-xs text-cy-ink-3 mt-3 leading-relaxed">
               신규 → 연락 완료 전이 시 응답 시각이 자동 기록된다.
             </p>
           </Card>
 
           <Card>
-            <h3 className="text-base font-bold text-[#0A1628] mb-3">관리자 노트</h3>
+            <h3 className="text-base font-bold text-cy-ink mb-3">관리자 노트</h3>
             <NotesEditor id={inquiry.id} initial={inquiry.notes ?? ""} />
           </Card>
         </div>
@@ -240,9 +240,9 @@ function DetailRow({
 }) {
   return (
     <div>
-      <dt className="text-xs text-[#6B7B8F] font-semibold">{label}</dt>
+      <dt className="text-xs text-cy-ink-3 font-semibold">{label}</dt>
       <dd
-        className={`mt-0.5 text-[#0A1628] ${mono ? "font-mono" : ""} ${small ? "text-xs break-all" : "text-sm"}`}
+        className={`mt-0.5 text-cy-ink ${mono ? "font-mono" : ""} ${small ? "text-xs break-all" : "text-sm"}`}
       >
         {value}
       </dd>

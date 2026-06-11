@@ -112,7 +112,7 @@ export default function EmptyStateShowcasePage() {
 
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -122,23 +122,23 @@ export default function EmptyStateShowcasePage() {
       <ShowcaseNav />
 
       {/* HEADER */}
-      <section className="border-b border-[#E3E8EF] bg-white">
+      <section className="border-b border-cy-line bg-white">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-14">
           <Reveal delay={0.05}>
             <span
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#E8F1FB] text-[#002C5F] rounded-full text-[11px] font-semibold mb-5"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-cy-navy-pale text-cy-navy rounded-full text-[11px] font-semibold mb-5"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               INTERNAL · NO INDEX
             </span>
           </Reveal>
           <Reveal delay={0.1}>
-            <h1 className="text-[32px] md:text-[40px] font-black tracking-[-0.03em] text-[#002C5F] mb-3">
+            <h1 className="text-[32px] md:text-[40px] font-black tracking-[-0.03em] text-cy-navy mb-3">
               EmptyState Showcase
             </h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] max-w-[720px]">
+            <p className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] max-w-[720px]">
               6개 역할 대시보드에서 데이터가 비어 있을 때 표출되는 빈 상태
               컴포넌트를 정리한다. 모든 카피는 판결문 어미로 작성되며, 추후
               각 대시보드 페이지에 통합된다.
@@ -148,10 +148,10 @@ export default function EmptyStateShowcasePage() {
       </section>
 
       {/* SIZE TOGGLE */}
-      <section className="border-b border-[#E3E8EF] bg-white">
+      <section className="border-b border-cy-line bg-white">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-6 flex flex-wrap items-center gap-4">
           <span
-            className="text-[11px] tracking-[0.2em] text-[#6B7B8F] uppercase"
+            className="text-[11px] tracking-[0.2em] text-cy-ink-3 uppercase"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             SIZE VARIANT
@@ -159,7 +159,7 @@ export default function EmptyStateShowcasePage() {
           <div
             role="radiogroup"
             aria-label="사이즈 변형"
-            className="inline-flex rounded-xl border border-[#E3E8EF] bg-[#F8FAFD] p-1"
+            className="inline-flex rounded-xl border border-cy-line bg-cy-elevated p-1"
           >
             {SIZE_OPTIONS.map((opt) => {
               const active = size === opt.key;
@@ -172,8 +172,8 @@ export default function EmptyStateShowcasePage() {
                   onClick={() => setSize(opt.key)}
                   className={`px-4 py-1.5 text-[12px] font-semibold rounded-lg transition-colors ${
                     active
-                      ? "bg-[#002C5F] text-white"
-                      : "text-[#3A4A5F] hover:text-[#002C5F]"
+                      ? "bg-cy-navy text-white"
+                      : "text-cy-ink-2 hover:text-cy-navy"
                   }`}
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
@@ -182,7 +182,7 @@ export default function EmptyStateShowcasePage() {
               );
             })}
           </div>
-          <span className="text-[12px] text-[#6B7B8F]">
+          <span className="text-[12px] text-cy-ink-3">
             {SIZE_OPTIONS.find((o) => o.key === size)?.desc}
           </span>
         </div>
@@ -191,12 +191,12 @@ export default function EmptyStateShowcasePage() {
       {/* 6 ROLES GRID */}
       <section className="max-w-[1400px] mx-auto px-6 md:px-12 py-14">
         <Reveal delay={0.05}>
-          <h2 className="text-[22px] md:text-[24px] font-bold tracking-[-0.02em] text-[#0A1628] mb-2">
+          <h2 className="text-[22px] md:text-[24px] font-bold tracking-[-0.02em] text-cy-ink mb-2">
             역할별 사전 구성
           </h2>
         </Reveal>
         <Reveal delay={0.12}>
-          <p className="text-[13px] text-[#6B7B8F] mb-8">
+          <p className="text-[13px] text-cy-ink-3 mb-8">
             각 래퍼는 사전 정의된 copy · illustration · CTA로 EmptyState를 감싼다.
           </p>
         </Reveal>
@@ -211,22 +211,22 @@ export default function EmptyStateShowcasePage() {
               className="p-0 overflow-hidden"
             >
               <div
-                className="border-b border-[#E3E8EF] px-5 py-3 flex items-center justify-between bg-[#F8FAFD]"
+                className="border-b border-cy-line px-5 py-3 flex items-center justify-between bg-cy-elevated"
                 style={{ boxShadow: CARD_SHADOW }}
               >
                 <div className="flex items-baseline gap-2">
-                  <span className="text-[13px] font-semibold text-[#002C5F]">
+                  <span className="text-[13px] font-semibold text-cy-navy">
                     {entry.role}
                   </span>
                   <span
-                    className="text-[10px] tracking-[0.25em] text-[#6B7B8F] uppercase"
+                    className="text-[10px] tracking-[0.25em] text-cy-ink-3 uppercase"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {entry.roleEn}
                   </span>
                 </div>
                 <span
-                  className="text-[10px] tracking-[0.15em] text-[#9AA8B8] uppercase"
+                  className="text-[10px] tracking-[0.15em] text-cy-ink-4 uppercase"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   size={size}
@@ -239,7 +239,7 @@ export default function EmptyStateShowcasePage() {
                 <Component />
               </div>
 
-              <div className="border-t border-[#E3E8EF] bg-[#0A1628] px-5 py-4">
+              <div className="border-t border-cy-line bg-cy-ink px-5 py-4">
                 <pre
                   className="text-[11px] leading-[1.7] text-white/90 whitespace-pre-wrap break-all"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
@@ -254,15 +254,15 @@ export default function EmptyStateShowcasePage() {
       </section>
 
       {/* GENERIC SIZE MATRIX */}
-      <section className="bg-white border-t border-[#E3E8EF]">
+      <section className="bg-white border-t border-cy-line">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-14">
           <Reveal delay={0.05}>
-            <h2 className="text-[22px] md:text-[24px] font-bold tracking-[-0.02em] text-[#0A1628] mb-2">
+            <h2 className="text-[22px] md:text-[24px] font-bold tracking-[-0.02em] text-cy-ink mb-2">
               Generic EmptyState · 사이즈 변형
             </h2>
           </Reveal>
           <Reveal delay={0.12}>
-            <p className="text-[13px] text-[#6B7B8F] mb-8">
+            <p className="text-[13px] text-cy-ink-3 mb-8">
               선택된 사이즈({size})로 일러스트 5종을 일괄 비교한다.
             </p>
           </Reveal>
@@ -303,11 +303,11 @@ export default function EmptyStateShowcasePage() {
                 className="p-0 overflow-hidden"
               >
                 <div
-                  className="border-b border-[#E3E8EF] px-5 py-3 bg-[#F8FAFD]"
+                  className="border-b border-cy-line px-5 py-3 bg-cy-elevated"
                   style={{ boxShadow: CARD_SHADOW }}
                 >
                   <span
-                    className="text-[11px] tracking-[0.25em] text-[#002C5F] uppercase font-semibold"
+                    className="text-[11px] tracking-[0.25em] text-cy-navy uppercase font-semibold"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {item.title}
@@ -336,25 +336,25 @@ export default function EmptyStateShowcasePage() {
 function ShowcaseNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
         <span
-          className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]"
+          className="text-[22px] font-black text-cy-navy tracking-[-0.03em]"
           style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
         >
           {copy.nav.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {copy.nav.brand.en}
         </span>
       </Link>
       <span
-        className="hidden md:inline text-[11px] tracking-[0.2em] text-[#6B7B8F] uppercase ml-2"
+        className="hidden md:inline text-[11px] tracking-[0.2em] text-cy-ink-3 uppercase ml-2"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
         / SHOWCASE / EMPTY-STATES
@@ -362,7 +362,7 @@ function ShowcaseNav() {
       <div className="ml-auto">
         <Link
           href="/"
-          className="inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors"
+          className="inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors"
         >
           랜딩으로
         </Link>
@@ -376,26 +376,26 @@ function ShowcaseNav() {
 // ═══════════════════════════════════════
 function ShowcaseFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 py-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
         <div className="flex items-baseline gap-2.5">
           <span
-            className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]"
+            className="text-[16px] font-black text-cy-navy tracking-[-0.03em]"
             style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
           >
             {copy.footer.brand.ko}
           </span>
           <span
-            className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {copy.footer.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-2">
+          <span className="text-[11px] text-cy-ink-3 ml-2">
             내부 쇼케이스 · 외부 색인 제외
           </span>
         </div>
-        <p className="text-[10px] text-[#9AA8B8]">{copy.footer.copyright}</p>
+        <p className="text-[10px] text-cy-ink-4">{copy.footer.copyright}</p>
       </div>
     </footer>
   );

@@ -39,7 +39,7 @@ const CARD_SHADOW = "0 10px 30px rgba(0, 44, 95, 0.06)";
 export default function PressPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -67,18 +67,18 @@ export default function PressPage() {
 function PressNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6 md:gap-12"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
         <span
-          className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]"
+          className="text-[22px] font-black text-cy-navy tracking-[-0.03em]"
           style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
         >
           {navCopy.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {navCopy.brand.en}
@@ -90,7 +90,7 @@ function PressNav() {
           <li key={item.label}>
             <a
               href={item.href}
-              className="text-[14px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors py-1"
+              className="text-[14px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors py-1"
             >
               {item.label}
             </a>
@@ -101,13 +101,13 @@ function PressNav() {
       <div className="flex gap-2.5 ml-auto">
         <Link
           href="/login"
-          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
+          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors min-h-0"
         >
           {navCopy.cta.secondary}
         </Link>
         <Link
           href="/demo"
-          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           {navCopy.cta.primary}
         </Link>
@@ -122,7 +122,7 @@ function PressNav() {
 function HeroSection() {
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
@@ -134,7 +134,7 @@ function HeroSection() {
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 py-20 md:py-28">
         <Reveal delay={0.05}>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             PRESS KIT · 언론 자료
@@ -143,20 +143,20 @@ function HeroSection() {
 
         <Reveal delay={0.1}>
           <h1
-            className="font-[900] text-[#0A1628] mb-5"
+            className="font-[900] text-cy-ink mb-5"
             style={{
               fontSize: "clamp(2.5rem, 6vw, 4rem)",
               lineHeight: 1.15,
               letterSpacing: "-0.035em",
             }}
           >
-            철연 <span className="text-[#002C5F]">보도 자료실</span>
+            철연 <span className="text-cy-navy">보도 자료실</span>
           </h1>
         </Reveal>
 
         <Reveal delay={0.2}>
           <p
-            className="text-[16px] md:text-[18px] text-[#3A4A5F] leading-[1.75] max-w-[720px]"
+            className="text-[16px] md:text-[18px] text-cy-ink-2 leading-[1.75] max-w-[720px]"
             style={{
               fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
               letterSpacing: "-0.015em",
@@ -187,16 +187,16 @@ function QuickFactsSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           QUICK FACTS
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-10"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-10"
           style={{ lineHeight: 1.2 }}
         >
           핵심 정보
@@ -207,17 +207,17 @@ function QuickFactsSection() {
         {facts.map((f) => (
           <StaggerItem key={f.label}>
             <div
-              className="bg-white border border-[#E3E8EF] rounded-xl p-5 h-full"
+              className="bg-white border border-cy-line rounded-xl p-5 h-full"
               style={{ boxShadow: CARD_SHADOW }}
             >
               <p
-                className="text-[10px] text-[#9AA8B8] tracking-[0.2em] uppercase mb-2"
+                className="text-[10px] text-cy-ink-4 tracking-[0.2em] uppercase mb-2"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 {f.label}
               </p>
               <p
-                className="text-[15px] md:text-[16px] text-[#0A1628] font-bold"
+                className="text-[15px] md:text-[16px] text-cy-ink font-bold"
                 style={{
                   fontFamily: "var(--font-roboto-mono), monospace",
                   letterSpacing: "-0.01em",
@@ -257,21 +257,21 @@ function BoilerplateSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} bg-white border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} bg-white border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           BOILERPLATE
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-4"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-4"
           style={{ lineHeight: 1.2 }}
         >
           공식 보도문 (Boilerplate)
         </h2>
-        <p className="text-[14px] text-[#6B7B8F] mb-10 max-w-[720px]">
+        <p className="text-[14px] text-cy-ink-3 mb-10 max-w-[720px]">
           원문을 줄일 수는 있다. 바꿀 수는 없다. 3가지 길이 버전 중 맥락에 맞게 인용 가능하다.
         </p>
       </Reveal>
@@ -310,13 +310,13 @@ function CopyBlock({
 
   return (
     <div
-      className="bg-white border border-[#E3E8EF] rounded-2xl p-6 md:p-7"
+      className="bg-white border border-cy-line rounded-2xl p-6 md:p-7"
       style={{ boxShadow: CARD_SHADOW }}
       id={`boilerplate-${id}`}
     >
       <div className="flex items-start justify-between gap-4 mb-4">
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.2em] uppercase"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.2em] uppercase"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {label}
@@ -327,8 +327,8 @@ function CopyBlock({
           aria-live="polite"
           className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 text-[12px] font-bold rounded-lg transition-colors min-h-0 ${
             copied
-              ? "bg-[#00A86B] text-white"
-              : "bg-[#002C5F] text-white hover:bg-[#0046A4]"
+              ? "bg-cy-success text-white"
+              : "bg-cy-navy text-white hover:bg-cy-navy-mid"
           }`}
         >
           {copied ? (
@@ -345,7 +345,7 @@ function CopyBlock({
         </button>
       </div>
       <p
-        className="text-[15px] md:text-[16px] text-[#0A1628]"
+        className="text-[15px] md:text-[16px] text-cy-ink"
         style={{
           fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
           lineHeight: 1.85,
@@ -371,7 +371,7 @@ function LogoSection() {
       render: () => (
         <LogoTile bg="#F8FAFD">
           <span
-            className="text-[48px] font-black text-[#002C5F] tracking-[-0.04em]"
+            className="text-[48px] font-black text-cy-navy tracking-[-0.04em]"
             style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
           >
             철연
@@ -387,7 +387,7 @@ function LogoSection() {
       render: () => (
         <LogoTile bg="#FFFFFF">
           <span
-            className="text-[48px] font-black text-[#0A1628] tracking-[-0.04em]"
+            className="text-[48px] font-black text-cy-ink tracking-[-0.04em]"
             style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
           >
             철연
@@ -404,7 +404,7 @@ function LogoSection() {
         <LogoTile bg="#F8FAFD">
           <div className="flex items-baseline gap-2.5">
             <span
-              className="text-[40px] font-black text-[#002C5F] tracking-[-0.04em]"
+              className="text-[40px] font-black text-cy-navy tracking-[-0.04em]"
               style={{
                 fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
               }}
@@ -412,7 +412,7 @@ function LogoSection() {
               철연
             </span>
             <span
-              className="text-[11px] text-[#6B7B8F] tracking-[0.3em]"
+              className="text-[11px] text-cy-ink-3 tracking-[0.3em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               CHEOLYEON
@@ -428,7 +428,7 @@ function LogoSection() {
       href: "/brand-assets/cheolyeon-favicon.svg",
       render: () => (
         <LogoTile bg="#002C5F">
-          <div className="w-[72px] h-[72px] rounded-xl bg-[#002C5F] flex items-center justify-center border-[2px] border-white/20">
+          <div className="w-[72px] h-[72px] rounded-xl bg-cy-navy flex items-center justify-center border-[2px] border-white/20">
             <span
               className="text-[36px] font-black text-white tracking-[-0.04em]"
               style={{
@@ -444,21 +444,21 @@ function LogoSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           LOGO
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-4"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-4"
           style={{ lineHeight: 1.2 }}
         >
           로고 다운로드
         </h2>
-        <p className="text-[14px] text-[#6B7B8F] mb-10 max-w-[720px]">
+        <p className="text-[14px] text-cy-ink-3 mb-10 max-w-[720px]">
           실제 자산은 배포 후 교체된다. 현재는 SVG 렌더 미리보기가 제공된다.
         </p>
       </Reveal>
@@ -468,12 +468,12 @@ function LogoSection() {
           <StaggerItem key={logo.id}>
             <MotionCard className="p-0 overflow-hidden flex flex-col">
               {logo.render()}
-              <div className="p-5 border-t border-[#E3E8EF]">
-                <p className="text-[14px] font-bold text-[#0A1628] mb-0.5">
+              <div className="p-5 border-t border-cy-line">
+                <p className="text-[14px] font-bold text-cy-ink mb-0.5">
                   {logo.title}
                 </p>
                 <p
-                  className="text-[11px] text-[#6B7B8F] mb-3 tracking-[0.15em] uppercase"
+                  className="text-[11px] text-cy-ink-3 mb-3 tracking-[0.15em] uppercase"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {logo.variant}
@@ -481,7 +481,7 @@ function LogoSection() {
                 <a
                   href={logo.href}
                   download
-                  className="inline-flex items-center gap-1.5 text-[12px] font-bold text-[#002C5F] hover:text-[#0046A4] transition-colors"
+                  className="inline-flex items-center gap-1.5 text-[12px] font-bold text-cy-navy hover:text-cy-navy-mid transition-colors"
                 >
                   <span aria-hidden="true">↓</span>
                   <span>다운로드 (SVG)</span>
@@ -493,7 +493,7 @@ function LogoSection() {
       </StaggerContainer>
 
       <Reveal delay={0.3}>
-        <p className="mt-6 text-[11px] text-[#9AA8B8] italic">
+        <p className="mt-6 text-[11px] text-cy-ink-4 italic">
           실제 자산은 배포 후 교체.
         </p>
       </Reveal>
@@ -510,7 +510,7 @@ function LogoTile({
 }) {
   return (
     <div
-      className="aspect-[4/3] flex items-center justify-center border-b border-[#E3E8EF]"
+      className="aspect-[4/3] flex items-center justify-center border-b border-cy-line"
       style={{ background: bg }}
     >
       {children}
@@ -532,16 +532,16 @@ function BrandColorsSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} bg-white border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} bg-white border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           COLORS
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-10"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-10"
           style={{ lineHeight: 1.2 }}
         >
           브랜드 컬러
@@ -552,7 +552,7 @@ function BrandColorsSection() {
         {colors.map((c) => (
           <StaggerItem key={c.hex}>
             <div
-              className="rounded-xl overflow-hidden border border-[#E3E8EF]"
+              className="rounded-xl overflow-hidden border border-cy-line"
               style={{ boxShadow: CARD_SHADOW }}
             >
               <div
@@ -570,9 +570,9 @@ function BrandColorsSection() {
                 </span>
               </div>
               <div className="p-3 bg-white">
-                <p className="text-[13px] font-bold text-[#0A1628]">{c.name}</p>
+                <p className="text-[13px] font-bold text-cy-ink">{c.name}</p>
                 <p
-                  className="text-[11px] text-[#6B7B8F] tracking-[0.1em]"
+                  className="text-[11px] text-cy-ink-3 tracking-[0.1em]"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {c.hex}
@@ -598,21 +598,21 @@ function ScreenshotsSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           SCREENSHOTS
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-4"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-4"
           style={{ lineHeight: 1.2 }}
         >
           스크린샷
         </h2>
-        <p className="text-[14px] text-[#6B7B8F] mb-10 max-w-[720px]">
+        <p className="text-[14px] text-cy-ink-3 mb-10 max-w-[720px]">
           실제 스크린샷 captured 후 교체된다.
         </p>
       </Reveal>
@@ -622,7 +622,7 @@ function ScreenshotsSection() {
           <StaggerItem key={s.id}>
             <MotionCard className="p-0 overflow-hidden">
               <div
-                className="aspect-[4/3] relative flex items-center justify-center border-b border-[#E3E8EF]"
+                className="aspect-[4/3] relative flex items-center justify-center border-b border-cy-line"
                 style={{
                   background:
                     "linear-gradient(145deg, #001A3D 0%, #002C5F 50%, #0046A4 100%)",
@@ -663,10 +663,10 @@ function ScreenshotsSection() {
                 </span>
               </div>
               <div className="p-5">
-                <p className="text-[15px] font-bold text-[#0A1628] mb-0.5">
+                <p className="text-[15px] font-bold text-cy-ink mb-0.5">
                   {s.id}. {s.title}
                 </p>
-                <p className="text-[12px] text-[#6B7B8F]">{s.sub}</p>
+                <p className="text-[12px] text-cy-ink-3">{s.sub}</p>
               </div>
             </MotionCard>
           </StaggerItem>
@@ -701,16 +701,16 @@ function MediaContactSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} bg-white border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} bg-white border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           MEDIA CONTACT
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-10"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-10"
           style={{ lineHeight: 1.2 }}
         >
           미디어 연락처
@@ -719,14 +719,14 @@ function MediaContactSection() {
 
       <Reveal delay={0.1}>
         <div
-          className="bg-white border border-[#E3E8EF] rounded-2xl p-8 md:p-10 max-w-[960px]"
+          className="bg-white border border-cy-line rounded-2xl p-8 md:p-10 max-w-[960px]"
           style={{ boxShadow: CARD_SHADOW }}
         >
           <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {contacts.map((c) => (
               <div key={c.label}>
                 <p
-                  className="text-[10px] text-[#9AA8B8] tracking-[0.2em] uppercase mb-2"
+                  className="text-[10px] text-cy-ink-4 tracking-[0.2em] uppercase mb-2"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {c.label}
@@ -734,7 +734,7 @@ function MediaContactSection() {
                 {c.href ? (
                   <a
                     href={c.href}
-                    className="text-[15px] font-bold text-[#002C5F] hover:text-[#0046A4] transition-colors block"
+                    className="text-[15px] font-bold text-cy-navy hover:text-cy-navy-mid transition-colors block"
                     style={{
                       fontFamily: "var(--font-roboto-mono), monospace",
                     }}
@@ -743,7 +743,7 @@ function MediaContactSection() {
                   </a>
                 ) : (
                   <p
-                    className="text-[15px] font-bold text-[#0A1628]"
+                    className="text-[15px] font-bold text-cy-ink"
                     style={{
                       fontFamily: "var(--font-roboto-mono), monospace",
                     }}
@@ -751,7 +751,7 @@ function MediaContactSection() {
                     {c.value}
                   </p>
                 )}
-                <p className="text-[11px] text-[#6B7B8F] mt-1">{c.note}</p>
+                <p className="text-[11px] text-cy-ink-3 mt-1">{c.note}</p>
               </div>
             ))}
           </div>
@@ -775,16 +775,16 @@ function PressMentionsSection() {
   ];
 
   return (
-    <section className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           PRESS MENTIONS
         </p>
         <h2
-          className="text-[28px] md:text-[36px] font-[800] text-[#0A1628] tracking-[-0.025em] mb-10"
+          className="text-[28px] md:text-[36px] font-[800] text-cy-ink tracking-[-0.025em] mb-10"
           style={{ lineHeight: 1.2 }}
         >
           보도 이력
@@ -795,21 +795,21 @@ function PressMentionsSection() {
         {mentions.map((m, i) => (
           <Reveal key={i} delay={i * 0.08}>
             <div
-              className="bg-white border border-dashed border-[#E3E8EF] rounded-xl p-5 flex items-center gap-5"
+              className="bg-white border border-dashed border-cy-line rounded-xl p-5 flex items-center gap-5"
               style={{ boxShadow: CARD_SHADOW }}
             >
               <span
-                className="text-[12px] font-bold text-[#6B7B8F] tracking-[0.1em] tabular-nums flex-shrink-0"
+                className="text-[12px] font-bold text-cy-ink-3 tracking-[0.1em] tabular-nums flex-shrink-0"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 {m.date}
               </span>
               <div className="flex-1">
-                <p className="text-[14px] font-bold text-[#0A1628]">{m.title}</p>
-                <p className="text-[11px] text-[#6B7B8F] mt-0.5">{m.outlet}</p>
+                <p className="text-[14px] font-bold text-cy-ink">{m.title}</p>
+                <p className="text-[11px] text-cy-ink-3 mt-0.5">{m.outlet}</p>
               </div>
               <span
-                className="text-[10px] px-2.5 py-1 bg-[#F4F6FA] text-[#6B7B8F] rounded-md tracking-[0.15em] uppercase font-bold"
+                className="text-[10px] px-2.5 py-1 bg-cy-bg text-cy-ink-3 rounded-md tracking-[0.15em] uppercase font-bold"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 {m.status}
@@ -831,12 +831,12 @@ function HeritageCallout() {
       <Reveal>
         <Link
           href="/story"
-          className="block max-w-[960px] bg-white border border-[#E3E8EF] rounded-2xl p-6 md:p-8 hover:border-[#002C5F] transition-colors group"
+          className="block max-w-[960px] bg-white border border-cy-line rounded-2xl p-6 md:p-8 hover:border-cy-navy transition-colors group"
           style={{ boxShadow: CARD_SHADOW }}
         >
           <div className="flex items-center gap-5">
             <div
-              className="w-[56px] h-[56px] rounded-xl bg-[#002C5F] flex items-center justify-center flex-shrink-0"
+              className="w-[56px] h-[56px] rounded-xl bg-cy-navy flex items-center justify-center flex-shrink-0"
               aria-hidden="true"
             >
               <span
@@ -848,20 +848,20 @@ function HeritageCallout() {
             </div>
             <div className="flex-1">
               <p
-                className="text-[11px] font-bold text-[#002C5F] tracking-[0.2em] mb-1.5"
+                className="text-[11px] font-bold text-cy-navy tracking-[0.2em] mb-1.5"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 HERITAGE · 브랜드 기원
               </p>
-              <p className="text-[15px] md:text-[16px] font-bold text-[#0A1628] mb-1">
+              <p className="text-[15px] md:text-[16px] font-bold text-cy-ink mb-1">
                 1998 부산일보 기사 원문 전체 열람
               </p>
-              <p className="text-[12px] text-[#6B7B8F]">
+              <p className="text-[12px] text-cy-ink-3">
                 §2.1 전문 · 1차 사료 재현 · 영문 번역 · 28년 경과 연표
               </p>
             </div>
             <span
-              className="text-[#002C5F] text-[20px] group-hover:translate-x-1 transition-transform flex-shrink-0"
+              className="text-cy-navy text-[20px] group-hover:translate-x-1 transition-transform flex-shrink-0"
               aria-hidden="true"
             >
               →
@@ -878,23 +878,23 @@ function HeritageCallout() {
 // ═══════════════════════════════════════
 function PressFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] pt-10 pb-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line pt-10 pb-8 bg-cy-bg-alt">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-[#E3E8EF]">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-cy-line">
           <div className="flex items-baseline gap-2.5">
             <span
-              className="text-[18px] font-black text-[#002C5F] tracking-[-0.03em]"
+              className="text-[18px] font-black text-cy-navy tracking-[-0.03em]"
               style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
             >
               {footerCopy.brand.ko}
             </span>
             <span
-              className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+              className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {footerCopy.brand.en}
             </span>
-            <span className="text-[12px] text-[#6B7B8F] ml-2 hidden md:inline">
+            <span className="text-[12px] text-cy-ink-3 ml-2 hidden md:inline">
               {footerCopy.description}
             </span>
           </div>
@@ -903,7 +903,7 @@ function PressFooter() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[12px] text-[#3A4A5F] hover:text-[#002C5F] font-medium transition-colors min-h-0"
+                className="text-[12px] text-cy-ink-2 hover:text-cy-navy font-medium transition-colors min-h-0"
               >
                 {link.label}
               </a>
@@ -912,35 +912,35 @@ function PressFooter() {
         </div>
 
         <div
-          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-[#6B7B8F] leading-[1.8]"
+          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-cy-ink-3 leading-[1.8]"
           style={{ fontFamily: "var(--font-roboto-mono), 'Pretendard', sans-serif" }}
         >
           <div className="space-y-0.5">
             <p>
-              <span className="text-[#9AA8B8]">대표:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">대표:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {footerCopy.business.representative}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">사업자등록번호:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">사업자등록번호:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {footerCopy.business.registrationNumber}
               </span>
             </p>
           </div>
           <div className="space-y-0.5">
             <p>
-              <span className="text-[#9AA8B8]">주소:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">주소:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {footerCopy.business.address}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">이메일:</span>{" "}
+              <span className="text-cy-ink-4">이메일:</span>{" "}
               <a
                 href={`mailto:${footerCopy.business.email}`}
-                className="text-[#002C5F] hover:text-[#0046A4] font-medium transition-colors"
+                className="text-cy-navy hover:text-cy-navy-mid font-medium transition-colors"
               >
                 {footerCopy.business.email}
               </a>
@@ -948,9 +948,9 @@ function PressFooter() {
           </div>
         </div>
 
-        <div className="mt-6 pt-5 border-t border-[#E3E8EF] flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-          <p className="text-[10px] text-[#9AA8B8]">{footerCopy.copyright}</p>
-          <p className="text-[10px] text-[#9AA8B8]">
+        <div className="mt-6 pt-5 border-t border-cy-line flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+          <p className="text-[10px] text-cy-ink-4">{footerCopy.copyright}</p>
+          <p className="text-[10px] text-cy-ink-4">
             철연 · CHEOLYEON은 ㈜바이트포스의 중장비 배차·계약·정산 통합 플랫폼 상표다.
           </p>
         </div>

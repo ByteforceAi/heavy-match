@@ -17,7 +17,7 @@ export function CsvExportClientButton() {
         // placeholder — 실제 CSV 생성은 후속 릴리스
         alert("CSV 내보내기 · 구현 예정");
       }}
-      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-[#E3E8EF] text-[#3A4A5F] text-sm font-semibold hover:border-[#002C5F]/40 hover:text-[#002C5F] transition-all"
+      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white border border-cy-line text-cy-ink-2 text-sm font-semibold hover:border-cy-navy/40 hover:text-cy-navy transition-all"
     >
       <span className="material-symbols-outlined text-base">download</span>
       CSV 내보내기
@@ -61,10 +61,10 @@ export function StatusChanger({ id, current }: { id: string; current: InquirySta
             onClick={() => handleChange(s)}
             className={`px-3.5 py-2 rounded-xl text-sm font-bold transition-all ${
               isActive
-                ? "bg-[#002C5F] text-white cursor-default"
+                ? "bg-cy-navy text-white cursor-default"
                 : pending
-                ? "bg-[#F4F6FA] text-[#9AA8B8] cursor-wait"
-                : "bg-white border border-[#E3E8EF] text-[#3A4A5F] hover:border-[#002C5F] hover:text-[#002C5F]"
+                ? "bg-cy-bg text-cy-ink-4 cursor-wait"
+                : "bg-white border border-cy-line text-cy-ink-2 hover:border-cy-navy hover:text-cy-navy"
             }`}
           >
             {STATUS_LABELS[s]}
@@ -100,17 +100,17 @@ export function NotesEditor({ id, initial }: { id: string; initial: string }) {
         onChange={(e) => setValue(e.target.value)}
         rows={5}
         placeholder="관리자 내부 노트. 고객에게 공개되지 않는다."
-        className="w-full p-3 rounded-xl border border-[#E3E8EF] bg-white text-sm text-[#0A1628] placeholder-[#9AA8B8] focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/10 resize-y"
+        className="w-full p-3 rounded-xl border border-cy-line bg-white text-sm text-cy-ink placeholder-cy-ink-4 focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/10 resize-y"
       />
       <div className="flex items-center justify-between mt-2">
-        <span className="text-xs text-[#6B7B8F]">
+        <span className="text-xs text-cy-ink-3">
           {savedAt ? `저장됨 · ${savedAt}` : "저장 전"}
         </span>
         <button
           type="button"
           onClick={handleSave}
           disabled={pending}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#002C5F] text-white text-sm font-bold hover:bg-[#001d40] disabled:opacity-50 disabled:cursor-wait transition-all"
+          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-cy-navy text-white text-sm font-bold hover:bg-cy-navy-dark disabled:opacity-50 disabled:cursor-wait transition-all"
         >
           <span className="material-symbols-outlined text-base">save</span>
           {pending ? "저장 중" : "노트 저장"}

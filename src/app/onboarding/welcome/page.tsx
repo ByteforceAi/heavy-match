@@ -58,32 +58,32 @@ export default function WelcomePage() {
       <Reveal delay={0.05}>
         <div className="flex items-baseline gap-2.5 mb-4">
           <span
-            className="text-[20px] font-black text-[#002C5F] tracking-[-0.03em]"
+            className="text-[20px] font-black text-cy-navy tracking-[-0.03em]"
             style={{ fontFamily: "'Pretendard', sans-serif" }}
           >
             철연
           </span>
           <span
-            className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             CHEOLYEON
           </span>
-          <span className="text-[11px] text-[#9AA8B8] ml-auto">도입 온보딩</span>
+          <span className="text-[11px] text-cy-ink-4 ml-auto">도입 온보딩</span>
         </div>
       </Reveal>
 
       <Reveal delay={0.12}>
-        <h1 className="text-[28px] md:text-[32px] font-[800] text-[#0A1628] tracking-[-0.02em] mb-3">
+        <h1 className="text-[28px] md:text-[32px] font-[800] text-cy-ink tracking-[-0.02em] mb-3">
           철연 도입을 시작한다
         </h1>
         <p
-          className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] mb-8"
+          className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] mb-8"
           style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
         >
           첫 배차까지 평균{" "}
           <span
-            className="font-bold text-[#0A1628]"
+            className="font-bold text-cy-ink"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             7
@@ -98,24 +98,24 @@ export default function WelcomePage() {
         <div className="relative mb-10">
           <div
             aria-hidden="true"
-            className="absolute left-[22px] top-6 bottom-6 w-[2px] bg-[#E3E8EF]"
+            className="absolute left-[22px] top-6 bottom-6 w-[2px] bg-cy-line"
           />
           <ul className="space-y-4 list-none p-0 m-0">
             {JOURNEY.map((node, i) => (
               <li key={node.day} className="relative flex items-start gap-4">
-                <div className="relative z-10 w-[44px] h-[44px] rounded-full bg-white border-2 border-[#002C5F] flex items-center justify-center flex-shrink-0">
+                <div className="relative z-10 w-[44px] h-[44px] rounded-full bg-white border-2 border-cy-navy flex items-center justify-center flex-shrink-0">
                   <span
-                    className="text-[10px] font-bold text-[#002C5F] tabular-nums"
+                    className="text-[10px] font-bold text-cy-navy tabular-nums"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {node.day}
                   </span>
                 </div>
                 <div className="flex-1 pt-1.5">
-                  <p className="text-[14px] font-bold text-[#0A1628] mb-0.5">
+                  <p className="text-[14px] font-bold text-cy-ink mb-0.5">
                     {i + 1}. {node.phase}
                   </p>
-                  <p className="text-[13px] text-[#6B7B8F] leading-[1.6]">{node.detail}</p>
+                  <p className="text-[13px] text-cy-ink-3 leading-[1.6]">{node.detail}</p>
                 </div>
               </li>
             ))}
@@ -127,32 +127,32 @@ export default function WelcomePage() {
       <StaggerContainer className="grid sm:grid-cols-3 gap-3 mb-8">
         {READINESS.map((r) => (
           <StaggerItem key={r.label}>
-            <div className="bg-[#F4F6FA] border border-[#E3E8EF] rounded-xl p-4 h-full">
+            <div className="bg-cy-bg border border-cy-line rounded-xl p-4 h-full">
               <span
-                className="material-symbols-outlined text-[#00A86B] mb-2 block"
+                className="material-symbols-outlined text-cy-success mb-2 block"
                 style={{ fontVariationSettings: "'FILL' 1", fontSize: 22 }}
               >
                 {r.icon}
               </span>
-              <p className="text-[13px] font-bold text-[#0A1628] mb-0.5">{r.label}</p>
-              <p className="text-[11px] text-[#6B7B8F] leading-[1.5]">{r.detail}</p>
+              <p className="text-[13px] font-bold text-cy-ink mb-0.5">{r.label}</p>
+              <p className="text-[11px] text-cy-ink-3 leading-[1.5]">{r.detail}</p>
             </div>
           </StaggerItem>
         ))}
       </StaggerContainer>
 
       <Reveal delay={0.3}>
-        <div className="flex items-center justify-between gap-3 pt-6 border-t border-[#E3E8EF]">
+        <div className="flex items-center justify-between gap-3 pt-6 border-t border-cy-line">
           <Link
             href="/"
-            className="text-[13px] text-[#6B7B8F] hover:text-[#3A4A5F] transition-colors"
+            className="text-[13px] text-cy-ink-3 hover:text-cy-ink-2 transition-colors"
           >
             &larr; 홈으로
           </Link>
           <button
             type="button"
             onClick={() => router.push("/onboarding/company")}
-            className="bg-[#002C5F] hover:bg-[#0046A4] text-white font-bold px-7 py-3.5 rounded-lg transition-colors inline-flex items-center gap-2"
+            className="bg-cy-navy hover:bg-cy-navy-mid text-white font-bold px-7 py-3.5 rounded-lg transition-colors inline-flex items-center gap-2"
           >
             설정 시작
             <span aria-hidden="true">&rarr;</span>

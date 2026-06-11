@@ -36,7 +36,7 @@ import { ArticleSchema, BreadcrumbSchema } from "@/components/seo/StructuredData
 export default function StoryPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -90,15 +90,15 @@ export default function StoryPage() {
 function StoryNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
-        <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+        <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
           {navCopy.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {navCopy.brand.en}
@@ -108,7 +108,7 @@ function StoryNav() {
       <div className="ml-auto flex items-center gap-3">
         <Link
           href="/"
-          className="text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
+          className="text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
             arrow_back
@@ -126,7 +126,7 @@ function StoryNav() {
 function HeroSection() {
   return (
     <section
-      className="relative border-b border-[#E3E8EF] overflow-hidden"
+      className="relative border-b border-cy-line overflow-hidden"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.06) 0%, transparent 55%),
@@ -140,7 +140,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-5"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-5"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           CHEOLYEON · 계보(系譜) · L3 DISCLOSURE
@@ -150,7 +150,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 14 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.08 }}
-          className="font-[900] text-[#0A1628] mb-5"
+          className="font-[900] text-cy-ink mb-5"
           style={{
             fontSize: "clamp(2.5rem, 6vw, 4rem)",
             lineHeight: 1.1,
@@ -164,7 +164,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-[18px] md:text-[22px] text-[#3A4A5F] leading-[1.55]"
+          className="text-[18px] md:text-[22px] text-cy-ink-2 leading-[1.55]"
           style={{
             fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
             letterSpacing: "-0.02em",
@@ -181,13 +181,13 @@ function HeroSection() {
           className="mt-10 flex items-center gap-5 text-[11px]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
-          <span className="text-[#0A1628] font-bold tracking-[0.2em]">1998</span>
-          <span className="flex-1 h-[1px] bg-gradient-to-r from-[#002C5F] via-[#00AAD2] to-[#002C5F] relative">
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#F8FAFD] px-2 text-[#6B7B8F] tracking-[0.15em]">
+          <span className="text-cy-ink font-bold tracking-[0.2em]">1998</span>
+          <span className="flex-1 h-[1px] bg-gradient-to-r from-cy-navy via-cy-cyan to-cy-navy relative">
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-cy-elevated px-2 text-cy-ink-3 tracking-[0.15em]">
               28년
             </span>
           </span>
-          <span className="text-[#002C5F] font-bold tracking-[0.2em]">2026</span>
+          <span className="text-cy-navy font-bold tracking-[0.2em]">2026</span>
         </motion.div>
       </div>
     </section>
@@ -209,7 +209,7 @@ function FullTextSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.6, delay: i * 0.08 }}
-              className="text-[16px] md:text-[18px] text-[#0A1628]"
+              className="text-[16px] md:text-[18px] text-cy-ink"
               style={{
                 fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
                 lineHeight: 1.9,
@@ -230,14 +230,14 @@ function FullTextSection() {
 // ═══════════════════════════════════════
 function BusanIlboSection() {
   return (
-    <section className="py-16 md:py-20 bg-white border-y border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-y border-cy-line">
       <div className="max-w-[880px] mx-auto px-6 md:px-12">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.4 }}
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-6"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-6"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           PRIMARY SOURCE · 1차 사료
@@ -248,7 +248,7 @@ function BusanIlboSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.7 }}
-          className="relative bg-white border border-[#E3E8EF] rounded-2xl p-8 md:p-10"
+          className="relative bg-white border border-cy-line rounded-2xl p-8 md:p-10"
           style={{
             boxShadow: "0 20px 50px rgba(0, 44, 95, 0.08)",
             fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
@@ -256,7 +256,7 @@ function BusanIlboSection() {
           aria-label={`${busanIlbo.publisher} ${busanIlbo.date} 기사 재현`}
         >
           <span
-            className="absolute top-6 right-8 text-[13px] text-[#9AA8B8]"
+            className="absolute top-6 right-8 text-[13px] text-cy-ink-4"
             style={{ letterSpacing: "0.3em" }}
             aria-hidden="true"
           >
@@ -264,25 +264,25 @@ function BusanIlboSection() {
           </span>
 
           <p
-            className="text-[12px] text-[#6B7B8F] mb-4 tracking-[0.15em]"
+            className="text-[12px] text-cy-ink-3 mb-4 tracking-[0.15em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {busanIlbo.date} · {busanIlbo.publisher}
           </p>
 
           <h2
-            className="inline-block text-[24px] md:text-[28px] font-bold text-[#0A1628] pb-3 mb-3"
+            className="inline-block text-[24px] md:text-[28px] font-bold text-cy-ink pb-3 mb-3"
             style={{ borderBottom: "3px solid #0A1628" }}
           >
             {busanIlbo.headline}
           </h2>
 
-          <p className="text-[14px] md:text-[15px] text-[#3A4A5F] mb-6 mt-3">
+          <p className="text-[14px] md:text-[15px] text-cy-ink-2 mb-6 mt-3">
             {busanIlbo.subhead}
           </p>
 
           <p
-            className="text-[15px] md:text-[16px] text-[#3A4A5F]"
+            className="text-[15px] md:text-[16px] text-cy-ink-2"
             style={{ lineHeight: 2 }}
           >
             {busanIlbo.body.split(busanIlbo.highlightName).map((chunk, i, arr) => (
@@ -290,7 +290,7 @@ function BusanIlboSection() {
                 {chunk}
                 {i < arr.length - 1 && (
                   <span
-                    className="font-bold text-[#0A1628]"
+                    className="font-bold text-cy-ink"
                     style={{
                       background: "linear-gradient(transparent 60%, #FFE082 60%)",
                     }}
@@ -302,9 +302,9 @@ function BusanIlboSection() {
             ))}
           </p>
 
-          <div className="mt-8 pt-6 border-t border-[#E3E8EF] flex items-center justify-between">
+          <div className="mt-8 pt-6 border-t border-cy-line flex items-center justify-between">
             <span
-              className="text-[11px] text-[#6B7B8F] tracking-[0.15em]"
+              className="text-[11px] text-cy-ink-3 tracking-[0.15em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               A등급 1차 사료 · 부산일보 저작권
@@ -313,7 +313,7 @@ function BusanIlboSection() {
               href={busanIlbo.sourceUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[13px] font-semibold text-[#002C5F] hover:text-[#0046A4] transition-colors inline-flex items-center gap-1.5"
+              className="text-[13px] font-semibold text-cy-navy hover:text-cy-navy-mid transition-colors inline-flex items-center gap-1.5"
             >
               원문 보기
               <span aria-hidden="true">↗</span>
@@ -368,7 +368,7 @@ function TimelineSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           TIMELINE · 계보 연표
@@ -379,16 +379,16 @@ function TimelineSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="text-[24px] md:text-[32px] font-[800] text-[#0A1628] tracking-[-0.02em] mb-12"
+          className="text-[24px] md:text-[32px] font-[800] text-cy-ink tracking-[-0.02em] mb-12"
         >
-          기록된 의제, <span className="text-[#002C5F]">28년 후 시스템으로.</span>
+          기록된 의제, <span className="text-cy-navy">28년 후 시스템으로.</span>
         </motion.h2>
 
         <div className="relative">
           {/* 세로 연결선 */}
           <div
             aria-hidden="true"
-            className="absolute left-[19px] md:left-[23px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[#002C5F] via-[#E3E8EF] to-[#002C5F]"
+            className="absolute left-[19px] md:left-[23px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-cy-navy via-cy-line to-cy-navy"
           />
 
           <div className="space-y-8 md:space-y-10">
@@ -405,8 +405,8 @@ function TimelineSection() {
                 <div
                   className={`absolute left-[11px] md:left-[15px] top-2 w-[18px] h-[18px] rounded-full border-[3px] ${
                     e.emphasis
-                      ? "bg-[#002C5F] border-white"
-                      : "bg-white border-[#E3E8EF]"
+                      ? "bg-cy-navy border-white"
+                      : "bg-white border-cy-line"
                   }`}
                   style={{
                     boxShadow: e.emphasis
@@ -418,26 +418,26 @@ function TimelineSection() {
 
                 <div className="flex items-baseline gap-3 mb-1.5">
                   <span
-                    className="text-[13px] font-bold text-[#002C5F] tracking-[0.1em]"
+                    className="text-[13px] font-bold text-cy-navy tracking-[0.1em]"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {e.year}
                   </span>
                   <span
-                    className="text-[11px] text-[#6B7B8F]"
+                    className="text-[11px] text-cy-ink-3"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {e.date}
                   </span>
                 </div>
                 <h3
-                  className="text-[17px] md:text-[19px] font-[800] text-[#0A1628] mb-2"
+                  className="text-[17px] md:text-[19px] font-[800] text-cy-ink mb-2"
                   style={{ letterSpacing: "-0.02em" }}
                 >
                   {e.title}
                 </h3>
                 <p
-                  className="text-[14px] md:text-[15px] text-[#3A4A5F]"
+                  className="text-[14px] md:text-[15px] text-cy-ink-2"
                   style={{
                     fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
                     lineHeight: 1.75,
@@ -460,14 +460,14 @@ function TimelineSection() {
 // ═══════════════════════════════════════
 function EnglishSection() {
   return (
-    <section className="py-20 md:py-24 bg-[#0A1628] text-white">
+    <section className="py-20 md:py-24 bg-cy-ink text-white">
       <div className="max-w-[880px] mx-auto px-6 md:px-12">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-[11px] font-bold text-[#00AAD2] tracking-[0.25em] mb-4"
+          className="text-[11px] font-bold text-cy-cyan tracking-[0.25em] mb-4"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           CANONICAL ENGLISH · §2.4
@@ -496,7 +496,7 @@ function EnglishSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: 0.1 + i * 0.07 }}
-              className="text-[15px] md:text-[16px] text-[#D1D5DB]"
+              className="text-[15px] md:text-[16px] text-cy-line"
               style={{
                 fontFamily: "'IBM Plex Sans KR', Inter, serif",
                 lineHeight: 1.85,
@@ -513,7 +513,7 @@ function EnglishSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.5 }}
-          className="mt-10 pt-6 border-t border-white/15 text-[13px] text-[#9AA8B8] italic"
+          className="mt-10 pt-6 border-t border-white/15 text-[13px] text-cy-ink-4 italic"
         >
           {heritageEnglish.attribution}
         </motion.p>
@@ -534,7 +534,7 @@ function CreatorSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4 }}
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-4"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-4"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           CREATOR · §2.1 ATTRIBUTION
@@ -545,7 +545,7 @@ function CreatorSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="text-[18px] md:text-[20px] text-[#0A1628] mb-2"
+          className="text-[18px] md:text-[20px] text-cy-ink mb-2"
           style={{
             fontFamily: "'IBM Plex Sans KR', Pretendard, serif",
             lineHeight: 1.6,
@@ -560,7 +560,7 @@ function CreatorSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.15 }}
-          className="text-[13px] text-[#6B7B8F] mb-10"
+          className="text-[13px] text-cy-ink-3 mb-10"
         >
           BYTEFORCE는 철연 CHEOLYEON을 운영하는 플랫폼 기업이다.
         </motion.p>
@@ -574,7 +574,7 @@ function CreatorSection() {
         >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
               arrow_back
@@ -583,7 +583,7 @@ function CreatorSection() {
           </Link>
           <Link
             href="/demo"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] text-[14px] font-bold rounded-lg border border-[#E3E8EF] transition-colors min-h-0"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-cy-bg text-cy-ink text-[14px] font-bold rounded-lg border border-cy-line transition-colors min-h-0"
           >
             데모 체험
             <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
@@ -601,21 +601,21 @@ function CreatorSection() {
 // ═══════════════════════════════════════
 function StoryFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-3">
         <div className="flex items-baseline gap-2.5">
-          <span className="text-[15px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[15px] font-black text-cy-navy tracking-[-0.03em]">
             {footerCopy.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {footerCopy.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-2">{footerCopy.company}</span>
+          <span className="text-[11px] text-cy-ink-3 ml-2">{footerCopy.company}</span>
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">{footerCopy.copyright}</p>
+        <p className="text-[11px] text-cy-ink-4">{footerCopy.copyright}</p>
       </div>
     </footer>
   );

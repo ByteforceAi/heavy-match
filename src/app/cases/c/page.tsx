@@ -86,7 +86,7 @@ const caseData = {
 export default function CaseCPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -122,15 +122,15 @@ export default function CaseCPage() {
 function CaseNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
-        <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+        <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
           {navCopy.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: MONO }}
         >
           {navCopy.brand.en}
@@ -140,7 +140,7 @@ function CaseNav() {
       <div className="ml-auto flex items-center gap-3">
         <Link
           href="/cases"
-          className="text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
+          className="text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
             arrow_back
@@ -149,7 +149,7 @@ function CaseNav() {
         </Link>
         <Link
           href="/#contact"
-          className="inline-flex items-center px-4 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           도입 상담
         </Link>
@@ -161,7 +161,7 @@ function CaseNav() {
 function HeroSection({ data }: { data: typeof caseData }) {
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.06) 0%, transparent 55%),
@@ -173,24 +173,24 @@ function HeroSection({ data }: { data: typeof caseData }) {
         <Reveal delay={0.05}>
           <nav
             aria-label="경로"
-            className="text-[11px] text-[#6B7B8F] tracking-[0.15em] mb-6"
+            className="text-[11px] text-cy-ink-3 tracking-[0.15em] mb-6"
             style={{ fontFamily: MONO }}
           >
-            <Link href="/cases" className="hover:text-[#002C5F] transition-colors">
+            <Link href="/cases" className="hover:text-cy-navy transition-colors">
               도입 사례
             </Link>
             <span aria-hidden="true" className="mx-2">
               /
             </span>
-            <span className="text-[#002C5F] font-bold">파트너 {data.code}</span>
+            <span className="text-cy-navy font-bold">파트너 {data.code}</span>
           </nav>
         </Reveal>
 
         <div className="max-w-[880px]">
           <Reveal delay={0.1}>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#E8F1FB] text-[#002C5F] rounded-full text-[12px] font-semibold mb-5">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-cy-navy-pale text-cy-navy rounded-full text-[12px] font-semibold mb-5">
               <span
-                className="w-1.5 h-1.5 bg-[#00AAD2] rounded-full"
+                className="w-1.5 h-1.5 bg-cy-cyan rounded-full"
                 aria-hidden="true"
               />
               {data.type} · {data.scope}
@@ -199,7 +199,7 @@ function HeroSection({ data }: { data: typeof caseData }) {
 
           <Reveal delay={0.15}>
             <h1
-              className="text-[32px] md:text-[44px] font-[900] text-[#0A1628] mb-4 tracking-[-0.03em]"
+              className="text-[32px] md:text-[44px] font-[900] text-cy-ink mb-4 tracking-[-0.03em]"
               style={{
                 lineHeight: 1.15,
                 fontFamily: MONO,
@@ -211,7 +211,7 @@ function HeroSection({ data }: { data: typeof caseData }) {
 
           <Reveal delay={0.25}>
             <p
-              className="text-[15px] md:text-[16px] text-[#3A4A5F] leading-[1.75] max-w-[640px]"
+              className="text-[15px] md:text-[16px] text-cy-ink-2 leading-[1.75] max-w-[640px]"
               style={{ fontFamily: PLEX }}
             >
               {data.sub}
@@ -229,12 +229,12 @@ function MetricsSection({ metrics }: { metrics: typeof caseData.metrics }) {
       <div className="max-w-[880px] mx-auto px-6">
         <Reveal>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-2.5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-2.5"
             style={{ fontFamily: MONO }}
           >
             KEY METRICS · 핵심 수치 (30일 기준)
           </p>
-          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-10">
+          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-cy-ink mb-10">
             기록된 변화는 네 가지다.
           </h2>
         </Reveal>
@@ -244,7 +244,7 @@ function MetricsSection({ metrics }: { metrics: typeof caseData.metrics }) {
             <StaggerItem key={m.label}>
               <MotionCard className="p-6">
                 <p
-                  className="text-[11px] text-[#6B7B8F] tracking-[0.15em] uppercase mb-4"
+                  className="text-[11px] text-cy-ink-3 tracking-[0.15em] uppercase mb-4"
                   style={{ fontFamily: MONO }}
                 >
                   {m.label}
@@ -253,13 +253,13 @@ function MetricsSection({ metrics }: { metrics: typeof caseData.metrics }) {
                   className="flex items-baseline gap-2.5 tabular-nums flex-wrap"
                   style={{ fontFamily: MONO }}
                 >
-                  <span className="text-[15px] md:text-[16px] font-semibold text-[#9AA8B8] line-through decoration-[1.5px]">
+                  <span className="text-[15px] md:text-[16px] font-semibold text-cy-ink-4 line-through decoration-[1.5px]">
                     {m.before}
                   </span>
-                  <span className="text-[#9AA8B8]" aria-hidden="true">
+                  <span className="text-cy-ink-4" aria-hidden="true">
                     →
                   </span>
-                  <span className="text-[22px] md:text-[30px] font-black text-[#002C5F] tracking-[-0.02em]">
+                  <span className="text-[22px] md:text-[30px] font-black text-cy-navy tracking-[-0.02em]">
                     {m.after}
                   </span>
                 </div>
@@ -274,16 +274,16 @@ function MetricsSection({ metrics }: { metrics: typeof caseData.metrics }) {
 
 function StorySection({ story }: { story: typeof caseData.story }) {
   return (
-    <section className="py-16 md:py-20 bg-white border-y border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-y border-cy-line">
       <div className="max-w-[880px] mx-auto px-6">
         <Reveal>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-2.5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-2.5"
             style={{ fontFamily: MONO }}
           >
             NARRATIVE · 도입 경과
           </p>
-          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-10">
+          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-cy-ink mb-10">
             기록된 30일.
           </h2>
         </Reveal>
@@ -294,20 +294,20 @@ function StorySection({ story }: { story: typeof caseData.story }) {
               <article>
                 <div className="flex items-baseline gap-3 mb-3">
                   <span
-                    className="text-[12px] font-bold text-[#002C5F] tracking-[0.2em]"
+                    className="text-[12px] font-bold text-cy-navy tracking-[0.2em]"
                     style={{ fontFamily: MONO }}
                   >
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3
-                    className="text-[18px] md:text-[20px] font-[800] text-[#0A1628]"
+                    className="text-[18px] md:text-[20px] font-[800] text-cy-ink"
                     style={{ letterSpacing: "-0.02em" }}
                   >
                     {s.title}
                   </h3>
                 </div>
                 <p
-                  className="text-[15px] md:text-[16px] text-[#3A4A5F]"
+                  className="text-[15px] md:text-[16px] text-cy-ink-2"
                   style={{
                     fontFamily: PLEX,
                     lineHeight: 1.9,
@@ -330,22 +330,22 @@ function QuoteBlock({ quote }: { quote: typeof caseData.quote }) {
     <section className="py-16 md:py-20">
       <div className="max-w-[880px] mx-auto px-6">
         <Reveal>
-          <figure className="relative pl-6 md:pl-10 border-l-[3px] border-[#002C5F]">
+          <figure className="relative pl-6 md:pl-10 border-l-[3px] border-cy-navy">
             <span
-              className="absolute top-[-12px] left-[-6px] text-[#002C5F]/25 text-[64px] leading-none font-black select-none"
+              className="absolute top-[-12px] left-[-6px] text-cy-navy/25 text-[64px] leading-none font-black select-none"
               style={{ fontFamily: MONO }}
               aria-hidden="true"
             >
               &ldquo;
             </span>
             <blockquote
-              className="text-[22px] md:text-[30px] text-[#0A1628] italic font-[500] tracking-[-0.015em]"
+              className="text-[22px] md:text-[30px] text-cy-ink italic font-[500] tracking-[-0.015em]"
               style={{ fontFamily: PLEX, lineHeight: 1.5 }}
             >
               {quote.body}
             </blockquote>
             <figcaption
-              className="mt-5 text-[13px] text-[#6B7B8F] tracking-[0.05em]"
+              className="mt-5 text-[13px] text-cy-ink-3 tracking-[0.05em]"
               style={{ fontFamily: MONO }}
             >
               — {quote.author}
@@ -359,48 +359,48 @@ function QuoteBlock({ quote }: { quote: typeof caseData.quote }) {
 
 function ExpansionSection({ expansion }: { expansion: typeof caseData.expansion }) {
   return (
-    <section className="py-16 md:py-20 bg-white border-y border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-y border-cy-line">
       <div className="max-w-[880px] mx-auto px-6">
         <Reveal>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-2.5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-2.5"
             style={{ fontFamily: MONO }}
           >
             CUMULATIVE · 확장 지표
           </p>
-          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-3">
+          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-cy-ink mb-3">
             1 · 3 · 6개월 누적.
           </h2>
-          <p className="text-[13px] text-[#6B7B8F] mb-8">
+          <p className="text-[13px] text-cy-ink-3 mb-8">
             지표는 3개 거점 합산 기준이다. 3·6개월 수치는 예측 범위이며 실집계 시점에 갱신된다.
           </p>
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="overflow-x-auto bg-white border border-[#E3E8EF] rounded-2xl">
+          <div className="overflow-x-auto bg-white border border-cy-line rounded-2xl">
             <table className="w-full text-left" style={{ borderCollapse: "collapse" }}>
               <thead>
-                <tr className="border-b border-[#E3E8EF] bg-[#F8FAFD]">
+                <tr className="border-b border-cy-line bg-cy-elevated">
                   <th
-                    className="px-5 py-4 text-[11px] font-bold text-[#6B7B8F] tracking-[0.15em] uppercase"
+                    className="px-5 py-4 text-[11px] font-bold text-cy-ink-3 tracking-[0.15em] uppercase"
                     style={{ fontFamily: MONO }}
                   >
                     기간
                   </th>
                   <th
-                    className="px-5 py-4 text-[11px] font-bold text-[#6B7B8F] tracking-[0.15em] uppercase text-right"
+                    className="px-5 py-4 text-[11px] font-bold text-cy-ink-3 tracking-[0.15em] uppercase text-right"
                     style={{ fontFamily: MONO }}
                   >
                     처리 콜 건수
                   </th>
                   <th
-                    className="px-5 py-4 text-[11px] font-bold text-[#6B7B8F] tracking-[0.15em] uppercase text-right"
+                    className="px-5 py-4 text-[11px] font-bold text-cy-ink-3 tracking-[0.15em] uppercase text-right"
                     style={{ fontFamily: MONO }}
                   >
                     공유콜 전환율
                   </th>
                   <th
-                    className="px-5 py-4 text-[11px] font-bold text-[#6B7B8F] tracking-[0.15em] uppercase text-right"
+                    className="px-5 py-4 text-[11px] font-bold text-cy-ink-3 tracking-[0.15em] uppercase text-right"
                     style={{ fontFamily: MONO }}
                   >
                     수수료 자동정산
@@ -411,25 +411,25 @@ function ExpansionSection({ expansion }: { expansion: typeof caseData.expansion 
                 {expansion.map((row, i) => (
                   <tr
                     key={row.period}
-                    className={i < expansion.length - 1 ? "border-b border-[#E3E8EF]" : ""}
+                    className={i < expansion.length - 1 ? "border-b border-cy-line" : ""}
                   >
-                    <td className="px-5 py-4 text-[14px] font-bold text-[#0A1628]">
+                    <td className="px-5 py-4 text-[14px] font-bold text-cy-ink">
                       {row.period}
                     </td>
                     <td
-                      className="px-5 py-4 text-[15px] text-[#002C5F] font-bold text-right tabular-nums"
+                      className="px-5 py-4 text-[15px] text-cy-navy font-bold text-right tabular-nums"
                       style={{ fontFamily: MONO }}
                     >
                       {row.dispatch}
                     </td>
                     <td
-                      className="px-5 py-4 text-[15px] text-[#002C5F] font-bold text-right tabular-nums"
+                      className="px-5 py-4 text-[15px] text-cy-navy font-bold text-right tabular-nums"
                       style={{ fontFamily: MONO }}
                     >
                       {row.matched}
                     </td>
                     <td
-                      className="px-5 py-4 text-[15px] text-[#002C5F] font-bold text-right tabular-nums"
+                      className="px-5 py-4 text-[15px] text-cy-navy font-bold text-right tabular-nums"
                       style={{ fontFamily: MONO }}
                     >
                       {row.protected}
@@ -450,10 +450,10 @@ function CtaSection() {
     <section className="py-16 md:py-20">
       <div className="max-w-[880px] mx-auto px-6 text-center">
         <Reveal>
-          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-3">
+          <h2 className="text-[24px] md:text-[30px] font-[800] tracking-[-0.02em] text-cy-ink mb-3">
             같은 구조가 같은 결과를 만든다.
           </h2>
-          <p className="text-[14px] text-[#6B7B8F] mb-8 max-w-[540px] mx-auto">
+          <p className="text-[14px] text-cy-ink-3 mb-8 max-w-[540px] mx-auto">
             파트너 C가 3개 거점에서 기록한 변화는 동일한 시스템이 만든다.
           </p>
         </Reveal>
@@ -482,16 +482,16 @@ function CtaSection() {
 
 function DisclaimerFooter() {
   return (
-    <section className="border-t border-[#E3E8EF] bg-[#F8FAFD]">
+    <section className="border-t border-cy-line bg-cy-elevated">
       <div className="max-w-[880px] mx-auto px-6 py-8">
         <p
-          className="text-[11px] font-bold text-[#6B7B8F] tracking-[0.2em] mb-3"
+          className="text-[11px] font-bold text-cy-ink-3 tracking-[0.2em] mb-3"
           style={{ fontFamily: MONO }}
         >
           DISCLAIMER · 익명 공개 안내
         </p>
         <p
-          className="text-[13px] text-[#3A4A5F] leading-[1.8]"
+          className="text-[13px] text-cy-ink-2 leading-[1.8]"
           style={{ fontFamily: PLEX }}
         >
           본 사례는 파일럿 파트너사의 동의 범위 내 익명 공개이며, 지표는 30일 기준이다. 실명
@@ -504,24 +504,24 @@ function DisclaimerFooter() {
 
 function CaseFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-baseline gap-2.5">
-          <span className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[16px] font-black text-cy-navy tracking-[-0.03em]">
             {footerCopy.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: MONO }}
           >
             {footerCopy.brand.en}
           </span>
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">
+        <p className="text-[11px] text-cy-ink-4">
           {footerCopy.address} · {footerCopy.email}
         </p>
       </div>
-      <p className="max-w-[1280px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-[#9AA8B8]">
+      <p className="max-w-[1280px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-cy-ink-4">
         {footerCopy.copyright}
       </p>
     </footer>

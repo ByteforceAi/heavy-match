@@ -1,3 +1,8 @@
+/**
+ * 카드 — 모든 대시보드 표면의 기본 컨테이너.
+ * 섀도는 tokens.ts shadows.card (네이비 기반) 체계를 따른다.
+ */
+
 interface CardProps {
   children: React.ReactNode;
   className?: string;
@@ -6,12 +11,15 @@ interface CardProps {
 }
 
 export function Card({ children, className = "", onClick, hover }: CardProps) {
+  const interactive = hover || !!onClick;
   return (
     <div
       onClick={onClick}
-      className={`bg-white rounded-2xl p-4 md:p-5 border border-[#c1c6d6]/30 shadow-[0_2px_12px_rgba(17,28,41,0.04)] transition-all animate-fade-in ${
-        hover ? "hover:border-[#0059b9]/40 hover:shadow-[0_8px_24px_rgba(0,89,185,0.08)] cursor-pointer active:scale-[0.98]" : ""
-      } ${onClick ? "cursor-pointer active:scale-[0.98]" : ""} ${className}`}
+      className={`bg-white rounded-2xl p-4 md:p-5 border border-cy-line shadow-[0_2px_8px_rgba(0,44,95,0.06)] ${
+        interactive
+          ? "press cursor-pointer hover:border-cy-navy/25 hover:shadow-[0_8px_20px_rgba(0,44,95,0.1),0_0_0_1px_rgba(0,44,95,0.05)] hover:-translate-y-px"
+          : ""
+      } ${className}`}
     >
       {children}
     </div>
@@ -23,15 +31,15 @@ export function CardHeader({ children, className = "" }: { children: React.React
 }
 
 export function CardTitle({ children, className = "" }: { children: React.ReactNode; className?: string }) {
-  return <h3 className={`text-lg font-[800] text-[#111c29] ${className}`}>{children}</h3>;
+  return <h3 className={`text-lg font-extrabold tracking-[-0.02em] text-cy-ink ${className}`}>{children}</h3>;
 }
 
-export function StatCard({ icon, value, label, color = "text-[#0059b9]", gradient }: {
+export function StatCard({ icon, value, label, color = "text-cy-navy", gradient }: {
   icon: string; value: string | number; label: string; color?: string; gradient?: string;
 }) {
   if (gradient) {
     return (
-      <div className={`${gradient} rounded-2xl p-4 text-white text-center shadow-sm`}>
+      <div className={`${gradient} rounded-2xl p-4 text-white text-center shadow-[0_4px_12px_rgba(0,44,95,0.15)]`}>
         <span className="material-symbols-outlined text-2xl block mb-1" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
         <p className="text-xl font-black tabular-nums">{value}</p>
         <p className="text-[10px] font-semibold opacity-70 mt-0.5">{label}</p>
@@ -41,14 +49,15 @@ export function StatCard({ icon, value, label, color = "text-[#0059b9]", gradien
 
   return (
     <Card className="text-center !p-3 md:!p-5">
-      {/* Material Symbol icon if it looks like one, otherwise render as-is */}
-      {icon.length <= 3 ? (
-        <span className="text-2xl md:text-3xl block">{icon}</span>
-      ) : (
-        <span className="material-symbols-outlined text-2xl md:text-3xl block text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
-      )}
-      <p className={`text-xl md:text-2xl font-black tabular-nums mt-1 ${color}`}>{value}</p>
-      <p className="text-xs md:text-sm text-[#727785] mt-0.5 font-medium">{label}</p>
+      <span className="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-cy-navy-pale">
+        {icon.length <= 3 ? (
+          <span className="text-xl">{icon}</span>
+        ) : (
+          <span className={`material-symbols-outlined text-xl ${color}`} style={{ fontVariationSettings: "'FILL' 1" }}>{icon}</span>
+        )}
+      </span>
+      <p className={`text-xl md:text-2xl font-black tabular-nums tracking-[-0.02em] mt-1.5 ${color}`}>{value}</p>
+      <p className="text-xs md:text-sm text-cy-ink-3 mt-0.5 font-medium">{label}</p>
     </Card>
   );
 }

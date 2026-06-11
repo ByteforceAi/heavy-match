@@ -56,7 +56,7 @@ export default function LandingPage() {
 
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -125,18 +125,18 @@ export default function LandingPage() {
 function Navigation({ onTourStart }: { onTourStart?: () => void } = {}) {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6 md:gap-12"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
         <span
-          className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]"
+          className="text-[22px] font-black text-cy-navy tracking-[-0.03em]"
           style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
         >
           {copy.nav.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {copy.nav.brand.en}
@@ -149,14 +149,14 @@ function Navigation({ onTourStart }: { onTourStart?: () => void } = {}) {
             <a
               href={item.href}
               className={`text-[14px] font-medium transition-colors py-1 ${
-                item.active ? "text-[#002C5F] font-semibold" : "text-[#3A4A5F] hover:text-[#002C5F]"
+                item.active ? "text-cy-navy font-semibold" : "text-cy-ink-2 hover:text-cy-navy"
               }`}
             >
               {item.label}
               {item.active && (
                 <span
                   aria-hidden="true"
-                  className="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#002C5F]"
+                  className="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-cy-navy"
                 />
               )}
             </a>
@@ -168,7 +168,7 @@ function Navigation({ onTourStart }: { onTourStart?: () => void } = {}) {
         {onTourStart && (
           <button
             onClick={onTourStart}
-            className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent hover:text-[#002C5F] transition-colors min-h-0"
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent hover:text-cy-navy transition-colors min-h-0"
             aria-label="제품 투어 시작"
           >
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
@@ -179,13 +179,13 @@ function Navigation({ onTourStart }: { onTourStart?: () => void } = {}) {
         )}
         <Link
           href="/login"
-          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
+          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors min-h-0"
         >
           {copy.nav.cta.secondary}
         </Link>
         <Link
           href="/demo"
-          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           {copy.nav.cta.primary}
         </Link>
@@ -200,7 +200,7 @@ function Navigation({ onTourStart }: { onTourStart?: () => void } = {}) {
 function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
@@ -213,15 +213,15 @@ function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
         {/* LEFT: 카피 */}
         <div>
           <Reveal delay={0.05}>
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#E8F1FB] text-[#002C5F] rounded-full text-[12px] font-semibold mb-5">
-              <span className="w-1.5 h-1.5 bg-[#00AAD2] rounded-full" aria-hidden="true" />
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-cy-navy-pale text-cy-navy rounded-full text-[12px] font-semibold mb-5">
+              <span className="w-1.5 h-1.5 bg-cy-cyan rounded-full" aria-hidden="true" />
               {copy.hero.badge}
             </span>
           </Reveal>
 
           <Reveal delay={0.1}>
             <h1
-              className="font-[900] text-[#0A1628] mb-4"
+              className="font-[900] text-cy-ink mb-4"
               style={{
                 fontSize: "clamp(2.25rem, 5vw, 3.5rem)",
                 lineHeight: 1.15,
@@ -229,14 +229,14 @@ function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
               }}
             >
               {copy.hero.title.line1}{" "}
-              <span className="text-[#002C5F]">{copy.hero.title.emphasis}</span>
+              <span className="text-cy-navy">{copy.hero.title.emphasis}</span>
               <br />
-              <span className="text-[#6B7B8F] font-bold">{copy.hero.title.line2}</span>
+              <span className="text-cy-ink-3 font-bold">{copy.hero.title.line2}</span>
             </h1>
           </Reveal>
 
           <Reveal delay={0.25}>
-            <p className="text-[15px] md:text-[16px] text-[#3A4A5F] leading-[1.75] mb-6 max-w-[520px]">
+            <p className="text-[15px] md:text-[16px] text-cy-ink-2 leading-[1.75] mb-6 max-w-[520px]">
               {copy.hero.description}
             </p>
           </Reveal>
@@ -252,7 +252,7 @@ function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
               {onTourStart && (
                 <button
                   onClick={onTourStart}
-                  className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-bold text-[#002C5F] bg-white border border-[#002C5F]/30 hover:bg-[#E8F1FB] hover:border-[#002C5F] rounded-xl transition-colors min-h-0"
+                  className="inline-flex items-center gap-2 px-6 py-3.5 text-[14px] font-bold text-cy-navy bg-white border border-cy-navy/30 hover:bg-cy-navy-pale hover:border-cy-navy rounded-xl transition-colors min-h-0"
                   aria-label="제품 투어 시작"
                 >
                   <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
@@ -271,16 +271,16 @@ function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
 
           {/* Trust 수치 */}
           <Reveal delay={0.5}>
-            <div className="flex gap-6 md:gap-8 pt-5 border-t border-[#E3E8EF]">
+            <div className="flex gap-6 md:gap-8 pt-5 border-t border-cy-line">
               {copy.hero.trust.map((item) => (
                 <div key={item.label} className="flex flex-col gap-0.5">
                   <span
-                    className="text-[18px] md:text-[20px] font-[800] text-[#002C5F] tracking-[-0.02em] tabular-nums"
+                    className="text-[18px] md:text-[20px] font-[800] text-cy-navy tracking-[-0.02em] tabular-nums"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {item.value}
                   </span>
-                  <span className="text-[11px] text-[#6B7B8F]">{item.label}</span>
+                  <span className="text-[11px] text-cy-ink-3">{item.label}</span>
                 </div>
               ))}
             </div>
@@ -289,7 +289,7 @@ function HeroSection({ onTourStart }: { onTourStart?: () => void } = {}) {
           {/* §2.3 tagline — 작게, 하단 */}
           <Reveal delay={0.7}>
             <p
-              className="mt-6 text-[12px] text-[#6B7B8F] italic"
+              className="mt-6 text-[12px] text-cy-ink-3 italic"
               style={{ fontFamily: "var(--font-plex-kr), serif" }}
             >
               {copy.hero.tagline}
@@ -351,15 +351,15 @@ function StatsStrip() {
 // ═══════════════════════════════════════
 function FeaturesSection() {
   return (
-    <section id="platform" className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section id="platform" className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <div className="text-center mb-10 md:mb-12">
           <h2
-            className="text-[26px] md:text-[32px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2.5"
+            className="text-[26px] md:text-[32px] font-[800] tracking-[-0.02em] text-cy-ink mb-2.5"
           >
             {copy.features.sectionLabel}
           </h2>
-          <p className="text-[14px] md:text-[15px] text-[#6B7B8F]">
+          <p className="text-[14px] md:text-[15px] text-cy-ink-3">
             {copy.features.sectionSub}
           </p>
         </div>
@@ -369,16 +369,16 @@ function FeaturesSection() {
         {copy.features.items.map((item) => (
           <StaggerItem key={item.id}>
             <MotionCard className="p-7">
-              <div className="w-[46px] h-[46px] bg-[#E8F1FB] rounded-[12px] flex items-center justify-center mb-4">
+              <div className="w-[46px] h-[46px] bg-cy-navy-pale rounded-[12px] flex items-center justify-center mb-4">
                 <span
-                  className="material-symbols-outlined text-[#002C5F]"
+                  className="material-symbols-outlined text-cy-navy"
                   style={{ fontSize: 24, fontVariationSettings: "'FILL' 1" }}
                 >
                   {item.icon}
                 </span>
               </div>
-              <h3 className="text-[17px] font-bold text-[#0A1628] mb-2">{item.title}</h3>
-              <p className="text-[13px] text-[#6B7B8F] leading-[1.7]">{item.description}</p>
+              <h3 className="text-[17px] font-bold text-cy-ink mb-2">{item.title}</h3>
+              <p className="text-[13px] text-cy-ink-3 leading-[1.7]">{item.description}</p>
             </MotionCard>
           </StaggerItem>
         ))}
@@ -392,18 +392,18 @@ function FeaturesSection() {
 // ═══════════════════════════════════════
 function SolutionSection() {
   return (
-    <section id="impact" className={`${SECTION_BASE} bg-white border-b border-[#E3E8EF]`}>
+    <section id="impact" className={`${SECTION_BASE} bg-white border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+          className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           Solution
         </p>
-        <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+        <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
           {copy.solution.title}
         </h2>
-        <p className="text-[14px] md:text-[15px] text-[#6B7B8F] mb-10 md:mb-14 max-w-xl">
+        <p className="text-[14px] md:text-[15px] text-cy-ink-3 mb-10 md:mb-14 max-w-xl">
           {copy.solution.subtitle}
         </p>
       </Reveal>
@@ -413,7 +413,7 @@ function SolutionSection() {
           <Reveal key={step.number} delay={i * 0.12}>
             <div className="relative">
               <span
-                className="text-[80px] font-black text-[#E8F1FB] absolute -top-4 -left-1 select-none"
+                className="text-[80px] font-black text-cy-navy-pale absolute -top-4 -left-1 select-none"
                 style={{
                   fontFamily: "var(--font-roboto-mono), monospace",
                   letterSpacing: "-0.05em",
@@ -424,14 +424,14 @@ function SolutionSection() {
               </span>
               <div className="relative z-10 pt-10">
                 <div className="flex items-center gap-2.5 mb-2">
-                  <h3 className="text-[20px] font-bold text-[#0A1628]">{step.title}</h3>
-                  <span className="px-2 py-0.5 bg-[#E8F1FB] text-[#002C5F] text-[11px] font-bold rounded-full">
+                  <h3 className="text-[20px] font-bold text-cy-ink">{step.title}</h3>
+                  <span className="px-2 py-0.5 bg-cy-navy-pale text-cy-navy text-[11px] font-bold rounded-full">
                     {step.duration}
                   </span>
                 </div>
-                <p className="text-[14px] text-[#3A4A5F] leading-[1.7] mb-2">{step.description}</p>
+                <p className="text-[14px] text-cy-ink-2 leading-[1.7] mb-2">{step.description}</p>
                 <p
-                  className="text-[12px] text-[#6B7B8F]"
+                  className="text-[12px] text-cy-ink-3"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {step.detail}
@@ -450,18 +450,18 @@ function SolutionSection() {
 // ═══════════════════════════════════════
 function RolesSection() {
   return (
-    <section className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <p
-          className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+          className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           Roles
         </p>
-        <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+        <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
           {copy.roles.title}
         </h2>
-        <p className="text-[14px] md:text-[15px] text-[#6B7B8F] mb-10 max-w-xl">
+        <p className="text-[14px] md:text-[15px] text-cy-ink-3 mb-10 max-w-xl">
           {copy.roles.subtitle}
         </p>
       </Reveal>
@@ -473,11 +473,11 @@ function RolesSection() {
               <MotionCard className="p-5 h-full">
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <h3 className="text-[16px] font-bold text-[#0A1628]">{role.title}</h3>
-                    <p className="text-[12px] text-[#6B7B8F]">{role.subtitle}</p>
+                    <h3 className="text-[16px] font-bold text-cy-ink">{role.title}</h3>
+                    <p className="text-[12px] text-cy-ink-3">{role.subtitle}</p>
                   </div>
                   <span
-                    className="text-[10px] px-2 py-1 bg-[#F4F6FA] text-[#6B7B8F] rounded-md"
+                    className="text-[10px] px-2 py-1 bg-cy-bg text-cy-ink-3 rounded-md"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {role.device}
@@ -487,13 +487,13 @@ function RolesSection() {
                   {role.features.map((f) => (
                     <span
                       key={f}
-                      className="text-[11px] px-2 py-0.5 bg-[#F4F6FA] text-[#3A4A5F] rounded-md font-medium"
+                      className="text-[11px] px-2 py-0.5 bg-cy-bg text-cy-ink-2 rounded-md font-medium"
                     >
                       {f}
                     </span>
                   ))}
                 </div>
-                <span className="text-[13px] text-[#002C5F] font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
+                <span className="text-[13px] text-cy-navy font-semibold group-hover:translate-x-0.5 transition-transform inline-flex items-center gap-1">
                   체험하기{" "}
                   <span
                     className="material-symbols-outlined"
@@ -517,25 +517,25 @@ function RolesSection() {
 // ═══════════════════════════════════════
 function CommissionSection() {
   return (
-    <section className="py-16 md:py-20 bg-white border-b border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-b border-cy-line">
       <div className="max-w-[960px] mx-auto px-6">
         <Reveal>
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             Revenue
           </p>
-          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
             {copy.commission.title}
           </h2>
-          <p className="text-[14px] md:text-[15px] text-[#6B7B8F] mb-3">
+          <p className="text-[14px] md:text-[15px] text-cy-ink-3 mb-3">
             {copy.commission.subtitle}
           </p>
-          <p className="text-[13px] text-[#6B7B8F] mb-10">
+          <p className="text-[13px] text-cy-ink-3 mb-10">
             예시: {copy.commission.example.equipment} {copy.commission.example.duration} 임대비{" "}
             <span
-              className="text-[#0A1628] font-bold tabular-nums"
+              className="text-cy-ink font-bold tabular-nums"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {formatPrice(copy.commission.example.price)}원
@@ -557,9 +557,9 @@ function CommissionSection() {
                 >
                   {item.percent}
                 </p>
-                <p className="text-[13px] font-bold text-[#0A1628] mt-1">{item.label}</p>
+                <p className="text-[13px] font-bold text-cy-ink mt-1">{item.label}</p>
                 <p
-                  className="text-[11px] text-[#6B7B8F] tabular-nums mt-0.5"
+                  className="text-[11px] text-cy-ink-3 tabular-nums mt-0.5"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {formatPrice(item.amount)}원
@@ -570,18 +570,18 @@ function CommissionSection() {
         </StaggerContainer>
 
         <Reveal>
-          <div className="bg-[#FEEBEC] border border-[#E5484D]/30 rounded-xl p-4 flex items-center gap-3">
+          <div className="bg-cy-danger/8 border border-cy-danger/30 rounded-xl p-4 flex items-center gap-3">
             <span
-              className="material-symbols-outlined text-[#E5484D]"
+              className="material-symbols-outlined text-cy-danger"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               warning
             </span>
             <div>
-              <p className="text-[13px] font-bold text-[#0A1628]">
+              <p className="text-[13px] font-bold text-cy-ink">
                 취소 페널티: {copy.commission.cancelPenalty.rate}
               </p>
-              <p className="text-[12px] text-[#6B7B8F]">{copy.commission.cancelPenalty.description}</p>
+              <p className="text-[12px] text-cy-ink-3">{copy.commission.cancelPenalty.description}</p>
             </div>
           </div>
         </Reveal>
@@ -595,20 +595,20 @@ function CommissionSection() {
 // ═══════════════════════════════════════
 function PricingSection() {
   return (
-    <section id="pricing" className={`${SECTION_BASE} border-b border-[#E3E8EF]`}>
+    <section id="pricing" className={`${SECTION_BASE} border-b border-cy-line`}>
       <Reveal>
         <div className="text-center max-w-[960px] mx-auto">
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             Pricing
           </p>
-          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-4">
+          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-4">
             {copy.pricing.title}
           </h2>
           <p
-            className="text-[48px] md:text-[64px] font-black text-[#002C5F] mb-2 tabular-nums"
+            className="text-[48px] md:text-[64px] font-black text-cy-navy mb-2 tabular-nums"
             style={{
               fontFamily: "var(--font-roboto-mono), monospace",
               letterSpacing: "-0.05em",
@@ -616,16 +616,16 @@ function PricingSection() {
           >
             {copy.pricing.price}
           </p>
-          <p className="text-[12px] text-[#6B7B8F] mb-10">{copy.pricing.priceNote}</p>
+          <p className="text-[12px] text-cy-ink-3 mb-10">{copy.pricing.priceNote}</p>
         </div>
       </Reveal>
 
       <div className="grid md:grid-cols-2 gap-6 max-w-[960px] mx-auto">
         <Reveal delay={0.1}>
           <MotionCard className="p-6">
-            <h3 className="text-[16px] font-bold text-[#0A1628] mb-4 flex items-center gap-2">
+            <h3 className="text-[16px] font-bold text-cy-ink mb-4 flex items-center gap-2">
               <span
-                className="material-symbols-outlined text-[#00A86B]"
+                className="material-symbols-outlined text-cy-success"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 check_circle
@@ -636,10 +636,10 @@ function PricingSection() {
               {copy.pricing.includes.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-2 text-[13px] text-[#3A4A5F]"
+                  className="flex items-start gap-2 text-[13px] text-cy-ink-2"
                 >
                   <span
-                    className="material-symbols-outlined text-[#00A86B] mt-0.5"
+                    className="material-symbols-outlined text-cy-success mt-0.5"
                     style={{ fontSize: 16 }}
                   >
                     check
@@ -652,9 +652,9 @@ function PricingSection() {
         </Reveal>
         <Reveal delay={0.15}>
           <MotionCard className="p-6">
-            <h3 className="text-[16px] font-bold text-[#0A1628] mb-4 flex items-center gap-2">
+            <h3 className="text-[16px] font-bold text-cy-ink mb-4 flex items-center gap-2">
               <span
-                className="material-symbols-outlined text-[#FFB020]"
+                className="material-symbols-outlined text-cy-warning"
                 style={{ fontVariationSettings: "'FILL' 1" }}
               >
                 schedule
@@ -665,10 +665,10 @@ function PricingSection() {
               {copy.pricing.notIncluded.map((item) => (
                 <li
                   key={item}
-                  className="flex items-start gap-2 text-[13px] text-[#6B7B8F]"
+                  className="flex items-start gap-2 text-[13px] text-cy-ink-3"
                 >
                   <span
-                    className="material-symbols-outlined text-[#6B7B8F] mt-0.5"
+                    className="material-symbols-outlined text-cy-ink-3 mt-0.5"
                     style={{ fontSize: 16 }}
                   >
                     arrow_forward
@@ -689,30 +689,30 @@ function PricingSection() {
 // ═══════════════════════════════════════
 function FaqSection() {
   return (
-    <section className="py-16 md:py-20 bg-white border-y border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-y border-cy-line">
       <div className="max-w-[960px] mx-auto px-6">
         <Reveal>
-          <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-10">
+          <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-cy-ink mb-10">
             {copy.faq.title}
           </h2>
         </Reveal>
         <StaggerContainer className="space-y-3">
           {copy.faq.items.map((item) => (
             <StaggerItem key={item.q}>
-              <details className="group bg-white border border-[#E3E8EF] rounded-xl overflow-hidden">
+              <details className="group bg-white border border-cy-line rounded-xl overflow-hidden">
                 <summary className="flex items-center justify-between p-5 cursor-pointer select-none">
-                  <span className="text-[15px] font-semibold text-[#0A1628] pr-4">
+                  <span className="text-[15px] font-semibold text-cy-ink pr-4">
                     {item.q}
                   </span>
                   <span
-                    className="material-symbols-outlined text-[#6B7B8F] group-open:rotate-180 transition-transform flex-shrink-0"
+                    className="material-symbols-outlined text-cy-ink-3 group-open:rotate-180 transition-transform flex-shrink-0"
                     style={{ fontSize: 20 }}
                     aria-hidden="true"
                   >
                     expand_more
                   </span>
                 </summary>
-                <div className="px-5 pb-5 text-[13px] text-[#3A4A5F] leading-[1.7] border-t border-[#E3E8EF] pt-4">
+                <div className="px-5 pb-5 text-[13px] text-cy-ink-2 leading-[1.7] border-t border-cy-line pt-4">
                   {item.a}
                 </div>
               </details>
@@ -734,15 +734,15 @@ function FinalCtaSection() {
         <Reveal>
           <div className="text-center mb-8 md:mb-10">
             <p
-              className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+              className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {copy.finalCta.label}
             </p>
-            <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-3">
+            <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-3">
               {copy.finalCta.title}
             </h2>
-            <p className="text-[14px] md:text-[15px] text-[#6B7B8F] max-w-xl mx-auto">
+            <p className="text-[14px] md:text-[15px] text-cy-ink-3 max-w-xl mx-auto">
               {copy.finalCta.description}
             </p>
           </div>
@@ -758,24 +758,24 @@ function FinalCtaSection() {
 // ═══════════════════════════════════════
 function FooterSection() {
   return (
-    <footer className="border-t border-[#E3E8EF] pt-10 pb-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line pt-10 pb-8 bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         {/* 상단: 브랜드 + 링크 */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-[#E3E8EF]">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-cy-line">
           <div className="flex items-baseline gap-2.5">
             <span
-              className="text-[18px] font-black text-[#002C5F] tracking-[-0.03em]"
+              className="text-[18px] font-black text-cy-navy tracking-[-0.03em]"
               style={{ fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif" }}
             >
               {copy.footer.brand.ko}
             </span>
             <span
-              className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+              className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {copy.footer.brand.en}
             </span>
-            <span className="text-[12px] text-[#6B7B8F] ml-2 hidden md:inline">
+            <span className="text-[12px] text-cy-ink-3 ml-2 hidden md:inline">
               {copy.footer.description}
             </span>
           </div>
@@ -784,7 +784,7 @@ function FooterSection() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-[12px] text-[#3A4A5F] hover:text-[#002C5F] font-medium transition-colors min-h-0"
+                className="text-[12px] text-cy-ink-2 hover:text-cy-navy font-medium transition-colors min-h-0"
               >
                 {link.label}
               </a>
@@ -794,48 +794,48 @@ function FooterSection() {
 
         {/* 중단: 사업자 정보 (통신판매업 고시 의무 표기) */}
         <div
-          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-[#6B7B8F] leading-[1.8]"
+          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-cy-ink-3 leading-[1.8]"
           style={{ fontFamily: "var(--font-roboto-mono), 'Pretendard', sans-serif" }}
         >
           <div className="space-y-0.5">
             <p>
-              <span className="text-[#9AA8B8]">대표:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.representative}</span>
+              <span className="text-cy-ink-4">대표:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">{copy.footer.business.representative}</span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">사업자등록번호:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.registrationNumber}</span>
+              <span className="text-cy-ink-4">사업자등록번호:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">{copy.footer.business.registrationNumber}</span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">통신판매업신고번호:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.eCommerceNumber}</span>
+              <span className="text-cy-ink-4">통신판매업신고번호:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">{copy.footer.business.eCommerceNumber}</span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">호스팅 제공자:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.hostingProvider}</span>
+              <span className="text-cy-ink-4">호스팅 제공자:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">{copy.footer.business.hostingProvider}</span>
             </p>
           </div>
           <div className="space-y-0.5">
             <p>
-              <span className="text-[#9AA8B8]">주소:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.address}</span>
+              <span className="text-cy-ink-4">주소:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">{copy.footer.business.address}</span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">전화:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">{copy.footer.business.phone}</span>
+              <span className="text-cy-ink-4">전화:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">{copy.footer.business.phone}</span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">이메일:</span>{" "}
+              <span className="text-cy-ink-4">이메일:</span>{" "}
               <a
                 href={`mailto:${copy.footer.business.email}`}
-                className="text-[#002C5F] hover:text-[#0046A4] font-medium transition-colors"
+                className="text-cy-navy hover:text-cy-navy-mid font-medium transition-colors"
               >
                 {copy.footer.business.email}
               </a>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">개인정보보호책임자:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">개인정보보호책임자:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.dpo.name} {copy.footer.dpo.title} ({copy.footer.dpo.email})
               </span>
             </p>
@@ -843,9 +843,9 @@ function FooterSection() {
         </div>
 
         {/* 하단: 저작권 + 면책 */}
-        <div className="mt-6 pt-5 border-t border-[#E3E8EF] flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-          <p className="text-[10px] text-[#9AA8B8]">{copy.footer.copyright}</p>
-          <p className="text-[10px] text-[#9AA8B8]">
+        <div className="mt-6 pt-5 border-t border-cy-line flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+          <p className="text-[10px] text-cy-ink-4">{copy.footer.copyright}</p>
+          <p className="text-[10px] text-cy-ink-4">
             철연 · CHEOLYEON은 ㈜바이트포스의 중장비 배차·계약·정산 통합 플랫폼 상표다.
           </p>
         </div>

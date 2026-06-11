@@ -51,6 +51,8 @@ const ROLE_DEV_NOTES: Record<string, DevNote> = {
 export default function DevNotes({ role }: { role: string }) {
   const [open, setOpen] = useState(false);
   const notes = ROLE_DEV_NOTES[role];
+  // 내부 아키텍처 노트 — 프로덕션 빌드에서는 렌더하지 않는다 (정보 노출 차단)
+  if (process.env.NODE_ENV === "production") return null;
   if (!notes) return null;
 
   return (

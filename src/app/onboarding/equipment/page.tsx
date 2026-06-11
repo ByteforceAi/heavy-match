@@ -107,19 +107,19 @@ export default function EquipmentPage() {
     <OnboardingShell step={4}>
       <Reveal delay={0.05}>
         <div className="flex items-start justify-between gap-4 mb-2">
-          <h1 className="text-[28px] md:text-[32px] font-[800] text-[#0A1628] tracking-[-0.02em]">
+          <h1 className="text-[28px] md:text-[32px] font-[800] text-cy-ink tracking-[-0.02em]">
             장비·단가 등록
           </h1>
           <button
             type="button"
             onClick={applyTemplate}
-            className="text-[12px] text-[#002C5F] hover:text-[#0046A4] underline underline-offset-4 font-medium flex-shrink-0 mt-2"
+            className="text-[12px] text-cy-navy hover:text-cy-navy-mid underline underline-offset-4 font-medium flex-shrink-0 mt-2"
           >
             일괄 설정 템플릿
           </button>
         </div>
         <p
-          className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] mb-8"
+          className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] mb-8"
           style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
         >
           보유·주력 장비를 체크하고 시간당·일당 단가를 기재한다. 미체크 장비는 배차 매트릭스에
@@ -128,18 +128,18 @@ export default function EquipmentPage() {
       </Reveal>
 
       <Reveal delay={0.1}>
-        <div className="flex items-center gap-2 mb-4 bg-[#F4F6FA] border border-[#E3E8EF] rounded-lg px-3 py-2">
+        <div className="flex items-center gap-2 mb-4 bg-cy-bg border border-cy-line rounded-lg px-3 py-2">
           <span
-            className="material-symbols-outlined text-[#002C5F]"
+            className="material-symbols-outlined text-cy-navy"
             style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}
             aria-hidden="true"
           >
             inventory_2
           </span>
-          <span className="text-[12px] text-[#3A4A5F]">
+          <span className="text-[12px] text-cy-ink-2">
             활성 장비{" "}
             <span
-              className="font-bold text-[#002C5F] tabular-nums"
+              className="font-bold text-cy-navy tabular-nums"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {activeCount}
@@ -164,8 +164,8 @@ export default function EquipmentPage() {
               <div
                 className={`rounded-xl border p-4 transition-colors ${
                   active
-                    ? "bg-white border-[#002C5F] ring-2 ring-[#002C5F]/10"
-                    : "bg-white border-[#E3E8EF]"
+                    ? "bg-white border-cy-navy ring-2 ring-cy-navy/10"
+                    : "bg-white border-cy-line"
                 }`}
               >
                 <label className="flex items-center gap-3 cursor-pointer select-none">
@@ -178,7 +178,7 @@ export default function EquipmentPage() {
                   <span
                     aria-hidden="true"
                     className={`w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors ${
-                      active ? "bg-[#002C5F] border-[#002C5F]" : "bg-white border-[#D9E0EA]"
+                      active ? "bg-cy-navy border-cy-navy" : "bg-white border-cy-navy-pale"
                     }`}
                   >
                     {active && (
@@ -192,7 +192,7 @@ export default function EquipmentPage() {
                   </span>
                   <span
                     className={`material-symbols-outlined ${
-                      active ? "text-[#002C5F]" : "text-[#6B7B8F]"
+                      active ? "text-cy-navy" : "text-cy-ink-3"
                     }`}
                     style={{ fontSize: 20, fontVariationSettings: active ? "'FILL' 1" : undefined }}
                     aria-hidden="true"
@@ -201,7 +201,7 @@ export default function EquipmentPage() {
                   </span>
                   <span
                     className={`text-[14px] font-bold ${
-                      active ? "text-[#0A1628]" : "text-[#3A4A5F]"
+                      active ? "text-cy-ink" : "text-cy-ink-2"
                     }`}
                   >
                     {eq.label}
@@ -209,9 +209,9 @@ export default function EquipmentPage() {
                 </label>
 
                 {active && (
-                  <div className="mt-3 pt-3 border-t border-[#E3E8EF] grid grid-cols-2 gap-2">
+                  <div className="mt-3 pt-3 border-t border-cy-line grid grid-cols-2 gap-2">
                     <div>
-                      <label className="block text-[11px] text-[#6B7B8F] mb-1">시간당</label>
+                      <label className="block text-[11px] text-cy-ink-3 mb-1">시간당</label>
                       <div className="relative">
                         <input
                           type="text"
@@ -219,16 +219,16 @@ export default function EquipmentPage() {
                           value={formatThousands(rate?.hourly ?? "")}
                           onChange={(e) => updateRate(eq.id, "hourly", e.target.value)}
                           placeholder={formatThousands(eq.presetHourly)}
-                          className="w-full px-3 py-2 pr-8 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[13px] tabular-nums"
+                          className="w-full px-3 py-2 pr-8 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[13px] tabular-nums"
                           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                         />
-                        <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-[#6B7B8F] pointer-events-none">
+                        <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-cy-ink-3 pointer-events-none">
                           원
                         </span>
                       </div>
                     </div>
                     <div>
-                      <label className="block text-[11px] text-[#6B7B8F] mb-1">일당</label>
+                      <label className="block text-[11px] text-cy-ink-3 mb-1">일당</label>
                       <div className="relative">
                         <input
                           type="text"
@@ -236,10 +236,10 @@ export default function EquipmentPage() {
                           value={formatThousands(rate?.daily ?? "")}
                           onChange={(e) => updateRate(eq.id, "daily", e.target.value)}
                           placeholder={formatThousands(eq.presetDaily)}
-                          className="w-full px-3 py-2 pr-8 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[13px] tabular-nums"
+                          className="w-full px-3 py-2 pr-8 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[13px] tabular-nums"
                           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                         />
-                        <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-[#6B7B8F] pointer-events-none">
+                        <span className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[11px] text-cy-ink-3 pointer-events-none">
                           원
                         </span>
                       </div>

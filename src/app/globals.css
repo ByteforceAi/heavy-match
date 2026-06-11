@@ -1,14 +1,21 @@
 @import "tailwindcss";
 
 /*
- * 철연 CHEOLYEON — Global Styles v2
- * HD Hyundai Navy Light Palette.
- * Legacy Masterpiece Dark 토큰은 .dark 블록으로만 잔존 (다크모드 복귀 대비).
+ * 철연 CHEOLYEON — Global Styles v3
+ * HD Hyundai Navy Light Palette · 정밀 도면 + 판결문 미감.
+ *
+ * v3 변경점
+ *  - Pretendard: 깨진 woff 6종 → 공식 Variable(동적 서브셋, layout.tsx <link>) 교체.
+ *    이제 800/900 디스플레이 웨이트가 실제로 렌더된다.
+ *  - MD3 레거시 토큰 블록 제거 (사용처 0곳 확인), .dark 블록 제거.
+ *  - 마이크로 인터랙션 파운데이션: focus-visible 링, ::selection,
+ *    prefers-reduced-motion, press/lift 물리, shimmer.
+ *  - 텍스트 선택 정책 반전: 본문·데이터는 선택 가능, 인터랙티브 크롬만 차단.
  */
 
 @theme inline {
   /* ══════════════════════════════════════
-     v2 BRAND TOKENS — HD Navy Light
+     BRAND TOKENS — HD Navy Light
      ══════════════════════════════════════ */
 
   /* Signature */
@@ -27,16 +34,31 @@
   --color-cy-bg: #F4F6FA;
   --color-cy-bg-alt: #EEF1F5;
   --color-cy-white: #FFFFFF;
+  --color-cy-elevated: #F8FAFD;  /* tokens.ts surface.elevated — 호버·활성 카드 틴트 */
   --color-cy-line: #E3E8EF;
   --color-cy-line-soft: #EDF0F5;
 
   /* Semantic */
   --color-cy-success: #00A86B;
+  --color-cy-success-deep: #006E4D;
   --color-cy-danger: #E5484D;
+  --color-cy-danger-deep: #B3261E;
   --color-cy-warning: #FFB020;
+  /* 틴트 배경 위 텍스트용 딥 변형 — 옐로·시안 원색은 라이트 틴트에서 대비 미달 */
+  --color-cy-warning-deep: #946200;
+  --color-cy-cyan-deep: #00708C;
+
+  /* Status — 배차 상태 시각 언어 (tokens.ts colors.status 와 1:1) */
+  --color-cy-st-exclusive: #002C5F;
+  --color-cy-st-callcenter: #FFB020;
+  --color-cy-st-shared: #00AAD2;
+  --color-cy-st-matched: #00A86B;
+  --color-cy-st-progress: #0046A4;
+  --color-cy-st-done: #006E4D;
+  --color-cy-st-cancel: #E5484D;
 
   /* ══════════════════════════════════════
-     LEGACY MD3 TOKENS (호환 유지 — 값은 v2 재매핑)
+     LEGACY ALIASES (bg-card 등 202곳 호환 — 값은 v2 팔레트)
      ══════════════════════════════════════ */
   --color-primary: #002C5F;
   --color-primary-light: #0046A4;
@@ -49,90 +71,10 @@
   --color-text-muted: #3A4A5F;
   --color-border: #E3E8EF;
 
-  /* Fonts — Pretendard는 CDN @font-face (하단), 나머지는 layout.tsx next/font 변수 */
-  --font-sans: 'Pretendard', var(--font-plex-kr), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
-  --font-serif: var(--font-plex-kr), 'Pretendard', serif;
+  /* Fonts — Pretendard Variable은 layout.tsx <link>(동적 서브셋 CDN)로 로드 */
+  --font-sans: 'Pretendard Variable', 'Pretendard', var(--font-plex-kr), -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --font-serif: var(--font-plex-kr), 'Pretendard Variable', 'Pretendard', serif;
   --font-mono: var(--font-roboto-mono), 'JetBrains Mono', 'Fira Code', monospace;
-
-  /* MD3 (레거시 컴포넌트 호환 — 값만 v2 팔레트로 재매핑) */
-  --color-md-primary: #002C5F;
-  --color-md-on-primary: #FFFFFF;
-  --color-md-primary-container: #0046A4;
-  --color-md-on-primary-container: #FFFFFF;
-  --color-md-surface: #F4F6FA;
-  --color-md-surface-dim: #E3E8EF;
-  --color-md-surface-container: #EEF1F5;
-  --color-md-surface-container-low: #F4F6FA;
-  --color-md-surface-container-high: #E8F1FB;
-  --color-md-surface-container-highest: #DDE8F3;
-  --color-md-on-surface: #0A1628;
-  --color-md-on-surface-variant: #3A4A5F;
-  --color-md-outline: #6B7B8F;
-  --color-md-outline-variant: #E3E8EF;
-  --color-md-secondary: #3A4A5F;
-  --color-md-secondary-container: #E8F1FB;
-  --color-md-tertiary: #0046A4;
-  --color-md-error: #E5484D;
-  --color-md-error-container: #FEEBEC;
-  --color-md-inverse-surface: #0A1628;
-  --color-md-inverse-on-surface: #F4F6FA;
-}
-
-/* ═══════════════════════════════════════
-   PRETENDARD — Project-Noonnu CDN
-   next/font에 Pretendard가 없어 CDN @font-face로 로드.
-   preconnect는 layout.tsx head에 이미 선언.
-   ═══════════════════════════════════════ */
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-SemiBold.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Bold.woff') format('woff');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2205-pro@1.0/Pretendard-ExtraBold.woff') format('woff');
-  font-weight: 800;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Pretendard';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2205-pro@1.0/Pretendard-Black.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-/* ═══════════════════════════════════════
-   DARK MODE — 비활성 (v2 노선은 라이트 고정)
-   추후 필요 시 복구용으로만 값 보존
-   ═══════════════════════════════════════ */
-.dark body {
-  background: #0A1628;
-  color: #F4F6FA;
 }
 
 /* ═══════════════════════════════════════
@@ -156,7 +98,7 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* iOS 줌 방지 */
+/* iOS 줌 방지 (입력 폰트 16px 미만이면 iOS가 강제 줌) */
 input, select, textarea {
   font-size: 16px !important;
   min-height: 48px;
@@ -167,13 +109,44 @@ button, a, [role="button"] {
   min-height: 44px;
 }
 
-* {
+/* ═══════════════════════════════════════
+   텍스트 선택 정책 — 데이터는 복사 가능해야 한다
+   (배차 ID·전화번호·계좌번호는 현장의 핵심 동선)
+   인터랙티브 크롬만 선택 차단해 네이티브 감을 유지.
+   ═══════════════════════════════════════ */
+button, [role="button"], nav, summary, label {
   -webkit-user-select: none;
   user-select: none;
 }
-input, textarea, [contenteditable] {
-  -webkit-user-select: text;
-  user-select: text;
+
+::selection {
+  background: var(--color-cy-navy);
+  color: #fff;
+}
+
+/* ═══════════════════════════════════════
+   FOCUS — 키보드 사용자를 위한 일관 포커스 링
+   (마우스/터치에는 보이지 않는다)
+   ═══════════════════════════════════════ */
+:focus-visible {
+  outline: 2px solid var(--color-cy-navy-mid);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none; /* 입력 필드는 컴포넌트 레벨 border+ring 처리 */
+}
+
+/* ═══════════════════════════════════════
+   MOTION — 감속 선호 시 전부 끈다 (WCAG 2.3.3)
+   ═══════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* Tabular figures — 금액·타이머 표시용 */
@@ -181,19 +154,37 @@ input, textarea, [contenteditable] {
   font-variant-numeric: tabular-nums;
 }
 
+/* 도면 라벨 — Roboto Mono 와이드 트래킹. 철연의 시그니처 디테일 */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 /* Safe Area */
 .safe-bottom {
   padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 16px);
 }
 
-/* 터치 피드백 */
+/* ═══════════════════════════════════════
+   터치/프레스 물리 — 누르는 맛
+   ═══════════════════════════════════════ */
 .touch-active:active {
   transform: scale(0.97);
   opacity: 0.9;
   transition: transform 0.1s, opacity 0.1s;
 }
 
-/* 카드 터치 하이라이트 (라이트 테마) */
+.press {
+  transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.12s, background-color 0.15s, border-color 0.15s;
+}
+.press:active {
+  transform: scale(0.98);
+}
+
+/* 카드 터치 하이라이트 */
 .card-touch {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -202,7 +193,9 @@ input, textarea, [contenteditable] {
   box-shadow: 0 1px 2px rgba(0, 44, 95, 0.05);
 }
 
-/* Animations */
+/* ═══════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════ */
 @keyframes slideIn {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
@@ -219,9 +212,31 @@ input, textarea, [contenteditable] {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+/* 스켈레톤 쉬머 — 정지된 pulse 대신 빛이 지나가는 결 */
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+/* 토스트 — 아래에서 스프링 안착 */
+@keyframes toastIn {
+  0% { transform: translateY(12px) scale(0.97); opacity: 0; }
+  60% { transform: translateY(-2px) scale(1.005); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+/* 타이머 막판 경고 펄스 */
+@keyframes urgentPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(229, 72, 77, 0.35); }
+  50% { box-shadow: 0 0 0 6px rgba(229, 72, 77, 0); }
+}
 
 .animate-fade-in {
   animation: fadeIn 0.3s ease-out;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(100deg, var(--color-cy-line-soft) 40%, #f8fafd 50%, var(--color-cy-line-soft) 60%);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s linear infinite;
 }
 
 /* Scrollbar — 데스크톱 */

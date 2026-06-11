@@ -263,14 +263,14 @@ export default function ProductTour({ open, onClose, steps }: ProductTourProps) 
             {/* Progress */}
             <div className="flex items-center justify-between mb-3">
               <span
-                className="text-[10px] font-bold text-[#002C5F] tracking-[0.2em]"
+                className="text-[10px] font-bold text-cy-navy tracking-[0.2em]"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 {currentStep.label}
               </span>
               <button
                 onClick={onClose}
-                className="text-[#6B7B8F] hover:text-[#0A1628] transition-colors min-h-0 p-1"
+                className="text-cy-ink-3 hover:text-cy-ink transition-colors min-h-0 p-1"
                 aria-label="투어 닫기"
               >
                 <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
@@ -280,13 +280,13 @@ export default function ProductTour({ open, onClose, steps }: ProductTourProps) 
             </div>
 
             {/* Title */}
-            <h3 className="text-[18px] md:text-[20px] font-[800] text-[#0A1628] tracking-[-0.02em] mb-2">
+            <h3 className="text-[18px] md:text-[20px] font-[800] text-cy-ink tracking-[-0.02em] mb-2">
               {currentStep.title}
             </h3>
 
             {/* Description */}
             <p
-              className="text-[14px] text-[#3A4A5F] leading-[1.7] mb-5"
+              className="text-[14px] text-cy-ink-2 leading-[1.7] mb-5"
               style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
             >
               {currentStep.description}
@@ -300,10 +300,10 @@ export default function ProductTour({ open, onClose, steps }: ProductTourProps) 
                   onClick={() => setStepIndex(i)}
                   className={`h-1.5 rounded-full transition-all ${
                     i === stepIndex
-                      ? "bg-[#002C5F] w-6"
+                      ? "bg-cy-navy w-6"
                       : i < stepIndex
-                        ? "bg-[#00AAD2] w-1.5"
-                        : "bg-[#E3E8EF] w-1.5"
+                        ? "bg-cy-cyan w-1.5"
+                        : "bg-cy-line w-1.5"
                   }`}
                   aria-label={`스텝 ${i + 1}`}
                 />
@@ -313,7 +313,7 @@ export default function ProductTour({ open, onClose, steps }: ProductTourProps) 
             {/* Controls */}
             <div className="flex items-center justify-between">
               <span
-                className="text-[11px] text-[#9AA8B8]"
+                className="text-[11px] text-cy-ink-4"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 {stepIndex + 1} / {steps.length}
@@ -322,14 +322,14 @@ export default function ProductTour({ open, onClose, steps }: ProductTourProps) 
                 {!isFirst && (
                   <button
                     onClick={handlePrev}
-                    className="px-3 py-2 text-[13px] font-medium text-[#3A4A5F] hover:bg-[#F4F6FA] rounded-lg transition-colors min-h-0"
+                    className="px-3 py-2 text-[13px] font-medium text-cy-ink-2 hover:bg-cy-bg rounded-lg transition-colors min-h-0"
                   >
                     ← 뒤로
                   </button>
                 )}
                 <button
                   onClick={handleNext}
-                  className="px-4 py-2 text-[13px] font-bold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0 inline-flex items-center gap-1"
+                  className="px-4 py-2 text-[13px] font-bold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0 inline-flex items-center gap-1"
                 >
                   {isLast ? "투어 종료" : "다음 →"}
                 </button>

@@ -17,7 +17,7 @@ const EFFECTIVE_DATE = "2026-04-18";
 export default function TermsPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -29,18 +29,18 @@ export default function TermsPage() {
         className="max-w-[820px] mx-auto px-6 md:px-8 py-12 md:py-16"
         style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
       >
-        <header className="pb-8 border-b border-[#E3E8EF]">
+        <header className="pb-8 border-b border-cy-line">
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             LEGAL · 이용약관
           </p>
-          <h1 className="text-[28px] md:text-[36px] font-[900] text-[#0A1628] tracking-[-0.02em] mb-3">
+          <h1 className="text-[28px] md:text-[36px] font-[900] text-cy-ink tracking-[-0.02em] mb-3">
             철연 CHEOLYEON 서비스 이용약관
           </h1>
           <div
-            className="flex flex-wrap gap-x-5 gap-y-1 text-[12px] text-[#6B7B8F]"
+            className="flex flex-wrap gap-x-5 gap-y-1 text-[12px] text-cy-ink-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             <span>시행일: {EFFECTIVE_DATE}</span>
@@ -50,7 +50,7 @@ export default function TermsPage() {
         </header>
 
         <div
-          className="mt-10 space-y-10 text-[15px] md:text-[16px] text-[#0A1628]"
+          className="mt-10 space-y-10 text-[15px] md:text-[16px] text-cy-ink"
           style={{ lineHeight: 1.85, letterSpacing: "-0.015em" }}
         >
           <Section n={1} title="목적">
@@ -174,15 +174,15 @@ export default function TermsPage() {
 
         {/* 면책 안내 */}
         <aside
-          className="mt-12 pt-6 border-t border-[#E3E8EF] text-[12px] text-[#6B7B8F] leading-[1.7]"
+          className="mt-12 pt-6 border-t border-cy-line text-[12px] text-cy-ink-3 leading-[1.7]"
           style={{ fontFamily: "var(--font-roboto-mono), Pretendard, sans-serif" }}
         >
-          <p className="font-bold text-[#3A4A5F] mb-2">법률 자문 고지</p>
+          <p className="font-bold text-cy-ink-2 mb-2">법률 자문 고지</p>
           <p>
             본 약관은 국내 B2B SaaS 표준에 기반하여 초안한다. 시행 전 법무 자문의 검토가 필요하다. 관련 문의: {" "}
             <a
               href={`mailto:${footerCopy.business.email}`}
-              className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors"
+              className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors"
             >
               {footerCopy.business.email}
             </a>
@@ -206,16 +206,16 @@ export default function TermsPage() {
   }) {
     return (
       <section>
-        <h2 className="text-[19px] md:text-[22px] font-[800] text-[#0A1628] mb-4 tracking-[-0.015em]">
+        <h2 className="text-[19px] md:text-[22px] font-[800] text-cy-ink mb-4 tracking-[-0.015em]">
           <span
-            className="text-[#002C5F] mr-2"
+            className="text-cy-navy mr-2"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             제{n}조
           </span>
           {title}
         </h2>
-        <div className="text-[#3A4A5F]">{children}</div>
+        <div className="text-cy-ink-2">{children}</div>
       </section>
     );
   }
@@ -227,15 +227,15 @@ export default function TermsPage() {
   function LegalNav() {
     return (
       <nav
-        className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+        className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
         style={{ backdropFilter: "blur(12px) saturate(180%)" }}
       >
         <Link href="/" className="flex items-baseline gap-2.5">
-          <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
             {navCopy.brand.ko}
           </span>
           <span
-            className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {navCopy.brand.en}
@@ -243,7 +243,7 @@ export default function TermsPage() {
         </Link>
         <Link
           href="/"
-          className="ml-auto text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors min-h-0 inline-flex items-center gap-1"
+          className="ml-auto text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors min-h-0 inline-flex items-center gap-1"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
             arrow_back
@@ -256,15 +256,15 @@ export default function TermsPage() {
 
   function LegalFooter() {
     return (
-      <footer className="border-t border-[#E3E8EF] py-6 bg-[#EEF1F5]">
-        <div className="max-w-[820px] mx-auto px-6 md:px-8 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-[#6B7B8F]">
-          <Link href="/privacy" className="hover:text-[#002C5F] transition-colors">
+      <footer className="border-t border-cy-line py-6 bg-cy-bg-alt">
+        <div className="max-w-[820px] mx-auto px-6 md:px-8 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-cy-ink-3">
+          <Link href="/privacy" className="hover:text-cy-navy transition-colors">
             개인정보처리방침
           </Link>
-          <Link href="/help" className="hover:text-[#002C5F] transition-colors">
+          <Link href="/help" className="hover:text-cy-navy transition-colors">
             고객센터
           </Link>
-          <span className="ml-auto text-[#9AA8B8]">{footerCopy.copyright}</span>
+          <span className="ml-auto text-cy-ink-4">{footerCopy.copyright}</span>
         </div>
       </footer>
     );

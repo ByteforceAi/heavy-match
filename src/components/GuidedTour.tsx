@@ -60,38 +60,38 @@ export default function GuidedTour({ role }: { role: string }) {
   };
 
   return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center">
+    <div className="fixed inset-0 z-[300] flex items-center justify-center" role="dialog" aria-modal="true" aria-label="기능 안내">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={finish} />
+      <div className="absolute inset-0 bg-cy-ink/55 backdrop-blur-sm" onClick={finish} />
 
       {/* Tour Card */}
-      <div className="relative z-10 bg-white rounded-3xl shadow-2xl p-6 max-w-sm w-[90%] mx-4 animate-fade-in">
+      <div className="relative z-10 bg-white rounded-3xl border border-cy-line shadow-[0_20px_50px_rgba(0,44,95,0.25)] p-6 max-w-sm w-[90%] mx-4 animate-fade-in">
         {/* Progress */}
-        <div className="flex gap-1 mb-4">
+        <div className="flex gap-1 mb-4" aria-hidden>
           {steps.map((_, i) => (
-            <div key={i} className={`flex-1 h-1 rounded-full transition-all ${i <= step ? "bg-[#0059b9]" : "bg-[#d8e3f5]"}`} />
+            <div key={i} className={`flex-1 h-1 rounded-full transition-colors duration-300 ${i <= step ? "bg-cy-navy" : "bg-cy-line-soft"}`} />
           ))}
         </div>
 
         {/* Icon */}
-        <div className="w-14 h-14 bg-[#e5eeff] rounded-2xl flex items-center justify-center mb-4">
-          <span className="material-symbols-outlined text-3xl text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>
+        <div className="w-14 h-14 bg-cy-navy-pale rounded-2xl flex items-center justify-center mb-4">
+          <span className="material-symbols-outlined text-3xl text-cy-navy" style={{ fontVariationSettings: "'FILL' 1" }}>
             {current.icon}
           </span>
         </div>
 
         {/* Content */}
-        <h3 className="text-xl font-[800] text-[#111c29] mb-2">{current.title}</h3>
-        <p className="text-sm text-[#414754] leading-relaxed mb-6">{current.description}</p>
+        <h3 className="text-xl font-extrabold tracking-[-0.02em] text-cy-ink mb-2">{current.title}</h3>
+        <p className="text-sm text-cy-ink-2 leading-relaxed mb-6">{current.description}</p>
 
         {/* Actions */}
         <div className="flex gap-2">
-          <button onClick={finish} className="flex-1 py-3 text-[#727785] font-semibold rounded-xl text-sm">
+          <button onClick={finish} className="press flex-1 py-3 text-cy-ink-3 hover:text-cy-ink hover:bg-cy-bg font-semibold rounded-xl text-sm">
             건너뛰기
           </button>
           <button
             onClick={() => { if (isLast) finish(); else setStep(step + 1); }}
-            className="flex-1 py-3 bg-[#0059b9] text-white font-bold rounded-xl text-sm active:scale-95 transition-all flex items-center justify-center gap-1"
+            className="press flex-1 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white font-bold rounded-xl text-sm flex items-center justify-center gap-1 shadow-[0_4px_12px_rgba(0,44,95,0.2)]"
           >
             {isLast ? "시작하기" : "다음"}
             <span className="material-symbols-outlined text-base">{isLast ? "check" : "arrow_forward"}</span>
@@ -99,7 +99,7 @@ export default function GuidedTour({ role }: { role: string }) {
         </div>
 
         {/* Step counter */}
-        <p className="text-center text-xs text-[#727785] mt-3">{step + 1} / {steps.length}</p>
+        <p className="text-center mono-label text-cy-ink-4 mt-3 tabular-nums">{String(step + 1).padStart(2, "0")} / {String(steps.length).padStart(2, "0")}</p>
       </div>
     </div>
   );
@@ -110,10 +110,10 @@ export function TourResetButton({ role }: { role: string }) {
   return (
     <button
       onClick={() => { localStorage.removeItem(`tour-done-${role}`); location.reload(); }}
-      className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#eef4ff] transition"
+      className="press w-8 h-8 flex items-center justify-center rounded-lg hover:bg-cy-navy-pale transition-colors"
       title="가이드 다시 보기"
     >
-      <span className="material-symbols-outlined text-lg text-[#727785]">help</span>
+      <span className="material-symbols-outlined text-lg text-cy-ink-3">help</span>
     </button>
   );
 }

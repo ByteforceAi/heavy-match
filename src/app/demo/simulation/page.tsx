@@ -55,7 +55,7 @@ interface Step {
 
 function MiniCard({ children, glow, className = "" }: { children: React.ReactNode; glow?: boolean; className?: string }) {
   return (
-    <div className={`bg-white rounded-lg p-2.5 border text-xs transition-all ${glow ? "border-[#0059b9]/40 ring-1 ring-[#0059b9]/10 shadow-md" : "border-[#c1c6d6]/30 shadow-sm"} ${className}`}>
+    <div className={`bg-white rounded-lg p-2.5 border text-xs transition-all ${glow ? "border-cy-navy/40 ring-1 ring-cy-navy/10 shadow-md" : "border-cy-line/30 shadow-sm"} ${className}`}>
       {children}
     </div>
   );
@@ -77,7 +77,7 @@ const STEPS: Step[] = [
           {[1,2,3,4,5,6].map((s,i) => (
             <motion.div
               key={s}
-              className="flex-1 h-1.5 rounded-full bg-[#c1c6d6]/30"
+              className="flex-1 h-1.5 rounded-full bg-cy-line/30"
               initial={false}
               animate={{ backgroundColor: "#0059b9" }}
               transition={{ delay: 0.15 + i * 0.2 }}
@@ -111,10 +111,10 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          className="bg-[#eef4ff] rounded-lg p-2"
+          className="bg-cy-navy-pale rounded-lg p-2"
         >
-          <p className="font-bold text-[11px] text-[#111c29]">크레인 50T · 오전(4h)</p>
-          <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+          <p className="font-bold text-[11px] text-cy-ink">크레인 50T · 오전(4h)</p>
+          <p className="text-cy-navy font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
         </motion.div>
 
         {/* 서명 SVG */}
@@ -122,10 +122,10 @@ const STEPS: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4 }}
-          className="border-t border-dashed border-[#c1c6d6]/30 pt-1.5"
+          className="border-t border-dashed border-cy-line/30 pt-1.5"
         >
-          <p className="text-[9px] text-[#727785] mb-1">전자서명</p>
-          <div className="h-8 bg-[#f8f9ff] rounded border border-dashed border-[#0059b9]/30 relative overflow-hidden">
+          <p className="text-[9px] text-cy-ink-3 mb-1">전자서명</p>
+          <div className="h-8 bg-cy-bg rounded border border-dashed border-cy-navy/30 relative overflow-hidden">
             <motion.svg viewBox="0 0 200 32" className="w-full h-full">
               <motion.path
                 d="M 15 18 Q 35 5, 55 20 T 100 18 Q 115 10, 130 22 T 180 16"
@@ -163,13 +163,13 @@ const STEPS: Step[] = [
             scale: { duration: 2, repeat: Infinity, ease: "easeInOut" },
           }}
         >
-          <span className="material-symbols-outlined text-4xl text-[#c1c6d6]" style={{ fontVariationSettings: "'FILL' 1" }}>
+          <span className="material-symbols-outlined text-4xl text-cy-line" style={{ fontVariationSettings: "'FILL' 1" }}>
             cloud_sync
           </span>
         </motion.div>
-        <div className="flex items-center gap-1.5 text-[10px] text-[#6B7B8F] font-mono">
+        <div className="flex items-center gap-1.5 text-[10px] text-cy-ink-3 font-mono">
           <motion.span
-            className="w-1 h-1 bg-[#6B7B8F] rounded-full"
+            className="w-1 h-1 bg-cy-ink-3 rounded-full"
             animate={{ opacity: [0.3, 1, 0.3] }}
             transition={{ duration: 1.2, repeat: Infinity }}
           />
@@ -205,11 +205,11 @@ const STEPS: Step[] = [
                 animate={{ scale: [1, 1.08, 1] }}
                 transition={{ duration: 1, repeat: Infinity }}
               >
-                <MiniBadge label="전용콜 ● NEW" color="bg-[#d7e2ff] text-[#004491]" />
+                <MiniBadge label="전용콜 ● NEW" color="bg-cy-navy-pale text-cy-navy" />
               </motion.span>
             </div>
-            <p className="text-[9px] text-[#414754]">코엑스 신축현장</p>
-            <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+            <p className="text-[9px] text-cy-ink-2">코엑스 신축현장</p>
+            <p className="text-cy-navy font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
             <div className="flex gap-1 mt-1.5">
               <motion.div
                 className="flex-1 py-1 bg-emerald-500 text-white text-center rounded text-[10px] font-bold"
@@ -219,7 +219,7 @@ const STEPS: Step[] = [
               >
                 수락
               </motion.div>
-              <div className="flex-1 py-1 bg-[#ba1a1a]/60 text-white text-center rounded text-[10px] font-bold">거절</div>
+              <div className="flex-1 py-1 bg-cy-danger/60 text-white text-center rounded text-[10px] font-bold">거절</div>
             </div>
           </MiniCard>
         </motion.div>
@@ -261,7 +261,7 @@ const STEPS: Step[] = [
             check_circle
           </motion.span>
           <p className="text-[11px] font-bold text-emerald-600 mt-0.5">📩 배차 매칭 완료!</p>
-          <p className="text-[9px] text-[#6B7B8F]">대한크레인 박중장비 수락</p>
+          <p className="text-[9px] text-cy-ink-3">대한크레인 박중장비 수락</p>
         </motion.div>
 
         <motion.div
@@ -273,7 +273,7 @@ const STEPS: Step[] = [
             from="exclusive_call"
             to="matched"
             fromColor="#002C5F"
-            toColor="#10B981"
+            toColor="#00A86B"
             duration={900}
           />
         </motion.div>
@@ -282,7 +282,7 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.6 }}
-          className="text-[9px] text-[#6B7B8F] font-mono flex items-center gap-1.5"
+          className="text-[9px] text-cy-ink-3 font-mono flex items-center gap-1.5"
         >
           <span className="w-1 h-1 bg-emerald-500 rounded-full animate-pulse" />
           Supabase Realtime → 요청자 디바이스 푸시
@@ -337,7 +337,7 @@ const STEPS: Step[] = [
           <StatusTransition
             from="matched"
             to="operator_assigned"
-            fromColor="#10B981"
+            fromColor="#00A86B"
             toColor="#0059b9"
             duration={800}
           />
@@ -347,17 +347,17 @@ const STEPS: Step[] = [
     rightRole: "중장비사장", rightIcon: "local_shipping", rightTitle: "기사 선택 UI",
     rightContent: (
       <div className="space-y-1.5">
-        <p className="text-[9px] text-[#6B7B8F] font-mono mb-1">소속 기사 3명 · 선택 대기</p>
+        <p className="text-[9px] text-cy-ink-3 font-mono mb-1">소속 기사 3명 · 선택 대기</p>
         {["이기사","장운전","손기술"].map((name, i) => (
           <motion.div
             key={name}
             initial={{ opacity: 0, x: -5 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.2 + i * 0.15 }}
-            className={`flex items-center justify-between p-1.5 rounded-lg border text-[10px] ${i === 0 ? "border-[#002C5F] bg-[#002C5F]/10 ring-2 ring-[#002C5F]/20" : "border-[#E3E8EF]"}`}
+            className={`flex items-center justify-between p-1.5 rounded-lg border text-[10px] ${i === 0 ? "border-cy-navy bg-cy-navy/10 ring-2 ring-cy-navy/20" : "border-cy-line"}`}
           >
             <div className="flex items-center gap-1.5">
-              <div className="w-5 h-5 bg-[#d7e2ff] rounded-full flex items-center justify-center text-[8px] font-bold text-[#0059b9]">{name[0]}</div>
+              <div className="w-5 h-5 bg-cy-navy-pale rounded-full flex items-center justify-center text-[8px] font-bold text-cy-navy">{name[0]}</div>
               <span className="font-bold">{name}</span>
             </div>
             {i === 0 ? (
@@ -366,9 +366,9 @@ const STEPS: Step[] = [
                 animate={{ scale: 1 }}
                 transition={{ delay: 1.2, type: "spring", stiffness: 400, damping: 15 }}
               >
-                <MiniBadge label="✓ 배정" color="bg-[#002C5F] text-white" />
+                <MiniBadge label="✓ 배정" color="bg-cy-navy text-white" />
               </motion.span>
-            ) : <span className="text-[#c1c6d6]">선택</span>}
+            ) : <span className="text-cy-line">선택</span>}
           </motion.div>
         ))}
 
@@ -411,7 +411,7 @@ const STEPS: Step[] = [
             </motion.span>
             <span className="text-[10px] font-bold text-amber-500">현장 도착 확인</span>
           </div>
-          <p className="text-[9px] text-[#3A4A5F]">서울시 강남구 삼성동 · 08:47 AM</p>
+          <p className="text-[9px] text-cy-ink-2">서울시 강남구 삼성동 · 08:47 AM</p>
         </motion.div>
 
         {/* 작업 시작 버튼 애니메이션 */}
@@ -423,9 +423,9 @@ const STEPS: Step[] = [
           <MiniCard glow>
             <div className="flex items-center justify-between mb-1">
               <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
-              <MiniBadge label="기사배정" color="bg-[#e5eeff] text-[#0059b9]" />
+              <MiniBadge label="기사배정" color="bg-cy-navy-pale text-cy-navy" />
             </div>
-            <p className="text-[9px] text-[#414754]">코엑스 신축현장</p>
+            <p className="text-[9px] text-cy-ink-2">코엑스 신축현장</p>
             <motion.div
               className="mt-1 py-1.5 bg-amber-500 text-white text-center rounded text-[10px] font-bold flex items-center justify-center gap-1"
               animate={{
@@ -478,10 +478,10 @@ const STEPS: Step[] = [
                 <MiniBadge label="● 작업중" color="bg-amber-100 text-amber-700" />
               </motion.span>
             </div>
-            <p className="text-[9px] text-[#414754]">코엑스 신축현장</p>
+            <p className="text-[9px] text-cy-ink-2">코엑스 신축현장</p>
 
             {/* Progress bar animated */}
-            <div className="mt-1.5 h-1.5 bg-[#d8e3f5] rounded-full overflow-hidden">
+            <div className="mt-1.5 h-1.5 bg-cy-line-soft rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded-full"
                 initial={{ width: "0%" }}
@@ -494,7 +494,7 @@ const STEPS: Step[] = [
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.4 }}
-                className="text-[8px] text-[#727785] flex items-center gap-1"
+                className="text-[8px] text-cy-ink-3 flex items-center gap-1"
               >
                 <motion.span
                   className="w-1 h-1 bg-amber-500 rounded-full"
@@ -520,10 +520,10 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8 }}
-          className="flex items-center gap-1.5 text-[9px] text-[#0059b9] font-mono px-1"
+          className="flex items-center gap-1.5 text-[9px] text-cy-navy font-mono px-1"
         >
           <motion.span
-            className="w-1 h-1 bg-[#0059b9] rounded-full"
+            className="w-1 h-1 bg-cy-navy rounded-full"
             animate={{ opacity: [1, 0.3, 1], scale: [1, 1.3, 1] }}
             transition={{ duration: 1, repeat: Infinity }}
           />
@@ -539,7 +539,7 @@ const STEPS: Step[] = [
     leftContent: (
       <div className="space-y-2">
         {/* 서명 캔버스 시뮬레이션 */}
-        <div className="border-2 border-dashed border-[#0059b9]/30 rounded-lg p-2 bg-white relative overflow-hidden">
+        <div className="border-2 border-dashed border-cy-navy/30 rounded-lg p-2 bg-white relative overflow-hidden">
           <motion.svg
             viewBox="0 0 200 40"
             className="w-full h-10"
@@ -576,7 +576,7 @@ const STEPS: Step[] = [
             from="in_progress"
             to="completed"
             fromColor="#8B5CF6"
-            toColor="#10B981"
+            toColor="#00A86B"
             duration={900}
           />
         </motion.div>
@@ -602,10 +602,10 @@ const STEPS: Step[] = [
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.7, type: "spring", stiffness: 300, damping: 18 }}
-          className="bg-[#eef4ff] rounded-lg p-2 border border-[#0059b9]/20"
+          className="bg-cy-navy-pale rounded-lg p-2 border border-cy-navy/20"
         >
-          <p className="text-[10px] font-bold text-center text-[#0059b9] mb-1">📋 작업확인서 PDF 생성됨</p>
-          <div className="text-[9px] text-[#414754] space-y-0.5">
+          <p className="text-[10px] font-bold text-center text-cy-navy mb-1">📋 작업확인서 PDF 생성됨</p>
+          <div className="text-[9px] text-cy-ink-2 space-y-0.5">
             <p>장비: 크레인 50T · 오전(4h)</p>
             <p>건설사: {SCENARIO.company}</p>
             <p>금액: <span className="font-black">{formatPrice(SCENARIO.price)}원</span></p>
@@ -617,7 +617,7 @@ const STEPS: Step[] = [
               transition={{ delay: 2.0, type: "spring" }}
               className="bg-emerald-50 rounded p-1 text-center text-[8px] border border-emerald-200"
             >
-              <p className="text-[#727785]">요청자 서명</p>
+              <p className="text-cy-ink-3">요청자 서명</p>
               <p className="italic text-emerald-600 font-bold">✓ 검증됨</p>
             </motion.div>
             <motion.div
@@ -626,7 +626,7 @@ const STEPS: Step[] = [
               transition={{ delay: 2.15, type: "spring" }}
               className="bg-emerald-50 rounded p-1 text-center text-[8px] border border-emerald-200"
             >
-              <p className="text-[#727785]">기사 서명</p>
+              <p className="text-cy-ink-3">기사 서명</p>
               <p className="italic text-emerald-600 font-bold">✓ 검증됨</p>
             </motion.div>
           </div>
@@ -655,15 +655,15 @@ const STEPS_B: Step[] = [
           className="bg-red-50 border border-red-300 rounded-lg p-3 text-center"
         >
           <motion.span
-            className="material-symbols-outlined text-3xl text-[#EF4444]"
+            className="material-symbols-outlined text-3xl text-cy-danger"
             style={{ fontVariationSettings: "'FILL' 1" }}
             animate={{ rotate: [0, -8, 8, 0] }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
             timer_off
           </motion.span>
-          <p className="text-[11px] font-bold text-[#EF4444] mt-1">전용콜 60초 만료</p>
-          <p className="text-[9px] text-[#3A4A5F]">박중장비 사장 · 미수락</p>
+          <p className="text-[11px] font-bold text-cy-danger mt-1">전용콜 60초 만료</p>
+          <p className="text-[9px] text-cy-ink-2">박중장비 사장 · 미수락</p>
         </motion.div>
 
         <motion.div
@@ -709,8 +709,8 @@ const STEPS_B: Step[] = [
               <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
               <MiniBadge label="콜센터 전달" color="bg-amber-100 text-amber-700" />
             </div>
-            <p className="text-[9px] text-[#414754]">박중장비 미수락 → 콜센터 자동 전달</p>
-            <p className="text-[#0059b9] font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+            <p className="text-[9px] text-cy-ink-2">박중장비 미수락 → 콜센터 자동 전달</p>
+            <p className="text-cy-navy font-black text-sm tabular-nums">{formatPrice(SCENARIO.price)}원</p>
           </MiniCard>
         </motion.div>
       </div>
@@ -750,7 +750,7 @@ const STEPS_B: Step[] = [
               <span className="font-bold text-[11px]">🏗️ 크레인 50T</span>
               <MiniBadge label="대기" color="bg-amber-100 text-amber-700" />
             </div>
-            <p className="text-[9px] text-[#414754]">코엑스 신축현장 · {formatPrice(SCENARIO.price)}원</p>
+            <p className="text-[9px] text-cy-ink-2">코엑스 신축현장 · {formatPrice(SCENARIO.price)}원</p>
             <div className="flex gap-1 mt-1.5">
               <motion.div
                 whileHover={{ scale: 1.03 }}
@@ -768,7 +768,7 @@ const STEPS_B: Step[] = [
                   ],
                 }}
                 transition={{ duration: 2, repeat: Infinity }}
-                className="flex-1 py-1 bg-[#0059b9] text-white text-center rounded text-[10px] font-bold cursor-pointer"
+                className="flex-1 py-1 bg-cy-navy text-white text-center rounded text-[10px] font-bold cursor-pointer"
               >
                 공유콜 전환
               </motion.div>
@@ -781,10 +781,10 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          className="flex items-center gap-2 text-[9px] text-[#00AAD2]"
+          className="flex items-center gap-2 text-[9px] text-cy-cyan"
         >
           <span className="material-symbols-outlined text-xs">timer</span>
-          <div className="flex-1 h-1 bg-[#F4F6FA] rounded-full overflow-hidden">
+          <div className="flex-1 h-1 bg-cy-bg rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-amber-500"
               initial={{ width: "100%" }}
@@ -808,9 +808,9 @@ const STEPS_B: Step[] = [
               <span className="font-bold text-[11px]">크레인 50T</span>
               <MiniBadge label="콜센터 전달됨" color="bg-amber-100 text-amber-700" />
             </div>
-            <p className="text-[9px] text-[#414754] mb-1.5">콜센터에서 처리 중</p>
+            <p className="text-[9px] text-cy-ink-2 mb-1.5">콜센터에서 처리 중</p>
 
-            <div className="h-1 bg-[#d8e3f5] rounded-full overflow-hidden">
+            <div className="h-1 bg-cy-line-soft rounded-full overflow-hidden">
               <motion.div
                 className="h-full bg-gradient-to-r from-amber-400 to-amber-600 rounded-full"
                 animate={{ width: ["0%", "90%"] }}
@@ -819,7 +819,7 @@ const STEPS_B: Step[] = [
             </div>
 
             <div className="flex justify-between mt-0.5 text-[8px]">
-              <span className="text-[#727785]">전달 시각 09:14:22</span>
+              <span className="text-cy-ink-3">전달 시각 09:14:22</span>
               <motion.span
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 1, repeat: Infinity }}
@@ -836,17 +836,17 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.0 }}
-          className="bg-white border border-[#E3E8EF] rounded-lg p-2 text-[9px] font-mono"
+          className="bg-white border border-cy-line rounded-lg p-2 text-[9px] font-mono"
         >
-          <p className="text-[#6B7B8F] mb-1">다음 단계 예상</p>
+          <p className="text-cy-ink-3 mb-1">다음 단계 예상</p>
           <div className="space-y-0.5">
             <div className="flex items-center gap-1.5 text-emerald-600">
               <span className="w-1 h-1 bg-emerald-500 rounded-full" />
               <span className="flex-1">A) 콜센터 직접 수락</span>
               <span>→ 즉시 매칭</span>
             </div>
-            <div className="flex items-center gap-1.5 text-[#3B82F6]">
-              <span className="w-1 h-1 bg-[#3B82F6] rounded-full" />
+            <div className="flex items-center gap-1.5 text-cy-navy-light">
+              <span className="w-1 h-1 bg-cy-navy-light rounded-full" />
               <span className="flex-1">B) 공유콜 전환</span>
               <span>→ 지역 사장 Broadcast</span>
             </div>
@@ -875,14 +875,14 @@ const STEPS_B: Step[] = [
           />
         </motion.div>
 
-        <div className="bg-white rounded-lg border border-[#E3E8EF] p-2">
+        <div className="bg-white rounded-lg border border-cy-line p-2">
           <div className="flex items-center gap-1.5 mb-1.5 text-[9px] font-mono">
             <motion.span
-              className="w-1.5 h-1.5 bg-[#3B82F6] rounded-full"
+              className="w-1.5 h-1.5 bg-cy-navy-light rounded-full"
               animate={{ opacity: [0.3, 1, 0.3] }}
               transition={{ duration: 1, repeat: Infinity }}
             />
-            <span className="text-[#3B82F6] font-bold uppercase tracking-wider">Broadcasting · 3 recipients</span>
+            <span className="text-cy-navy-light font-bold uppercase tracking-wider">Broadcasting · 3 recipients</span>
           </div>
           {["김임대 (한국중기)", "최장비 (경인중장비)", "강중장 (충청크레인)"].map((n, i) => (
             <motion.div
@@ -901,7 +901,7 @@ const STEPS_B: Step[] = [
               >
                 send
               </motion.span>
-              <span className="text-[#9AA8B8]">{n}</span>
+              <span className="text-cy-ink-4">{n}</span>
               <motion.span
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -937,7 +937,7 @@ const STEPS_B: Step[] = [
             <MiniCard glow={i === 1}>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5">
-                  <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold ${i === 1 ? "bg-emerald-500 text-white" : "bg-[#d7e2ff] text-[#0059b9]"}`}>{name[0]}</div>
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[8px] font-bold ${i === 1 ? "bg-emerald-500 text-white" : "bg-cy-navy-pale text-cy-navy"}`}>{name[0]}</div>
                   <span className="text-[10px] font-bold">{name}</span>
                 </div>
                 {i === 1 ? (
@@ -953,7 +953,7 @@ const STEPS_B: Step[] = [
                   <motion.span
                     animate={{ opacity: [0.4, 1, 0.4] }}
                     transition={{ duration: 1, repeat: 3, delay: 1.5 + i * 0.2 }}
-                    className="text-[9px] text-[#00AAD2]"
+                    className="text-[9px] text-cy-cyan"
                   >
                     대기중...
                   </motion.span>
@@ -967,7 +967,7 @@ const STEPS_B: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 2.7 }}
-          className="text-[9px] text-[#6B7B8F] font-mono text-center pt-1"
+          className="text-[9px] text-cy-ink-3 font-mono text-center pt-1"
         >
           Race condition 방지: UPDATE WHERE status=&apos;shared_call&apos;
         </motion.div>
@@ -982,8 +982,8 @@ const STEPS_B: Step[] = [
       <div className="bg-emerald-50 rounded-lg p-2 text-center">
         <span className="material-symbols-outlined text-2xl text-emerald-500" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
         <p className="text-[11px] font-bold text-emerald-700 mt-0.5">배차 매칭 완료!</p>
-        <p className="text-[9px] text-[#414754]">경인중장비 최장비</p>
-        <p className="text-[8px] text-[#727785] mt-0.5">공유콜 → 선착순 매칭</p>
+        <p className="text-[9px] text-cy-ink-2">경인중장비 최장비</p>
+        <p className="text-[8px] text-cy-ink-3 mt-0.5">공유콜 → 선착순 매칭</p>
       </div>
     ),
     rightRole: "중장비사장 (최장비)", rightIcon: "local_shipping", rightTitle: "수락 완료",
@@ -996,10 +996,10 @@ const STEPS_B: Step[] = [
         <MiniCard>
           <p className="text-[10px] font-bold mb-1">수수료 계산</p>
           <div className="grid grid-cols-2 gap-0.5 text-[9px]">
-            <div className="bg-emerald-50 rounded p-0.5 text-center"><p className="text-[#727785]">본사</p><p className="font-bold">60,000</p></div>
-            <div className="bg-blue-50 rounded p-0.5 text-center"><p className="text-[#727785]">적립</p><p className="font-bold">60,000</p></div>
-            <div className="bg-purple-50 rounded p-0.5 text-center"><p className="text-[#727785]">콜센터</p><p className="font-bold">30,000</p></div>
-            <div className="bg-pink-50 rounded p-0.5 text-center"><p className="text-[#727785]">영업</p><p className="font-bold">30,000</p></div>
+            <div className="bg-emerald-50 rounded p-0.5 text-center"><p className="text-cy-ink-3">본사</p><p className="font-bold">60,000</p></div>
+            <div className="bg-blue-50 rounded p-0.5 text-center"><p className="text-cy-ink-3">적립</p><p className="font-bold">60,000</p></div>
+            <div className="bg-purple-50 rounded p-0.5 text-center"><p className="text-cy-ink-3">콜센터</p><p className="font-bold">30,000</p></div>
+            <div className="bg-pink-50 rounded p-0.5 text-center"><p className="text-cy-ink-3">영업</p><p className="font-bold">30,000</p></div>
           </div>
         </MiniCard>
       </div>
@@ -1021,7 +1021,7 @@ const STEPS_C: Step[] = [
         <div className="bg-emerald-50 rounded-lg p-2 text-center">
           <span className="material-symbols-outlined text-xl text-emerald-500" style={{ fontVariationSettings: "'FILL' 1" }}>speed</span>
           <p className="text-[11px] font-bold text-emerald-700">즉시 수락</p>
-          <p className="text-[9px] text-[#414754]">박중장비 사장이 전용콜을 수락</p>
+          <p className="text-[9px] text-cy-ink-2">박중장비 사장이 전용콜을 수락</p>
         </div>
       </div>
     ),
@@ -1030,7 +1030,7 @@ const STEPS_C: Step[] = [
       <div className="bg-emerald-50 rounded-lg p-2 text-center">
         <span className="material-symbols-outlined text-2xl text-emerald-500" style={{ fontVariationSettings: "'FILL' 1" }}>verified</span>
         <p className="text-[11px] font-bold text-emerald-700">매칭 완료</p>
-        <p className="text-[9px] text-[#414754]">수수료 {formatPrice(SCENARIO.commission)}원 계산 완료</p>
+        <p className="text-[9px] text-cy-ink-2">수수료 {formatPrice(SCENARIO.commission)}원 계산 완료</p>
       </div>
     ),
     systemLog: "UPDATE status='matched' → INSERT commissions (총 수수료: 180,000원)",
@@ -1049,14 +1049,14 @@ const STEPS_C: Step[] = [
         >
           <div className="flex items-center gap-2 mb-2">
             <motion.span
-              className="material-symbols-outlined text-xl text-[#EF4444]"
+              className="material-symbols-outlined text-xl text-cy-danger"
               style={{ fontVariationSettings: "'FILL' 1" }}
               animate={{ rotate: [0, -8, 8, 0] }}
               transition={{ duration: 0.4, delay: 0.2 }}
             >
               warning
             </motion.span>
-            <p className="text-[11px] font-bold text-[#EF4444]">배차를 취소하시겠습니까?</p>
+            <p className="text-[11px] font-bold text-cy-danger">배차를 취소하시겠습니까?</p>
           </div>
 
           {/* 페널티 강조 */}
@@ -1066,12 +1066,12 @@ const STEPS_C: Step[] = [
             transition={{ delay: 0.4 }}
             className="bg-red-100 rounded-lg p-2 text-center border border-red-300"
           >
-            <p className="text-[9px] text-[#EF4444] font-bold mb-0.5">⚠️ 7.5% 취소 수수료 발생</p>
+            <p className="text-[9px] text-cy-danger font-bold mb-0.5">⚠️ 7.5% 취소 수수료 발생</p>
             <motion.p
               initial={{ scale: 0.8 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.6, type: "spring" }}
-              className="text-[16px] font-black text-[#EF4444] tabular-nums"
+              className="text-[16px] font-black text-cy-danger tabular-nums"
             >
               {formatPrice(90000)}원
             </motion.p>
@@ -1093,11 +1093,11 @@ const STEPS_C: Step[] = [
                 ],
               }}
               transition={{ duration: 1.5, repeat: Infinity }}
-              className="flex-1 py-1.5 bg-[#EF4444] text-white text-center rounded text-[10px] font-bold cursor-pointer"
+              className="flex-1 py-1.5 bg-cy-danger text-white text-center rounded text-[10px] font-bold cursor-pointer"
             >
               취소 확인
             </motion.div>
-            <div className="flex-1 py-1.5 bg-[#F4F6FA] text-[#3A4A5F] text-center rounded text-[10px] font-bold">
+            <div className="flex-1 py-1.5 bg-cy-bg text-cy-ink-2 text-center rounded text-[10px] font-bold">
               돌아가기
             </div>
           </motion.div>
@@ -1112,7 +1112,7 @@ const STEPS_C: Step[] = [
             from="operator_assigned"
             to="cancelled"
             fromColor="#0059b9"
-            toColor="#EF4444"
+            toColor="#E5484D"
             duration={900}
           />
         </motion.div>
@@ -1128,11 +1128,11 @@ const STEPS_C: Step[] = [
           className="bg-white border border-red-200 rounded-lg p-2 shadow-xl"
         >
           <div className="flex items-center justify-between mb-1 text-[9px] font-mono">
-            <span className="text-[#EF4444] font-bold">🔔 철연</span>
-            <span className="text-[#6B7B8F]">지금</span>
+            <span className="text-cy-danger font-bold">🔔 철연</span>
+            <span className="text-cy-ink-3">지금</span>
           </div>
-          <p className="text-[10px] font-bold text-[#0A1628]">배차 취소 알림</p>
-          <p className="text-[9px] text-[#3A4A5F] mt-0.5">요청자가 배차를 취소했다. 페널티 수수료 {formatPrice(90000)}원 발생</p>
+          <p className="text-[10px] font-bold text-cy-ink">배차 취소 알림</p>
+          <p className="text-[9px] text-cy-ink-2 mt-0.5">요청자가 배차를 취소했다. 페널티 수수료 {formatPrice(90000)}원 발생</p>
         </motion.div>
 
         <motion.div
@@ -1143,9 +1143,9 @@ const STEPS_C: Step[] = [
           <MiniCard>
             <div className="flex items-center justify-between">
               <span className="text-[10px] font-bold">크레인 50T</span>
-              <MiniBadge label="취소됨" color="bg-[#ffdad6] text-[#ba1a1a]" />
+              <MiniBadge label="취소됨" color="bg-cy-danger/10 text-cy-danger" />
             </div>
-            <p className="text-[9px] text-[#6B7B8F] mt-1">매칭 후 취소 → 페널티 적용</p>
+            <p className="text-[9px] text-cy-ink-3 mt-1">매칭 후 취소 → 페널티 적용</p>
           </MiniCard>
         </motion.div>
       </div>
@@ -1162,7 +1162,7 @@ const STEPS_C: Step[] = [
           animate={{ opacity: 1 }}
           className="bg-red-50 rounded-lg p-2.5 border border-red-200"
         >
-          <p className="text-[10px] font-bold text-[#EF4444] text-center mb-2">📋 취소 수수료 계산서</p>
+          <p className="text-[10px] font-bold text-cy-danger text-center mb-2">📋 취소 수수료 계산서</p>
 
           <div className="space-y-1 text-[10px]">
             <motion.div
@@ -1171,8 +1171,8 @@ const STEPS_C: Step[] = [
               transition={{ delay: 0.2 }}
               className="flex justify-between"
             >
-              <span className="text-[#3A4A5F]">임대비</span>
-              <span className="font-bold tabular-nums text-[#9AA8B8]">{formatPrice(SCENARIO.price)}원</span>
+              <span className="text-cy-ink-2">임대비</span>
+              <span className="font-bold tabular-nums text-cy-ink-4">{formatPrice(SCENARIO.price)}원</span>
             </motion.div>
             <motion.div
               initial={{ opacity: 0, x: -5 }}
@@ -1180,8 +1180,8 @@ const STEPS_C: Step[] = [
               transition={{ delay: 0.5 }}
               className="flex justify-between"
             >
-              <span className="text-[#3A4A5F]">페널티율</span>
-              <span className="font-bold text-[#EF4444]">× 7.5%</span>
+              <span className="text-cy-ink-2">페널티율</span>
+              <span className="font-bold text-cy-danger">× 7.5%</span>
             </motion.div>
 
             <motion.div
@@ -1191,12 +1191,12 @@ const STEPS_C: Step[] = [
               className="border-t border-red-200 pt-1 mt-1 origin-left"
             >
               <div className="flex justify-between items-baseline">
-                <span className="font-bold text-[#EF4444]">취소 수수료</span>
+                <span className="font-bold text-cy-danger">취소 수수료</span>
                 <motion.span
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.0, type: "spring", stiffness: 400 }}
-                  className="font-black text-lg text-[#EF4444] tabular-nums"
+                  className="font-black text-lg text-cy-danger tabular-nums"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {formatPrice(90000)}원
@@ -1210,7 +1210,7 @@ const STEPS_C: Step[] = [
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.3 }}
-          className="text-[9px] text-[#6B7B8F] text-center font-mono"
+          className="text-[9px] text-cy-ink-3 text-center font-mono"
         >
           💰 전액 본사 귀속 · 콜센터/영업 수수료 없음
         </motion.div>
@@ -1236,18 +1236,18 @@ const STEPS_C: Step[] = [
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.8 }}
-          className="bg-white border border-[#E3E8EF] rounded-lg p-2"
+          className="bg-white border border-cy-line rounded-lg p-2"
         >
-          <p className="text-[10px] font-bold text-[#0A1628] mb-1.5 flex items-center gap-1">
-            <span className="material-symbols-outlined text-xs text-[#EF4444]" style={{ fontVariationSettings: "'FILL' 1" }}>receipt_long</span>
+          <p className="text-[10px] font-bold text-cy-ink mb-1.5 flex items-center gap-1">
+            <span className="material-symbols-outlined text-xs text-cy-danger" style={{ fontVariationSettings: "'FILL' 1" }}>receipt_long</span>
             취소 건 정산 내역
           </p>
           <div className="space-y-0.5 text-[9px] font-mono">
             {[
               { label: "본사 수익", value: formatPrice(90000), color: "text-emerald-600" },
-              { label: "콜센터", value: "0", color: "text-[#6B7B8F]" },
-              { label: "영업사원", value: "0", color: "text-[#6B7B8F]" },
-              { label: "건설사 적립", value: "0", color: "text-[#6B7B8F]" },
+              { label: "콜센터", value: "0", color: "text-cy-ink-3" },
+              { label: "영업사원", value: "0", color: "text-cy-ink-3" },
+              { label: "건설사 적립", value: "0", color: "text-cy-ink-3" },
             ].map((row, i) => (
               <motion.div
                 key={row.label}
@@ -1256,7 +1256,7 @@ const STEPS_C: Step[] = [
                 transition={{ delay: 2.0 + i * 0.1 }}
                 className="flex justify-between"
               >
-                <span className="text-[#3A4A5F]">{row.label}</span>
+                <span className="text-cy-ink-2">{row.label}</span>
                 <span className={`font-bold tabular-nums ${row.color}`}>{row.value}원</span>
               </motion.div>
             ))}
@@ -1271,7 +1271,7 @@ const STEPS_C: Step[] = [
 const ALL_SCENARIOS = {
   A: { label: "해피패스", desc: "전용콜 → 즉시 수락 → 완료", steps: STEPS_A, icon: "check_circle", color: "from-emerald-500 to-green-600", count: 6 },
   B: { label: "에스컬레이션", desc: "미수락 → 콜센터 → 공유콜 → 선착순", steps: STEPS_B, icon: "swap_horiz", color: "from-amber-500 to-orange-600", count: 8 },
-  C: { label: "취소 페널티", desc: "수락 후 취소 → 7.5% 페널티 정산", steps: STEPS_C, icon: "cancel", color: "from-[#ba1a1a] to-rose-700", count: 5 },
+  C: { label: "취소 페널티", desc: "수락 후 취소 → 7.5% 페널티 정산", steps: STEPS_C, icon: "cancel", color: "from-cy-danger to-rose-700", count: 5 },
 } as const;
 
 type ScenarioKey = keyof typeof ALL_SCENARIOS;
@@ -1404,7 +1404,7 @@ export default function SimulationPage() {
   const current = step >= 0 && step < currentSteps.length ? currentSteps[step] : null;
 
   return (
-    <main className="min-h-screen bg-[#F4F6FA] text-[#0A1628]" style={{ fontFamily: "'Pretendard','IBM Plex Sans KR',sans-serif", letterSpacing: "-0.01em" }}>
+    <main className="min-h-screen bg-cy-bg text-cy-ink" style={{ fontFamily: "'Pretendard','IBM Plex Sans KR',sans-serif", letterSpacing: "-0.01em" }}>
       {/* Top network activity indicator (iOS-style) */}
       <NetworkActivityBar active={networkActive} />
 
@@ -1412,7 +1412,7 @@ export default function SimulationPage() {
       <Confetti active={isComplete && (scenario === "A" || scenario === "B")} count={60} duration={3.5} />
 
       {/* Nav */}
-      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-[#E3E8EF]" style={{ backdropFilter: "blur(12px) saturate(180%)" }}>
+      <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xl border-b border-cy-line" style={{ backdropFilter: "blur(12px) saturate(180%)" }}>
         <div className="flex justify-between items-center max-w-6xl mx-auto px-4 md:px-6 h-14">
           <Link href="/demo" className="flex items-baseline gap-2.5" aria-label="철연 홈">
             <span style={{ color: "#002C5F", fontWeight: 900 }} className="text-[20px] tracking-[-0.03em]">철연</span>
@@ -1421,7 +1421,7 @@ export default function SimulationPage() {
           <div className="flex items-center gap-3">
             <RealtimeIndicator />
             {running && !isComplete && <ProcessingPulse label="Running" />}
-            <span className="px-3 py-1 bg-[#E8F1FB] text-[#002C5F] rounded-full text-xs font-bold flex items-center gap-1">
+            <span className="px-3 py-1 bg-cy-navy-pale text-cy-navy rounded-full text-xs font-bold flex items-center gap-1">
               <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
               E2E 시뮬레이션
             </span>
@@ -1432,28 +1432,28 @@ export default function SimulationPage() {
       <div className="pt-16 pb-10 px-4 md:px-6 max-w-6xl mx-auto">
         {/* ── Header ── */}
         <div className="text-center mb-6">
-          <h1 className="text-2xl md:text-3xl font-[800] text-[#0A1628] mb-1" style={{ letterSpacing: "-0.03em" }}>배차 플로우 시뮬레이션</h1>
-          <p className="text-[#6B7B8F] text-sm">장비 요청 → 전용콜 → 수락 → 기사배정 → 작업완료 전 과정</p>
+          <h1 className="text-2xl md:text-3xl font-[800] text-cy-ink mb-1" style={{ letterSpacing: "-0.03em" }}>배차 플로우 시뮬레이션</h1>
+          <p className="text-cy-ink-3 text-sm">장비 요청 → 전용콜 → 수락 → 기사배정 → 작업완료 전 과정</p>
         </div>
 
         {/* ── Scenario Card ── */}
-        <div className="bg-white rounded-2xl border border-[#E3E8EF] p-4 mb-6 flex items-center justify-between flex-wrap gap-3" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
+        <div className="bg-white rounded-2xl border border-cy-line p-4 mb-6 flex items-center justify-between flex-wrap gap-3" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
           <div className="flex items-center gap-3">
             <span className="text-2xl">🏗️</span>
             <div>
-              <p className="text-[#0A1628] font-[800] text-lg">{SCENARIO.equipment} · {SCENARIO.time}</p>
-              <p className="text-[#6B7B8F] text-sm">{SCENARIO.site}</p>
+              <p className="text-cy-ink font-[800] text-lg">{SCENARIO.equipment} · {SCENARIO.time}</p>
+              <p className="text-cy-ink-3 text-sm">{SCENARIO.site}</p>
             </div>
           </div>
-          <p className="text-2xl font-black text-[#002C5F] tabular-nums">{formatPrice(SCENARIO.price)}원</p>
+          <p className="text-2xl font-black text-cy-navy tabular-nums">{formatPrice(SCENARIO.price)}원</p>
         </div>
 
         {/* ── Progress Bar ── */}
         <div className="flex gap-1 mb-6">
           {currentSteps.map((s, i) => (
             <div key={s.id} className="flex-1 flex flex-col items-center gap-1">
-              <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${i <= step ? "bg-[#002C5F]" : "bg-[#E3E8EF]"}`} />
-              <span className={`text-[9px] font-bold transition-colors hidden md:block ${i <= step ? "text-[#002C5F]" : "text-[#9AA8B8]"}`}>{s.label}</span>
+              <div className={`w-full h-1.5 rounded-full transition-all duration-500 ${i <= step ? "bg-cy-navy" : "bg-cy-line"}`} />
+              <span className={`text-[9px] font-bold transition-colors hidden md:block ${i <= step ? "text-cy-navy" : "text-cy-ink-4"}`}>{s.label}</span>
             </div>
           ))}
         </div>
@@ -1462,11 +1462,11 @@ export default function SimulationPage() {
         {current && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 animate-fade-in" key={step}>
             {/* LEFT DEVICE */}
-            <div className="bg-white rounded-2xl border border-[#E3E8EF] overflow-hidden" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
-              <div className="px-3 py-2 bg-[#F4F6FA] border-b border-[#E3E8EF] flex items-center gap-2">
-                <span className={`material-symbols-outlined text-sm text-[#002C5F]`}>{current.leftIcon}</span>
-                <span className="text-xs font-bold text-[#002C5F]">{current.leftRole}</span>
-                <span className="text-[10px] text-[#6B7B8F] ml-auto">{current.leftTitle}</span>
+            <div className="bg-white rounded-2xl border border-cy-line overflow-hidden" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
+              <div className="px-3 py-2 bg-cy-bg border-b border-cy-line flex items-center gap-2">
+                <span className={`material-symbols-outlined text-sm text-cy-navy`}>{current.leftIcon}</span>
+                <span className="text-xs font-bold text-cy-navy">{current.leftRole}</span>
+                <span className="text-[10px] text-cy-ink-3 ml-auto">{current.leftTitle}</span>
               </div>
               <div className="p-3 min-h-[160px]">
                 {current.leftContent}
@@ -1474,13 +1474,13 @@ export default function SimulationPage() {
             </div>
 
             {/* RIGHT DEVICE */}
-            <div className="bg-white rounded-2xl border border-[#E3E8EF] overflow-hidden" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
-              <div className="px-3 py-2 bg-[#F4F6FA] border-b border-[#E3E8EF] flex items-center gap-2">
-                <span className={`material-symbols-outlined text-sm text-[#002C5F]`}>{current.rightIcon}</span>
-                <span className="text-xs font-bold text-[#002C5F]">{current.rightRole}</span>
-                <span className="text-[10px] text-[#6B7B8F] ml-auto">{current.rightTitle}</span>
+            <div className="bg-white rounded-2xl border border-cy-line overflow-hidden" style={{ boxShadow: "0 1px 3px rgba(0,44,95,0.04)" }}>
+              <div className="px-3 py-2 bg-cy-bg border-b border-cy-line flex items-center gap-2">
+                <span className={`material-symbols-outlined text-sm text-cy-navy`}>{current.rightIcon}</span>
+                <span className="text-xs font-bold text-cy-navy">{current.rightRole}</span>
+                <span className="text-[10px] text-cy-ink-3 ml-auto">{current.rightTitle}</span>
                 {current.timer && timer > 0 && (
-                  <span className="px-2 py-0.5 bg-[#ba1a1a] text-white rounded-full text-[10px] font-bold animate-pulse tabular-nums">⏱ {timer}초</span>
+                  <span className="px-2 py-0.5 bg-cy-danger text-white rounded-full text-[10px] font-bold animate-pulse tabular-nums">⏱ {timer}초</span>
                 )}
               </div>
               <div className="p-3 min-h-[160px]">
@@ -1492,20 +1492,20 @@ export default function SimulationPage() {
 
         {/* ── System Log with Typed effect ── */}
         {current && (
-          <div className="bg-white rounded-xl border border-[#E3E8EF] p-4 mb-6 animate-fade-in">
-            <div className="flex items-center justify-between mb-3 pb-2 border-b border-[#E3E8EF]">
+          <div className="bg-white rounded-xl border border-cy-line p-4 mb-6 animate-fade-in">
+            <div className="flex items-center justify-between mb-3 pb-2 border-b border-cy-line">
               <div className="flex items-center gap-2">
                 <div className="flex gap-1">
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#EF4444]/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#00AAD2]/60" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-cy-danger/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-cy-cyan/60" />
+                  <div className="w-2.5 h-2.5 rounded-full bg-cy-success/60" />
                 </div>
-                <span className="text-[10px] text-[#6B7B8F] font-mono ml-2">cheolyeon@server:~$</span>
+                <span className="text-[10px] text-cy-ink-3 font-mono ml-2">cheolyeon@server:~$</span>
               </div>
               <div className="flex items-center gap-3">
                 <RealtimeIndicator />
                 <SystemClock />
-                <span className="text-[10px] text-[#6B7B8F] font-mono">Step {step + 1}/{currentSteps.length}</span>
+                <span className="text-[10px] text-cy-ink-3 font-mono">Step {step + 1}/{currentSteps.length}</span>
               </div>
             </div>
             <TypedLog
@@ -1520,7 +1520,7 @@ export default function SimulationPage() {
         <div className="flex gap-3 max-w-md mx-auto">
           {scenario === null ? (
             <div className="w-full space-y-3">
-              <p className="text-center text-sm text-[#6B7B8F] font-medium mb-2">시나리오를 선택하세요</p>
+              <p className="text-center text-sm text-cy-ink-3 font-medium mb-2">시나리오를 선택하세요</p>
               {(Object.entries(ALL_SCENARIOS) as [ScenarioKey, typeof ALL_SCENARIOS[ScenarioKey]][]).map(([key, sc]) => (
                 <ScenarioStartButton
                   key={key}
@@ -1533,11 +1533,11 @@ export default function SimulationPage() {
           ) : isComplete ? (
             <div className="w-full space-y-2">
               <div className="flex gap-3">
-                <button onClick={reset} className="flex-1 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] font-bold rounded-xl border border-[#E3E8EF] active:scale-95 transition-colors flex items-center justify-center gap-1">
+                <button onClick={reset} className="flex-1 py-3 bg-white hover:bg-cy-bg text-cy-ink font-bold rounded-xl border border-cy-line active:scale-95 transition-colors flex items-center justify-center gap-1">
                   <span className="material-symbols-outlined text-lg">refresh</span>
                   다른 시나리오
                 </button>
-                <Link href="/demo" className="flex-1 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white font-bold rounded-xl active:scale-95 transition-colors text-center flex items-center justify-center gap-1">
+                <Link href="/demo" className="flex-1 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white font-bold rounded-xl active:scale-95 transition-colors text-center flex items-center justify-center gap-1">
                   역할별 체험 <span className="material-symbols-outlined text-lg">arrow_forward</span>
                 </Link>
               </div>
@@ -1549,7 +1549,7 @@ export default function SimulationPage() {
                     <button
                       key={k}
                       onClick={() => { reset(); setTimeout(() => start(k), 300); }}
-                      className="px-3 py-1.5 bg-white hover:bg-[#E8F1FB] text-[#3A4A5F] hover:text-[#002C5F] border border-[#E3E8EF] font-bold rounded-lg text-xs transition-colors flex items-center gap-1"
+                      className="px-3 py-1.5 bg-white hover:bg-cy-navy-pale text-cy-ink-2 hover:text-cy-navy border border-cy-line font-bold rounded-lg text-xs transition-colors flex items-center gap-1"
                     >
                       <span className="material-symbols-outlined text-xs">{sc.icon}</span>
                       {sc.label}
@@ -1564,7 +1564,7 @@ export default function SimulationPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className="flex-1 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] border border-[#E3E8EF] font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 bg-white hover:bg-cy-bg text-cy-ink border border-cy-line font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
               >
                 <motion.span
                   key={running ? "pause" : "play"}
@@ -1583,7 +1583,7 @@ export default function SimulationPage() {
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className="flex-1 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                className="flex-1 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white font-bold rounded-xl transition-colors flex items-center justify-center gap-1.5"
               >
                 다음 단계
                 <motion.span
@@ -1620,7 +1620,7 @@ export default function SimulationPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl font-[900] text-[#0A1628]"
+              className="text-2xl md:text-3xl font-[900] text-cy-ink"
               style={{ letterSpacing: "-0.03em" }}
             >
               배차 완료
@@ -1629,16 +1629,16 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="text-sm text-[#6B7B8F] mt-1 mb-6"
+              className="text-sm text-cy-ink-3 mt-1 mb-6"
             >
               전용콜 → 즉시 수락 → 기사 배정 → 작업 완료 (6단계)
             </motion.p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
               {[
-                { target: SCENARIO.price, label: "임대비", color: "text-[#0A1628]", delay: 0.7 },
+                { target: SCENARIO.price, label: "임대비", color: "text-cy-ink", delay: 0.7 },
                 { target: SCENARIO.commission, label: "총 수수료 (15%)", color: "text-emerald-600", delay: 0.9 },
-                { target: 60000, label: "본사 수익", color: "text-[#002C5F]", delay: 1.1 },
+                { target: 60000, label: "본사 수익", color: "text-cy-navy", delay: 1.1 },
                 { target: 60000, label: "건설사 적립", color: "text-amber-600", delay: 1.3 },
               ].map((item) => (
                 <motion.div
@@ -1646,12 +1646,12 @@ export default function SimulationPage() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: item.delay, type: "spring", stiffness: 200 }}
-                  className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
+                  className="bg-white rounded-xl p-3.5 border border-cy-line"
                 >
                   <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                     <CountUp target={item.target} duration={1.8} />원
                   </p>
-                  <p className="text-[10px] text-[#6B7B8F] mt-1">{item.label}</p>
+                  <p className="text-[10px] text-cy-ink-3 mt-1">{item.label}</p>
                 </motion.div>
               ))}
             </div>
@@ -1678,7 +1678,7 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl font-[900] text-[#0A1628]"
+              className="text-2xl md:text-3xl font-[900] text-cy-ink"
               style={{ letterSpacing: "-0.03em" }}
             >
               에스컬레이션 후 배차 완료
@@ -1687,7 +1687,7 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="text-sm text-[#6B7B8F] mt-2"
+              className="text-sm text-cy-ink-3 mt-2"
             >
               전용콜 미수락 → 콜센터 전달 → 공유콜 → <b className="text-amber-600">선착순 매칭</b>
             </motion.p>
@@ -1695,28 +1695,28 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.7 }}
-              className="text-xs text-[#6B7B8F] mb-6"
+              className="text-xs text-cy-ink-3 mb-6"
             >
               원래 사장(박중장비) 미수락 → 다른 사장(최장비)이 공유콜에서 수락
             </motion.p>
 
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
               {[
-                { target: SCENARIO.price, label: "임대비", color: "text-[#0A1628]", delay: 0.9 },
+                { target: SCENARIO.price, label: "임대비", color: "text-cy-ink", delay: 0.9 },
                 { target: SCENARIO.commission, label: "총 수수료", color: "text-emerald-600", delay: 1.1 },
-                { target: 60000, label: "본사", color: "text-[#002C5F]", delay: 1.3 },
+                { target: 60000, label: "본사", color: "text-cy-navy", delay: 1.3 },
               ].map((item) => (
                 <motion.div
                   key={item.label}
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: item.delay, type: "spring", stiffness: 200 }}
-                  className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
+                  className="bg-white rounded-xl p-3.5 border border-cy-line"
                 >
                   <p className={`text-xl md:text-2xl font-black tabular-nums ${item.color}`} style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                     <CountUp target={item.target} duration={1.8} />원
                   </p>
-                  <p className="text-[10px] text-[#6B7B8F] mt-1">{item.label}</p>
+                  <p className="text-[10px] text-cy-ink-3 mt-1">{item.label}</p>
                 </motion.div>
               ))}
               <motion.div
@@ -1743,7 +1743,7 @@ export default function SimulationPage() {
               initial={{ scale: 0 }}
               animate={{ scale: 1, rotate: [0, -10, 10, 0] }}
               transition={{ type: "spring", stiffness: 300, damping: 15, delay: 0.2 }}
-              className="material-symbols-outlined text-6xl text-[#EF4444] block mb-2"
+              className="material-symbols-outlined text-6xl text-cy-danger block mb-2"
               style={{ fontVariationSettings: "'FILL' 1" }}
             >
               cancel
@@ -1752,7 +1752,7 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
-              className="text-2xl md:text-3xl font-[900] text-[#0A1628]"
+              className="text-2xl md:text-3xl font-[900] text-cy-ink"
               style={{ letterSpacing: "-0.03em" }}
             >
               배차 취소 — 페널티 정산
@@ -1761,9 +1761,9 @@ export default function SimulationPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55 }}
-              className="text-sm text-[#6B7B8F] mt-2 mb-6"
+              className="text-sm text-cy-ink-3 mt-2 mb-6"
             >
-              매칭 후 취소 시 <b className="text-[#EF4444]">7.5% 페널티</b>가 발생한다
+              매칭 후 취소 시 <b className="text-cy-danger">7.5% 페널티</b>가 발생한다
             </motion.p>
 
             <div className="grid grid-cols-3 gap-2.5">
@@ -1771,12 +1771,12 @@ export default function SimulationPage() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.7, type: "spring", stiffness: 200 }}
-                className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
+                className="bg-white rounded-xl p-3.5 border border-cy-line"
               >
-                <p className="text-xl md:text-2xl font-black tabular-nums text-[#0A1628]" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
+                <p className="text-xl md:text-2xl font-black tabular-nums text-cy-ink" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                   <CountUp target={SCENARIO.price} duration={1.8} />원
                 </p>
-                <p className="text-[10px] text-[#6B7B8F] mt-1">임대비</p>
+                <p className="text-[10px] text-cy-ink-3 mt-1">임대비</p>
               </motion.div>
 
               <motion.div
@@ -1785,22 +1785,22 @@ export default function SimulationPage() {
                 transition={{ delay: 0.9, type: "spring", stiffness: 200 }}
                 className="bg-red-100 rounded-xl p-3.5 border border-red-300"
               >
-                <p className="text-xl md:text-2xl font-black tabular-nums text-[#EF4444]" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
+                <p className="text-xl md:text-2xl font-black tabular-nums text-cy-danger" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                   <CountUp target={90000} duration={2.0} />원
                 </p>
-                <p className="text-[10px] text-[#EF4444]/70 mt-1">페널티 (7.5%)</p>
+                <p className="text-[10px] text-cy-danger/70 mt-1">페널티 (7.5%)</p>
               </motion.div>
 
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.1, type: "spring", stiffness: 200 }}
-                className="bg-white rounded-xl p-3.5 border border-[#E3E8EF]"
+                className="bg-white rounded-xl p-3.5 border border-cy-line"
               >
                 <p className="text-xl md:text-2xl font-black tabular-nums text-emerald-600" style={{ fontFamily: "var(--font-roboto-mono), monospace" }}>
                   <CountUp target={90000} duration={1.8} />원
                 </p>
-                <p className="text-[10px] text-[#6B7B8F] mt-1">본사 귀속</p>
+                <p className="text-[10px] text-cy-ink-3 mt-1">본사 귀속</p>
               </motion.div>
             </div>
           </motion.div>
@@ -1811,7 +1811,7 @@ export default function SimulationPage() {
           {currentSteps.map((s, i) => (
             <button key={s.id} onClick={() => { setStep(i); setRunning(false); }}
               className={`px-2.5 py-1 rounded-lg text-[10px] font-bold transition-all ${
-                i === step ? "bg-[#002C5F] text-white" : i < step ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : "bg-white text-[#9AA8B8] border border-[#E3E8EF]"
+                i === step ? "bg-cy-navy text-white" : i < step ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : "bg-white text-cy-ink-4 border border-cy-line"
               }`}>
               {i + 1}. {s.label}
             </button>

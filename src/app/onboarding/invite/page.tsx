@@ -100,11 +100,11 @@ export default function InvitePage() {
   return (
     <OnboardingShell step={3}>
       <Reveal delay={0.05}>
-        <h1 className="text-[28px] md:text-[32px] font-[800] text-[#0A1628] tracking-[-0.02em] mb-2">
+        <h1 className="text-[28px] md:text-[32px] font-[800] text-cy-ink tracking-[-0.02em] mb-2">
           팀원 초대
         </h1>
         <p
-          className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] mb-8"
+          className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] mb-8"
           style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
         >
           역할을 선택하고 이메일·전화번호로 초대한다. 한 사람에게 복수 역할을 부여할 수 있다.
@@ -115,8 +115,8 @@ export default function InvitePage() {
       {/* 역할 선택 */}
       <Reveal delay={0.1}>
         <div className="mb-5">
-          <p className="text-[13px] font-bold text-[#0A1628] mb-2">
-            역할 <span className="text-[11px] font-normal text-[#6B7B8F]">(중복 가능)</span>
+          <p className="text-[13px] font-bold text-cy-ink mb-2">
+            역할 <span className="text-[11px] font-normal text-cy-ink-3">(중복 가능)</span>
           </p>
           <div className="flex flex-wrap gap-2">
             {ROLES.map((r) => {
@@ -129,8 +129,8 @@ export default function InvitePage() {
                   aria-pressed={active}
                   className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-[13px] transition-colors ${
                     active
-                      ? "bg-[#002C5F] border-[#002C5F] text-white"
-                      : "bg-white border-[#E3E8EF] text-[#3A4A5F] hover:border-[#002C5F]/40"
+                      ? "bg-cy-navy border-cy-navy text-white"
+                      : "bg-white border-cy-line text-cy-ink-2 hover:border-cy-navy/40"
                   }`}
                 >
                   <span
@@ -152,18 +152,18 @@ export default function InvitePage() {
       <Reveal delay={0.15}>
         <div className="grid sm:grid-cols-2 gap-3 mb-3">
           <div>
-            <label className="block text-[13px] font-bold text-[#0A1628] mb-1.5">이메일</label>
+            <label className="block text-[13px] font-bold text-cy-ink mb-1.5">이메일</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="name@example.com"
               autoComplete="email"
-              className="w-full px-4 py-3 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[14px]"
+              className="w-full px-4 py-3 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[14px]"
             />
           </div>
           <div>
-            <label className="block text-[13px] font-bold text-[#0A1628] mb-1.5">전화번호</label>
+            <label className="block text-[13px] font-bold text-cy-ink mb-1.5">전화번호</label>
             <input
               type="tel"
               inputMode="numeric"
@@ -171,7 +171,7 @@ export default function InvitePage() {
               onChange={(e) => setPhone(formatPhone(e.target.value))}
               placeholder="010-0000-0000"
               autoComplete="tel"
-              className="w-full px-4 py-3 bg-white border border-[#E3E8EF] rounded-lg focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 text-[14px] tabular-nums"
+              className="w-full px-4 py-3 bg-white border border-cy-line rounded-lg focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 text-[14px] tabular-nums"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             />
           </div>
@@ -180,23 +180,23 @@ export default function InvitePage() {
           type="button"
           onClick={handleAdd}
           disabled={!canAdd}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-[#E8F1FB] text-[#002C5F] hover:bg-[#D4E5F7] disabled:bg-[#F4F6FA] disabled:text-[#9AA8B8] disabled:cursor-not-allowed text-[13px] font-bold transition-colors"
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-lg bg-cy-navy-pale text-cy-navy hover:bg-cy-navy-pale disabled:bg-cy-bg disabled:text-cy-ink-4 disabled:cursor-not-allowed text-[13px] font-bold transition-colors"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 16 }} aria-hidden="true">
             person_add
           </span>
           추가
         </button>
-        {error && <p className="mt-2 text-[12px] text-[#E5484D]">{error}</p>}
+        {error && <p className="mt-2 text-[12px] text-cy-danger">{error}</p>}
       </Reveal>
 
       {/* 초대 목록 */}
       <div className="mt-8">
         <div className="flex items-center justify-between mb-3">
-          <p className="text-[13px] font-bold text-[#0A1628]">
+          <p className="text-[13px] font-bold text-cy-ink">
             초대 목록{" "}
             <span
-              className="text-[#6B7B8F] tabular-nums"
+              className="text-cy-ink-3 tabular-nums"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               ({invited.length})
@@ -204,26 +204,26 @@ export default function InvitePage() {
           </p>
         </div>
         {invited.length === 0 ? (
-          <div className="bg-[#F4F6FA] border border-dashed border-[#E3E8EF] rounded-xl p-6 text-center">
+          <div className="bg-cy-bg border border-dashed border-cy-line rounded-xl p-6 text-center">
             <span
-              className="material-symbols-outlined text-[#9AA8B8] mb-1.5 block"
+              className="material-symbols-outlined text-cy-ink-4 mb-1.5 block"
               style={{ fontSize: 28 }}
               aria-hidden="true"
             >
               group_add
             </span>
-            <p className="text-[12px] text-[#6B7B8F]">등록된 팀원이 없다. 역할과 연락처를 추가한다.</p>
+            <p className="text-[12px] text-cy-ink-3">등록된 팀원이 없다. 역할과 연락처를 추가한다.</p>
           </div>
         ) : (
           <ul className="space-y-2 list-none p-0 m-0">
             {invited.map((inv, idx) => (
               <li
                 key={`${inv.email}-${inv.role}-${idx}`}
-                className="flex items-center gap-3 bg-white border border-[#E3E8EF] rounded-xl px-4 py-3"
+                className="flex items-center gap-3 bg-white border border-cy-line rounded-xl px-4 py-3"
               >
-                <div className="w-8 h-8 bg-[#E8F1FB] rounded-full flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 bg-cy-navy-pale rounded-full flex items-center justify-center flex-shrink-0">
                   <span
-                    className="material-symbols-outlined text-[#002C5F]"
+                    className="material-symbols-outlined text-cy-navy"
                     style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}
                     aria-hidden="true"
                   >
@@ -232,13 +232,13 @@ export default function InvitePage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="text-[12px] font-bold text-[#002C5F] bg-[#E8F1FB] px-1.5 py-0.5 rounded">
+                    <span className="text-[12px] font-bold text-cy-navy bg-cy-navy-pale px-1.5 py-0.5 rounded">
                       {roleLabel(inv.role)}
                     </span>
-                    <span className="text-[13px] text-[#0A1628] truncate">{inv.email}</span>
+                    <span className="text-[13px] text-cy-ink truncate">{inv.email}</span>
                   </div>
                   <p
-                    className="text-[11px] text-[#6B7B8F] tabular-nums"
+                    className="text-[11px] text-cy-ink-3 tabular-nums"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     {inv.phone}
@@ -248,7 +248,7 @@ export default function InvitePage() {
                   type="button"
                   onClick={() => handleRemove(idx)}
                   aria-label="삭제"
-                  className="w-8 h-8 rounded-lg text-[#6B7B8F] hover:bg-[#FEEBEC] hover:text-[#E5484D] transition-colors flex items-center justify-center flex-shrink-0"
+                  className="w-8 h-8 rounded-lg text-cy-ink-3 hover:bg-cy-danger/8 hover:text-cy-danger transition-colors flex items-center justify-center flex-shrink-0"
                 >
                   <span
                     className="material-symbols-outlined"
@@ -272,7 +272,7 @@ export default function InvitePage() {
           <button
             type="button"
             onClick={() => commit("/onboarding/equipment")}
-            className="text-[13px] text-[#6B7B8F] hover:text-[#002C5F] underline underline-offset-4 transition-colors px-2"
+            className="text-[13px] text-cy-ink-3 hover:text-cy-navy underline underline-offset-4 transition-colors px-2"
           >
             이 단계는 건너뛰기
           </button>

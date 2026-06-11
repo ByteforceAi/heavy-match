@@ -30,16 +30,16 @@ export default function CrossRoleLink({ targetRole, description, className = "" 
   return (
     <Link
       href={`/demo/${targetRole}`}
-      className={`flex items-center gap-3 p-3 bg-[#eef4ff] hover:bg-[#dee9fb] rounded-xl border border-[#c1c6d6]/30 transition-all active:scale-[0.98] ${className}`}
+      className={`flex items-center gap-3 p-3 bg-cy-navy-pale hover:bg-cy-navy-pale rounded-xl border border-cy-line/30 transition-all active:scale-[0.98] ${className}`}
     >
-      <div className="w-9 h-9 bg-[#d7e2ff] rounded-lg flex items-center justify-center flex-shrink-0">
-        <span className="material-symbols-outlined text-lg text-[#0059b9]">{ROLE_ICONS[targetRole]}</span>
+      <div className="w-9 h-9 bg-cy-navy-pale rounded-lg flex items-center justify-center flex-shrink-0">
+        <span className="material-symbols-outlined text-lg text-cy-navy">{ROLE_ICONS[targetRole]}</span>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-[#727785]">{ROLE_LABELS[targetRole]} 화면에서</p>
-        <p className="text-sm font-bold text-[#0059b9] truncate">{description}</p>
+        <p className="text-xs text-cy-ink-3">{ROLE_LABELS[targetRole]} 화면에서</p>
+        <p className="text-sm font-bold text-cy-navy truncate">{description}</p>
       </div>
-      <span className="material-symbols-outlined text-[#0059b9] text-lg">arrow_forward</span>
+      <span className="material-symbols-outlined text-cy-navy text-lg">arrow_forward</span>
     </Link>
   );
 }

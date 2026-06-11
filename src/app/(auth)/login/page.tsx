@@ -5,7 +5,12 @@ import { createClient } from "@/lib/supabase/client";
 import { formatPhone, parsePhone } from "@/lib/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/Button";
+import { AuthShell, ErrorAlert, INPUT_CLS, LABEL_CLS } from "../_shared";
 
+/**
+ * 로그인 — 외부에서 가장 먼저 만나는 화면. 인증 로직은 변경 없음.
+ */
 export default function LoginPage() {
   const [phone, setPhone] = useState("");
   const [otp, setOtp] = useState("");
@@ -78,114 +83,95 @@ export default function LoginPage() {
     setPhone(formatPhone(digits));
   };
 
+  const footer = (
+    <>
+      <p className="text-sm text-cy-ink-3">
+        아직 계정이 없다면{" "}
+        <Link href="/register" className="font-bold text-cy-navy hover:text-cy-navy-mid underline underline-offset-4 decoration-cy-navy/30 hover:decoration-cy-navy-mid transition-colors">
+          회원가입
+        </Link>
+      </p>
+      <Link
+        href="/demo"
+        className="inline-flex items-center justify-center gap-1 min-h-11 text-sm font-semibold text-cy-ink-3 hover:text-cy-navy transition-colors"
+      >
+        <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
+        데모 체험하기
+      </Link>
+    </>
+  );
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f8f9ff] px-4" style={{ fontFamily: "'Inter', 'Pretendard', sans-serif", letterSpacing: "-0.02em" }}>
-      <div className="w-full max-w-sm">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 mb-3">
-            <span className="material-symbols-outlined text-3xl text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-2xl font-black text-[#0A1628] tracking-tighter">철연 CHEOLYEON</span>
+    <AuthShell
+      badge="SECURE ACCESS · OTP"
+      stepIndex={step === "phone" ? 1 : 2}
+      stepTotal={2}
+      title="로그인"
+      footer={footer}
+    >
+      {step === "phone" ? (
+        <form
+          className="space-y-4"
+          onSubmit={(e) => { e.preventDefault(); if (!loading) handleSendOTP(); }}
+        >
+          <div>
+            <label htmlFor="login-phone" className={LABEL_CLS}>휴대폰 번호</label>
+            <input
+              id="login-phone"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => handlePhoneChange(e.target.value)}
+              placeholder="010-0000-0000"
+              className={`${INPUT_CLS} tabular-nums`}
+              autoFocus
+            />
           </div>
-          <p className="text-sm text-[#727785]">중장비 배차 실시간 매칭 플랫폼</p>
-        </div>
-
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-[0_20px_40px_rgba(17,28,41,0.06)] border border-[#c1c6d6]/20 p-7">
-          <h1 className="text-2xl font-[800] text-center text-[#111c29] mb-6">로그인</h1>
-
-          {step === "phone" ? (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-[#414754] mb-1.5">
-                  <span className="material-symbols-outlined text-sm align-text-bottom mr-1">phone_android</span>
-                  휴대폰 번호
-                </label>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={(e) => handlePhoneChange(e.target.value)}
-                  placeholder="010-0000-0000"
-                  className="w-full px-4 py-3.5 text-lg border border-[#c1c6d6] rounded-xl bg-[#f8f9ff] focus:outline-none focus:ring-2 focus:ring-[#0059b9]/30 focus:border-[#0059b9] transition-all"
-                  autoFocus
-                />
-              </div>
-              {error && (
-                <p className="text-[#ba1a1a] text-sm font-medium flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">error</span>{error}
-                </p>
-              )}
-              <button
-                onClick={handleSendOTP}
-                disabled={loading}
-                className="w-full py-4 bg-gradient-to-br from-[#0059b9] to-[#1071e5] text-white text-lg font-bold rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <><span className="material-symbols-outlined animate-spin">progress_activity</span>발송중...</>
-                ) : (
-                  <><span className="material-symbols-outlined">send</span>인증번호 받기</>
-                )}
-              </button>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              <div className="text-center bg-[#eef4ff] rounded-xl p-3">
-                <p className="text-sm text-[#414754]">
-                  <span className="font-bold text-[#0059b9]">{formatPhone(parsePhone(phone))}</span>로 인증번호 발송
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#414754] mb-1.5">인증번호</label>
-                <input
-                  type="text"
-                  inputMode="numeric"
-                  value={otp}
-                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                  placeholder="6자리 입력"
-                  className="w-full px-4 py-3.5 text-2xl text-center tracking-[0.5em] font-mono border border-[#c1c6d6] rounded-xl bg-[#f8f9ff] focus:outline-none focus:ring-2 focus:ring-[#0059b9]/30 focus:border-[#0059b9] transition-all"
-                  autoFocus
-                />
-              </div>
-              {error && (
-                <p className="text-[#ba1a1a] text-sm font-medium flex items-center gap-1">
-                  <span className="material-symbols-outlined text-sm">error</span>{error}
-                </p>
-              )}
-              <button
-                onClick={handleVerifyOTP}
-                disabled={loading}
-                className="w-full py-4 bg-gradient-to-br from-[#0059b9] to-[#1071e5] text-white text-lg font-bold rounded-xl hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 flex items-center justify-center gap-2"
-              >
-                {loading ? (
-                  <><span className="material-symbols-outlined animate-spin">progress_activity</span>확인중...</>
-                ) : (
-                  <><span className="material-symbols-outlined">login</span>로그인</>
-                )}
-              </button>
-              <button
-                onClick={() => { setStep("phone"); setOtp(""); setError(""); }}
-                className="w-full py-2 text-[#727785] text-sm font-medium flex items-center justify-center gap-1 hover:text-[#0059b9] transition-colors"
-              >
-                <span className="material-symbols-outlined text-sm">arrow_back</span>
-                다른 번호로 시도
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* Footer links */}
-        <div className="mt-6 text-center space-y-3">
-          <Link href="/register" className="text-[#0059b9] text-sm font-bold hover:underline">
-            회원가입
-          </Link>
-          <p className="text-xs text-[#727785]">
-            <Link href="/demo" className="hover:text-[#0059b9] transition-colors flex items-center justify-center gap-1">
-              <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>play_circle</span>
-              데모 체험하기
-            </Link>
-          </p>
-        </div>
-      </div>
-    </main>
+          {error && <ErrorAlert>{error}</ErrorAlert>}
+          <Button type="submit" size="lg" fullWidth loading={loading} icon={loading ? undefined : "send"}>
+            {loading ? "발송중..." : "인증번호 받기"}
+          </Button>
+        </form>
+      ) : (
+        <form
+          className="space-y-4"
+          onSubmit={(e) => { e.preventDefault(); if (!loading) handleVerifyOTP(); }}
+        >
+          <div className="flex items-center justify-between px-3.5 py-3 rounded-xl bg-cy-navy-pale/70 border border-cy-navy/10">
+            <span className="text-sm font-bold tabular-nums text-cy-navy">{formatPhone(parsePhone(phone))}</span>
+            <span className="mono-label text-cy-navy/60">SMS SENT</span>
+          </div>
+          <div>
+            <label htmlFor="login-otp" className={LABEL_CLS}>인증번호</label>
+            <input
+              id="login-otp"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="······"
+              className={`${INPUT_CLS} text-2xl text-center tracking-[0.5em] font-mono`}
+              autoFocus
+            />
+          </div>
+          {error && <ErrorAlert>{error}</ErrorAlert>}
+          <Button type="submit" size="lg" fullWidth loading={loading} icon={loading ? undefined : "login"}>
+            {loading ? "확인중..." : "로그인"}
+          </Button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            fullWidth
+            icon="arrow_back"
+            onClick={() => { setStep("phone"); setOtp(""); setError(""); }}
+          >
+            다른 번호로 시도
+          </Button>
+        </form>
+      )}
+    </AuthShell>
   );
 }

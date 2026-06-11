@@ -263,7 +263,7 @@ export default function PricingPage() {
 
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -307,12 +307,12 @@ function Navigation() {
   ];
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6 md:gap-12"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
         <span
-          className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]"
+          className="text-[22px] font-black text-cy-navy tracking-[-0.03em]"
           style={{
             fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
           }}
@@ -320,7 +320,7 @@ function Navigation() {
           철연
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           CHEOLYEON
@@ -334,15 +334,15 @@ function Navigation() {
               href={item.href}
               className={`text-[14px] font-medium transition-colors py-1 ${
                 item.active
-                  ? "text-[#002C5F] font-semibold"
-                  : "text-[#3A4A5F] hover:text-[#002C5F]"
+                  ? "text-cy-navy font-semibold"
+                  : "text-cy-ink-2 hover:text-cy-navy"
               }`}
             >
               {item.label}
               {item.active && (
                 <span
                   aria-hidden="true"
-                  className="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-[#002C5F]"
+                  className="absolute bottom-[-22px] left-0 right-0 h-[2px] bg-cy-navy"
                 />
               )}
             </Link>
@@ -353,13 +353,13 @@ function Navigation() {
       <div className="flex gap-2.5 ml-auto">
         <Link
           href="/login"
-          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
+          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors min-h-0"
         >
           로그인
         </Link>
         <Link
           href="/demo"
-          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           데모 체험
         </Link>
@@ -384,7 +384,7 @@ function Hero({
 }) {
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
@@ -396,7 +396,7 @@ function Hero({
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 py-16 md:py-24">
         <Reveal>
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-3"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             PRICING · 도입 요금
@@ -404,7 +404,7 @@ function Hero({
         </Reveal>
         <Reveal delay={0.08}>
           <h1
-            className="font-[900] text-[#0A1628] mb-4 max-w-[880px]"
+            className="font-[900] text-cy-ink mb-4 max-w-[880px]"
             style={{
               fontSize: "clamp(2rem, 4.8vw, 3.25rem)",
               lineHeight: 1.18,
@@ -412,11 +412,11 @@ function Hero({
             }}
           >
             투명한 구조,{" "}
-            <span className="text-[#002C5F]">협상 없는 가격</span>
+            <span className="text-cy-navy">협상 없는 가격</span>
           </h1>
         </Reveal>
         <Reveal delay={0.18}>
-          <p className="text-[15px] md:text-[17px] text-[#3A4A5F] leading-[1.75] max-w-[620px] mb-8">
+          <p className="text-[15px] md:text-[17px] text-cy-ink-2 leading-[1.75] max-w-[620px] mb-8">
             중장비 배차 플랫폼의 실제 도입 비용을 공개한다.
           </p>
         </Reveal>
@@ -425,7 +425,7 @@ function Hero({
           <div className="flex flex-wrap items-center gap-3">
             {/* 통화 토글 */}
             <div
-              className="inline-flex items-center bg-white border border-[#E3E8EF] rounded-xl p-1"
+              className="inline-flex items-center bg-white border border-cy-line rounded-xl p-1"
               role="tablist"
               aria-label="통화 선택"
             >
@@ -445,7 +445,7 @@ function Hero({
 
             {/* 월/연 토글 */}
             <div
-              className="inline-flex items-center bg-white border border-[#E3E8EF] rounded-xl p-1"
+              className="inline-flex items-center bg-white border border-cy-line rounded-xl p-1"
               role="tablist"
               aria-label="결제 주기"
             >
@@ -464,9 +464,9 @@ function Hero({
             </div>
 
             {/* 할인 배지 */}
-            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-[#E8F1FB] text-[#002C5F] rounded-full text-[12px] font-semibold">
+            <span className="inline-flex items-center gap-2 px-3 py-1.5 bg-cy-navy-pale text-cy-navy rounded-full text-[12px] font-semibold">
               <span
-                className="w-1.5 h-1.5 bg-[#00AAD2] rounded-full"
+                className="w-1.5 h-1.5 bg-cy-cyan rounded-full"
                 aria-hidden="true"
               />
               연 결제 시 17% 할인
@@ -495,8 +495,8 @@ function ToggleBtn({
       aria-selected={active}
       className={`px-3.5 py-1.5 text-[13px] font-semibold rounded-lg transition-all min-h-0 ${
         active
-          ? "bg-[#002C5F] text-white"
-          : "bg-transparent text-[#3A4A5F] hover:text-[#002C5F]"
+          ? "bg-cy-navy text-white"
+          : "bg-transparent text-cy-ink-2 hover:text-cy-navy"
       }`}
     >
       {children}
@@ -546,8 +546,8 @@ function TierCard({
     <div
       className={`relative h-full flex flex-col rounded-2xl p-6 md:p-7 transition-shadow ${
         isRec
-          ? "bg-[#EEF4FB] ring-2 ring-[#002C5F]"
-          : "bg-white border border-[#E3E8EF]"
+          ? "bg-cy-navy-pale ring-2 ring-cy-navy"
+          : "bg-white border border-cy-line"
       }`}
       style={{
         boxShadow: isRec
@@ -557,7 +557,7 @@ function TierCard({
     >
       {isRec && (
         <span
-          className="absolute top-4 right-4 px-2.5 py-1 bg-[#002C5F] text-white text-[10px] font-bold tracking-[0.1em] uppercase rounded-full"
+          className="absolute top-4 right-4 px-2.5 py-1 bg-cy-navy text-white text-[10px] font-bold tracking-[0.1em] uppercase rounded-full"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           가장 많이 선택
@@ -566,21 +566,21 @@ function TierCard({
 
       <div className="mb-5">
         <div className="flex items-baseline gap-2 mb-1.5">
-          <h3 className="text-[22px] font-[800] text-[#0A1628] tracking-[-0.02em]">
+          <h3 className="text-[22px] font-[800] text-cy-ink tracking-[-0.02em]">
             {tier.name}
           </h3>
-          <span className="text-[12px] text-[#6B7B8F] font-medium">
+          <span className="text-[12px] text-cy-ink-3 font-medium">
             {tier.nameEn}
           </span>
         </div>
-        <p className="text-[12px] text-[#6B7B8F] leading-[1.5]">
+        <p className="text-[12px] text-cy-ink-3 leading-[1.5]">
           {tier.targetLine}
         </p>
       </div>
 
       <div className="mb-6">
         <p
-          className="text-[40px] md:text-[48px] font-black text-[#002C5F] tabular-nums leading-none"
+          className="text-[40px] md:text-[48px] font-black text-cy-navy tabular-nums leading-none"
           style={{
             fontFamily: "var(--font-roboto-mono), monospace",
             letterSpacing: "-0.04em",
@@ -588,14 +588,14 @@ function TierCard({
         >
           {priceDisplay}
           {!isEnterprise && (
-            <span className="text-[14px] font-medium text-[#6B7B8F] ml-1 tracking-normal">
+            <span className="text-[14px] font-medium text-cy-ink-3 ml-1 tracking-normal">
               {periodSuffix}
             </span>
           )}
         </p>
         {billing === "annual" && !isEnterprise && (
           <p
-            className="mt-2 text-[11px] text-[#6B7B8F]"
+            className="mt-2 text-[11px] text-cy-ink-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {tier.annualNote}
@@ -603,7 +603,7 @@ function TierCard({
         )}
         {billing === "monthly" && !isEnterprise && (
           <p
-            className="mt-2 text-[11px] text-[#6B7B8F]"
+            className="mt-2 text-[11px] text-cy-ink-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             연 결제:{" "}
@@ -612,7 +612,7 @@ function TierCard({
           </p>
         )}
         {isEnterprise && tier.enterpriseNote && (
-          <p className="mt-2 text-[11px] text-[#6B7B8F]">
+          <p className="mt-2 text-[11px] text-cy-ink-3">
             {tier.enterpriseNote}
           </p>
         )}
@@ -632,10 +632,10 @@ function TierCard({
         {tier.features.map((f) => (
           <li
             key={f}
-            className="flex items-start gap-2 text-[13px] text-[#3A4A5F] leading-[1.55]"
+            className="flex items-start gap-2 text-[13px] text-cy-ink-2 leading-[1.55]"
           >
             <span
-              className="material-symbols-outlined text-[#00A86B] mt-0.5 flex-shrink-0"
+              className="material-symbols-outlined text-cy-success mt-0.5 flex-shrink-0"
               style={{ fontSize: 18, fontVariationSettings: "'FILL' 1" }}
               aria-hidden="true"
             >
@@ -654,19 +654,19 @@ function TierCard({
 // ═══════════════════════════════════════════
 function RegionalPricing() {
   return (
-    <section className="bg-white border-y border-[#E3E8EF]">
+    <section className="bg-white border-y border-cy-line">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 py-16 md:py-20">
         <Reveal>
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             Regional Pricing
           </p>
-          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
             지역별 가격 정책
           </h2>
-          <p className="text-[14px] md:text-[15px] text-[#6B7B8F] max-w-[680px] mb-8 leading-[1.7]">
+          <p className="text-[14px] md:text-[15px] text-cy-ink-3 max-w-[680px] mb-8 leading-[1.7]">
             구매력·시장 규모를 반영한 차별 가격이다. 아래 수치는 기준선이며 실제
             견적은 국가별 맥락에 따라 조정된다.
           </p>
@@ -674,13 +674,13 @@ function RegionalPricing() {
 
         <Reveal delay={0.1}>
           <div
-            className="overflow-x-auto rounded-2xl border border-[#E3E8EF] bg-white"
+            className="overflow-x-auto rounded-2xl border border-cy-line bg-white"
             style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
           >
             <table className="w-full min-w-[720px] text-left">
               <thead>
                 <tr
-                  className="bg-[#F4F6FA] text-[#002C5F]"
+                  className="bg-cy-bg text-cy-navy"
                   style={{
                     fontFamily: "var(--font-roboto-mono), monospace",
                   }}
@@ -703,14 +703,14 @@ function RegionalPricing() {
                 {REGIONAL_ROWS.map((row, i) => (
                   <tr
                     key={row.code}
-                    className={`border-t border-[#E3E8EF] ${
-                      i % 2 === 1 ? "bg-[#FAFBFD]" : "bg-white"
+                    className={`border-t border-cy-line ${
+                      i % 2 === 1 ? "bg-cy-elevated" : "bg-white"
                     }`}
                   >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2.5">
                         <span
-                          className="text-[10px] px-1.5 py-0.5 bg-[#E8F1FB] text-[#002C5F] rounded font-bold tracking-[0.1em]"
+                          className="text-[10px] px-1.5 py-0.5 bg-cy-navy-pale text-cy-navy rounded font-bold tracking-[0.1em]"
                           style={{
                             fontFamily:
                               "var(--font-roboto-mono), monospace",
@@ -718,13 +718,13 @@ function RegionalPricing() {
                         >
                           {row.code}
                         </span>
-                        <span className="text-[13px] font-semibold text-[#0A1628]">
+                        <span className="text-[13px] font-semibold text-cy-ink">
                           {row.region}
                         </span>
                       </div>
                     </td>
                     <td
-                      className="px-5 py-4 text-[13px] text-[#3A4A5F] tabular-nums"
+                      className="px-5 py-4 text-[13px] text-cy-ink-2 tabular-nums"
                       style={{
                         fontFamily: "var(--font-roboto-mono), monospace",
                       }}
@@ -732,7 +732,7 @@ function RegionalPricing() {
                       {row.starter}
                     </td>
                     <td
-                      className="px-5 py-4 text-[13px] text-[#002C5F] font-bold tabular-nums"
+                      className="px-5 py-4 text-[13px] text-cy-navy font-bold tabular-nums"
                       style={{
                         fontFamily: "var(--font-roboto-mono), monospace",
                       }}
@@ -740,7 +740,7 @@ function RegionalPricing() {
                       {row.growth}
                     </td>
                     <td
-                      className="px-5 py-4 text-[13px] text-[#3A4A5F] tabular-nums"
+                      className="px-5 py-4 text-[13px] text-cy-ink-2 tabular-nums"
                       style={{
                         fontFamily: "var(--font-roboto-mono), monospace",
                       }}
@@ -755,15 +755,15 @@ function RegionalPricing() {
         </Reveal>
 
         <Reveal delay={0.2}>
-          <div className="mt-5 flex items-start gap-3 bg-[#EEF4FB] border border-[#002C5F]/15 rounded-xl p-4">
+          <div className="mt-5 flex items-start gap-3 bg-cy-navy-pale border border-cy-navy/15 rounded-xl p-4">
             <span
-              className="material-symbols-outlined text-[#002C5F] flex-shrink-0"
+              className="material-symbols-outlined text-cy-navy flex-shrink-0"
               style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}
               aria-hidden="true"
             >
               info
             </span>
-            <p className="text-[13px] text-[#3A4A5F] leading-[1.7]">
+            <p className="text-[13px] text-cy-ink-2 leading-[1.7]">
               SEA·인도는 성장기 파트너십 가격이다. 중동은 NEOM·Vision 2030
               인프라 프로젝트 기준이다.
             </p>
@@ -814,15 +814,15 @@ function RoiCalculator() {
     <section className="max-w-[1280px] mx-auto px-6 md:px-12 py-16 md:py-20">
       <Reveal>
         <p
-          className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+          className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           ROI Calculator
         </p>
-        <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+        <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
           도입 효과 계산기
         </h2>
-        <p className="text-[14px] md:text-[15px] text-[#6B7B8F] max-w-[620px] mb-10 leading-[1.7]">
+        <p className="text-[14px] md:text-[15px] text-cy-ink-3 max-w-[620px] mb-10 leading-[1.7]">
           Growth 연 결제 기준으로 월 절감액·회수 기간·연간 ROI를 산출한다. 값은
           모두 추정치이며 실측 계약에 우선한다.
         </p>
@@ -832,7 +832,7 @@ function RoiCalculator() {
         {/* 슬라이더 */}
         <Reveal delay={0.1}>
           <div
-            className="bg-white border border-[#E3E8EF] rounded-2xl p-6 md:p-7"
+            className="bg-white border border-cy-line rounded-2xl p-6 md:p-7"
             style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
           >
             <Slider
@@ -869,7 +869,7 @@ function RoiCalculator() {
         {/* 결과 */}
         <Reveal delay={0.2}>
           <div
-            className="bg-[#002C5F] text-white rounded-2xl p-6 md:p-8 h-full flex flex-col justify-between"
+            className="bg-cy-navy text-white rounded-2xl p-6 md:p-8 h-full flex flex-col justify-between"
             style={{
               boxShadow: "0 18px 40px rgba(0, 44, 95, 0.2)",
               background:
@@ -951,11 +951,11 @@ function Slider({
   return (
     <div className={last ? "" : "mb-6"}>
       <div className="flex items-baseline justify-between mb-2">
-        <label className="text-[13px] font-semibold text-[#0A1628]">
+        <label className="text-[13px] font-semibold text-cy-ink">
           {label}
         </label>
         <span
-          className="text-[14px] font-bold text-[#002C5F] tabular-nums"
+          className="text-[14px] font-bold text-cy-navy tabular-nums"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {format(value)}
@@ -997,7 +997,7 @@ function Slider({
         }
       `}</style>
       <div
-        className="flex justify-between mt-1 text-[10px] text-[#9AA8B8]"
+        className="flex justify-between mt-1 text-[10px] text-cy-ink-4"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
         <span>{format(min)}</span>
@@ -1048,32 +1048,32 @@ function RoiMetric({
 // ═══════════════════════════════════════════
 function FeatureMatrix() {
   return (
-    <section className="bg-white border-y border-[#E3E8EF]">
+    <section className="bg-white border-y border-cy-line">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 py-16 md:py-20">
         <Reveal>
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             Feature Matrix
           </p>
-          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
             전체 기능 비교
           </h2>
-          <p className="text-[14px] md:text-[15px] text-[#6B7B8F] mb-8 leading-[1.7]">
+          <p className="text-[14px] md:text-[15px] text-cy-ink-3 mb-8 leading-[1.7]">
             3개 플랜이 포함하는 기능을 단일 표로 정리한다.
           </p>
         </Reveal>
 
         <Reveal delay={0.1}>
           <div
-            className="overflow-x-auto rounded-2xl border border-[#E3E8EF] bg-white"
+            className="overflow-x-auto rounded-2xl border border-cy-line bg-white"
             style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
           >
             <table className="w-full min-w-[680px] text-left">
               <thead>
                 <tr
-                  className="bg-[#F4F6FA] text-[#002C5F]"
+                  className="bg-cy-bg text-cy-navy"
                   style={{
                     fontFamily: "var(--font-roboto-mono), monospace",
                   }}
@@ -1084,7 +1084,7 @@ function FeatureMatrix() {
                   <th className="px-5 py-3.5 text-[11px] font-bold tracking-[0.15em] uppercase text-center">
                     Starter
                   </th>
-                  <th className="px-5 py-3.5 text-[11px] font-bold tracking-[0.15em] uppercase text-center bg-[#EEF4FB]">
+                  <th className="px-5 py-3.5 text-[11px] font-bold tracking-[0.15em] uppercase text-center bg-cy-navy-pale">
                     Growth
                   </th>
                   <th className="px-5 py-3.5 text-[11px] font-bold tracking-[0.15em] uppercase text-center">
@@ -1096,11 +1096,11 @@ function FeatureMatrix() {
                 {MATRIX.map((group) => (
                   <Fragment key={group.group}>
                     <tr
-                      className="bg-[#FAFBFD] border-t border-[#E3E8EF]"
+                      className="bg-cy-elevated border-t border-cy-line"
                     >
                       <td
                         colSpan={4}
-                        className="px-5 py-2.5 text-[11px] font-bold text-[#6B7B8F] tracking-[0.15em] uppercase"
+                        className="px-5 py-2.5 text-[11px] font-bold text-cy-ink-3 tracking-[0.15em] uppercase"
                         style={{
                           fontFamily:
                             "var(--font-roboto-mono), monospace",
@@ -1112,15 +1112,15 @@ function FeatureMatrix() {
                     {group.rows.map((row) => (
                       <tr
                         key={`${group.group}-${row.label}`}
-                        className="border-t border-[#E3E8EF]"
+                        className="border-t border-cy-line"
                       >
-                        <td className="px-5 py-3 text-[13px] text-[#3A4A5F]">
+                        <td className="px-5 py-3 text-[13px] text-cy-ink-2">
                           {row.label}
                         </td>
                         <td className="px-5 py-3 text-center">
                           <MarkIcon mark={row.cells[0]} />
                         </td>
-                        <td className="px-5 py-3 text-center bg-[#EEF4FB]/40">
+                        <td className="px-5 py-3 text-center bg-cy-navy-pale/40">
                           <MarkIcon mark={row.cells[1]} />
                         </td>
                         <td className="px-5 py-3 text-center">
@@ -1143,7 +1143,7 @@ function MarkIcon({ mark }: { mark: Mark }) {
   if (mark === "yes") {
     return (
       <span
-        className="material-symbols-outlined text-[#00A86B]"
+        className="material-symbols-outlined text-cy-success"
         style={{ fontSize: 20, fontVariationSettings: "'FILL' 1" }}
         aria-label="포함"
       >
@@ -1154,7 +1154,7 @@ function MarkIcon({ mark }: { mark: Mark }) {
   if (mark === "half") {
     return (
       <span
-        className="material-symbols-outlined text-[#6B7B8F]"
+        className="material-symbols-outlined text-cy-ink-3"
         style={{ fontSize: 20 }}
         aria-label="부분 포함"
       >
@@ -1164,7 +1164,7 @@ function MarkIcon({ mark }: { mark: Mark }) {
   }
   return (
     <span
-      className="material-symbols-outlined text-[#9AA8B8]"
+      className="material-symbols-outlined text-cy-ink-4"
       style={{ fontSize: 20 }}
       aria-label="미포함"
     >
@@ -1181,34 +1181,34 @@ function PricingFaq() {
     <section className="max-w-[960px] mx-auto px-6 md:px-12 py-16 md:py-20">
       <Reveal>
         <p
-          className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+          className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           FAQ
         </p>
-        <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-8">
+        <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-cy-ink mb-8">
           자주 묻는 가격 관련 질문
         </h2>
       </Reveal>
       <StaggerContainer className="space-y-3">
         {PRICING_FAQ.map((item) => (
           <StaggerItem key={item.q}>
-            <details className="group bg-white border border-[#E3E8EF] rounded-xl overflow-hidden">
+            <details className="group bg-white border border-cy-line rounded-xl overflow-hidden">
               <summary className="flex items-center justify-between p-5 cursor-pointer select-none">
-                <span className="text-[15px] font-semibold text-[#0A1628] pr-4">
+                <span className="text-[15px] font-semibold text-cy-ink pr-4">
                   Q. {item.q}
                 </span>
                 <span
-                  className="material-symbols-outlined text-[#6B7B8F] group-open:rotate-180 transition-transform flex-shrink-0"
+                  className="material-symbols-outlined text-cy-ink-3 group-open:rotate-180 transition-transform flex-shrink-0"
                   style={{ fontSize: 20 }}
                   aria-hidden="true"
                 >
                   expand_more
                 </span>
               </summary>
-              <div className="px-5 pb-5 text-[13px] text-[#3A4A5F] leading-[1.75] border-t border-[#E3E8EF] pt-4">
+              <div className="px-5 pb-5 text-[13px] text-cy-ink-2 leading-[1.75] border-t border-cy-line pt-4">
                 <span
-                  className="font-bold text-[#002C5F] mr-1.5"
+                  className="font-bold text-cy-navy mr-1.5"
                   style={{
                     fontFamily: "var(--font-roboto-mono), monospace",
                   }}
@@ -1267,7 +1267,7 @@ function ContactCta() {
         </Reveal>
 
         <Reveal delay={0.12}>
-          <div className="bg-white text-[#0A1628] rounded-2xl p-6 md:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
+          <div className="bg-white text-cy-ink rounded-2xl p-6 md:p-8 shadow-[0_24px_60px_rgba(0,0,0,0.25)]">
             <ContactForm />
           </div>
         </Reveal>
@@ -1280,7 +1280,7 @@ function ContactCta() {
             또는 랜딩 페이지의 통합 상담 양식 이용 —{" "}
             <Link
               href="/#contact"
-              className="underline underline-offset-4 text-white hover:text-[#00AAD2] transition-colors"
+              className="underline underline-offset-4 text-white hover:text-cy-cyan transition-colors"
             >
               /#contact
             </Link>
@@ -1296,12 +1296,12 @@ function ContactCta() {
 // ═══════════════════════════════════════════
 function FooterSection() {
   return (
-    <footer className="border-t border-[#E3E8EF] pt-10 pb-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line pt-10 pb-8 bg-cy-bg-alt">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-[#E3E8EF]">
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-cy-line">
           <div className="flex items-baseline gap-2.5">
             <span
-              className="text-[18px] font-black text-[#002C5F] tracking-[-0.03em]"
+              className="text-[18px] font-black text-cy-navy tracking-[-0.03em]"
               style={{
                 fontFamily:
                   "var(--font-pretendard), 'Pretendard', sans-serif",
@@ -1310,12 +1310,12 @@ function FooterSection() {
               {copy.footer.brand.ko}
             </span>
             <span
-              className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+              className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {copy.footer.brand.en}
             </span>
-            <span className="text-[12px] text-[#6B7B8F] ml-2 hidden md:inline">
+            <span className="text-[12px] text-cy-ink-3 ml-2 hidden md:inline">
               {copy.footer.description}
             </span>
           </div>
@@ -1324,7 +1324,7 @@ function FooterSection() {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-[12px] text-[#3A4A5F] hover:text-[#002C5F] font-medium transition-colors min-h-0"
+                className="text-[12px] text-cy-ink-2 hover:text-cy-navy font-medium transition-colors min-h-0"
               >
                 {link.label}
               </Link>
@@ -1333,7 +1333,7 @@ function FooterSection() {
         </div>
 
         <div
-          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-[#6B7B8F] leading-[1.8]"
+          className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-2 text-[11px] text-cy-ink-3 leading-[1.8]"
           style={{
             fontFamily:
               "var(--font-roboto-mono), 'Pretendard', sans-serif",
@@ -1341,55 +1341,55 @@ function FooterSection() {
         >
           <div className="space-y-0.5">
             <p>
-              <span className="text-[#9AA8B8]">대표:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">대표:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.business.representative}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">사업자등록번호:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">사업자등록번호:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.business.registrationNumber}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">통신판매업신고번호:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">통신판매업신고번호:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.business.eCommerceNumber}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">호스팅 제공자:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">호스팅 제공자:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.business.hostingProvider}
               </span>
             </p>
           </div>
           <div className="space-y-0.5">
             <p>
-              <span className="text-[#9AA8B8]">주소:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">주소:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.business.address}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">전화:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">전화:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.business.phone}
               </span>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">이메일:</span>{" "}
+              <span className="text-cy-ink-4">이메일:</span>{" "}
               <a
                 href={`mailto:${copy.footer.business.email}`}
-                className="text-[#002C5F] hover:text-[#0046A4] font-medium transition-colors"
+                className="text-cy-navy hover:text-cy-navy-mid font-medium transition-colors"
               >
                 {copy.footer.business.email}
               </a>
             </p>
             <p>
-              <span className="text-[#9AA8B8]">개인정보보호책임자:</span>{" "}
-              <span className="text-[#3A4A5F] font-medium">
+              <span className="text-cy-ink-4">개인정보보호책임자:</span>{" "}
+              <span className="text-cy-ink-2 font-medium">
                 {copy.footer.dpo.name} {copy.footer.dpo.title} (
                 {copy.footer.dpo.email})
               </span>
@@ -1397,11 +1397,11 @@ function FooterSection() {
           </div>
         </div>
 
-        <div className="mt-6 pt-5 border-t border-[#E3E8EF] flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-          <p className="text-[10px] text-[#9AA8B8]">
+        <div className="mt-6 pt-5 border-t border-cy-line flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+          <p className="text-[10px] text-cy-ink-4">
             {copy.footer.copyright}
           </p>
-          <p className="text-[10px] text-[#9AA8B8]">
+          <p className="text-[10px] text-cy-ink-4">
             철연 · CHEOLYEON은 ㈜바이트포스의 중장비 배차·계약·정산 통합
             플랫폼 상표다.
           </p>

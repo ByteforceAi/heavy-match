@@ -36,22 +36,22 @@ export default function CompletePage() {
       <Reveal delay={0.05}>
         <div className="flex flex-col items-center text-center mb-8">
           <div
-            className="w-[80px] h-[80px] rounded-full bg-[#E8F1FB] flex items-center justify-center mb-4"
+            className="w-[80px] h-[80px] rounded-full bg-cy-navy-pale flex items-center justify-center mb-4"
             style={{ boxShadow: "0 0 0 8px rgba(0,44,95,0.06)" }}
           >
             <span
-              className="material-symbols-outlined text-[#002C5F]"
+              className="material-symbols-outlined text-cy-navy"
               style={{ fontSize: 64, fontVariationSettings: "'FILL' 1" }}
               aria-hidden="true"
             >
               check_circle
             </span>
           </div>
-          <h1 className="text-[28px] md:text-[32px] font-[800] text-[#0A1628] tracking-[-0.02em] mb-2">
+          <h1 className="text-[28px] md:text-[32px] font-[800] text-cy-ink tracking-[-0.02em] mb-2">
             설정 완료
           </h1>
           <p
-            className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] max-w-[480px]"
+            className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] max-w-[480px]"
             style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
           >
             기본 구성이 확정되었다. 이제 첫 배차 요청으로 실제 운영을 개시한다.
@@ -93,7 +93,7 @@ export default function CompletePage() {
           <button
             type="button"
             onClick={() => router.push("/requester")}
-            className="flex-1 bg-[#002C5F] hover:bg-[#0046A4] text-white font-bold px-7 py-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-[14px]"
+            className="flex-1 bg-cy-navy hover:bg-cy-navy-mid text-white font-bold px-7 py-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-[14px]"
           >
             <span
               className="material-symbols-outlined"
@@ -107,7 +107,7 @@ export default function CompletePage() {
           <button
             type="button"
             onClick={() => router.push("/demo")}
-            className="flex-1 bg-white border border-[#E3E8EF] text-[#3A4A5F] hover:border-[#002C5F]/40 font-bold px-7 py-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-[14px]"
+            className="flex-1 bg-white border border-cy-line text-cy-ink-2 hover:border-cy-navy/40 font-bold px-7 py-4 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-[14px]"
           >
             <span
               className="material-symbols-outlined"
@@ -124,17 +124,17 @@ export default function CompletePage() {
       <Reveal delay={0.3}>
         <div className="flex items-center justify-center gap-1.5 text-center">
           <span
-            className="material-symbols-outlined text-[#9AA8B8]"
+            className="material-symbols-outlined text-cy-ink-4"
             style={{ fontSize: 14 }}
             aria-hidden="true"
           >
             info
           </span>
-          <p className="text-[12px] text-[#6B7B8F]">
+          <p className="text-[12px] text-cy-ink-3">
             설정은 언제든{" "}
             <Link
               href="/settings"
-              className="text-[#002C5F] hover:text-[#0046A4] underline underline-offset-2"
+              className="text-cy-navy hover:text-cy-navy-mid underline underline-offset-2"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               /settings
@@ -165,26 +165,26 @@ function SummaryCard({
   numeric?: number;
 }) {
   return (
-    <div className="bg-[#F4F6FA] border border-[#E3E8EF] rounded-xl p-4">
+    <div className="bg-cy-bg border border-cy-line rounded-xl p-4">
       <div className="flex items-center gap-1.5 mb-2">
         <span
-          className="material-symbols-outlined text-[#6B7B8F]"
+          className="material-symbols-outlined text-cy-ink-3"
           style={{ fontSize: 16 }}
           aria-hidden="true"
         >
           {icon}
         </span>
-        <p className="text-[11px] text-[#6B7B8F]">{label}</p>
+        <p className="text-[11px] text-cy-ink-3">{label}</p>
       </div>
       <p
-        className="text-[16px] font-bold text-[#0A1628] tabular-nums truncate"
+        className="text-[16px] font-bold text-cy-ink tabular-nums truncate"
         style={mono ? { fontFamily: "var(--font-roboto-mono), monospace" } : undefined}
         title={value}
       >
         {typeof numeric === "number" ? (
           <>
             <span>{numeric.toLocaleString("ko-KR")}</span>
-            <span className="text-[12px] text-[#6B7B8F] ml-0.5 font-normal">
+            <span className="text-[12px] text-cy-ink-3 ml-0.5 font-normal">
               {value.replace(/[\d,]/g, "").trim()}
             </span>
           </>

@@ -128,7 +128,7 @@ export function EmptyState({
         >
           {icon ? (
             <span
-              className="material-symbols-outlined text-[#002C5F]"
+              className="material-symbols-outlined text-cy-navy"
               style={{ fontSize: sz.illustration * 0.55 }}
             >
               {icon}
@@ -141,7 +141,7 @@ export function EmptyState({
 
       <Reveal delay={0.15}>
         <h3
-          className={`font-bold text-[#0A1628] tracking-[-0.02em] ${sz.titleClass}`}
+          className={`font-bold text-cy-ink tracking-[-0.02em] ${sz.titleClass}`}
         >
           {title}
         </h3>
@@ -149,7 +149,7 @@ export function EmptyState({
 
       <Reveal delay={0.2}>
         <p
-          className={`text-[#3A4A5F] leading-[1.75] max-w-[420px] ${sz.descriptionClass}`}
+          className={`text-cy-ink-2 leading-[1.75] max-w-[420px] ${sz.descriptionClass}`}
         >
           {description}
         </p>

@@ -39,7 +39,7 @@ type FilterValue = "all" | BlogCategory;
 export default function BlogIndexPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -61,7 +61,7 @@ export default function BlogIndexPage() {
 function BlogNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6 md:gap-12"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link
@@ -70,7 +70,7 @@ function BlogNav() {
         aria-label="철연 홈"
       >
         <span
-          className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]"
+          className="text-[22px] font-black text-cy-navy tracking-[-0.03em]"
           style={{
             fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
           }}
@@ -78,7 +78,7 @@ function BlogNav() {
           {copy.nav.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {copy.nav.brand.en}
@@ -90,7 +90,7 @@ function BlogNav() {
           <li key={item.label}>
             <a
               href={item.href}
-              className="text-[14px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors py-1"
+              className="text-[14px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors py-1"
             >
               {item.label}
             </a>
@@ -101,13 +101,13 @@ function BlogNav() {
       <div className="flex gap-2.5 ml-auto">
         <Link
           href="/login"
-          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
+          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors min-h-0"
         >
           {copy.nav.cta.secondary}
         </Link>
         <Link
           href="/demo"
-          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           {copy.nav.cta.primary}
         </Link>
@@ -122,7 +122,7 @@ function BlogNav() {
 function BlogHero() {
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 82% 18%, rgba(0,170,210,0.08) 0%, transparent 52%),
@@ -134,7 +134,7 @@ function BlogHero() {
       <div className="max-w-[1080px] mx-auto px-6 md:px-12 py-16 md:py-20">
         <Reveal delay={0.05}>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.28em] mb-5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.28em] mb-5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             BLOG · 기록
@@ -143,7 +143,7 @@ function BlogHero() {
 
         <Reveal delay={0.1}>
           <h1
-            className="font-[900] text-[#0A1628] mb-4"
+            className="font-[900] text-cy-ink mb-4"
             style={{
               fontSize: "clamp(2rem, 5vw, 3.25rem)",
               lineHeight: 1.12,
@@ -156,7 +156,7 @@ function BlogHero() {
 
         <Reveal delay={0.2}>
           <p
-            className="text-[16px] md:text-[18px] text-[#3A4A5F] leading-[1.7] max-w-[640px]"
+            className="text-[16px] md:text-[18px] text-cy-ink-2 leading-[1.7] max-w-[640px]"
             style={{
               fontFamily:
                 "var(--font-plex-kr), 'IBM Plex Sans KR', Pretendard, sans-serif",
@@ -189,7 +189,7 @@ function BlogList() {
   const rest = filtered.slice(1);
 
   return (
-    <section className="py-14 md:py-20 border-b border-[#E3E8EF]">
+    <section className="py-14 md:py-20 border-b border-cy-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <CategoryFilter filter={filter} setFilter={setFilter} />
 
@@ -212,7 +212,7 @@ function BlogList() {
         ) : null}
 
         {!featured && (
-          <p className="mt-10 text-[14px] text-[#6B7B8F] text-center py-16">
+          <p className="mt-10 text-[14px] text-cy-ink-3 text-center py-16">
             해당 카테고리에 기록된 포스트가 존재하지 않는다.
           </p>
         )}
@@ -254,8 +254,8 @@ function CategoryFilter({
               onClick={() => setFilter(p.value)}
               className={`inline-flex items-center px-4 py-2 text-[13px] font-semibold rounded-full border transition-colors min-h-0 ${
                 active
-                  ? "bg-[#002C5F] text-white border-[#002C5F]"
-                  : "bg-white text-[#3A4A5F] border-[#E3E8EF] hover:border-[#002C5F] hover:text-[#002C5F]"
+                  ? "bg-cy-navy text-white border-cy-navy"
+                  : "bg-white text-cy-ink-2 border-cy-line hover:border-cy-navy hover:text-cy-navy"
               }`}
             >
               {p.label}
@@ -279,7 +279,7 @@ function FeaturedCard({ post }: { post: BlogPost }) {
       aria-label={`최신 글 · ${post.title}`}
     >
       <article
-        className="grid md:grid-cols-[1.1fr_1fr] gap-0 overflow-hidden bg-white border border-[#E3E8EF] rounded-2xl transition-shadow hover:shadow-[0_16px_40px_rgba(0,44,95,0.10),0_0_0_1px_rgba(0,44,95,0.05)]"
+        className="grid md:grid-cols-[1.1fr_1fr] gap-0 overflow-hidden bg-white border border-cy-line rounded-2xl transition-shadow hover:shadow-[0_16px_40px_rgba(0,44,95,0.10),0_0_0_1px_rgba(0,44,95,0.05)]"
         style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
       >
         {/* 좌측 — 장식 그라데이션 히어로 */}
@@ -330,13 +330,13 @@ function FeaturedCard({ post }: { post: BlogPost }) {
         <div className="p-8 md:p-10 flex flex-col justify-between">
           <div>
             <h2
-              className="text-[22px] md:text-[28px] font-[900] text-[#0A1628] mb-4 leading-[1.25] group-hover:text-[#002C5F] transition-colors"
+              className="text-[22px] md:text-[28px] font-[900] text-cy-ink mb-4 leading-[1.25] group-hover:text-cy-navy transition-colors"
               style={{ letterSpacing: "-0.025em" }}
             >
               {post.title}
             </h2>
             <p
-              className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] mb-6"
+              className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] mb-6"
               style={{
                 fontFamily:
                   "var(--font-plex-kr), 'IBM Plex Sans KR', sans-serif",
@@ -362,13 +362,13 @@ function PostCard({ post }: { post: BlogPost }) {
       <MotionCard className="p-6 h-full flex flex-col">
         {meta && <CategoryBadge meta={meta} />}
         <h3
-          className="text-[17px] md:text-[18px] font-[800] text-[#0A1628] leading-[1.4] mb-2 group-hover:text-[#002C5F] transition-colors"
+          className="text-[17px] md:text-[18px] font-[800] text-cy-ink leading-[1.4] mb-2 group-hover:text-cy-navy transition-colors"
           style={{ letterSpacing: "-0.02em" }}
         >
           {post.title}
         </h3>
         <p
-          className="text-[13px] text-[#3A4A5F] leading-[1.7] mb-5 line-clamp-3 flex-1"
+          className="text-[13px] text-cy-ink-2 leading-[1.7] mb-5 line-clamp-3 flex-1"
           style={{
             fontFamily: "var(--font-plex-kr), 'IBM Plex Sans KR', sans-serif",
           }}
@@ -410,7 +410,7 @@ function AuthorLine({
 }) {
   const initial = post.author.name.charAt(0);
   return (
-    <div className="flex items-center gap-3 pt-4 border-t border-[#E3E8EF]">
+    <div className="flex items-center gap-3 pt-4 border-t border-cy-line">
       <div
         aria-hidden="true"
         className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-white text-[13px] font-bold"
@@ -422,12 +422,12 @@ function AuthorLine({
       </div>
       <div className="min-w-0 flex-1">
         <p
-          className={`font-semibold text-[#0A1628] truncate ${compact ? "text-[12px]" : "text-[13px]"}`}
+          className={`font-semibold text-cy-ink truncate ${compact ? "text-[12px]" : "text-[13px]"}`}
         >
           {post.author.name}
         </p>
         <p
-          className="text-[10px] text-[#6B7B8F] tabular-nums truncate"
+          className="text-[10px] text-cy-ink-3 tabular-nums truncate"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {post.publishedAt} · {post.readingTime}분
@@ -446,19 +446,19 @@ function NewsletterStub() {
       <div className="max-w-[720px] mx-auto px-6 md:px-12 text-center">
         <Reveal>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.28em] mb-4"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.28em] mb-4"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             NEWSLETTER · 구독
           </p>
           <h2
-            className="text-[22px] md:text-[28px] font-[800] text-[#0A1628] mb-3"
+            className="text-[22px] md:text-[28px] font-[800] text-cy-ink mb-3"
             style={{ letterSpacing: "-0.02em" }}
           >
             월간 업계 리포트
           </h2>
           <p
-            className="text-[14px] md:text-[15px] text-[#3A4A5F] leading-[1.75] mb-8 max-w-[520px] mx-auto"
+            className="text-[14px] md:text-[15px] text-cy-ink-2 leading-[1.75] mb-8 max-w-[520px] mx-auto"
             style={{
               fontFamily:
                 "var(--font-plex-kr), 'IBM Plex Sans KR', sans-serif",
@@ -467,7 +467,7 @@ function NewsletterStub() {
             매월 첫째 주, 중장비 임대 시장 지표와 도입 현장 기록이 이메일로 발송된다.
           </p>
           <span
-            className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-[#E3E8EF] text-[#3A4A5F] text-[13px] font-semibold rounded-full cursor-not-allowed opacity-70"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white border border-cy-line text-cy-ink-2 text-[13px] font-semibold rounded-full cursor-not-allowed opacity-70"
             aria-disabled="true"
           >
             <span
@@ -479,7 +479,7 @@ function NewsletterStub() {
             </span>
             월간 업계 리포트 · 읽기
             <span
-              className="ml-1 px-1.5 py-0.5 text-[9px] font-bold bg-[#EEF1F5] text-[#6B7B8F] rounded tracking-[0.1em]"
+              className="ml-1 px-1.5 py-0.5 text-[9px] font-bold bg-cy-bg-alt text-cy-ink-3 rounded tracking-[0.1em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               SOON
@@ -496,11 +496,11 @@ function NewsletterStub() {
 // ═══════════════════════════════════════
 function BlogFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-baseline gap-2.5">
           <span
-            className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]"
+            className="text-[16px] font-black text-cy-navy tracking-[-0.03em]"
             style={{
               fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
             }}
@@ -508,12 +508,12 @@ function BlogFooter() {
             {copy.footer.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {copy.footer.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-3 hidden md:inline">
+          <span className="text-[11px] text-cy-ink-3 ml-3 hidden md:inline">
             {copy.footer.description}
           </span>
         </div>
@@ -522,17 +522,17 @@ function BlogFooter() {
             <a
               key={link.label}
               href={link.href}
-              className="text-[11px] text-[#6B7B8F] hover:text-[#3A4A5F] transition-colors min-h-0"
+              className="text-[11px] text-cy-ink-3 hover:text-cy-ink-2 transition-colors min-h-0"
             >
               {link.label}
             </a>
           ))}
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">
+        <p className="text-[11px] text-cy-ink-4">
           {copy.footer.address} · {copy.footer.email}
         </p>
       </div>
-      <p className="max-w-[1400px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-[#9AA8B8]">
+      <p className="max-w-[1400px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-cy-ink-4">
         {copy.footer.copyright}
       </p>
     </footer>

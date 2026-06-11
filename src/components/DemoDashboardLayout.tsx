@@ -62,16 +62,16 @@ export default function DemoDashboardLayout({ children, userRole, userName }: Pr
   const isActive = (href: string) => pathname === href || (href !== `/demo/${userRole}` && pathname.startsWith(href + "/"));
 
   return (
-    <div className="flex h-screen bg-[#F4F6FA]" style={{ fontFamily: "'Inter', 'Pretendard', sans-serif", letterSpacing: "-0.02em" }}>
+    <div className="flex h-screen bg-cy-bg">
       {/* ── 사이드바 (데스크톱) ── */}
-      <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-[#E3E8EF]/30">
-        <div className="p-5 border-b border-[#E3E8EF]/30">
+      <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-cy-line/30">
+        <div className="p-5 border-b border-cy-line/30">
           <Link href="/demo" className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#002C5F]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-xl font-black text-[#0A1628] tracking-tighter">철연 CHEOLYEON</span>
+            <span className="material-symbols-outlined text-cy-navy" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
+            <span className="text-xl font-black text-cy-ink tracking-tighter">철연 CHEOLYEON</span>
           </Link>
           <div className="mt-2 flex items-center gap-2">
-            <span className="px-2 py-0.5 bg-[#E8F1FB] text-[#002C5F] text-xs font-bold rounded-full">{ROLE_LABELS[userRole]}</span>
+            <span className="px-2 py-0.5 bg-cy-navy-pale text-cy-navy text-xs font-bold rounded-full">{ROLE_LABELS[userRole]}</span>
           </div>
         </div>
         <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
@@ -79,8 +79,8 @@ export default function DemoDashboardLayout({ children, userRole, userName }: Pr
             <Link key={item.href} href={item.href}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
                 isActive(item.href)
-                  ? "bg-[#E8F1FB] text-[#002C5F]"
-                  : "text-[#3A4A5F] hover:bg-[#F4F6FA]"
+                  ? "bg-cy-navy-pale text-cy-navy"
+                  : "text-cy-ink-2 hover:bg-cy-bg"
               }`}
             >
               <span className="material-symbols-outlined text-xl" style={isActive(item.href) ? { fontVariationSettings: "'FILL' 1" } : {}}>{item.icon}</span>
@@ -88,9 +88,9 @@ export default function DemoDashboardLayout({ children, userRole, userName }: Pr
             </Link>
           ))}
         </nav>
-        <div className="p-4 border-t border-[#E3E8EF]/30">
-          <p className="text-sm font-semibold text-[#0A1628]">{userName}</p>
-          <Link href="/demo" className="text-xs text-[#6B7B8F] hover:text-[#002C5F] transition-colors">← 역할 선택으로</Link>
+        <div className="p-4 border-t border-cy-line/30">
+          <p className="text-sm font-semibold text-cy-ink">{userName}</p>
+          <Link href="/demo" className="text-xs text-cy-ink-3 hover:text-cy-navy transition-colors">← 역할 선택으로</Link>
         </div>
       </aside>
 
@@ -99,20 +99,20 @@ export default function DemoDashboardLayout({ children, userRole, userName }: Pr
 
       {/* ── 사이드바 (모바일) ── */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white transform transition-transform md:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="p-5 border-b border-[#E3E8EF]/30 flex items-center justify-between">
+        <div className="p-5 border-b border-cy-line/30 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#002C5F]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-lg font-black text-[#0A1628]">철연 CHEOLYEON</span>
+            <span className="material-symbols-outlined text-cy-navy" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
+            <span className="text-lg font-black text-cy-ink">철연 CHEOLYEON</span>
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#F4F6FA]">
-            <span className="material-symbols-outlined text-[#3A4A5F]">close</span>
+          <button onClick={() => setSidebarOpen(false)} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-cy-bg">
+            <span className="material-symbols-outlined text-cy-ink-2">close</span>
           </button>
         </div>
         <nav className="p-3 space-y-0.5">
           {navItems.map((item) => (
             <Link key={item.href} href={item.href} onClick={() => setSidebarOpen(false)}
               className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-base font-semibold transition-all ${
-                isActive(item.href) ? "bg-[#E8F1FB] text-[#002C5F]" : "text-[#3A4A5F]"
+                isActive(item.href) ? "bg-cy-navy-pale text-cy-navy" : "text-cy-ink-2"
               }`}
             >
               <span className="material-symbols-outlined text-xl">{item.icon}</span>
@@ -120,37 +120,38 @@ export default function DemoDashboardLayout({ children, userRole, userName }: Pr
             </Link>
           ))}
         </nav>
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#E3E8EF]/30 safe-bottom">
-          <Link href="/demo" className="block w-full py-3 text-center text-[#6B7B8F] text-sm font-medium hover:text-[#002C5F]">← 역할 선택으로</Link>
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-cy-line/30 safe-bottom">
+          <Link href="/demo" className="block w-full py-3 text-center text-cy-ink-3 text-sm font-medium hover:text-cy-navy">← 역할 선택으로</Link>
         </div>
       </aside>
 
       {/* ── 메인 콘텐츠 ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* 모바일 헤더 */}
-        <header className="md:hidden bg-white/80 backdrop-blur-xl border-b border-[#E3E8EF]/30 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
-          <button onClick={() => setSidebarOpen(true)} className="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-[#F4F6FA] active:bg-[#dee9fb]">
-            <span className="material-symbols-outlined text-[#0A1628]">menu</span>
+        <header className="md:hidden bg-white/80 backdrop-blur-xl border-b border-cy-line/30 px-4 py-3 flex items-center justify-between sticky top-0 z-30">
+          <button onClick={() => setSidebarOpen(true)} className="w-11 h-11 flex items-center justify-center rounded-xl hover:bg-cy-bg active:bg-cy-navy-pale">
+            <span className="material-symbols-outlined text-cy-ink">menu</span>
           </button>
           <div className="flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#002C5F] text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-base font-bold text-[#0A1628]">철연 CHEOLYEON</span>
+            <span className="material-symbols-outlined text-cy-navy text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
+            <span className="text-base font-bold text-cy-ink">철연 CHEOLYEON</span>
           </div>
-          <span className="px-2 py-1 bg-[#E8F1FB] text-[#002C5F] text-xs font-bold rounded-lg">{ROLE_LABELS[userRole]}</span>
+          <span className="px-2 py-1 bg-cy-navy-pale text-cy-navy text-xs font-bold rounded-lg">{ROLE_LABELS[userRole]}</span>
         </header>
 
-        {/* 데모 배너 */}
-        <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white text-center py-1.5 text-xs font-bold tracking-wide">
-          🎮 데모 시뮬레이터 — 시연용 화면입니다
+        {/* 데모 배너 — 단일 소스 (DemoRoleSwitcher의 고정 배너는 제거됨) */}
+        <div className="flex items-center justify-center gap-1.5 bg-cy-navy-pale text-cy-navy border-b border-cy-navy/10 py-1.5 px-3 text-xs font-bold tracking-[-0.01em]">
+          <span className="material-symbols-outlined text-sm" style={{ fontVariationSettings: "'FILL' 1" }}>visibility</span>
+          데모 시뮬레이터 — 실제 데이터가 아닌 시연용 화면입니다
         </div>
 
         {/* 하단 탭 (모바일) */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-[#E3E8EF]/30 z-30 safe-bottom">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-cy-line/30 z-30 safe-bottom">
           <nav className="flex justify-around px-1 pt-1 pb-1">
             {navItems.slice(0, 4).map((item) => (
               <Link key={item.href} href={item.href}
                 className={`flex flex-col items-center justify-center py-2 px-2 rounded-xl min-w-[60px] min-h-[52px] transition-all active:scale-95 ${
-                  isActive(item.href) ? "text-[#002C5F] bg-[#E8F1FB]" : "text-[#6B7B8F]"
+                  isActive(item.href) ? "text-cy-navy bg-cy-navy-pale" : "text-cy-ink-3"
                 }`}
               >
                 <span className="material-symbols-outlined text-xl mb-0.5" style={isActive(item.href) ? { fontVariationSettings: "'FILL' 1" } : {}}>{item.icon}</span>

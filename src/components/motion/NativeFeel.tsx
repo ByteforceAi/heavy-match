@@ -69,16 +69,16 @@ export function TypedLog({ lines, speed = 18, onComplete }: TypedLogProps) {
   return (
     <div className="font-mono text-[11px] leading-relaxed space-y-0.5">
       {displayLines.map((l, i) => (
-        <div key={i} style={{ color: l.color || "#10B981" }}>
+        <div key={i} style={{ color: l.color || "#00A86B" }}>
           <span className="text-[#3A3D45] mr-2">$</span>
           {l.text}
         </div>
       ))}
       {currentLine && (
-        <div style={{ color: currentLine.color || "#10B981" }}>
+        <div style={{ color: currentLine.color || "#00A86B" }}>
           <span className="text-[#3A3D45] mr-2">$</span>
           {currentText}
-          {showCursor && <span className="text-[#002C5F]">▊</span>}
+          {showCursor && <span className="text-cy-navy">▊</span>}
         </div>
       )}
     </div>
@@ -102,10 +102,10 @@ export function NetworkActivityBar({ active }: NetworkBarProps) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="relative w-full h-full bg-[#002C5F]/10 overflow-hidden"
+            className="relative w-full h-full bg-cy-navy/10 overflow-hidden"
           >
             <motion.div
-              className="absolute top-0 bottom-0 w-1/3 bg-gradient-to-r from-transparent via-[#002C5F] to-transparent"
+              className="absolute top-0 bottom-0 w-1/3 bg-gradient-to-r from-transparent via-cy-navy to-transparent"
               animate={{ left: ["-33%", "100%"] }}
               transition={{ duration: 1.2, repeat: Infinity, ease: "linear" }}
             />
@@ -132,8 +132,8 @@ export function PhaseIndicator({ state, label }: PhaseIndicatorProps) {
     idle: { icon: "radio_button_unchecked", color: "#6B7280", text: "대기중" },
     connecting: { icon: "wifi_tethering", color: "#00AAD2", text: "연결 중..." },
     processing: { icon: "sync", color: "#002C5F", text: "처리 중..." },
-    success: { icon: "check_circle", color: "#10B981", text: "완료" },
-    error: { icon: "error", color: "#EF4444", text: "실패" },
+    success: { icon: "check_circle", color: "#00A86B", text: "완료" },
+    error: { icon: "error", color: "#E5484D", text: "실패" },
   };
   const cfg = configs[state];
 
@@ -276,21 +276,21 @@ export function SMSSendingIndicator({ recipient, message, onSent, duration = 180
     <div className="bg-[#0A0A0B] border border-[#3A3D45]/60 rounded-xl p-3 font-mono">
       {/* Header */}
       <div className="flex items-center justify-between mb-2 text-[10px]">
-        <span className="text-[#6B7280]">TO: {recipient}</span>
+        <span className="text-cy-ink-3">TO: {recipient}</span>
         <div className="flex items-center gap-1.5">
           <motion.span
-            className={`w-1.5 h-1.5 rounded-full ${phase === "sent" ? "bg-[#10B981]" : "bg-[#00AAD2]"}`}
+            className={`w-1.5 h-1.5 rounded-full ${phase === "sent" ? "bg-cy-success" : "bg-cy-cyan"}`}
             animate={phase !== "sent" ? { opacity: [0.3, 1, 0.3] } : { opacity: 1 }}
             transition={{ duration: 0.8, repeat: phase !== "sent" ? Infinity : 0 }}
           />
-          <span className={phase === "sent" ? "text-[#10B981]" : "text-[#00AAD2]"}>
+          <span className={phase === "sent" ? "text-cy-success" : "text-cy-cyan"}>
             {phaseText[phase]}
           </span>
         </div>
       </div>
 
       {/* Message body */}
-      <div className="text-[11px] text-[#D1D5DB] whitespace-pre-line leading-relaxed">
+      <div className="text-[11px] text-cy-line whitespace-pre-line leading-relaxed">
         {message}
       </div>
 
@@ -298,7 +298,7 @@ export function SMSSendingIndicator({ recipient, message, onSent, duration = 180
       {phase !== "sent" && (
         <div className="mt-2 h-0.5 bg-[#242428] rounded-full overflow-hidden">
           <motion.div
-            className="h-full bg-[#00AAD2]"
+            className="h-full bg-cy-cyan"
             initial={{ width: "0%" }}
             animate={{ width: phase === "sending" ? "90%" : "30%" }}
             transition={{ duration: phase === "sending" ? 1.4 : 0.4, ease: "easeOut" }}
@@ -311,7 +311,7 @@ export function SMSSendingIndicator({ recipient, message, onSent, duration = 180
           initial={{ opacity: 0, y: -5 }}
           animate={{ opacity: 1, y: 0 }}
           transition={tokens.spring.bouncy}
-          className="mt-2 text-[10px] text-[#10B981] flex items-center gap-1"
+          className="mt-2 text-[10px] text-cy-success flex items-center gap-1"
         >
           <span className="material-symbols-outlined text-xs" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
           INSERT sms_logs · token: {Math.random().toString(36).slice(2, 10)}
@@ -346,17 +346,17 @@ export function DBWriteIndicator({ operation, table, fields = [], duration = 900
         <div className="flex items-center gap-1.5">
           <motion.span
             className="material-symbols-outlined text-xs"
-            style={{ color: done ? "#10B981" : "#00AAD2", fontVariationSettings: "'FILL' 1" }}
+            style={{ color: done ? "#00A86B" : "#00AAD2", fontVariationSettings: "'FILL' 1" }}
             animate={done ? {} : { rotate: 360 }}
             transition={done ? {} : { duration: 1, repeat: Infinity, ease: "linear" }}
           >
             {done ? "check_circle" : "sync"}
           </motion.span>
-          <span className="text-[10px] text-[#9CA3AF]">
+          <span className="text-[10px] text-cy-ink-4">
             {done ? "Committed" : "Writing to PostgreSQL..."}
           </span>
         </div>
-        <span className="text-[9px] text-[#6B7280] font-mono">
+        <span className="text-[9px] text-cy-ink-3 font-mono">
           {done ? "47ms" : <motion.span
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 1, repeat: Infinity }}
@@ -365,11 +365,11 @@ export function DBWriteIndicator({ operation, table, fields = [], duration = 900
       </div>
 
       <div className="text-[11px] leading-relaxed">
-        <span className="text-[#002C5F] font-bold">{operation}</span>
-        <span className="text-[#6B7280]"> → </span>
-        <span className="text-[#10B981]">{table}</span>
+        <span className="text-cy-navy font-bold">{operation}</span>
+        <span className="text-cy-ink-3"> → </span>
+        <span className="text-cy-success">{table}</span>
         {fields.length > 0 && (
-          <div className="mt-1 text-[10px] text-[#6B7280] pl-3 border-l border-[#3A3D45]">
+          <div className="mt-1 text-[10px] text-cy-ink-3 pl-3 border-l border-[#3A3D45]">
             {fields.map((f) => (
               <div key={f}>· {f}</div>
             ))}
@@ -386,9 +386,9 @@ export function DBWriteIndicator({ operation, table, fields = [], duration = 900
 
 export function RealtimeIndicator() {
   return (
-    <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-[#10B98115] border border-[#10B98140] rounded-full text-[10px] font-bold text-[#10B981]">
+    <div className="inline-flex items-center gap-1.5 px-2 py-1 bg-[#00A86B15] border border-[#00A86B40] rounded-full text-[10px] font-bold text-cy-success">
       <motion.span
-        className="w-1.5 h-1.5 bg-[#10B981] rounded-full"
+        className="w-1.5 h-1.5 bg-cy-success rounded-full"
         animate={{ opacity: [1, 0.3, 1], scale: [1, 1.3, 1] }}
         transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -410,7 +410,7 @@ interface StatusTransitionProps {
 }
 
 export function StatusTransition({
-  from, to, fromColor = "#002C5F", toColor = "#10B981", duration = 1200,
+  from, to, fromColor = "#002C5F", toColor = "#00A86B", duration = 1200,
 }: StatusTransitionProps) {
   const [done, setDone] = useState(false);
   useEffect(() => {
@@ -433,7 +433,7 @@ export function StatusTransition({
         animate={done ? {} : { x: [0, 3, 0] }}
         transition={done ? {} : { duration: 0.6, repeat: Infinity }}
       >
-        <span className="text-[#6B7280]">→</span>
+        <span className="text-cy-ink-3">→</span>
       </motion.span>
 
       <motion.span
@@ -454,7 +454,7 @@ export function StatusTransition({
         <motion.span
           initial={{ opacity: 0, x: -5 }}
           animate={{ opacity: 1, x: 0 }}
-          className="material-symbols-outlined text-sm text-[#10B981]"
+          className="material-symbols-outlined text-sm text-cy-success"
           style={{ fontVariationSettings: "'FILL' 1" }}
         >
           check_circle
@@ -480,7 +480,7 @@ export function SystemClock() {
   const ss = String(time.getSeconds()).padStart(2, "0");
 
   return (
-    <span className="font-mono tabular-nums text-[10px] text-[#9CA3AF]">
+    <span className="font-mono tabular-nums text-[10px] text-cy-ink-4">
       {hh}:{mm}:{ss}
     </span>
   );
@@ -492,12 +492,12 @@ export function SystemClock() {
 
 export function ProcessingPulse({ label = "처리 중" }: { label?: string }) {
   return (
-    <div className="flex items-center gap-2 text-xs text-[#00AAD2]">
+    <div className="flex items-center gap-2 text-xs text-cy-cyan">
       <span>{label}</span>
       {[0, 1, 2].map((i) => (
         <motion.span
           key={i}
-          className="w-1 h-1 bg-[#00AAD2] rounded-full"
+          className="w-1 h-1 bg-cy-cyan rounded-full"
           animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
           transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
         />

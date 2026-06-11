@@ -87,13 +87,13 @@ function DesktopContextStrip() {
           데모 / 대표
         </p>
         <h1
-          className="mt-3 text-[36px] font-black text-[#002C5F]"
+          className="mt-3 text-[36px] font-black text-cy-navy"
           style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
         >
           대표 모바일 화면
         </h1>
         <p
-          className="mt-3 text-[15px] text-[#3A4A5F] max-w-[640px]"
+          className="mt-3 text-[15px] text-cy-ink-2 max-w-[640px]"
           style={{ lineHeight: 1.7 }}
         >
           실제 앱이 이 모바일 디바이스에서 어떻게 작동하는지 쇼케이스. 화면은 경영 KPI · 주간 추이 · 실시간 알림을 포함한다.
@@ -101,7 +101,7 @@ function DesktopContextStrip() {
         <div className="mt-5">
           <Link
             href="/demo/field-manager"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#002C5F] text-white text-[13px] font-bold hover:bg-[#0046A4] transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cy-navy text-white text-[13px] font-bold hover:bg-cy-navy-mid transition-colors"
           >
             다른 화면 보기
             <span
@@ -123,7 +123,7 @@ function DesktopContextStrip() {
 function ExecutiveScreen() {
   return (
     <main
-      className="w-full md:max-w-none max-w-md mx-auto min-h-screen md:min-h-0 md:h-full bg-[#F4F6FA] text-[#0A1628]"
+      className="w-full md:max-w-none max-w-md mx-auto min-h-screen md:min-h-0 md:h-full bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif",
         letterSpacing: "-0.01em",
@@ -131,34 +131,34 @@ function ExecutiveScreen() {
     >
       {/* ═══ Status Bar ═══ */}
       <div
-        className="h-[44px] px-6 flex items-center justify-between bg-white text-[#0A1628] border-b border-[#EDF0F5]"
+        className="h-[44px] px-6 flex items-center justify-between bg-white text-cy-ink border-b border-cy-line-soft"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
         <span className="text-[13px] font-semibold tabular-nums">9:41</span>
         <div className="flex items-center gap-[3px]" aria-hidden="true">
-          <span className="w-1 h-1 bg-[#0A1628] rounded-full" />
-          <span className="w-1 h-1 bg-[#0A1628] rounded-full" />
-          <span className="w-1 h-1 bg-[#0A1628] rounded-full" />
-          <span className="w-1 h-1 bg-[#0A1628] rounded-full" />
+          <span className="w-1 h-1 bg-cy-ink rounded-full" />
+          <span className="w-1 h-1 bg-cy-ink rounded-full" />
+          <span className="w-1 h-1 bg-cy-ink rounded-full" />
+          <span className="w-1 h-1 bg-cy-ink rounded-full" />
         </div>
       </div>
 
       {/* ═══ Header ═══ */}
-      <header className="bg-white border-b border-[#E3E8EF] px-6 pt-4 pb-4">
+      <header className="bg-white border-b border-cy-line px-6 pt-4 pb-4">
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-2.5">
-            <span className="text-[20px] font-black text-[#002C5F] tracking-[-0.03em]">
+            <span className="text-[20px] font-black text-cy-navy tracking-[-0.03em]">
               {navCopy.brand.ko}
             </span>
             <span
-              className="text-[9px] text-[#6B7B8F] tracking-[0.3em] font-light"
+              className="text-[9px] text-cy-ink-3 tracking-[0.3em] font-light"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               / {navCopy.brand.en}
             </span>
           </div>
           <div
-            className="w-9 h-9 rounded-full bg-[#002C5F] text-white flex items-center justify-center text-[14px] font-bold"
+            className="w-9 h-9 rounded-full bg-cy-navy text-white flex items-center justify-center text-[14px] font-bold"
             aria-label="이 대표"
           >
             이
@@ -166,20 +166,20 @@ function ExecutiveScreen() {
         </div>
 
         {/* Report row */}
-        <div className="mt-3 flex items-center justify-between bg-[#E8F1FB] rounded-xl px-3 py-2">
+        <div className="mt-3 flex items-center justify-between bg-cy-navy-pale rounded-xl px-3 py-2">
           <div className="flex items-center gap-1.5">
             <span
-              className="material-symbols-outlined text-[#002C5F]"
+              className="material-symbols-outlined text-cy-navy"
               style={{ fontSize: 16, fontVariationSettings: "'FILL' 1" }}
             >
               monitoring
             </span>
-            <span className="text-[12px] font-semibold text-[#002C5F]">
+            <span className="text-[12px] font-semibold text-cy-navy">
               경영 리포트 · 2026-04
             </span>
           </div>
           <span
-            className="text-[11px] font-bold text-[#002C5F] tabular-nums"
+            className="text-[11px] font-bold text-cy-navy tabular-nums"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             4월 3주차
@@ -237,7 +237,7 @@ function ExecutiveScreen() {
 
               <div className="mt-3 flex items-center gap-2">
                 <span
-                  className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-[#00A86B]/25 text-[#6FE3AF]"
+                  className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[11px] font-bold bg-cy-success/25 text-[#6FE3AF]"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   <span
@@ -287,13 +287,13 @@ function ExecutiveScreen() {
         <Reveal delay={0.12}>
           <div className="grid grid-cols-2 gap-3">
             <div
-              className="bg-white rounded-2xl p-3.5 border border-[#E3E8EF]"
+              className="bg-white rounded-2xl p-3.5 border border-cy-line"
               style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.06)" }}
             >
               <div className="flex items-center gap-1.5 mb-1.5">
-                <div className="w-6 h-6 rounded-lg bg-[#E8F1FB] flex items-center justify-center">
+                <div className="w-6 h-6 rounded-lg bg-cy-navy-pale flex items-center justify-center">
                   <span
-                    className="material-symbols-outlined text-[#002C5F]"
+                    className="material-symbols-outlined text-cy-navy"
                     style={{
                       fontSize: 14,
                       fontVariationSettings: "'FILL' 1",
@@ -302,12 +302,12 @@ function ExecutiveScreen() {
                     check_circle
                   </span>
                 </div>
-                <span className="text-[11px] text-[#6B7B8F] font-medium">
+                <span className="text-[11px] text-cy-ink-3 font-medium">
                   배차 성공률
                 </span>
               </div>
               <p
-                className="text-[20px] font-black text-[#0A1628] tabular-nums"
+                className="text-[20px] font-black text-cy-ink tabular-nums"
                 style={{
                   fontFamily: "var(--font-roboto-mono), monospace",
                   letterSpacing: "-0.02em",
@@ -317,13 +317,13 @@ function ExecutiveScreen() {
               </p>
               <div className="flex items-center gap-0.5 mt-1">
                 <span
-                  className="material-symbols-outlined text-[#00A86B]"
+                  className="material-symbols-outlined text-cy-success"
                   style={{ fontSize: 12 }}
                 >
                   arrow_upward
                 </span>
                 <span
-                  className="text-[11px] font-bold text-[#00A86B] tabular-nums"
+                  className="text-[11px] font-bold text-cy-success tabular-nums"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   +0.5%
@@ -332,13 +332,13 @@ function ExecutiveScreen() {
             </div>
 
             <div
-              className="bg-white rounded-2xl p-3.5 border border-[#E3E8EF]"
+              className="bg-white rounded-2xl p-3.5 border border-cy-line"
               style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.06)" }}
             >
               <div className="flex items-center gap-1.5 mb-1.5">
-                <div className="w-6 h-6 rounded-lg bg-[#E8F1FB] flex items-center justify-center">
+                <div className="w-6 h-6 rounded-lg bg-cy-navy-pale flex items-center justify-center">
                   <span
-                    className="material-symbols-outlined text-[#002C5F]"
+                    className="material-symbols-outlined text-cy-navy"
                     style={{
                       fontSize: 14,
                       fontVariationSettings: "'FILL' 1",
@@ -347,12 +347,12 @@ function ExecutiveScreen() {
                     schedule
                   </span>
                 </div>
-                <span className="text-[11px] text-[#6B7B8F] font-medium">
+                <span className="text-[11px] text-cy-ink-3 font-medium">
                   평균 매칭
                 </span>
               </div>
               <p
-                className="text-[20px] font-black text-[#0A1628] tabular-nums"
+                className="text-[20px] font-black text-cy-ink tabular-nums"
                 style={{
                   fontFamily: "var(--font-roboto-mono), monospace",
                   letterSpacing: "-0.02em",
@@ -362,13 +362,13 @@ function ExecutiveScreen() {
               </p>
               <div className="flex items-center gap-0.5 mt-1">
                 <span
-                  className="material-symbols-outlined text-[#00A86B]"
+                  className="material-symbols-outlined text-cy-success"
                   style={{ fontSize: 12 }}
                 >
                   arrow_downward
                 </span>
                 <span
-                  className="text-[11px] font-bold text-[#00A86B] tabular-nums"
+                  className="text-[11px] font-bold text-cy-success tabular-nums"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   -18초
@@ -381,17 +381,17 @@ function ExecutiveScreen() {
         {/* Weekly Chart */}
         <Reveal delay={0.18}>
           <div
-            className="bg-white rounded-2xl p-4 border border-[#E3E8EF]"
+            className="bg-white rounded-2xl p-4 border border-cy-line"
             style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.06)" }}
           >
             <div className="flex items-center justify-between mb-3">
               <h3
-                className="text-[14px] font-bold text-[#0A1628]"
+                className="text-[14px] font-bold text-cy-ink"
                 style={{ letterSpacing: "-0.02em" }}
               >
                 주간 배차 추이
               </h3>
-              <div className="flex bg-[#F4F6FA] rounded-lg p-0.5">
+              <div className="flex bg-cy-bg rounded-lg p-0.5">
                 {["일", "주", "월"].map((t) => {
                   const active = t === "주";
                   return (
@@ -400,8 +400,8 @@ function ExecutiveScreen() {
                       type="button"
                       className={`text-[11px] px-2.5 py-1 rounded-md font-semibold transition-colors ${
                         active
-                          ? "bg-white text-[#002C5F] shadow-sm"
-                          : "text-[#6B7B8F]"
+                          ? "bg-white text-cy-navy shadow-sm"
+                          : "text-cy-ink-3"
                       }`}
                     >
                       {t}
@@ -479,7 +479,7 @@ function ExecutiveScreen() {
                     <span
                       key={d}
                       className={`text-[10px] text-center ${
-                        weekend ? "text-[#00AAD2] font-bold" : "text-[#9AA8B8]"
+                        weekend ? "text-cy-cyan font-bold" : "text-cy-ink-4"
                       }`}
                     >
                       {d}
@@ -497,7 +497,7 @@ function ExecutiveScreen() {
             {ALERTS.map((a) => (
               <div
                 key={a.title}
-                className="bg-white rounded-xl p-3.5 border border-[#E3E8EF] flex items-start gap-3"
+                className="bg-white rounded-xl p-3.5 border border-cy-line flex items-start gap-3"
                 style={{
                   borderLeft: `4px solid ${a.border}`,
                   boxShadow: "0 4px 12px rgba(0, 44, 95, 0.06)",
@@ -530,11 +530,11 @@ function ExecutiveScreen() {
                     >
                       {a.level}
                     </span>
-                    <span className="text-[13px] font-bold text-[#0A1628]">
+                    <span className="text-[13px] font-bold text-cy-ink">
                       {a.title}
                     </span>
                   </div>
-                  <p className="text-[11px] text-[#6B7B8F] mt-1 leading-[1.5]">
+                  <p className="text-[11px] text-cy-ink-3 mt-1 leading-[1.5]">
                     {a.body}
                   </p>
                 </div>

@@ -55,7 +55,7 @@ export default function BlogPostPage() {
 
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -98,15 +98,15 @@ export default function BlogPostPage() {
 function PostNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
-        <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+        <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
           {copy.nav.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {copy.nav.brand.en}
@@ -116,7 +116,7 @@ function PostNav() {
       <div className="ml-auto flex items-center gap-3">
         <Link
           href="/blog"
-          className="text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
+          className="text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors px-3 py-2 flex items-center gap-1 min-h-0"
         >
           <span
             className="material-symbols-outlined"
@@ -137,23 +137,23 @@ function PostNav() {
 // ═══════════════════════════════════════
 function Breadcrumb({ post }: { post: BlogPost }) {
   return (
-    <div className="bg-white border-b border-[#E3E8EF]">
+    <div className="bg-white border-b border-cy-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 py-4">
         <nav
           aria-label="Breadcrumb"
-          className="flex items-center gap-1.5 text-[12px] text-[#6B7B8F] flex-wrap"
+          className="flex items-center gap-1.5 text-[12px] text-cy-ink-3 flex-wrap"
         >
-          <Link href="/" className="hover:text-[#002C5F] transition-colors">
+          <Link href="/" className="hover:text-cy-navy transition-colors">
             홈
           </Link>
           <Separator />
-          <Link href="/blog" className="hover:text-[#002C5F] transition-colors">
+          <Link href="/blog" className="hover:text-cy-navy transition-colors">
             블로그
           </Link>
           <Separator />
           <span>{post.categoryLabel}</span>
           <Separator />
-          <span className="text-[#0A1628] font-semibold truncate max-w-[360px]">
+          <span className="text-cy-ink font-semibold truncate max-w-[360px]">
             {post.title}
           </span>
         </nav>
@@ -165,7 +165,7 @@ function Breadcrumb({ post }: { post: BlogPost }) {
 function Separator() {
   return (
     <span
-      className="material-symbols-outlined text-[#9AA8B8]"
+      className="material-symbols-outlined text-cy-ink-4"
       style={{ fontSize: 14 }}
       aria-hidden="true"
     >
@@ -181,7 +181,7 @@ function ArticleHeader({ post }: { post: BlogPost }) {
   const meta = blogCategories.find((c) => c.id === post.category);
 
   return (
-    <section className="bg-white border-b border-[#E3E8EF]">
+    <section className="bg-white border-b border-cy-line">
       <div className="max-w-[880px] mx-auto px-6 md:px-12 py-12 md:py-16">
         <Reveal delay={0.05}>
           {meta && (
@@ -199,7 +199,7 @@ function ArticleHeader({ post }: { post: BlogPost }) {
 
         <Reveal delay={0.08}>
           <h1
-            className="font-[900] text-[#0A1628] mb-4"
+            className="font-[900] text-cy-ink mb-4"
             style={{
               fontSize: "clamp(1.85rem, 4.4vw, 2.75rem)",
               lineHeight: 1.2,
@@ -212,7 +212,7 @@ function ArticleHeader({ post }: { post: BlogPost }) {
 
         <Reveal delay={0.15}>
           <p
-            className="text-[16px] md:text-[18px] text-[#3A4A5F] leading-[1.6] mb-8"
+            className="text-[16px] md:text-[18px] text-cy-ink-2 leading-[1.6] mb-8"
             style={{
               fontFamily:
                 "var(--font-plex-kr), 'IBM Plex Sans KR', Pretendard, sans-serif",
@@ -223,7 +223,7 @@ function ArticleHeader({ post }: { post: BlogPost }) {
         </Reveal>
 
         <Reveal delay={0.22}>
-          <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-[#E3E8EF]">
+          <div className="flex flex-wrap items-center gap-4 pt-6 border-t border-cy-line">
             <div className="flex items-center gap-3">
               <div
                 aria-hidden="true"
@@ -236,15 +236,15 @@ function ArticleHeader({ post }: { post: BlogPost }) {
                 {post.author.name.charAt(0)}
               </div>
               <div className="min-w-0">
-                <p className="text-[14px] font-semibold text-[#0A1628]">
+                <p className="text-[14px] font-semibold text-cy-ink">
                   {post.author.name}
                 </p>
-                <p className="text-[12px] text-[#6B7B8F]">{post.author.role}</p>
+                <p className="text-[12px] text-cy-ink-3">{post.author.role}</p>
               </div>
             </div>
 
             <div
-              className="ml-auto flex items-center gap-4 text-[12px] text-[#6B7B8F] tabular-nums"
+              className="ml-auto flex items-center gap-4 text-[12px] text-cy-ink-3 tabular-nums"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               <span>{post.publishedAt}</span>
@@ -263,7 +263,7 @@ function ArticleHeader({ post }: { post: BlogPost }) {
             <img
               src={post.heroImage}
               alt={post.title}
-              className="w-full rounded-2xl border border-[#E3E8EF]"
+              className="w-full rounded-2xl border border-cy-line"
               style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
             />
           ) : (
@@ -278,7 +278,7 @@ function ArticleHeader({ post }: { post: BlogPost }) {
 function DecorativeHero({ post }: { post: BlogPost }) {
   return (
     <div
-      className="relative h-[180px] md:h-[240px] rounded-2xl border border-[#E3E8EF] overflow-hidden"
+      className="relative h-[180px] md:h-[240px] rounded-2xl border border-cy-line overflow-hidden"
       style={{
         background: `
           radial-gradient(ellipse at 85% 20%, rgba(0,170,210,0.35) 0%, transparent 55%),
@@ -331,7 +331,7 @@ function ArticleLayout({ post }: { post: BlogPost }) {
       <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid lg:grid-cols-[minmax(0,720px)_240px] gap-10 lg:justify-center">
         {/* 본문 */}
         <article
-          className="max-w-[720px] w-full mx-auto lg:mx-0 text-[15px] md:text-[16px] text-[#0A1628]"
+          className="max-w-[720px] w-full mx-auto lg:mx-0 text-[15px] md:text-[16px] text-cy-ink"
           style={{
             fontFamily:
               "var(--font-plex-kr), 'IBM Plex Sans KR', Pretendard, sans-serif",
@@ -365,7 +365,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
         return (
           <h2
             id={id}
-            className="text-[24px] md:text-[26px] font-[800] text-[#0A1628] mt-12 mb-4 pt-8 border-t border-[#E3E8EF] scroll-mt-24"
+            className="text-[24px] md:text-[26px] font-[800] text-cy-ink mt-12 mb-4 pt-8 border-t border-cy-line scroll-mt-24"
             style={{
               letterSpacing: "-0.025em",
               fontFamily:
@@ -379,7 +379,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
       return (
         <h3
           id={id}
-          className="text-[18px] md:text-[20px] font-[800] text-[#0A1628] mt-8 mb-3 scroll-mt-24"
+          className="text-[18px] md:text-[20px] font-[800] text-cy-ink mt-8 mb-3 scroll-mt-24"
           style={{
             letterSpacing: "-0.02em",
             fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
@@ -404,7 +404,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
               >
                 <span
                   aria-hidden="true"
-                  className="flex-shrink-0 w-6 h-6 bg-[#002C5F] text-white text-[11px] font-bold rounded-full flex items-center justify-center mt-0.5 tabular-nums"
+                  className="flex-shrink-0 w-6 h-6 bg-cy-navy text-white text-[11px] font-bold rounded-full flex items-center justify-center mt-0.5 tabular-nums"
                   style={{
                     fontFamily: "var(--font-roboto-mono), monospace",
                   }}
@@ -425,7 +425,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
               className="flex items-start gap-3 text-[15px] md:text-[16px]"
             >
               <span
-                className="material-symbols-outlined text-[#002C5F] mt-1 flex-shrink-0"
+                className="material-symbols-outlined text-cy-navy mt-1 flex-shrink-0"
                 style={{ fontSize: 16 }}
                 aria-hidden="true"
               >
@@ -443,11 +443,11 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
     case "quote":
       return (
         <blockquote
-          className="my-8 pl-6 border-l-4 border-[#002C5F] bg-[#F8FAFD] rounded-r-lg py-5 pr-6"
+          className="my-8 pl-6 border-l-4 border-cy-navy bg-cy-elevated rounded-r-lg py-5 pr-6"
           style={{ boxShadow: "0 2px 12px rgba(0, 44, 95, 0.04)" }}
         >
           <p
-            className="text-[17px] md:text-[19px] text-[#0A1628] italic leading-[1.7] m-0"
+            className="text-[17px] md:text-[19px] text-cy-ink italic leading-[1.7] m-0"
             style={{
               fontFamily:
                 "var(--font-plex-kr), 'IBM Plex Sans KR', Georgia, serif",
@@ -458,7 +458,7 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
           </p>
           {block.attribution && (
             <footer
-              className="mt-3 text-[12px] text-[#6B7B8F] tracking-[0.1em] not-italic"
+              className="mt-3 text-[12px] text-cy-ink-3 tracking-[0.1em] not-italic"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               — {block.attribution}
@@ -486,18 +486,18 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
     case "stat":
       return (
         <div
-          className="my-6 p-5 bg-white border border-[#E3E8EF] rounded-xl flex items-center gap-5"
+          className="my-6 p-5 bg-white border border-cy-line rounded-xl flex items-center gap-5"
           style={{ boxShadow: "0 4px 14px rgba(0, 44, 95, 0.05)" }}
         >
           <div className="flex-1 min-w-0">
             <p
-              className="text-[11px] text-[#6B7B8F] tracking-[0.15em] mb-1.5"
+              className="text-[11px] text-cy-ink-3 tracking-[0.15em] mb-1.5"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {block.label}
             </p>
             <p
-              className="text-[28px] md:text-[34px] font-[900] text-[#002C5F] leading-none tabular-nums"
+              className="text-[28px] md:text-[34px] font-[900] text-cy-navy leading-none tabular-nums"
               style={{
                 fontFamily: "var(--font-roboto-mono), monospace",
                 letterSpacing: "-0.02em",
@@ -506,11 +506,11 @@ function BlockRenderer({ block }: { block: BlogBlock }) {
               {block.value}
             </p>
             {block.sub && (
-              <p className="text-[12px] text-[#6B7B8F] mt-2">{block.sub}</p>
+              <p className="text-[12px] text-cy-ink-3 mt-2">{block.sub}</p>
             )}
           </div>
           <span
-            className="material-symbols-outlined text-[#00AAD2]"
+            className="material-symbols-outlined text-cy-cyan"
             style={{ fontSize: 36, fontVariationSettings: "'FILL' 1" }}
             aria-hidden="true"
           >
@@ -603,7 +603,7 @@ function CodeBlock({
 
   return (
     <figure
-      className="my-6 rounded-xl overflow-hidden border border-[#0A1628]"
+      className="my-6 rounded-xl overflow-hidden border border-cy-ink"
       style={{ boxShadow: "0 8px 24px rgba(0, 44, 95, 0.18)" }}
     >
       <div
@@ -619,7 +619,7 @@ function CodeBlock({
           <span className="w-[9px] h-[9px] rounded-full bg-[#28C840]" />
         </span>
         <span
-          className="text-[10px] font-bold text-[#6B7B8F] tracking-[0.2em]"
+          className="text-[10px] font-bold text-cy-ink-3 tracking-[0.2em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {(language || "CODE").toUpperCase()}
@@ -728,7 +728,7 @@ function AuthorBio({ post }: { post: BlogPost }) {
   return (
     <Reveal>
       <section
-        className="mt-16 p-6 md:p-7 bg-white border border-[#E3E8EF] rounded-2xl flex items-start gap-5"
+        className="mt-16 p-6 md:p-7 bg-white border border-cy-line rounded-2xl flex items-start gap-5"
         style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
       >
         <div
@@ -742,16 +742,16 @@ function AuthorBio({ post }: { post: BlogPost }) {
         </div>
         <div className="min-w-0 flex-1">
           <p
-            className="text-[10px] font-bold text-[#002C5F] tracking-[0.22em] mb-1"
+            className="text-[10px] font-bold text-cy-navy tracking-[0.22em] mb-1"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             AUTHOR
           </p>
-          <p className="text-[16px] font-[800] text-[#0A1628] mb-1">
+          <p className="text-[16px] font-[800] text-cy-ink mb-1">
             {post.author.name}
           </p>
           <p
-            className="text-[13px] text-[#3A4A5F] leading-[1.65]"
+            className="text-[13px] text-cy-ink-2 leading-[1.65]"
             style={{
               fontFamily:
                 "var(--font-plex-kr), 'IBM Plex Sans KR', sans-serif",
@@ -785,7 +785,7 @@ function ArticleSidebar({
         {headings.length > 0 && (
           <div>
             <p
-              className="text-[11px] font-bold text-[#002C5F] tracking-[0.22em] mb-3"
+              className="text-[11px] font-bold text-cy-navy tracking-[0.22em] mb-3"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               ON THIS PAGE
@@ -814,14 +814,14 @@ function MobileToc({
 
   return (
     <details
-      className="lg:hidden bg-white border border-[#E3E8EF] rounded-xl mb-6"
+      className="lg:hidden bg-white border border-cy-line rounded-xl mb-6"
       open={open}
       onToggle={(e) => setOpen((e.target as HTMLDetailsElement).open)}
     >
       <summary className="flex items-center justify-between p-4 cursor-pointer select-none list-none">
-        <span className="text-[13px] font-bold text-[#0A1628] flex items-center gap-2">
+        <span className="text-[13px] font-bold text-cy-ink flex items-center gap-2">
           <span
-            className="material-symbols-outlined text-[#002C5F]"
+            className="material-symbols-outlined text-cy-navy"
             style={{ fontSize: 18 }}
             aria-hidden="true"
           >
@@ -830,7 +830,7 @@ function MobileToc({
           목차
         </span>
         <span
-          className="material-symbols-outlined text-[#6B7B8F] transition-transform"
+          className="material-symbols-outlined text-cy-ink-3 transition-transform"
           style={{
             fontSize: 18,
             transform: open ? "rotate(180deg)" : "none",
@@ -858,7 +858,7 @@ function TocList({
         <li key={h.id}>
           <a
             href={`#${h.id}`}
-            className={`block text-[12px] text-[#6B7B8F] hover:text-[#002C5F] transition-colors leading-[1.5] py-1 border-l-2 border-[#E3E8EF] hover:border-[#002C5F] ${
+            className={`block text-[12px] text-cy-ink-3 hover:text-cy-navy transition-colors leading-[1.5] py-1 border-l-2 border-cy-line hover:border-cy-navy ${
               h.level === 3 ? "pl-5 ml-2" : "pl-3"
             }`}
           >
@@ -903,7 +903,7 @@ function ShareButtons({ post }: { post: BlogPost }) {
   return (
     <div>
       <p
-        className="text-[11px] font-bold text-[#002C5F] tracking-[0.22em] mb-3"
+        className="text-[11px] font-bold text-cy-navy tracking-[0.22em] mb-3"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
         SHARE
@@ -912,7 +912,7 @@ function ShareButtons({ post }: { post: BlogPost }) {
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E3E8EF] hover:border-[#002C5F] hover:bg-[#E8F1FB] text-[#3A4A5F] hover:text-[#002C5F] rounded-lg text-[12px] font-semibold transition-colors min-h-0"
+          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-cy-line hover:border-cy-navy hover:bg-cy-navy-pale text-cy-ink-2 hover:text-cy-navy rounded-lg text-[12px] font-semibold transition-colors min-h-0"
         >
           <span
             className="material-symbols-outlined"
@@ -927,7 +927,7 @@ function ShareButtons({ post }: { post: BlogPost }) {
           href={twitterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E3E8EF] hover:border-[#002C5F] hover:bg-[#E8F1FB] text-[#3A4A5F] hover:text-[#002C5F] rounded-lg text-[12px] font-semibold transition-colors min-h-0"
+          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-cy-line hover:border-cy-navy hover:bg-cy-navy-pale text-cy-ink-2 hover:text-cy-navy rounded-lg text-[12px] font-semibold transition-colors min-h-0"
         >
           <span aria-hidden="true" className="text-[13px] font-black">X</span>
           Twitter 공유
@@ -936,7 +936,7 @@ function ShareButtons({ post }: { post: BlogPost }) {
           href={linkedinUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-[#E3E8EF] hover:border-[#002C5F] hover:bg-[#E8F1FB] text-[#3A4A5F] hover:text-[#002C5F] rounded-lg text-[12px] font-semibold transition-colors min-h-0"
+          className="inline-flex items-center gap-2 px-3 py-2 bg-white border border-cy-line hover:border-cy-navy hover:bg-cy-navy-pale text-cy-ink-2 hover:text-cy-navy rounded-lg text-[12px] font-semibold transition-colors min-h-0"
         >
           <span aria-hidden="true" className="text-[11px] font-black">in</span>
           LinkedIn 공유
@@ -954,17 +954,17 @@ function RelatedSection({ post }: { post: BlogPost }) {
   if (related.length === 0) return null;
 
   return (
-    <section className="py-16 md:py-20 bg-white border-t border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-t border-cy-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <Reveal>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.22em] mb-2.5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.22em] mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             RELATED · 관련 기록
           </p>
           <h2
-            className="text-[22px] md:text-[28px] font-[800] text-[#0A1628] mb-8"
+            className="text-[22px] md:text-[28px] font-[800] text-cy-ink mb-8"
             style={{ letterSpacing: "-0.02em" }}
           >
             함께 읽기
@@ -988,11 +988,11 @@ function RelatedSection({ post }: { post: BlogPost }) {
                 >
                   {r.categoryLabel.toUpperCase()}
                 </span>
-                <h3 className="text-[15px] font-bold text-[#0A1628] mb-1.5 leading-[1.4] group-hover:text-[#002C5F] transition-colors">
+                <h3 className="text-[15px] font-bold text-cy-ink mb-1.5 leading-[1.4] group-hover:text-cy-navy transition-colors">
                   {r.title}
                 </h3>
                 <p
-                  className="text-[12px] text-[#6B7B8F] leading-[1.65] line-clamp-2 flex-1"
+                  className="text-[12px] text-cy-ink-3 leading-[1.65] line-clamp-2 flex-1"
                   style={{
                     fontFamily:
                       "var(--font-plex-kr), 'IBM Plex Sans KR', sans-serif",
@@ -1001,7 +1001,7 @@ function RelatedSection({ post }: { post: BlogPost }) {
                   {r.summary}
                 </p>
                 <p
-                  className="text-[10px] text-[#9AA8B8] tabular-nums mt-3 pt-3 border-t border-[#E3E8EF]"
+                  className="text-[10px] text-cy-ink-4 tabular-nums mt-3 pt-3 border-t border-cy-line"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {r.publishedAt} · {r.readingTime}분
@@ -1025,7 +1025,7 @@ function BackToBlog() {
         <Reveal>
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
           >
             <span
               className="material-symbols-outlined"
@@ -1048,7 +1048,7 @@ function BackToBlog() {
 function PostNotFound({ slug }: { slug: string }) {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628] flex flex-col"
+      className="min-h-screen bg-cy-bg text-cy-ink flex flex-col"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -1058,19 +1058,19 @@ function PostNotFound({ slug }: { slug: string }) {
       <div className="flex-1 flex items-center justify-center px-6 py-20">
         <div className="max-w-[480px] text-center">
           <span
-            className="material-symbols-outlined text-[#9AA8B8] mb-4 inline-block"
+            className="material-symbols-outlined text-cy-ink-4 mb-4 inline-block"
             style={{ fontSize: 64 }}
             aria-hidden="true"
           >
             search_off
           </span>
-          <h1 className="text-[24px] font-[800] text-[#0A1628] mb-2">
+          <h1 className="text-[24px] font-[800] text-cy-ink mb-2">
             포스트가 존재하지 않는다
           </h1>
-          <p className="text-[14px] text-[#6B7B8F] mb-6">
+          <p className="text-[14px] text-cy-ink-3 mb-6">
             요청한 포스트 식별자{" "}
             <code
-              className="px-1.5 py-0.5 bg-white border border-[#E3E8EF] rounded text-[12px]"
+              className="px-1.5 py-0.5 bg-white border border-cy-line rounded text-[12px]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               {slug || "(empty)"}
@@ -1079,7 +1079,7 @@ function PostNotFound({ slug }: { slug: string }) {
           </p>
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 px-5 py-3 bg-[#002C5F] hover:bg-[#0046A4] text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
+            className="inline-flex items-center gap-2 px-5 py-3 bg-cy-navy hover:bg-cy-navy-mid text-white text-[14px] font-bold rounded-lg transition-colors min-h-0"
           >
             <span
               className="material-symbols-outlined"
@@ -1102,23 +1102,23 @@ function PostNotFound({ slug }: { slug: string }) {
 // ═══════════════════════════════════════
 function PostFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-3">
         <div className="flex items-baseline gap-2.5">
-          <span className="text-[15px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[15px] font-black text-cy-navy tracking-[-0.03em]">
             {copy.footer.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {copy.footer.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-2">
+          <span className="text-[11px] text-cy-ink-3 ml-2">
             {copy.footer.company}
           </span>
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">{copy.footer.copyright}</p>
+        <p className="text-[11px] text-cy-ink-4">{copy.footer.copyright}</p>
       </div>
     </footer>
   );

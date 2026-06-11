@@ -16,7 +16,7 @@ const EFFECTIVE_DATE = "2026-04-18";
 export default function PrivacyPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -28,18 +28,18 @@ export default function PrivacyPage() {
         className="max-w-[820px] mx-auto px-6 md:px-8 py-12 md:py-16"
         style={{ fontFamily: "'IBM Plex Sans KR', Pretendard, serif" }}
       >
-        <header className="pb-8 border-b border-[#E3E8EF]">
+        <header className="pb-8 border-b border-cy-line">
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             LEGAL · 개인정보처리방침
           </p>
-          <h1 className="text-[28px] md:text-[36px] font-[900] text-[#0A1628] tracking-[-0.02em] mb-3">
+          <h1 className="text-[28px] md:text-[36px] font-[900] text-cy-ink tracking-[-0.02em] mb-3">
             철연 CHEOLYEON 개인정보처리방침
           </h1>
           <div
-            className="flex flex-wrap gap-x-5 gap-y-1 text-[12px] text-[#6B7B8F]"
+            className="flex flex-wrap gap-x-5 gap-y-1 text-[12px] text-cy-ink-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             <span>시행일: {EFFECTIVE_DATE}</span>
@@ -48,7 +48,7 @@ export default function PrivacyPage() {
         </header>
 
         <div
-          className="mt-10 space-y-10 text-[15px] md:text-[16px] text-[#0A1628]"
+          className="mt-10 space-y-10 text-[15px] md:text-[16px] text-cy-ink"
           style={{ lineHeight: 1.85, letterSpacing: "-0.015em" }}
         >
           <Section n={1} title="개인정보의 처리 목적">
@@ -64,7 +64,7 @@ export default function PrivacyPage() {
           </Section>
 
           <Section n={2} title="수집하는 개인정보의 항목 및 수집 방법">
-            <h3 className="text-[16px] font-bold text-[#0A1628] mt-4 mb-2">가. 필수 항목</h3>
+            <h3 className="text-[16px] font-bold text-cy-ink mt-4 mb-2">가. 필수 항목</h3>
             <Ol>
               <li>이름, 휴대전화번호, 이메일 주소</li>
               <li>사업자등록번호, 상호, 대표자명, 사업장 주소 (법인·개인사업자)</li>
@@ -73,14 +73,14 @@ export default function PrivacyPage() {
               <li>자동 수집: IP 주소, 쿠키, 접속 일시, 기기 정보, 서비스 이용 기록</li>
             </Ol>
 
-            <h3 className="text-[16px] font-bold text-[#0A1628] mt-5 mb-2">나. 선택 항목</h3>
+            <h3 className="text-[16px] font-bold text-cy-ink mt-5 mb-2">나. 선택 항목</h3>
             <Ol>
               <li>프로필 사진, 직함, 부서</li>
               <li>마케팅 수신 동의 정보</li>
               <li>전자서명 이미지 (작업확인서 서명 시)</li>
             </Ol>
 
-            <h3 className="text-[16px] font-bold text-[#0A1628] mt-5 mb-2">다. 수집 방법</h3>
+            <h3 className="text-[16px] font-bold text-cy-ink mt-5 mb-2">다. 수집 방법</h3>
             <Ol>
               <li>회원가입 폼 직접 입력</li>
               <li>서비스 이용 과정에서 자동 생성</li>
@@ -117,21 +117,21 @@ export default function PrivacyPage() {
                 style={{ fontFamily: "Pretendard, sans-serif" }}
               >
                 <thead>
-                  <tr className="border-b-2 border-[#0A1628]">
+                  <tr className="border-b-2 border-cy-ink">
                     <th className="py-2 pr-3 font-bold">제공받는 자</th>
                     <th className="py-2 pr-3 font-bold">제공 목적</th>
                     <th className="py-2 pr-3 font-bold">제공 항목</th>
                     <th className="py-2 font-bold">보유 기간</th>
                   </tr>
                 </thead>
-                <tbody className="text-[#3A4A5F]">
-                  <tr className="border-b border-[#E3E8EF]">
+                <tbody className="text-cy-ink-2">
+                  <tr className="border-b border-cy-line">
                     <td className="py-2.5 pr-3">Naver Cloud Platform</td>
                     <td className="py-2.5 pr-3">SMS·LMS 발송</td>
                     <td className="py-2.5 pr-3">휴대전화번호, 발송내용</td>
                     <td className="py-2.5">발송 완료 시까지</td>
                   </tr>
-                  <tr className="border-b border-[#E3E8EF]">
+                  <tr className="border-b border-cy-line">
                     <td className="py-2.5 pr-3">거래 상대방 이용자</td>
                     <td className="py-2.5 pr-3">배차 매칭·계약 체결</td>
                     <td className="py-2.5 pr-3">상호, 담당자명, 연락처</td>
@@ -152,24 +152,24 @@ export default function PrivacyPage() {
                 style={{ fontFamily: "Pretendard, sans-serif" }}
               >
                 <thead>
-                  <tr className="border-b-2 border-[#0A1628]">
+                  <tr className="border-b-2 border-cy-ink">
                     <th className="py-2 pr-3 font-bold">수탁업체</th>
                     <th className="py-2 pr-3 font-bold">위탁 업무</th>
                     <th className="py-2 font-bold">위탁 기간</th>
                   </tr>
                 </thead>
-                <tbody className="text-[#3A4A5F]">
-                  <tr className="border-b border-[#E3E8EF]">
+                <tbody className="text-cy-ink-2">
+                  <tr className="border-b border-cy-line">
                     <td className="py-2.5 pr-3">Vercel Inc.</td>
                     <td className="py-2.5 pr-3">웹 서비스 호스팅·배포</td>
                     <td className="py-2.5">계약 종료 시까지</td>
                   </tr>
-                  <tr className="border-b border-[#E3E8EF]">
+                  <tr className="border-b border-cy-line">
                     <td className="py-2.5 pr-3">Supabase Inc.</td>
                     <td className="py-2.5 pr-3">데이터베이스 저장·인증</td>
                     <td className="py-2.5">계약 종료 시까지</td>
                   </tr>
-                  <tr className="border-b border-[#E3E8EF]">
+                  <tr className="border-b border-cy-line">
                     <td className="py-2.5 pr-3">Naver Cloud Platform</td>
                     <td className="py-2.5 pr-3">SMS·본인인증</td>
                     <td className="py-2.5">계약 종료 시까지</td>
@@ -177,7 +177,7 @@ export default function PrivacyPage() {
                 </tbody>
               </table>
             </div>
-            <p className="mt-3 text-[13px] text-[#6B7B8F]">
+            <p className="mt-3 text-[13px] text-cy-ink-3">
               해외 이전 수탁업체(Vercel·Supabase)에 대해서는 개인정보보호법 제28조의8에 따라 별도 고지·동의 절차를 따른다.
             </p>
           </Section>
@@ -221,11 +221,11 @@ export default function PrivacyPage() {
 
           <Section n={10} title="개인정보보호책임자">
             <div
-              className="mt-3 p-4 bg-[#E8F1FB] rounded-xl text-[14px]"
+              className="mt-3 p-4 bg-cy-navy-pale rounded-xl text-[14px]"
               style={{ fontFamily: "Pretendard, sans-serif" }}
             >
-              <p className="font-bold text-[#0A1628] mb-2">개인정보보호책임자 (DPO)</p>
-              <ul className="space-y-1 text-[#3A4A5F]">
+              <p className="font-bold text-cy-ink mb-2">개인정보보호책임자 (DPO)</p>
+              <ul className="space-y-1 text-cy-ink-2">
                 <li>
                   성명: <span className="font-medium">{footerCopy.dpo.name}</span> {footerCopy.dpo.title}
                 </li>
@@ -233,7 +233,7 @@ export default function PrivacyPage() {
                   이메일: {" "}
                   <a
                     href={`mailto:${footerCopy.dpo.email}`}
-                    className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors"
+                    className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors"
                   >
                     {footerCopy.dpo.email}
                   </a>
@@ -250,10 +250,10 @@ export default function PrivacyPage() {
               정보주체는 다음 기관에 개인정보 침해 신고·상담을 할 수 있다.
             </p>
             <Ol>
-              <li>개인정보분쟁조정위원회: 1833-6972 · <a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer" className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors">www.kopico.go.kr</a></li>
-              <li>개인정보침해신고센터: 118 · <a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer" className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors">privacy.kisa.or.kr</a></li>
-              <li>대검찰청 사이버수사과: 1301 · <a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer" className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors">www.spo.go.kr</a></li>
-              <li>경찰청 사이버안전국: 182 · <a href="https://cyberbureau.police.go.kr" target="_blank" rel="noopener noreferrer" className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors">cyberbureau.police.go.kr</a></li>
+              <li>개인정보분쟁조정위원회: 1833-6972 · <a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer" className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors">www.kopico.go.kr</a></li>
+              <li>개인정보침해신고센터: 118 · <a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer" className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors">privacy.kisa.or.kr</a></li>
+              <li>대검찰청 사이버수사과: 1301 · <a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer" className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors">www.spo.go.kr</a></li>
+              <li>경찰청 사이버안전국: 182 · <a href="https://cyberbureau.police.go.kr" target="_blank" rel="noopener noreferrer" className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors">cyberbureau.police.go.kr</a></li>
             </Ol>
           </Section>
 
@@ -265,15 +265,15 @@ export default function PrivacyPage() {
         </div>
 
         <aside
-          className="mt-12 pt-6 border-t border-[#E3E8EF] text-[12px] text-[#6B7B8F] leading-[1.7]"
+          className="mt-12 pt-6 border-t border-cy-line text-[12px] text-cy-ink-3 leading-[1.7]"
           style={{ fontFamily: "var(--font-roboto-mono), Pretendard, sans-serif" }}
         >
-          <p className="font-bold text-[#3A4A5F] mb-2">법률 자문 고지</p>
+          <p className="font-bold text-cy-ink-2 mb-2">법률 자문 고지</p>
           <p>
             본 방침은 정보통신망법 제27조의2 · 개인정보보호법 제30조 기준으로 초안한다. 서비스 시행 전 법무 자문의 검토 후 개정판 발행이 필요하다. 관련 문의: {" "}
             <a
               href={`mailto:${footerCopy.business.email}`}
-              className="text-[#002C5F] font-medium hover:text-[#0046A4] transition-colors"
+              className="text-cy-navy font-medium hover:text-cy-navy-mid transition-colors"
             >
               {footerCopy.business.email}
             </a>
@@ -297,16 +297,16 @@ export default function PrivacyPage() {
   }) {
     return (
       <section>
-        <h2 className="text-[19px] md:text-[22px] font-[800] text-[#0A1628] mb-4 tracking-[-0.015em]">
+        <h2 className="text-[19px] md:text-[22px] font-[800] text-cy-ink mb-4 tracking-[-0.015em]">
           <span
-            className="text-[#002C5F] mr-2"
+            className="text-cy-navy mr-2"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             제{n}조
           </span>
           {title}
         </h2>
-        <div className="text-[#3A4A5F]">{children}</div>
+        <div className="text-cy-ink-2">{children}</div>
       </section>
     );
   }
@@ -318,15 +318,15 @@ export default function PrivacyPage() {
   function LegalNav() {
     return (
       <nav
-        className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+        className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
         style={{ backdropFilter: "blur(12px) saturate(180%)" }}
       >
         <Link href="/" className="flex items-baseline gap-2.5">
-          <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
             {navCopy.brand.ko}
           </span>
           <span
-            className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {navCopy.brand.en}
@@ -334,7 +334,7 @@ export default function PrivacyPage() {
         </Link>
         <Link
           href="/"
-          className="ml-auto text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors min-h-0 inline-flex items-center gap-1"
+          className="ml-auto text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors min-h-0 inline-flex items-center gap-1"
         >
           <span className="material-symbols-outlined" style={{ fontSize: 18 }}>
             arrow_back
@@ -347,15 +347,15 @@ export default function PrivacyPage() {
 
   function LegalFooter() {
     return (
-      <footer className="border-t border-[#E3E8EF] py-6 bg-[#EEF1F5]">
-        <div className="max-w-[820px] mx-auto px-6 md:px-8 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-[#6B7B8F]">
-          <Link href="/terms" className="hover:text-[#002C5F] transition-colors">
+      <footer className="border-t border-cy-line py-6 bg-cy-bg-alt">
+        <div className="max-w-[820px] mx-auto px-6 md:px-8 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-cy-ink-3">
+          <Link href="/terms" className="hover:text-cy-navy transition-colors">
             이용약관
           </Link>
-          <Link href="/help" className="hover:text-[#002C5F] transition-colors">
+          <Link href="/help" className="hover:text-cy-navy transition-colors">
             고객센터
           </Link>
-          <span className="ml-auto text-[#9AA8B8]">{footerCopy.copyright}</span>
+          <span className="ml-auto text-cy-ink-4">{footerCopy.copyright}</span>
         </div>
       </footer>
     );

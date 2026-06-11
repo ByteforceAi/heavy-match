@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Sans_KR, Roboto_Mono } from "next/font/google";
 import { Suspense } from "react";
+import Script from "next/script";
 import "./globals.css";
 import { Analytics } from "@/components/analytics/Analytics";
 import { PageViewTracker } from "@/components/analytics/PageViewTracker";
@@ -8,10 +9,11 @@ import { ConsentBanner } from "@/components/analytics/ConsentBanner";
 
 // ═══════════════════════════════════════
 // Fonts — next/font 자동 preload + FOIT 방지
-// v2: Pretendard (CDN @font-face in globals.css) + IBM Plex Sans KR + Roboto Mono
+// v3: Pretendard Variable (공식 동적 서브셋 CDN, head <link>)
+//     + IBM Plex Sans KR + Roboto Mono (next/font)
 //
-// Pretendard는 Google Fonts 미제공이라 globals.css의 @font-face로 CDN 로딩.
-// IBM Plex와 Roboto Mono는 next/font로 최적화 preload.
+// Pretendard는 Google Fonts 미제공. 구 noonfonts CDN은 800/900이 404라
+// 디스플레이 웨이트가 한 번도 렌더되지 않았다 — 공식 Variable(45~920)로 교체.
 // ═══════════════════════════════════════
 
 const plexKr = IBM_Plex_Sans_KR({
@@ -103,8 +105,8 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  // 확대 허용 — WCAG 1.4.4. 40~60대 현장 사용자가 핵심 타깃이므로
+  // 핀치 줌을 막지 않는다 (입력 자동 줌은 globals.css의 16px 규칙으로 방지).
   themeColor: "#002C5F",
   viewportFit: "cover",
 };
@@ -122,12 +124,19 @@ export default function RootLayout({
       <head>
         <link rel="apple-touch-icon" href="/icon.svg" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        {/* Pretendard Variable — 동적 서브셋 (한글 2,574자 분할 로딩, weight 45~920) */}
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+          crossOrigin="anonymous"
+        />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col overscroll-none" id="main-content">
+      {/* id="main-content"는 각 레이아웃의 <main>에 둔다 — SkipLink가 nav를 실제로 건너뛰도록 */}
+      <body className="min-h-full flex flex-col overscroll-none">
         {children}
         {/* Analytics — GA4 · Naver · PostHog 3중 스택.
             각 스크립트는 NEXT_PUBLIC_*_ID 환경 변수가 설정된 경우에만 로드된다. */}
@@ -136,11 +145,9 @@ export default function RootLayout({
           <PageViewTracker />
         </Suspense>
         <ConsentBanner />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')})}`,
-          }}
-        />
+        <Script id="sw-register" strategy="afterInteractive">
+          {`if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js')})}`}
+        </Script>
       </body>
     </html>
   );

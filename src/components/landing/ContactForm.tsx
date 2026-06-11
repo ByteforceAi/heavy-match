@@ -98,17 +98,17 @@ export default function ContactForm() {
   ) => (
     <div>
       <label
-        className="block text-[11px] font-semibold text-[#6B7B8F] mb-1.5 uppercase tracking-[0.1em]"
+        className="block text-[11px] font-semibold text-cy-ink-3 mb-1.5 uppercase tracking-[0.1em]"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
-        {label} {required && <span className="text-[#E5484D]">*</span>}
+        {label} {required && <span className="text-cy-danger">*</span>}
       </label>
       <input
         type={type}
         value={data[key]}
         onChange={(e) => setData({ ...data, [key]: e.target.value })}
         placeholder={placeholder}
-        className="w-full px-4 py-3 bg-white border border-[#E3E8EF] rounded-lg text-[#0A1628] placeholder:text-[#9AA8B8] focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 transition-colors"
+        className="w-full px-4 py-3 bg-white border border-cy-line rounded-lg text-cy-ink placeholder:text-cy-ink-4 focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 transition-colors"
       />
     </div>
   );
@@ -122,28 +122,28 @@ export default function ContactForm() {
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
           transition={tokens.spring.bouncy}
-          className="bg-white border border-[#00A86B]/30 rounded-2xl p-12 text-center"
+          className="bg-white border border-cy-success/30 rounded-2xl p-12 text-center"
           style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
         >
-          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-[#00A86B]/10 flex items-center justify-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-cy-success/10 flex items-center justify-center">
             <span
-              className="material-symbols-outlined text-[#00A86B]"
+              className="material-symbols-outlined text-cy-success"
               style={{ fontSize: 36, fontVariationSettings: "'FILL' 1" }}
             >
               check_circle
             </span>
           </div>
           <h3
-            className="text-[22px] font-[800] text-[#0A1628] mb-2"
+            className="text-[22px] font-[800] text-cy-ink mb-2"
             style={{ letterSpacing: "-0.02em" }}
           >
             문의가 접수되었다
           </h3>
-          <p className="text-[14px] text-[#3A4A5F]">
+          <p className="text-[14px] text-cy-ink-2">
             24시간 이내에{" "}
-            <span className="text-[#002C5F] font-bold">{data.name}</span>님께 연락을 회신한다.
+            <span className="text-cy-navy font-bold">{data.name}</span>님께 연락을 회신한다.
           </p>
-          <p className="text-[12px] text-[#6B7B8F] mt-4">담당자: BYTEFORCE 사업개발팀</p>
+          <p className="text-[12px] text-cy-ink-3 mt-4">담당자: BYTEFORCE 사업개발팀</p>
         </motion.div>
       ) : (
         <motion.form
@@ -154,7 +154,7 @@ export default function ContactForm() {
             e.preventDefault();
             submit();
           }}
-          className="bg-white border border-[#E3E8EF] rounded-2xl p-6 md:p-8 space-y-4"
+          className="bg-white border border-cy-line rounded-2xl p-6 md:p-8 space-y-4"
           style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
         >
           <div className="grid md:grid-cols-2 gap-4">
@@ -168,7 +168,7 @@ export default function ContactForm() {
 
           <div>
             <label
-              className="block text-[11px] font-semibold text-[#6B7B8F] mb-1.5 uppercase tracking-[0.1em]"
+              className="block text-[11px] font-semibold text-cy-ink-3 mb-1.5 uppercase tracking-[0.1em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               역할
@@ -181,8 +181,8 @@ export default function ContactForm() {
                   onClick={() => setData({ ...data, role: r })}
                   className={`px-3 py-2.5 rounded-lg text-[13px] font-semibold transition-all active:scale-[0.98] ${
                     data.role === r
-                      ? "bg-[#002C5F] text-white border border-[#002C5F]"
-                      : "bg-white text-[#3A4A5F] hover:text-[#002C5F] hover:border-[#002C5F]/40 border border-[#E3E8EF]"
+                      ? "bg-cy-navy text-white border border-cy-navy"
+                      : "bg-white text-cy-ink-2 hover:text-cy-navy hover:border-cy-navy/40 border border-cy-line"
                   }`}
                 >
                   {r}
@@ -193,7 +193,7 @@ export default function ContactForm() {
 
           <div>
             <label
-              className="block text-[11px] font-semibold text-[#6B7B8F] mb-1.5 uppercase tracking-[0.1em]"
+              className="block text-[11px] font-semibold text-cy-ink-3 mb-1.5 uppercase tracking-[0.1em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               문의 내용
@@ -203,7 +203,7 @@ export default function ContactForm() {
               onChange={(e) => setData({ ...data, message: e.target.value })}
               rows={4}
               placeholder="도입 규모, 일정, 커스터마이징 범위 등 자유롭게 작성."
-              className="w-full px-4 py-3 bg-white border border-[#E3E8EF] rounded-lg text-[#0A1628] placeholder:text-[#9AA8B8] focus:outline-none focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/15 transition-colors resize-none"
+              className="w-full px-4 py-3 bg-white border border-cy-line rounded-lg text-cy-ink placeholder:text-cy-ink-4 focus:outline-none focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/15 transition-colors resize-none"
             />
           </div>
 
@@ -213,7 +213,7 @@ export default function ContactForm() {
             whileHover={{ scale: submitting ? 1 : 1.01 }}
             whileTap={{ scale: submitting ? 1 : 0.98 }}
             transition={tokens.spring.snappy}
-            className="w-full py-4 bg-[#002C5F] hover:bg-[#0046A4] disabled:bg-[#9AA8B8] text-white font-bold rounded-lg text-[15px] transition-colors flex items-center justify-center gap-2"
+            className="w-full py-4 bg-cy-navy hover:bg-cy-navy-mid disabled:bg-cy-ink-4 text-white font-bold rounded-lg text-[15px] transition-colors flex items-center justify-center gap-2"
           >
             {submitting ? (
               <>
@@ -241,7 +241,7 @@ export default function ContactForm() {
               animate={{ opacity: 1, y: 0 }}
               transition={tokens.spring.snappy}
               role="alert"
-              className="px-4 py-3 bg-[#E5484D]/8 border border-[#E5484D]/30 rounded-lg text-[13px] text-[#E5484D] flex items-start gap-2"
+              className="px-4 py-3 bg-cy-danger/8 border border-cy-danger/30 rounded-lg text-[13px] text-cy-danger flex items-start gap-2"
             >
               <span
                 className="material-symbols-outlined mt-[1px]"
@@ -254,7 +254,7 @@ export default function ContactForm() {
             </motion.div>
           )}
 
-          <p className="text-[11px] text-[#6B7B8F] text-center">
+          <p className="text-[11px] text-cy-ink-3 text-center">
             제출된 정보는 상담 목적으로만 사용되며 24시간 이내에 담당자가 연락을 회신한다.
           </p>
         </motion.form>

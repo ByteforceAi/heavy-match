@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { getRoleLabel } from "@/lib/utils";
+import { SkipLink } from "@/components/A11y";
 import type { UserRole } from "@/types/database";
 
 interface NavItem {
@@ -50,13 +52,14 @@ const NAV_ITEMS: Record<UserRole, NavItem[]> = {
   ],
 };
 
+/* 역할 라벨 컬러 — ui/Badge.tsx ROLE_STYLES와 같은 의미체계 */
 const ROLE_COLORS: Record<UserRole, string> = {
-  requester: "text-[#002C5F]",
-  owner: "text-emerald-600",
-  operator: "text-amber-600",
-  callcenter: "text-[#ba1a1a]",
-  salesperson: "text-pink-600",
-  admin: "text-violet-600",
+  requester: "text-cy-navy",
+  owner: "text-cy-success-deep",
+  operator: "text-cy-warning-deep",
+  callcenter: "text-cy-cyan-deep",
+  salesperson: "text-cy-navy-mid",
+  admin: "text-cy-ink",
 };
 
 interface Props {
@@ -65,6 +68,11 @@ interface Props {
   userName: string;
   basePath?: string;
 }
+
+const MIcon = ({ name, fill, className = "" }: { name: string; fill?: boolean; className?: string }) => (
+  <span className={`material-symbols-outlined ${className}`}
+    style={fill ? { fontVariationSettings: "'FILL' 1" } : undefined}>{name}</span>
+);
 
 export default function DashboardLayout({ children, userRole, userName, basePath = "" }: Props) {
   const pathname = usePathname();
@@ -82,50 +90,55 @@ export default function DashboardLayout({ children, userRole, userName, basePath
     router.push("/login");
   };
 
-  const MIcon = ({ name, fill, className = "" }: { name: string; fill?: boolean; className?: string }) => (
-    <span className={`material-symbols-outlined ${className}`}
-      style={fill ? { fontVariationSettings: "'FILL' 1" } : undefined}>{name}</span>
-  );
-
   return (
-    <div className="flex h-screen bg-[#F4F6FA]">
+    <div className="flex h-screen bg-cy-bg">
+      <SkipLink />
       {/* ── 사이드바: 데스크톱 ── */}
-      <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-[#E3E8EF]/30">
-        <div className="p-5 border-b border-[#E3E8EF]/20">
+      <aside className="hidden md:flex md:w-64 flex-col bg-white border-r border-cy-line-soft">
+        <div className="p-5 border-b border-cy-line-soft">
           <div className="flex items-center gap-2">
-            <MIcon name="construction" fill className="text-[#002C5F]" />
-            <h1 className="text-xl font-black text-[#0A1628] tracking-tight">철연 CHEOLYEON</h1>
+            <MIcon name="construction" fill className="text-cy-navy" />
+            <h1 className="text-xl font-black text-cy-ink tracking-tight">철연 CHEOLYEON</h1>
           </div>
           <p className={`text-xs font-bold mt-1 ${ROLE_COLORS[userRole]}`}>{getRoleLabel(userRole)}</p>
         </div>
-        <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
+        <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto" aria-label="주 메뉴">
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                aria-current={isActive ? "page" : undefined}
+                className={`press relative flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold ${
                   isActive
-                    ? "bg-[#E8F1FB] text-[#002C5F]"
-                    : "text-[#3A4A5F] hover:bg-[#F4F6FA]"
+                    ? "bg-cy-navy-pale text-cy-navy"
+                    : "text-cy-ink-2 hover:bg-cy-bg hover:text-cy-ink"
                 }`}
               >
-                <MIcon name={item.icon} fill={isActive} className={isActive ? "text-[#002C5F]" : "text-[#6B7B8F]"} />
+                {isActive && (
+                  <motion.span
+                    layoutId="side-rule"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    className="absolute left-0 top-2.5 bottom-2.5 w-[3px] rounded-full bg-cy-navy"
+                    aria-hidden
+                  />
+                )}
+                <MIcon name={item.icon} fill={isActive} className={isActive ? "text-cy-navy" : "text-cy-ink-3"} />
                 {item.label}
               </Link>
             );
           })}
         </nav>
-        <div className="p-4 border-t border-[#E3E8EF]/20">
+        <div className="p-4 border-t border-cy-line-soft">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#E8F1FB] rounded-full flex items-center justify-center text-xs font-bold text-[#002C5F]">
+              <div className="w-8 h-8 bg-cy-navy-pale rounded-full flex items-center justify-center text-xs font-bold text-cy-navy">
                 {userName[0]}
               </div>
-              <span className="text-sm font-semibold text-[#0A1628] truncate max-w-[120px]">{userName}</span>
+              <span className="text-sm font-semibold text-cy-ink truncate max-w-[120px]">{userName}</span>
             </div>
-            <button onClick={handleLogout} className="text-[#6B7B8F] hover:text-[#ba1a1a] transition-colors">
+            <button onClick={handleLogout} aria-label="로그아웃" className="press text-cy-ink-3 hover:text-cy-danger transition-colors">
               <MIcon name="logout" className="text-lg" />
             </button>
           </div>
@@ -134,24 +147,24 @@ export default function DashboardLayout({ children, userRole, userName, basePath
 
       {/* ── 모바일 오버레이 ── */}
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
+        <div className="fixed inset-0 bg-cy-ink/40 backdrop-blur-sm z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
       {/* ── 사이드바: 모바일 드로어 ── */}
       <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-white transform transition-transform duration-300 md:hidden ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        <div className="p-5 border-b border-[#E3E8EF]/20 flex items-center justify-between">
+        <div className="p-5 border-b border-cy-line-soft flex items-center justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <MIcon name="construction" fill className="text-[#002C5F]" />
+              <MIcon name="construction" fill className="text-cy-navy" />
               <h1 className="text-xl font-black tracking-tight">철연 CHEOLYEON</h1>
             </div>
             <p className={`text-xs font-bold mt-1 ${ROLE_COLORS[userRole]}`}>{getRoleLabel(userRole)}</p>
           </div>
-          <button onClick={() => setSidebarOpen(false)} className="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-[#F4F6FA]">
-            <MIcon name="close" className="text-[#6B7B8F]" />
+          <button onClick={() => setSidebarOpen(false)} aria-label="메뉴 닫기" className="press w-8 h-8 flex items-center justify-center rounded-lg hover:bg-cy-bg">
+            <MIcon name="close" className="text-cy-ink-3" />
           </button>
         </div>
-        <nav className="p-3 space-y-0.5">
+        <nav className="p-3 space-y-0.5" aria-label="주 메뉴">
           {navItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
             return (
@@ -159,18 +172,19 @@ export default function DashboardLayout({ children, userRole, userName, basePath
                 key={item.href}
                 href={item.href}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold transition-all active:scale-[0.98] ${
-                  isActive ? "bg-[#E8F1FB] text-[#002C5F]" : "text-[#3A4A5F] hover:bg-[#F4F6FA]"
+                aria-current={isActive ? "page" : undefined}
+                className={`press flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-semibold ${
+                  isActive ? "bg-cy-navy-pale text-cy-navy" : "text-cy-ink-2 hover:bg-cy-bg"
                 }`}
               >
-                <MIcon name={item.icon} fill={isActive} className={isActive ? "text-[#002C5F]" : "text-[#6B7B8F]"} />
+                <MIcon name={item.icon} fill={isActive} className={isActive ? "text-cy-navy" : "text-cy-ink-3"} />
                 {item.label}
               </Link>
             );
           })}
         </nav>
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-[#E3E8EF]/20 safe-bottom">
-          <button onClick={handleLogout} className="w-full py-3 text-[#ba1a1a] text-sm font-bold flex items-center justify-center gap-2">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-cy-line-soft safe-bottom">
+          <button onClick={handleLogout} className="press w-full py-3 text-cy-danger text-sm font-bold flex items-center justify-center gap-2 rounded-xl hover:bg-cy-danger/5">
             <MIcon name="logout" className="text-lg" /> 로그아웃
           </button>
         </div>
@@ -179,33 +193,41 @@ export default function DashboardLayout({ children, userRole, userName, basePath
       {/* ── 메인 콘텐츠 ── */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* 모바일 헤더 */}
-        <header className="md:hidden bg-white/80 backdrop-blur-xl border-b border-[#E3E8EF]/20 px-4 h-14 flex items-center justify-between sticky top-0 z-30">
-          <button onClick={() => setSidebarOpen(true)} className="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-[#F4F6FA] active:bg-[#E8F1FB] transition">
-            <MIcon name="menu" className="text-[#0A1628]" />
+        <header className="md:hidden bg-white/80 backdrop-blur-xl border-b border-cy-line-soft px-4 h-14 flex items-center justify-between sticky top-0 z-30">
+          <button onClick={() => setSidebarOpen(true)} aria-label="메뉴 열기" className="press w-10 h-10 flex items-center justify-center rounded-xl hover:bg-cy-bg active:bg-cy-navy-pale">
+            <MIcon name="menu" className="text-cy-ink" />
           </button>
           <div className="flex items-center gap-1.5">
-            <MIcon name="construction" fill className="text-[#002C5F] text-lg" />
-            <span className="font-black text-[#0A1628] tracking-tight">철연 CHEOLYEON</span>
+            <MIcon name="construction" fill className="text-cy-navy text-lg" />
+            <span className="font-black text-cy-ink tracking-tight">철연 CHEOLYEON</span>
           </div>
           <div className="w-10" />
         </header>
 
         {/* 하단 탭: 모바일 */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-[#E3E8EF]/20 z-30 safe-bottom">
-          <nav className="flex justify-around px-1 pt-1 pb-1">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl border-t border-cy-line-soft z-30 safe-bottom">
+          <nav className="flex justify-around px-1 pt-1 pb-1" aria-label="하단 탭">
             {navItems.slice(0, 4).map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`flex flex-col items-center justify-center py-2 px-2 rounded-xl min-w-[60px] min-h-[52px] transition-all active:scale-95 ${
-                    isActive ? "text-[#002C5F]" : "text-[#6B7B8F]"
+                  aria-current={isActive ? "page" : undefined}
+                  className={`relative flex flex-col items-center justify-center py-2 px-2 rounded-xl min-w-[60px] min-h-[52px] transition-colors active:scale-95 ${
+                    isActive ? "text-cy-navy" : "text-cy-ink-3"
                   }`}
                 >
                   <MIcon name={item.icon} fill={isActive} className="text-xl" />
                   <span className={`text-[10px] mt-0.5 ${isActive ? "font-bold" : "font-medium"}`}>{item.label}</span>
-                  {isActive && <span className="w-4 h-0.5 bg-[#002C5F] rounded-full mt-0.5" />}
+                  {isActive && (
+                    <motion.span
+                      layoutId="tab-indicator"
+                      transition={{ type: "spring", stiffness: 500, damping: 35 }}
+                      className="absolute bottom-0.5 w-4 h-0.5 bg-cy-navy rounded-full"
+                      aria-hidden
+                    />
+                  )}
                 </Link>
               );
             })}
@@ -213,7 +235,7 @@ export default function DashboardLayout({ children, userRole, userName, basePath
         </div>
 
         {/* 페이지 콘텐츠 */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6">
+        <main id="main-content" tabIndex={-1} className="flex-1 overflow-y-auto p-4 md:p-6 pb-24 md:pb-6 outline-none">
           {children}
         </main>
       </div>

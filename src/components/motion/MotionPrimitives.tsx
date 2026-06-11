@@ -7,7 +7,7 @@
  * tokens.ts의 motion/blur 값을 직접 참조.
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { motion, animate, useInView, useMotionValue, useTransform, type Variants } from "framer-motion";
 import { motion as tokens } from "@/lib/design-system";
 
@@ -25,10 +25,10 @@ interface MotionButtonProps {
 
 export function MotionButton({ children, className = "", variant = "primary", onClick, disabled }: MotionButtonProps) {
   const variantStyles = {
-    primary: "bg-[#002C5F] hover:bg-[#0046A4] text-white",
-    secondary: "bg-white hover:bg-[#F4F6FA] text-[#0A1628] border border-[#E3E8EF]",
-    ghost: "bg-transparent hover:bg-[#EEF1F5] text-[#3A4A5F]",
-    danger: "bg-[#E5484D] hover:bg-[#C82B30] text-white",
+    primary: "bg-cy-navy hover:bg-cy-navy-mid text-white",
+    secondary: "bg-white hover:bg-cy-bg text-cy-ink border border-cy-line",
+    ghost: "bg-transparent hover:bg-cy-bg-alt text-cy-ink-2",
+    danger: "bg-cy-danger hover:bg-[#C82B30] text-white",
   };
 
   return (
@@ -57,15 +57,16 @@ interface MotionCardProps {
 }
 
 export function MotionCard({ children, className = "", delay = 0, onClick }: MotionCardProps) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
+      initial={reduced ? false : { opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "0px 0px 120px 0px" }}
       transition={{ ...tokens.spring.smooth, delay }}
-      whileHover={{ y: -2, scale: tokens.haptic.lift.scale }}
+      whileHover={reduced ? undefined : { y: -2 }}
       onClick={onClick}
-      className={`bg-white border border-[#E3E8EF] rounded-2xl transition-shadow hover:shadow-[0_8px_20px_rgba(0,44,95,0.08),0_0_0_1px_rgba(0,44,95,0.05)] ${onClick ? "cursor-pointer" : ""} ${className}`}
+      className={`bg-white border border-cy-line rounded-2xl transition-shadow hover:shadow-[0_8px_20px_rgba(0,44,95,0.08),0_0_0_1px_rgba(0,44,95,0.05)] ${onClick ? "cursor-pointer" : ""} ${className}`}
     >
       {children}
     </motion.div>
@@ -85,18 +86,21 @@ interface RevealProps {
 }
 
 export function Reveal({ children, className = "", direction = "up", delay = 0, once = true }: RevealProps) {
+  const reduced = useReducedMotion();
   const offsets = {
-    up: { y: 40, x: 0 },
-    left: { x: -40, y: 0 },
-    right: { x: 40, y: 0 },
+    up: { y: 20, x: 0 },
+    left: { x: -20, y: 0 },
+    right: { x: 20, y: 0 },
     none: { x: 0, y: 0 },
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, ...offsets[direction] }}
+      // reduced-motion: 숨김 상태 없이 즉시 표시 (JS 실패·감속 선호 모두 콘텐츠 우선)
+      initial={reduced ? false : { opacity: 0, ...offsets[direction] }}
       whileInView={{ opacity: 1, x: 0, y: 0 }}
-      viewport={{ once, margin: "-60px" }}
+      // 뷰포트 진입 120px 전에 미리 시작 — 사용자는 빈 화면을 보지 않는다
+      viewport={{ once, margin: "0px 0px 120px 0px" }}
       transition={{ ...tokens.spring.gentle, delay }}
       className={className}
     >
@@ -121,7 +125,7 @@ const staggerContainer: Variants = {
 };
 
 const staggerChild: Variants = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   visible: {
     opacity: 1,
     y: 0,
@@ -130,12 +134,13 @@ const staggerChild: Variants = {
 };
 
 export function StaggerContainer({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const reduced = useReducedMotion();
   return (
     <motion.div
       variants={staggerContainer}
-      initial="hidden"
+      initial={reduced ? "visible" : "hidden"}
       whileInView="visible"
-      viewport={{ once: true, margin: "-40px" }}
+      viewport={{ once: true, margin: "0px 0px 120px 0px" }}
       className={className}
     >
       {children}
@@ -172,10 +177,11 @@ export function HeroText({ text, className = "" }: { text: string; className?: s
         <motion.span
           key={i}
           variants={{
-            hidden: { opacity: 0, y: 30, filter: "blur(8px)" },
+            // blur 필터 제거 — 단어 수만큼 GPU 레이어가 생겨 저사양 기기에서 프레임 드랍
+            hidden: { opacity: 0, y: 14 },
             visible: {
-              opacity: 1, y: 0, filter: "blur(0px)",
-              transition: { ...tokens.spring.gentle, duration: 0.6 },
+              opacity: 1, y: 0,
+              transition: { ...tokens.spring.gentle, duration: 0.5 },
             },
           }}
           className="inline-block mr-[0.3em]"
@@ -232,16 +238,21 @@ export function CountUp({ target, duration = 1.6, suffix = "", className = "", d
 // REDUCED MOTION HOOK
 // ═══════════════════════════════════════
 
+const REDUCED_MQ = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(callback: () => void) {
+  const mq = window.matchMedia(REDUCED_MQ);
+  mq.addEventListener("change", callback);
+  return () => mq.removeEventListener("change", callback);
+}
+
 export function useReducedMotion() {
-  const [reduced, setReduced] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduced(mq.matches);
-    const handler = (e: MediaQueryListEvent) => setReduced(e.matches);
-    mq.addEventListener("change", handler);
-    return () => mq.removeEventListener("change", handler);
-  }, []);
-  return reduced;
+  // SSR에서는 false(모션 허용)로 렌더 — 클라이언트 스냅숏과 자연 동기화
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MQ).matches,
+    () => false,
+  );
 }
 
 // ═══════════════════════════════════════

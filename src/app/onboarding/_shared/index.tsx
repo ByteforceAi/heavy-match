@@ -70,7 +70,7 @@ export function OnboardingShell({
 }) {
   return (
     <main
-      className="relative min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="relative min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -89,12 +89,12 @@ export function OnboardingShell({
       <div className="relative max-w-[720px] mx-auto px-6 py-12">
         <ProgressIndicator step={step} />
         <section
-          className="bg-white rounded-2xl border border-[#E3E8EF] p-6 md:p-8"
+          className="bg-white rounded-2xl border border-cy-line p-6 md:p-8"
           style={{ boxShadow: "0 10px 30px rgba(0,44,95,0.06)" }}
         >
           {children}
         </section>
-        <p className="text-[11px] text-[#9AA8B8] text-center mt-6">
+        <p className="text-[11px] text-cy-ink-4 text-center mt-6">
           온보딩 진행상태는 자동 저장된다. 동일 계정으로 재접속 시 이어서 진행 가능하다.
         </p>
       </div>
@@ -112,12 +112,12 @@ export function ProgressIndicator({ step }: { step: 1 | 2 | 3 | 4 | 5 }) {
     <div className="mb-6">
       <div className="flex items-center justify-between mb-3">
         <span
-          className="text-[11px] font-bold text-[#002C5F] tracking-[0.15em] uppercase"
+          className="text-[11px] font-bold text-cy-navy tracking-[0.15em] uppercase"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           Step <span className="tabular-nums">{step}/5</span>
         </span>
-        <span className="text-[11px] text-[#6B7B8F]">{labels[step - 1]}</span>
+        <span className="text-[11px] text-cy-ink-3">{labels[step - 1]}</span>
       </div>
       <div className="flex items-center gap-2" role="progressbar" aria-valuenow={step} aria-valuemin={1} aria-valuemax={5}>
         {[1, 2, 3, 4, 5].map((n) => {
@@ -127,14 +127,14 @@ export function ProgressIndicator({ step }: { step: 1 | 2 | 3 | 4 | 5 }) {
             <div key={n} className="flex-1 flex items-center gap-2">
               <div
                 className={`h-2 w-2 rounded-full flex-shrink-0 ${
-                  active ? "bg-[#002C5F]" : "bg-[#D9E0EA]"
-                } ${current ? "ring-2 ring-[#002C5F]/20 ring-offset-1 ring-offset-[#F4F6FA]" : ""}`}
+                  active ? "bg-cy-navy" : "bg-cy-navy-pale"
+                } ${current ? "ring-2 ring-cy-navy/20 ring-offset-1 ring-offset-cy-bg" : ""}`}
                 aria-hidden="true"
               />
               {n < 5 && (
                 <div
                   className={`h-[2px] flex-1 ${
-                    n < step ? "bg-[#002C5F]" : "bg-[#D9E0EA]"
+                    n < step ? "bg-cy-navy" : "bg-cy-navy-pale"
                   }`}
                   aria-hidden="true"
                 />
@@ -167,13 +167,13 @@ export function OnboardingCtaRow({
   secondary?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 mt-8 border-t border-[#E3E8EF]">
+    <div className="flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-6 mt-8 border-t border-cy-line">
       <div className="flex items-center gap-2">
         {onBack && (
           <button
             type="button"
             onClick={onBack}
-            className="bg-white border border-[#E3E8EF] text-[#3A4A5F] hover:border-[#002C5F]/40 px-6 py-3.5 rounded-lg transition-colors text-[14px] font-medium"
+            className="bg-white border border-cy-line text-cy-ink-2 hover:border-cy-navy/40 px-6 py-3.5 rounded-lg transition-colors text-[14px] font-medium"
           >
             {backLabel}
           </button>
@@ -184,7 +184,7 @@ export function OnboardingCtaRow({
         type="button"
         onClick={onNext}
         disabled={nextDisabled}
-        className="bg-[#002C5F] hover:bg-[#0046A4] disabled:bg-[#9AA8B8] disabled:cursor-not-allowed text-white font-bold px-7 py-3.5 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-[14px]"
+        className="bg-cy-navy hover:bg-cy-navy-mid disabled:bg-cy-ink-4 disabled:cursor-not-allowed text-white font-bold px-7 py-3.5 rounded-lg transition-colors inline-flex items-center justify-center gap-2 text-[14px]"
       >
         {nextLabel}
         <span aria-hidden="true">&rarr;</span>

@@ -19,7 +19,7 @@ import { heritageEnglish } from "@/content/copy";
 export default function GlobalLandingPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "'Inter', 'IBM Plex Sans KR', 'Pretendard', sans-serif",
         letterSpacing: "-0.01em",
@@ -27,15 +27,15 @@ export default function GlobalLandingPage() {
     >
       {/* ═══ NAV ═══ */}
       <nav
-        className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6"
+        className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8 gap-6"
         style={{ backdropFilter: "blur(12px) saturate(180%)" }}
       >
         <Link href="/global" className="flex items-baseline gap-2.5">
-          <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
             CHEOLYEON
           </span>
           <span
-            className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             철연
@@ -44,13 +44,13 @@ export default function GlobalLandingPage() {
         <div className="ml-auto flex items-center gap-3">
           <Link
             href="/"
-            className="text-[13px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors px-3 py-2 min-h-0"
+            className="text-[13px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors px-3 py-2 min-h-0"
           >
             한국어
           </Link>
           <a
             href="#contact"
-            className="text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] px-4 py-2 rounded-lg transition-colors min-h-0"
+            className="text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid px-4 py-2 rounded-lg transition-colors min-h-0"
           >
             Contact Sales
           </a>
@@ -59,7 +59,7 @@ export default function GlobalLandingPage() {
 
       {/* ═══ HERO ═══ */}
       <section
-        className="relative border-b border-[#E3E8EF]"
+        className="relative border-b border-cy-line"
         style={{
           background: `
             radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
@@ -73,7 +73,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             CHEOLYEON · INTERNATIONAL
@@ -83,7 +83,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.08 }}
-            className="font-[900] text-[#0A1628] mb-5"
+            className="font-[900] text-cy-ink mb-5"
             style={{
               fontSize: "clamp(2.5rem, 5.5vw, 4rem)",
               lineHeight: 1.1,
@@ -92,7 +92,7 @@ export default function GlobalLandingPage() {
           >
             Heavy equipment dispatch,
             <br />
-            <span className="text-[#002C5F]">contract, and settlement —</span>
+            <span className="text-cy-navy">contract, and settlement —</span>
             <br />
             as a single system.
           </motion.h1>
@@ -101,7 +101,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-[18px] md:text-[20px] text-[#3A4A5F] leading-[1.6] max-w-[680px] mb-8"
+            className="text-[18px] md:text-[20px] text-cy-ink-2 leading-[1.6] max-w-[680px] mb-8"
             style={{ fontFamily: "'Inter', 'IBM Plex Sans KR', serif" }}
           >
             CHEOLYEON operates the unified B2B platform for construction
@@ -118,14 +118,14 @@ export default function GlobalLandingPage() {
           >
             <a
               href="#contact"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-[#002C5F] hover:bg-[#0046A4] text-white text-[15px] font-bold rounded-lg transition-colors min-h-0"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-cy-navy hover:bg-cy-navy-mid text-white text-[15px] font-bold rounded-lg transition-colors min-h-0"
             >
               Request a demo
               <span aria-hidden="true">→</span>
             </a>
             <Link
               href="/demo"
-              className="inline-flex items-center gap-2 px-7 py-3.5 bg-white hover:bg-[#F4F6FA] text-[#0A1628] border border-[#E3E8EF] text-[15px] font-semibold rounded-lg transition-colors min-h-0"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-white hover:bg-cy-bg text-cy-ink border border-cy-line text-[15px] font-semibold rounded-lg transition-colors min-h-0"
             >
               See live product tour
             </Link>
@@ -136,7 +136,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="flex gap-10 md:gap-14 pt-6 border-t border-[#E3E8EF]"
+            className="flex gap-10 md:gap-14 pt-6 border-t border-cy-line"
           >
             {[
               { value: "99.3%", label: "Match success rate" },
@@ -145,12 +145,12 @@ export default function GlobalLandingPage() {
             ].map((item) => (
               <div key={item.label}>
                 <p
-                  className="text-[20px] md:text-[22px] font-[800] text-[#002C5F] tracking-[-0.02em] tabular-nums"
+                  className="text-[20px] md:text-[22px] font-[800] text-cy-navy tracking-[-0.02em] tabular-nums"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {item.value}
                 </p>
-                <p className="text-[11px] text-[#6B7B8F]">{item.label}</p>
+                <p className="text-[11px] text-cy-ink-3">{item.label}</p>
               </div>
             ))}
           </motion.div>
@@ -158,13 +158,13 @@ export default function GlobalLandingPage() {
       </section>
 
       {/* ═══ MARKET FIT ═══ */}
-      <section className="py-20 md:py-24 bg-white border-b border-[#E3E8EF]">
+      <section className="py-20 md:py-24 bg-white border-b border-cy-line">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             MARKET FIT
@@ -175,7 +175,7 @@ export default function GlobalLandingPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-[28px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-10"
+            className="text-[28px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-10"
           >
             Where fragmented equipment rental meets construction demand
           </motion.h2>
@@ -231,11 +231,11 @@ export default function GlobalLandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.4, delay: i * 0.06 }}
-                className="p-6 bg-white rounded-2xl border border-[#E3E8EF]"
+                className="p-6 bg-white rounded-2xl border border-cy-line"
                 style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.04)" }}
               >
                 <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-[17px] font-bold text-[#0A1628]">{m.region}</h3>
+                  <h3 className="text-[17px] font-bold text-cy-ink">{m.region}</h3>
                   <span
                     className="text-[10px] font-bold px-2 py-0.5 rounded-full"
                     style={{
@@ -248,12 +248,12 @@ export default function GlobalLandingPage() {
                   </span>
                 </div>
                 <p
-                  className="text-[11px] text-[#6B7B8F] mb-3 tracking-[0.05em]"
+                  className="text-[11px] text-cy-ink-3 mb-3 tracking-[0.05em]"
                   style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                 >
                   {m.countries}
                 </p>
-                <p className="text-[13px] text-[#3A4A5F] leading-[1.6]">{m.note}</p>
+                <p className="text-[13px] text-cy-ink-2 leading-[1.6]">{m.note}</p>
               </motion.div>
             ))}
           </div>
@@ -261,13 +261,13 @@ export default function GlobalLandingPage() {
       </section>
 
       {/* ═══ HERITAGE BRIDGE ═══ */}
-      <section className="py-20 md:py-24 bg-[#0A1628] text-white">
+      <section className="py-20 md:py-24 bg-cy-ink text-white">
         <div className="max-w-[820px] mx-auto px-6 md:px-12">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-[11px] font-bold text-[#00AAD2] tracking-[0.25em] mb-4"
+            className="text-[11px] font-bold text-cy-cyan tracking-[0.25em] mb-4"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             HERITAGE · CANONICAL TEXT
@@ -296,7 +296,7 @@ export default function GlobalLandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="text-[15px] md:text-[16px] text-[#D1D5DB]"
+                className="text-[15px] md:text-[16px] text-cy-line"
                 style={{
                   fontFamily: "'Inter', 'IBM Plex Sans KR', serif",
                   lineHeight: 1.85,
@@ -314,12 +314,12 @@ export default function GlobalLandingPage() {
             transition={{ delay: 0.4 }}
             className="mt-8 pt-6 border-t border-white/15"
           >
-            <p className="text-[13px] text-[#9AA8B8] italic mb-3">
+            <p className="text-[13px] text-cy-ink-4 italic mb-3">
               {heritageEnglish.attribution}
             </p>
             <Link
               href="/story"
-              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#00AAD2] hover:text-[#33BEDB] transition-colors"
+              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-cy-cyan hover:text-cy-cyan transition-colors"
             >
               Read full heritage (Korean + English)
               <span aria-hidden="true">→</span>
@@ -329,13 +329,13 @@ export default function GlobalLandingPage() {
       </section>
 
       {/* ═══ WHAT WE OFFER ═══ */}
-      <section className="py-20 md:py-24 border-b border-[#E3E8EF]">
+      <section className="py-20 md:py-24 border-b border-cy-line">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             PLATFORM
@@ -345,7 +345,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[28px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-10"
+            className="text-[28px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-10"
           >
             Three structural fixes for one broken workflow
           </motion.h2>
@@ -374,19 +374,19 @@ export default function GlobalLandingPage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-60px" }}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
-                className="p-7 bg-white rounded-2xl border border-[#E3E8EF]"
+                className="p-7 bg-white rounded-2xl border border-cy-line"
                 style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.04)" }}
               >
-                <div className="w-11 h-11 bg-[#E8F1FB] rounded-xl flex items-center justify-center mb-4">
+                <div className="w-11 h-11 bg-cy-navy-pale rounded-xl flex items-center justify-center mb-4">
                   <span
-                    className="material-symbols-outlined text-[#002C5F]"
+                    className="material-symbols-outlined text-cy-navy"
                     style={{ fontSize: 24, fontVariationSettings: "'FILL' 1" }}
                   >
                     {f.icon}
                   </span>
                 </div>
-                <h3 className="text-[17px] font-bold text-[#0A1628] mb-2">{f.title}</h3>
-                <p className="text-[13px] text-[#3A4A5F] leading-[1.7]">{f.body}</p>
+                <h3 className="text-[17px] font-bold text-cy-ink mb-2">{f.title}</h3>
+                <p className="text-[13px] text-cy-ink-2 leading-[1.7]">{f.body}</p>
               </motion.div>
             ))}
           </div>
@@ -394,13 +394,13 @@ export default function GlobalLandingPage() {
       </section>
 
       {/* ═══ CONTACT ═══ */}
-      <section id="contact" className="py-20 md:py-24 bg-[#F4F6FA]">
+      <section id="contact" className="py-20 md:py-24 bg-cy-bg">
         <div className="max-w-[720px] mx-auto px-6 md:px-12 text-center">
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             CONTACT SALES
@@ -410,7 +410,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[28px] md:text-[34px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-4"
+            className="text-[28px] md:text-[34px] font-[800] tracking-[-0.02em] text-cy-ink mb-4"
           >
             Let&apos;s discuss your market
           </motion.h2>
@@ -419,7 +419,7 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-[15px] text-[#3A4A5F] mb-8 leading-[1.75]"
+            className="text-[15px] text-cy-ink-2 mb-8 leading-[1.75]"
             style={{ fontFamily: "'Inter', 'IBM Plex Sans KR', serif" }}
           >
             Pricing is calibrated per region — SEA partnership tier, MENA
@@ -431,19 +431,19 @@ export default function GlobalLandingPage() {
             initial={{ opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-8 bg-white rounded-2xl border border-[#E3E8EF]"
+            className="p-8 bg-white rounded-2xl border border-cy-line"
             style={{ boxShadow: "0 10px 30px rgba(0, 44, 95, 0.06)" }}
           >
-            <p className="text-[13px] text-[#6B7B8F] mb-3">Primary contact</p>
+            <p className="text-[13px] text-cy-ink-3 mb-3">Primary contact</p>
             <a
               href="mailto:ceo@byteforce.ai.kr"
-              className="text-[20px] md:text-[22px] font-bold text-[#002C5F] hover:text-[#0046A4] transition-colors block mb-4"
+              className="text-[20px] md:text-[22px] font-bold text-cy-navy hover:text-cy-navy-mid transition-colors block mb-4"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               ceo@byteforce.ai.kr
             </a>
             <div
-              className="text-[12px] text-[#6B7B8F] leading-[1.8]"
+              className="text-[12px] text-cy-ink-3 leading-[1.8]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               <p>Lee Han-gyeol · CEO, BYTEFORCE</p>
@@ -455,23 +455,23 @@ export default function GlobalLandingPage() {
       </section>
 
       {/* ═══ FOOTER ═══ */}
-      <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+      <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-3">
           <div className="flex items-baseline gap-2.5">
-            <span className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]">
+            <span className="text-[16px] font-black text-cy-navy tracking-[-0.03em]">
               CHEOLYEON
             </span>
             <span
-              className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+              className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               철연
             </span>
-            <span className="text-[11px] text-[#6B7B8F] ml-2">
+            <span className="text-[11px] text-cy-ink-3 ml-2">
               A BYTEFORCE product · Operated from Busan, Korea
             </span>
           </div>
-          <p className="text-[11px] text-[#9AA8B8]">© 2026 BYTEFORCE. All rights reserved.</p>
+          <p className="text-[11px] text-cy-ink-4">© 2026 BYTEFORCE. All rights reserved.</p>
         </div>
       </footer>
     </main>

@@ -1,32 +1,46 @@
 import { getStatusLabel } from "@/lib/utils";
 
-const STATUS_COLORS: Record<string, string> = {
-  pending: "bg-[#dee9fb] text-[#414754]",
-  exclusive_call: "bg-[#d7e2ff] text-[#004491]",
-  callcenter_call: "bg-amber-100 text-amber-800",
-  shared_call: "bg-[#dde3ef] text-[#595f69]",
-  matched: "bg-emerald-100 text-emerald-700",
-  operator_assigned: "bg-[#e5eeff] text-[#0059b9]",
-  in_progress: "bg-amber-100 text-amber-700",
-  completed: "bg-emerald-100 text-emerald-700",
-  cancelled: "bg-[#ffdad6] text-[#ba1a1a]",
+/**
+ * 상태·역할 배지 — 배차 도메인의 상태 시각 언어.
+ *
+ * tokens.ts colors.status 체계와 1:1 (globals.css --color-cy-st-*).
+ * 전용콜=네이비 · 콜센터=앰버 · 공유콜=시안 · 매칭=그린 · 작업중=네이비미드
+ * · 완료=딥그린 · 취소=레드. 도트가 상태색 원색, 배경은 동일색 8% 틴트 —
+ * 어느 화면에서든 도트 색만으로 상태를 읽을 수 있다.
+ */
+
+const STATUS_STYLES: Record<string, { chip: string; dot: string }> = {
+  pending: { chip: "bg-cy-ink-3/10 text-cy-ink-2", dot: "bg-cy-ink-3" },
+  exclusive_call: { chip: "bg-cy-navy/8 text-cy-navy", dot: "bg-cy-navy" },
+  callcenter_call: { chip: "bg-cy-warning/12 text-cy-warning-deep", dot: "bg-cy-warning" },
+  shared_call: { chip: "bg-cy-cyan/10 text-cy-cyan-deep", dot: "bg-cy-cyan" },
+  matched: { chip: "bg-cy-success/10 text-cy-success-deep", dot: "bg-cy-success" },
+  operator_assigned: { chip: "bg-cy-navy-mid/8 text-cy-navy-mid", dot: "bg-cy-navy-mid" },
+  in_progress: { chip: "bg-cy-navy-mid/8 text-cy-navy-mid", dot: "bg-cy-navy-mid" },
+  completed: { chip: "bg-cy-success-deep/10 text-cy-success-deep", dot: "bg-cy-success-deep" },
+  cancelled: { chip: "bg-cy-danger/8 text-cy-danger-deep", dot: "bg-cy-danger" },
 };
 
+const FALLBACK = { chip: "bg-cy-ink-3/10 text-cy-ink-2", dot: "bg-cy-ink-3" };
+
 export function StatusBadge({ status }: { status: string }) {
+  const s = STATUS_STYLES[status] ?? FALLBACK;
+  const live = status === "in_progress" || status === "exclusive_call" || status === "shared_call";
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold ${STATUS_COLORS[status] ?? "bg-[#dee9fb] text-[#414754]"}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold tracking-[-0.01em] ${s.chip}`}>
+      <span aria-hidden className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot} ${live ? "animate-[pulse_2s_ease-in-out_infinite]" : ""}`} />
       {getStatusLabel(status)}
     </span>
   );
 }
 
-const ROLE_COLORS: Record<string, string> = {
-  requester: "bg-[#d7e2ff] text-[#004491]",
-  owner: "bg-emerald-100 text-emerald-700",
-  operator: "bg-amber-100 text-amber-700",
-  callcenter: "bg-[#ffdad6] text-[#ba1a1a]",
-  salesperson: "bg-pink-100 text-pink-700",
-  admin: "bg-[#26313f] text-[#eaf1ff]",
+const ROLE_STYLES: Record<string, { chip: string; dot: string }> = {
+  requester: { chip: "bg-cy-navy/8 text-cy-navy", dot: "bg-cy-navy" },
+  owner: { chip: "bg-cy-success/10 text-cy-success-deep", dot: "bg-cy-success" },
+  operator: { chip: "bg-cy-warning/12 text-cy-warning-deep", dot: "bg-cy-warning" },
+  callcenter: { chip: "bg-cy-cyan/10 text-cy-cyan-deep", dot: "bg-cy-cyan" },
+  salesperson: { chip: "bg-cy-navy-mid/8 text-cy-navy-mid", dot: "bg-cy-navy-mid" },
+  admin: { chip: "bg-cy-ink text-white", dot: "bg-cy-cyan" },
 };
 
 const ROLE_LABELS: Record<string, string> = {
@@ -39,8 +53,10 @@ const ROLE_LABELS: Record<string, string> = {
 };
 
 export function RoleBadge({ role }: { role: string }) {
+  const s = ROLE_STYLES[role] ?? FALLBACK;
   return (
-    <span className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold ${ROLE_COLORS[role] ?? "bg-[#dee9fb] text-[#414754]"}`}>
+    <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold tracking-[-0.01em] ${s.chip}`}>
+      <span aria-hidden className={`w-1.5 h-1.5 rounded-full shrink-0 ${s.dot}`} />
       {ROLE_LABELS[role] ?? role}
     </span>
   );

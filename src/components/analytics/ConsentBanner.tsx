@@ -47,29 +47,15 @@ export function ConsentBanner() {
       role="dialog"
       aria-live="polite"
       aria-label="쿠키 및 분석 도구 안내"
-      className="fixed z-[60] left-0 right-0 bottom-0 md:left-auto md:right-6 md:bottom-6 md:max-w-[380px]"
+      className="fixed z-[60] left-3 right-3 bottom-3 md:left-auto md:right-6 md:bottom-6 md:max-w-[360px] animate-[toastIn_0.4s_cubic-bezier(0.34,1.56,0.64,1)]"
     >
-      <div
-        className="bg-[#002C5F] text-white md:rounded-xl border-t border-white/10 md:border md:border-white/10 p-5 md:p-6"
-        style={{
-          boxShadow: "0 20px 48px rgba(0, 44, 95, 0.28)",
-          fontFamily:
-            "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
-        }}
-      >
-        <h2 className="text-[15px] font-bold tracking-[-0.01em] mb-2">
-          쿠키 및 분석 도구 안내
-        </h2>
-        <p className="text-[13px] text-white/80 leading-[1.65] mb-4">
+      <div className="bg-cy-navy text-white rounded-2xl border border-white/10 p-4 md:p-5 shadow-[0_20px_48px_rgba(0,44,95,0.28)]">
+        <p className="mono-label text-white/45 mb-1.5">PRIVACY</p>
+        <h2 className="text-sm font-bold tracking-[-0.01em] mb-1.5">쿠키 및 분석 도구 안내</h2>
+        <p className="text-xs text-white/75 leading-[1.65] mb-3">
           사이트 개선과 통계 측정을 위해 쿠키와 분석 도구를 사용한다. 거절 시 익명 통계만
-          수집된다.
-        </p>
-        <p className="text-[12px] text-white/60 leading-[1.6] mb-4">
-          자세한 사항은{" "}
-          <Link
-            href="/privacy"
-            className="underline underline-offset-2 text-white hover:text-white"
-          >
+          수집되며, 자세한 사항은{" "}
+          <Link href="/privacy" className="underline underline-offset-2 text-white/95 hover:text-white">
             개인정보처리방침
           </Link>
           에 기재되어 있다.
@@ -78,14 +64,14 @@ export function ConsentBanner() {
           <button
             type="button"
             onClick={accept}
-            className="flex-1 py-2.5 text-[13px] font-bold rounded-lg bg-white text-[#002C5F] hover:bg-white/95 transition-colors"
+            className="press flex-1 min-h-11 text-[13px] font-bold rounded-lg bg-white text-cy-navy hover:bg-white/95"
           >
             동의
           </button>
           <button
             type="button"
             onClick={decline}
-            className="flex-1 py-2.5 text-[13px] font-semibold rounded-lg bg-transparent text-white border border-white/30 hover:bg-white/10 transition-colors"
+            className="press flex-1 min-h-11 text-[13px] font-semibold rounded-lg bg-transparent text-white border border-white/30 hover:bg-white/10"
           >
             거절
           </button>

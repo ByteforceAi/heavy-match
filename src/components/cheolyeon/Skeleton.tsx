@@ -135,7 +135,7 @@ export function SkeletonCard({
 }): JSX.Element {
   return (
     <div
-      className={`bg-white border border-[#E3E8EF] rounded-xl p-5 ${className}`}
+      className={`bg-white border border-cy-line rounded-xl p-5 ${className}`}
       role="status"
       aria-label="카드 로딩 중"
     >
@@ -179,7 +179,7 @@ export function SkeletonCard({
         />
       </div>
       {/* footer: two pill buttons */}
-      <div className="flex gap-2 pt-3 border-t border-[#E3E8EF]">
+      <div className="flex gap-2 pt-3 border-t border-cy-line">
         <span
           aria-hidden="true"
           className="cy-skel cy-skel--rect block"
@@ -205,7 +205,7 @@ export function SkeletonStat({
 }): JSX.Element {
   return (
     <div
-      className={`bg-white border border-[#E3E8EF] rounded-xl p-5 ${className}`}
+      className={`bg-white border border-cy-line rounded-xl p-5 ${className}`}
       role="status"
       aria-label="지표 로딩 중"
     >
@@ -242,14 +242,14 @@ export function SkeletonTable({
   const gridTemplate = `repeat(${cols}, minmax(0, 1fr))`;
   return (
     <div
-      className="bg-white border border-[#E3E8EF] rounded-xl overflow-hidden"
+      className="bg-white border border-cy-line rounded-xl overflow-hidden"
       role="status"
       aria-label="표 로딩 중"
     >
       <SkeletonStyles />
       {/* header */}
       <div
-        className="grid gap-4 px-5 py-3 bg-[#F4F6FA] border-b border-[#E3E8EF]"
+        className="grid gap-4 px-5 py-3 bg-cy-bg border-b border-cy-line"
         style={{ gridTemplateColumns: gridTemplate }}
       >
         {Array.from({ length: cols }).map((_, c) => (
@@ -266,7 +266,7 @@ export function SkeletonTable({
         {Array.from({ length: rows }).map((_, r) => (
           <div
             key={`r-${r}`}
-            className="grid gap-4 px-5 py-4 border-b border-[#EEF1F5] last:border-b-0"
+            className="grid gap-4 px-5 py-4 border-b border-cy-bg-alt last:border-b-0"
             style={{ gridTemplateColumns: gridTemplate }}
           >
             {Array.from({ length: cols }).map((_, c) => (
@@ -296,7 +296,7 @@ export function SkeletonList({
 }): JSX.Element {
   return (
     <div
-      className="bg-white border border-[#E3E8EF] rounded-xl"
+      className="bg-white border border-cy-line rounded-xl"
       role="status"
       aria-label="목록 로딩 중"
     >
@@ -304,7 +304,7 @@ export function SkeletonList({
       {Array.from({ length: items }).map((_, i) => (
         <div
           key={i}
-          className="flex items-center gap-3 px-5 py-4 border-b border-[#EEF1F5] last:border-b-0"
+          className="flex items-center gap-3 px-5 py-4 border-b border-cy-bg-alt last:border-b-0"
         >
           <span
             aria-hidden="true"

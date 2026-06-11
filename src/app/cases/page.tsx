@@ -81,7 +81,7 @@ const cases = [
 export default function CasesIndexPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily: "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
         letterSpacing: "-0.01em",
@@ -102,15 +102,15 @@ export default function CasesIndexPage() {
 function CasesNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 border-b border-cy-line flex items-center px-6 md:px-8 gap-6 md:gap-12"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link href="/" className="flex items-baseline gap-2.5" aria-label="철연 홈">
-        <span className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]">
+        <span className="text-[22px] font-black text-cy-navy tracking-[-0.03em]">
           {navCopy.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: MONO }}
         >
           {navCopy.brand.en}
@@ -122,7 +122,7 @@ function CasesNav() {
           <li key={item.label}>
             <a
               href={item.href}
-              className="text-[14px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors py-1"
+              className="text-[14px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors py-1"
             >
               {item.label}
             </a>
@@ -133,13 +133,13 @@ function CasesNav() {
       <div className="flex gap-2.5 ml-auto">
         <Link
           href="/"
-          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
+          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors min-h-0"
         >
           메인으로
         </Link>
         <Link
           href="/demo"
-          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           {navCopy.cta.primary}
         </Link>
@@ -154,7 +154,7 @@ function CasesNav() {
 function HeroSection() {
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
@@ -166,7 +166,7 @@ function HeroSection() {
       <div className="max-w-[1280px] mx-auto px-6 py-16">
         <Reveal delay={0.05}>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-5"
             style={{ fontFamily: MONO }}
           >
             CUSTOMER CASES · 도입 현장 사례
@@ -175,19 +175,19 @@ function HeroSection() {
 
         <Reveal delay={0.1}>
           <h1
-            className="font-[900] text-[#0A1628] mb-5"
+            className="font-[900] text-cy-ink mb-5"
             style={{
               fontSize: "clamp(2rem, 5vw, 2.75rem)",
               lineHeight: 1.15,
               letterSpacing: "-0.03em",
             }}
           >
-            기록된 변화, <span className="text-[#002C5F]">검증 가능한 수치.</span>
+            기록된 변화, <span className="text-cy-navy">검증 가능한 수치.</span>
           </h1>
         </Reveal>
 
         <Reveal delay={0.2}>
-          <p className="text-[15px] md:text-[16px] text-[#3A4A5F] leading-[1.75] max-w-[640px]">
+          <p className="text-[15px] md:text-[16px] text-cy-ink-2 leading-[1.75] max-w-[640px]">
             철연 도입 후 실제 현장의 지표 변화가 기록된다. 모든 수치는 30일 집계 기준이다.
             아래 3개 사례는 파일럿 파트너사의 동의 범위 내 익명 공개이며, 실명은 파트너사 승인
             시점에 갱신된다.
@@ -197,17 +197,17 @@ function HeroSection() {
         {/* 메타 라인 */}
         <Reveal delay={0.3}>
           <div
-            className="mt-8 flex flex-wrap gap-6 pt-5 border-t border-[#E3E8EF] text-[12px] text-[#6B7B8F]"
+            className="mt-8 flex flex-wrap gap-6 pt-5 border-t border-cy-line text-[12px] text-cy-ink-3"
             style={{ fontFamily: MONO }}
           >
             <span>
-              <span className="text-[#002C5F] font-bold mr-1">3</span>CASES
+              <span className="text-cy-navy font-bold mr-1">3</span>CASES
             </span>
             <span>
-              <span className="text-[#002C5F] font-bold mr-1">30</span>DAY METRICS
+              <span className="text-cy-navy font-bold mr-1">30</span>DAY METRICS
             </span>
             <span>
-              <span className="text-[#002C5F] font-bold mr-1">A · B · C</span>ANONYMIZED
+              <span className="text-cy-navy font-bold mr-1">A · B · C</span>ANONYMIZED
             </span>
           </div>
         </Reveal>
@@ -246,7 +246,7 @@ function CaseGrid() {
                     </span>
                   </div>
                   <span
-                    className="text-[11px] text-[#6B7B8F] tracking-[0.25em]"
+                    className="text-[11px] text-cy-ink-3 tracking-[0.25em]"
                     style={{ fontFamily: MONO }}
                   >
                     PARTNER · {c.code}
@@ -254,15 +254,15 @@ function CaseGrid() {
                 </div>
 
                 {/* Type + Scope */}
-                <p className="text-[12px] font-bold text-[#002C5F] mb-1 tracking-[0.02em]">
+                <p className="text-[12px] font-bold text-cy-navy mb-1 tracking-[0.02em]">
                   {c.type}
                 </p>
-                <p className="text-[12px] text-[#6B7B8F] mb-6">{c.scope}</p>
+                <p className="text-[12px] text-cy-ink-3 mb-6">{c.scope}</p>
 
                 {/* Key Metric */}
-                <div className="mb-5 pb-5 border-b border-[#E3E8EF]">
+                <div className="mb-5 pb-5 border-b border-cy-line">
                   <p
-                    className="text-[10px] text-[#6B7B8F] tracking-[0.2em] uppercase mb-2"
+                    className="text-[10px] text-cy-ink-3 tracking-[0.2em] uppercase mb-2"
                     style={{ fontFamily: MONO }}
                   >
                     {c.keyMetric.label}
@@ -271,13 +271,13 @@ function CaseGrid() {
                     className="flex items-baseline gap-2 tabular-nums"
                     style={{ fontFamily: MONO }}
                   >
-                    <span className="text-[18px] font-bold text-[#9AA8B8] line-through decoration-[1.5px]">
+                    <span className="text-[18px] font-bold text-cy-ink-4 line-through decoration-[1.5px]">
                       {c.keyMetric.before}
                     </span>
-                    <span className="text-[#9AA8B8]" aria-hidden="true">
+                    <span className="text-cy-ink-4" aria-hidden="true">
                       →
                     </span>
-                    <span className="text-[28px] md:text-[30px] font-black text-[#002C5F] tracking-[-0.02em]">
+                    <span className="text-[28px] md:text-[30px] font-black text-cy-navy tracking-[-0.02em]">
                       {c.keyMetric.after}
                     </span>
                   </div>
@@ -285,14 +285,14 @@ function CaseGrid() {
 
                 {/* Headline */}
                 <p
-                  className="text-[14px] text-[#3A4A5F] leading-[1.65] mb-4"
+                  className="text-[14px] text-cy-ink-2 leading-[1.65] mb-4"
                   style={{ fontFamily: PLEX }}
                 >
                   {c.headline}
                 </p>
 
                 {/* CTA */}
-                <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#002C5F] group-hover:translate-x-0.5 transition-transform">
+                <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-cy-navy group-hover:translate-x-0.5 transition-transform">
                   사례 상세 보기
                   <span
                     className="material-symbols-outlined"
@@ -316,19 +316,19 @@ function CaseGrid() {
 // ═══════════════════════════════════════
 function BottomCta() {
   return (
-    <section className="border-t border-[#E3E8EF] bg-white">
+    <section className="border-t border-cy-line bg-white">
       <div className="max-w-[1280px] mx-auto px-6 py-16 md:py-20 text-center">
         <Reveal>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-3"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-3"
             style={{ fontFamily: MONO }}
           >
             NEXT STEP
           </p>
-          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-3">
+          <h2 className="text-[26px] md:text-[36px] font-[800] tracking-[-0.02em] text-cy-ink mb-3">
             같은 구조가 같은 결과를 낸다.
           </h2>
-          <p className="text-[14px] md:text-[15px] text-[#6B7B8F] mb-8 max-w-xl mx-auto">
+          <p className="text-[14px] md:text-[15px] text-cy-ink-3 mb-8 max-w-xl mx-auto">
             파트너 A·B·C가 겪은 30일의 변화는 동일한 시스템이 만든다. 현장 조건을 공유하면
             BYTEFORCE 사업개발팀이 24시간 이내에 연락을 회신한다.
           </p>
@@ -361,19 +361,19 @@ function BottomCta() {
 // ═══════════════════════════════════════
 function CasesFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1280px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-baseline gap-2.5">
-          <span className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]">
+          <span className="text-[16px] font-black text-cy-navy tracking-[-0.03em]">
             {footerCopy.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: MONO }}
           >
             {footerCopy.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-3 hidden md:inline">
+          <span className="text-[11px] text-cy-ink-3 ml-3 hidden md:inline">
             {footerCopy.description}
           </span>
         </div>
@@ -382,17 +382,17 @@ function CasesFooter() {
             <a
               key={link.label}
               href={link.href}
-              className="text-[11px] text-[#6B7B8F] hover:text-[#3A4A5F] transition-colors min-h-0"
+              className="text-[11px] text-cy-ink-3 hover:text-cy-ink-2 transition-colors min-h-0"
             >
               {link.label}
             </a>
           ))}
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">
+        <p className="text-[11px] text-cy-ink-4">
           {footerCopy.address} · {footerCopy.email}
         </p>
       </div>
-      <p className="max-w-[1280px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-[#9AA8B8]">
+      <p className="max-w-[1280px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-cy-ink-4">
         {footerCopy.copyright}
       </p>
     </footer>

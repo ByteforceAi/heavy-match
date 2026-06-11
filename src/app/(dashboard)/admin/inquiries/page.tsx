@@ -38,10 +38,10 @@ const STATUS_LABELS: Record<InquiryStatus, string> = {
 };
 
 const STATUS_STYLES: Record<InquiryStatus, { bg: string; fg: string; dot: string }> = {
-  new: { bg: "bg-[#FFB02015]", fg: "text-[#B87400]", dot: "bg-[#FFB020]" },
-  contacted: { bg: "bg-[#00AAD215]", fg: "text-[#007792]", dot: "bg-[#00AAD2]" },
-  qualified: { bg: "bg-[#002C5F15]", fg: "text-[#002C5F]", dot: "bg-[#002C5F]" },
-  closed: { bg: "bg-[#9AA8B815]", fg: "text-[#6B7B8F]", dot: "bg-[#9AA8B8]" },
+  new: { bg: "bg-[#FFB02015]", fg: "text-cy-warning-deep", dot: "bg-cy-warning" },
+  contacted: { bg: "bg-[#00AAD215]", fg: "text-cy-cyan-deep", dot: "bg-cy-cyan" },
+  qualified: { bg: "bg-[#002C5F15]", fg: "text-cy-navy", dot: "bg-cy-navy" },
+  closed: { bg: "bg-[#9AA8B815]", fg: "text-cy-ink-3", dot: "bg-cy-ink-4" },
 };
 
 function InquiryStatusBadge({ status }: { status: InquiryStatus }) {
@@ -124,7 +124,7 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
         description="접수된 문의의 상태와 이력을 일괄 추적한다"
         action={
           <div className="flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#E8F1FB] text-[#002C5F] text-sm font-bold tabular-nums">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cy-navy-pale text-cy-navy text-sm font-bold tabular-nums">
               <span className="material-symbols-outlined text-base" style={{ fontVariationSettings: "'FILL' 1" }}>inbox</span>
               {inquiries.length}건
             </span>
@@ -136,16 +136,16 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
       {/* 통계 바 */}
       <div className="grid grid-cols-3 gap-3 mb-5">
         <Card className="!p-4">
-          <p className="text-xs text-[#6B7B8F] font-semibold">오늘 접수</p>
-          <p className="text-2xl font-black tabular-nums text-[#002C5F] mt-1">{todayCount}</p>
+          <p className="text-xs text-cy-ink-3 font-semibold">오늘 접수</p>
+          <p className="text-2xl font-black tabular-nums text-cy-navy mt-1">{todayCount}</p>
         </Card>
         <Card className="!p-4">
-          <p className="text-xs text-[#6B7B8F] font-semibold">미처리</p>
-          <p className="text-2xl font-black tabular-nums text-[#B87400] mt-1">{unhandledCount}</p>
+          <p className="text-xs text-cy-ink-3 font-semibold">미처리</p>
+          <p className="text-2xl font-black tabular-nums text-cy-warning-deep mt-1">{unhandledCount}</p>
         </Card>
         <Card className="!p-4">
-          <p className="text-xs text-[#6B7B8F] font-semibold">평균 응답 시간</p>
-          <p className="text-2xl font-black tabular-nums text-[#007792] mt-1">
+          <p className="text-xs text-cy-ink-3 font-semibold">평균 응답 시간</p>
+          <p className="text-2xl font-black tabular-nums text-cy-cyan-deep mt-1">
             {avgHours === null ? "—" : `${avgHours.toFixed(1)}h`}
           </p>
         </Card>
@@ -162,12 +162,12 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
               href={href}
               className={`flex-shrink-0 inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-sm font-semibold transition-all ${
                 isActive
-                  ? "bg-[#002C5F] text-white shadow-sm"
-                  : "bg-white text-[#3A4A5F] border border-[#E3E8EF] hover:border-[#002C5F]/40"
+                  ? "bg-cy-navy text-white shadow-sm"
+                  : "bg-white text-cy-ink-2 border border-cy-line hover:border-cy-navy/40"
               }`}
             >
               {f.label}
-              <span className={`tabular-nums text-xs ${isActive ? "text-white/80" : "text-[#6B7B8F]"}`}>
+              <span className={`tabular-nums text-xs ${isActive ? "text-white/80" : "text-cy-ink-3"}`}>
                 {f.count}
               </span>
             </Link>
@@ -177,11 +177,11 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
 
       {/* 테이블 */}
       {filtered.length > 0 ? (
-        <div className="bg-white rounded-2xl border border-[#E3E8EF] overflow-hidden shadow-[0_2px_12px_rgba(17,28,41,0.04)]">
+        <div className="bg-white rounded-2xl border border-cy-line overflow-hidden shadow-[0_2px_12px_rgba(17,28,41,0.04)]">
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-[#F8FAFD] border-b border-[#E3E8EF]">
-                <tr className="text-[#6B7B8F] text-xs font-bold">
+              <thead className="bg-cy-elevated border-b border-cy-line">
+                <tr className="text-cy-ink-3 text-xs font-bold">
                   <th className="px-4 py-3 text-left">상태</th>
                   <th className="px-4 py-3 text-left">이름</th>
                   <th className="px-4 py-3 text-left">회사명</th>
@@ -196,35 +196,35 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
                 {filtered.map((inq, idx) => (
                   <tr
                     key={inq.id}
-                    className={`border-b border-[#E3E8EF] last:border-0 ${idx % 2 === 1 ? "bg-[#F8FAFD]" : "bg-white"} hover:bg-[#E8F1FB]/40 transition-colors`}
+                    className={`border-b border-cy-line last:border-0 ${idx % 2 === 1 ? "bg-cy-elevated" : "bg-white"} hover:bg-cy-navy-pale/40 transition-colors`}
                   >
                     <td className="px-4 py-3">
                       <InquiryStatusBadge status={inq.status} />
                     </td>
-                    <td className="px-4 py-3 font-semibold text-[#0A1628]">{inq.name}</td>
-                    <td className="px-4 py-3 text-[#3A4A5F]">{inq.company ?? "—"}</td>
+                    <td className="px-4 py-3 font-semibold text-cy-ink">{inq.name}</td>
+                    <td className="px-4 py-3 text-cy-ink-2">{inq.company ?? "—"}</td>
                     <td className="px-4 py-3">
                       {inq.phone ? (
-                        <a href={`tel:${inq.phone}`} className="text-[#007792] hover:underline font-medium tabular-nums">
+                        <a href={`tel:${inq.phone}`} className="text-cy-cyan-deep hover:underline font-medium tabular-nums">
                           {formatPhone(inq.phone)}
                         </a>
                       ) : "—"}
                     </td>
                     <td className="px-4 py-3">
                       {inq.email ? (
-                        <a href={`mailto:${inq.email}`} className="text-[#007792] hover:underline truncate block max-w-[200px]">
+                        <a href={`mailto:${inq.email}`} className="text-cy-cyan-deep hover:underline truncate block max-w-[200px]">
                           {inq.email}
                         </a>
                       ) : "—"}
                     </td>
-                    <td className="px-4 py-3 text-[#3A4A5F]">{inq.role ?? "—"}</td>
-                    <td className="px-4 py-3 text-[#6B7B8F] text-xs tabular-nums">
+                    <td className="px-4 py-3 text-cy-ink-2">{inq.role ?? "—"}</td>
+                    <td className="px-4 py-3 text-cy-ink-3 text-xs tabular-nums">
                       {formatRelative(inq.created_at)}
                     </td>
                     <td className="px-4 py-3 text-right">
                       <Link
                         href={`/admin/inquiries/${inq.id}`}
-                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-[#E8F1FB] text-[#002C5F] font-bold text-xs hover:bg-[#002C5F] hover:text-white transition-all"
+                        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg bg-cy-navy-pale text-cy-navy font-bold text-xs hover:bg-cy-navy hover:text-white transition-all"
                       >
                         상세 보기
                         <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -245,17 +245,17 @@ export default async function AdminInquiriesPage({ searchParams }: PageProps) {
 
 function InquiriesEmptyState({ hasAny }: { hasAny: boolean }) {
   return (
-    <div className="bg-white rounded-2xl p-12 text-center border border-dashed border-[#E3E8EF]">
+    <div className="bg-white rounded-2xl p-12 text-center border border-dashed border-cy-line">
       <span
-        className="material-symbols-outlined text-5xl text-[#C1C6D6] block mb-3"
+        className="material-symbols-outlined text-5xl text-cy-line block mb-3"
         style={{ fontVariationSettings: "'FILL' 1" }}
       >
         inbox
       </span>
-      <h3 className="text-lg font-bold text-[#0A1628]">
+      <h3 className="text-lg font-bold text-cy-ink">
         {hasAny ? "해당 상태의 문의가 없다" : "접수된 문의가 없다"}
       </h3>
-      <p className="text-sm text-[#6B7B8F] mt-1">
+      <p className="text-sm text-cy-ink-3 mt-1">
         {hasAny
           ? "필터 조건을 전체로 변경하면 전 건이 조회된다."
           : "문의가 접수되면 여기에 기록된다."}

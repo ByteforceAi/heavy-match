@@ -3,7 +3,15 @@
 import { Suspense, useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { formatPrice, getStatusLabel } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
+import { Button } from "@/components/ui/Button";
+import { StatusBadge } from "@/components/ui/Badge";
+
+/**
+ * 콜 상세 — SMS 링크로 도착하는 비로그인 외부 접점.
+ * 사장이 처음 만나는 철연의 얼굴이므로 판결문 카드 톤을 그대로 쓴다.
+ * 조회·수락 로직은 변경 없음.
+ */
 
 interface DispatchDetail {
   id: string; status: string; price: number; company_name: string; site_address: string;
@@ -18,9 +26,21 @@ export default function CallPageWrapper() {
 
 function Loading() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f8f9ff]">
-      <span className="material-symbols-outlined text-3xl text-[#0059b9] animate-spin">progress_activity</span>
+    <main className="flex min-h-screen items-center justify-center bg-cy-bg">
+      <span className="material-symbols-outlined text-3xl text-cy-navy animate-spin" aria-label="불러오는 중">progress_activity</span>
     </main>
+  );
+}
+
+/** 정보 행 — 라벨 좌 / 값 우, 헤어라인 구분 */
+function InfoRow({ label, children, strong }: { label: string; children: React.ReactNode; strong?: boolean }) {
+  return (
+    <div className="flex items-baseline justify-between gap-3 py-2.5 border-b border-cy-line-soft last:border-b-0">
+      <span className="shrink-0 text-xs font-semibold text-cy-ink-3">{label}</span>
+      <span className={`text-right ${strong ? "font-extrabold text-lg text-cy-ink" : "font-semibold text-sm text-cy-ink"}`}>
+        {children}
+      </span>
+    </div>
   );
 }
 
@@ -54,16 +74,17 @@ function CallPage() {
     setAccepting(false);
   };
 
-  const S = { fontFamily: "'Inter', 'Pretendard', sans-serif", letterSpacing: "-0.02em" } as const;
-
   if (loading) return <Loading />;
 
   if (!dispatch) {
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f8f9ff] px-4" style={S}>
-        <div className="bg-white rounded-2xl p-8 text-center shadow-[0_20px_40px_rgba(17,28,41,0.06)] border border-[#c1c6d6]/20">
-          <span className="material-symbols-outlined text-5xl text-[#ba1a1a] block mb-2">error</span>
-          <p className="text-lg text-[#ba1a1a] font-bold">요청을 찾을 수 없습니다</p>
+      <main className="flex min-h-screen items-center justify-center bg-cy-bg px-4">
+        <div className="bg-white rounded-2xl px-8 py-10 text-center border border-cy-line shadow-[0_20px_50px_rgba(0,44,95,0.12)] max-w-sm w-full">
+          <span className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-cy-danger/8 mb-4">
+            <span className="material-symbols-outlined text-3xl text-cy-danger" style={{ fontVariationSettings: "'FILL' 1" }}>error</span>
+          </span>
+          <p className="text-lg font-extrabold text-cy-ink">요청을 찾을 수 없습니다</p>
+          <p className="text-sm text-cy-ink-3 mt-1">링크가 만료되었거나 잘못된 주소입니다</p>
         </div>
       </main>
     );
@@ -71,81 +92,101 @@ function CallPage() {
 
   if (result) {
     const cfg = {
-      accepted: { icon: "check_circle", color: "text-emerald-600", bg: "bg-emerald-50", title: "수락 완료", desc: "배차가 확정되었습니다. 기사를 배정해주세요." },
-      already_taken: { icon: "warning", color: "text-amber-600", bg: "bg-amber-50", title: "이미 배정됨", desc: "다른 업체가 먼저 수락했습니다." },
-      rejected: { icon: "cancel", color: "text-[#ba1a1a]", bg: "bg-[#ffdad6]", title: "거절됨", desc: "이 요청을 거절했습니다." },
+      accepted: { icon: "check_circle", text: "text-cy-success-deep", chip: "bg-cy-success/10", mono: "ACCEPTED", title: "수락 완료", desc: "배차가 확정되었습니다. 기사를 배정해주세요." },
+      already_taken: { icon: "warning", text: "text-cy-warning-deep", chip: "bg-cy-warning/12", mono: "ALREADY TAKEN", title: "이미 배정됨", desc: "다른 업체가 먼저 수락했습니다." },
+      rejected: { icon: "cancel", text: "text-cy-danger-deep", chip: "bg-cy-danger/8", mono: "REJECTED", title: "거절됨", desc: "이 요청을 거절했습니다." },
     }[result];
 
     return (
-      <main className="flex min-h-screen items-center justify-center bg-[#f8f9ff] px-4" style={S}>
-        <div className="bg-white rounded-2xl p-8 text-center shadow-[0_20px_40px_rgba(17,28,41,0.06)] max-w-sm w-full animate-fade-in">
-          <div className={`w-16 h-16 ${cfg.bg} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
-            <span className={`material-symbols-outlined text-4xl ${cfg.color}`} style={{ fontVariationSettings: "'FILL' 1" }}>{cfg.icon}</span>
+      <main className="flex min-h-screen items-center justify-center bg-cy-bg px-4">
+        <div className="bg-white rounded-2xl px-8 py-10 text-center border border-cy-line shadow-[0_20px_50px_rgba(0,44,95,0.12)] max-w-sm w-full animate-fade-in">
+          <div className={`w-16 h-16 ${cfg.chip} rounded-2xl flex items-center justify-center mx-auto mb-4`}>
+            <span className={`material-symbols-outlined text-4xl ${cfg.text}`} style={{ fontVariationSettings: "'FILL' 1" }}>{cfg.icon}</span>
           </div>
-          <h2 className={`text-xl font-[800] ${cfg.color}`}>{cfg.title}</h2>
-          <p className="text-[#727785] mt-2 text-sm">{cfg.desc}</p>
+          <p className={`mono-label ${cfg.text} mb-1`}>{cfg.mono}</p>
+          <h2 className="text-xl font-extrabold tracking-[-0.02em] text-cy-ink">{cfg.title}</h2>
+          <p className="text-cy-ink-3 mt-2 text-sm leading-relaxed">{cfg.desc}</p>
         </div>
       </main>
     );
   }
 
+  const actionable = ["exclusive_call", "callcenter_call", "shared_call"].includes(dispatch.status);
+
   return (
-    <main className="flex min-h-screen items-center justify-center bg-[#f8f9ff] px-4 py-8" style={S}>
-      <div className="bg-white rounded-2xl p-6 shadow-[0_20px_40px_rgba(17,28,41,0.06)] border border-[#c1c6d6]/20 max-w-sm w-full space-y-4 animate-fade-in">
-        {/* Header */}
-        <div className="text-center">
-          <div className="inline-flex items-center gap-2 mb-1">
-            <span className="material-symbols-outlined text-[#0059b9]" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
-            <span className="text-lg font-black text-[#0A1628]">철연 CHEOLYEON</span>
-          </div>
-          <p className="text-xs text-[#727785]">장비 요청 상세</p>
-        </div>
+    <main className="flex min-h-screen items-center justify-center bg-cy-bg px-4 py-8">
+      <div className="bg-white rounded-2xl border border-cy-line shadow-[0_20px_50px_rgba(0,44,95,0.12),0_2px_8px_rgba(0,44,95,0.06)] max-w-sm w-full overflow-hidden animate-fade-in">
+        <div className="h-[3px] bg-cy-navy" aria-hidden />
 
-        {/* Equipment Info */}
-        <div className="bg-[#eef4ff] rounded-2xl p-4 space-y-3">
-          <div className="flex justify-between items-center">
-            <span className="text-[#727785] text-sm">장비</span>
-            <span className="font-[800] text-lg text-[#111c29]">{dispatch.equipment_types?.name} {dispatch.equipment_specs?.spec_name}</span>
+        {/* 헤더 */}
+        <div className="px-6 pt-5 pb-4 border-b border-cy-line-soft">
+          <div className="flex items-center justify-between mb-2.5">
+            <span className="mono-label text-cy-ink-4">DISPATCH REQUEST</span>
+            <StatusBadge status={dispatch.status} />
           </div>
-          <div className="flex justify-between items-center">
-            <span className="text-[#727785] text-sm">시간</span>
-            <span className="font-semibold text-[#111c29]">{dispatch.time_units?.name}</span>
-          </div>
-          <div className="flex justify-between items-center">
-            <span className="text-[#727785] text-sm">금액</span>
-            <span className="font-black text-2xl tabular-nums text-[#0059b9]">{formatPrice(dispatch.price)}원</span>
+          <div className="flex items-center gap-2">
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-cy-navy">
+              <span className="material-symbols-outlined text-base text-white" style={{ fontVariationSettings: "'FILL' 1" }}>construction</span>
+            </span>
+            <div>
+              <p className="text-base font-black text-cy-ink tracking-[-0.02em] leading-tight">철연 CHEOLYEON</p>
+              <p className="text-[11px] text-cy-ink-3">장비 요청 상세</p>
+            </div>
           </div>
         </div>
 
-        {/* Site Info */}
-        <div className="space-y-2 text-sm">
-          <div className="flex items-start gap-2"><span className="material-symbols-outlined text-base text-[#727785] mt-0.5">apartment</span><div><p className="text-[10px] text-[#727785]">건설사</p><p className="font-semibold text-[#111c29]">{dispatch.company_name}</p></div></div>
-          <div className="flex items-start gap-2"><span className="material-symbols-outlined text-base text-[#727785] mt-0.5">location_on</span><div><p className="text-[10px] text-[#727785]">현장주소</p><p className="font-semibold text-[#111c29]">{dispatch.site_address}</p></div></div>
-          {dispatch.site_manager_name && (
-            <div className="flex items-start gap-2"><span className="material-symbols-outlined text-base text-[#727785] mt-0.5">person</span><div><p className="text-[10px] text-[#727785]">현장담당</p><p className="font-semibold text-[#111c29]">{dispatch.site_manager_name} {dispatch.site_manager_phone}</p></div></div>
+        <div className="p-6 space-y-5">
+          {/* 핵심 — 장비 · 금액 */}
+          <div className="rounded-xl bg-cy-navy-pale/60 border border-cy-navy/10 px-4 py-1.5">
+            <InfoRow label="장비" strong>
+              {dispatch.equipment_types?.name} {dispatch.equipment_specs?.spec_name}
+            </InfoRow>
+            <InfoRow label="시간">{dispatch.time_units?.name}</InfoRow>
+            <div className="flex items-baseline justify-between gap-3 py-2.5">
+              <span className="shrink-0 text-xs font-semibold text-cy-ink-3">금액</span>
+              <span className="font-black text-2xl tabular-nums tracking-[-0.02em] text-cy-navy">
+                {formatPrice(dispatch.price)}<span className="text-sm font-bold ml-0.5">원</span>
+              </span>
+            </div>
+          </div>
+
+          {/* 현장 정보 */}
+          <div className="px-1">
+            <InfoRow label="건설사">{dispatch.company_name}</InfoRow>
+            <InfoRow label="현장주소">{dispatch.site_address}</InfoRow>
+            {dispatch.site_manager_name && (
+              <InfoRow label="현장담당">
+                {dispatch.site_manager_name}{" "}
+                <span className="tabular-nums">{dispatch.site_manager_phone}</span>
+              </InfoRow>
+            )}
+          </div>
+
+          {/* 수락 / 거절 */}
+          {actionable && (
+            <div className="flex gap-2.5 pt-1">
+              <Button
+                variant="success"
+                size="lg"
+                icon={accepting ? undefined : "check_circle"}
+                loading={accepting}
+                onClick={handleAccept}
+                className="flex-1"
+              >
+                {accepting ? "처리중..." : "수락"}
+              </Button>
+              <Button
+                variant="danger"
+                size="lg"
+                icon="cancel"
+                onClick={() => setResult("rejected")}
+                className="flex-1"
+              >
+                거절
+              </Button>
+            </div>
           )}
         </div>
-
-        {/* Status */}
-        <div className="text-center">
-          <span className="px-3 py-1 bg-[#e5eeff] text-[#0059b9] text-xs font-bold rounded-lg">{getStatusLabel(dispatch.status)}</span>
-        </div>
-
-        {/* Action Buttons */}
-        {["exclusive_call", "callcenter_call", "shared_call"].includes(dispatch.status) && (
-          <div className="flex gap-3">
-            <button onClick={handleAccept} disabled={accepting}
-              className="flex-1 py-4 bg-gradient-to-br from-emerald-500 to-emerald-600 text-white text-xl font-black rounded-xl active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-1">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>check_circle</span>
-              {accepting ? "처리중..." : "수락"}
-            </button>
-            <button onClick={() => setResult("rejected")}
-              className="flex-1 py-4 bg-[#ba1a1a] text-white text-xl font-black rounded-xl active:scale-95 transition-all flex items-center justify-center gap-1">
-              <span className="material-symbols-outlined" style={{ fontVariationSettings: "'FILL' 1" }}>cancel</span>
-              거절
-            </button>
-          </div>
-        )}
       </div>
     </main>
   );

@@ -4,14 +4,21 @@ import { Suspense, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { formatPhone, parsePhone, formatBusinessNumber, getRoleLabel } from "@/lib/utils";
 import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/Button";
+import { AuthShell, ErrorAlert, INPUT_CLS, LABEL_CLS } from "../_shared";
 import type { UserRole } from "@/types/database";
 
-const ROLES: { value: UserRole; label: string; desc: string }[] = [
-  { value: "requester", label: "장비요청자", desc: "건설사 현장소장" },
-  { value: "owner", label: "중장비사장", desc: "장비 임대 업체" },
-  { value: "operator", label: "기사", desc: "장비 운전 기사" },
-  { value: "callcenter", label: "콜센터", desc: "중장비사장 관리" },
-  { value: "salesperson", label: "영업사원", desc: "앱 분양 담당" },
+/**
+ * 회원가입 — 3단계 (휴대폰 → 인증 → 프로필). 가입 로직은 변경 없음.
+ * 역할 선택은 DemoRoleSwitcher와 같은 아이콘 언어를 쓴다.
+ */
+
+const ROLES: { value: UserRole; label: string; desc: string; icon: string }[] = [
+  { value: "requester", label: "장비요청자", desc: "건설사 현장소장", icon: "apartment" },
+  { value: "owner", label: "중장비사장", desc: "장비 임대 업체", icon: "front_loader" },
+  { value: "operator", label: "기사", desc: "장비 운전 기사", icon: "engineering" },
+  { value: "callcenter", label: "콜센터", desc: "중장비사장 관리", icon: "support_agent" },
+  { value: "salesperson", label: "영업사원", desc: "앱 분양 담당", icon: "trending_up" },
 ];
 
 const REGIONS = [
@@ -36,11 +43,13 @@ const REGIONS = [
 
 export default function RegisterPageWrapper() {
   return (
-    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">로딩중...</div>}>
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center bg-cy-bg text-cy-ink-3 text-sm font-semibold">로딩중...</div>}>
       <RegisterPage />
     </Suspense>
   );
 }
+
+const STEP_INDEX = { phone: 1, otp: 2, profile: 3 } as const;
 
 function RegisterPage() {
   const router = useRouter();
@@ -151,160 +160,181 @@ function RegisterPage() {
   const selectedSido = REGIONS.find((r) => r.sido === regionSido);
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-bg px-4 py-8">
-      <div className="w-full max-w-sm bg-card rounded-2xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold text-center text-primary mb-6">회원가입</h1>
-
-        {step === "phone" && (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-text mb-1">휴대폰 번호</label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={(e) => handlePhoneChange(e.target.value)}
-                placeholder="010-0000-0000"
-                className="w-full px-4 py-3 text-lg border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-                autoFocus
-              />
-            </div>
-            {error && <p className="text-danger text-sm">{error}</p>}
-            <button
-              onClick={handleSendOTP}
-              disabled={loading}
-              className="w-full py-4 bg-primary text-white text-lg font-semibold rounded-xl hover:bg-primary-light transition disabled:opacity-50"
-            >
-              {loading ? "발송중..." : "인증번호 받기"}
-            </button>
-          </div>
-        )}
-
-        {step === "otp" && (
-          <div className="space-y-4">
-            <p className="text-center text-text-muted text-sm">
-              {formatPhone(parsePhone(phone))}로 인증번호를 발송했습니다
-            </p>
+    <AuthShell
+      badge="NEW ACCOUNT · OTP"
+      stepIndex={STEP_INDEX[step]}
+      stepTotal={3}
+      title="회원가입"
+    >
+      {step === "phone" && (
+        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); if (!loading) handleSendOTP(); }}>
+          <div>
+            <label htmlFor="reg-phone" className={LABEL_CLS}>휴대폰 번호</label>
             <input
-              type="text"
-              inputMode="numeric"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
-              placeholder="인증번호 6자리"
-              className="w-full px-4 py-3 text-lg text-center tracking-widest border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+              id="reg-phone"
+              type="tel"
+              inputMode="tel"
+              autoComplete="tel"
+              value={phone}
+              onChange={(e) => handlePhoneChange(e.target.value)}
+              placeholder="010-0000-0000"
+              className={`${INPUT_CLS} tabular-nums`}
               autoFocus
             />
-            {error && <p className="text-danger text-sm">{error}</p>}
-            <button
-              onClick={handleVerifyOTP}
-              disabled={loading}
-              className="w-full py-4 bg-primary text-white text-lg font-semibold rounded-xl disabled:opacity-50"
-            >
-              {loading ? "확인중..." : "인증 확인"}
-            </button>
           </div>
-        )}
+          {error && <ErrorAlert>{error}</ErrorAlert>}
+          <Button type="submit" size="lg" fullWidth loading={loading} icon={loading ? undefined : "send"}>
+            {loading ? "발송중..." : "인증번호 받기"}
+          </Button>
+        </form>
+      )}
 
-        {step === "profile" && (
-          <div className="space-y-4">
-            {/* 역할 선택 */}
-            <div>
-              <label className="block text-sm font-medium text-text mb-2">역할 선택</label>
-              <div className="grid grid-cols-2 gap-2">
-                {ROLES.map((r) => (
+      {step === "otp" && (
+        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); if (!loading) handleVerifyOTP(); }}>
+          <div className="flex items-center justify-between px-3.5 py-3 rounded-xl bg-cy-navy-pale/70 border border-cy-navy/10">
+            <span className="text-sm font-bold tabular-nums text-cy-navy">{formatPhone(parsePhone(phone))}</span>
+            <span className="mono-label text-cy-navy/60">SMS SENT</span>
+          </div>
+          <div>
+            <label htmlFor="reg-otp" className={LABEL_CLS}>인증번호</label>
+            <input
+              id="reg-otp"
+              type="text"
+              inputMode="numeric"
+              autoComplete="one-time-code"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+              placeholder="······"
+              className={`${INPUT_CLS} text-2xl text-center tracking-[0.5em] font-mono`}
+              autoFocus
+            />
+          </div>
+          {error && <ErrorAlert>{error}</ErrorAlert>}
+          <Button type="submit" size="lg" fullWidth loading={loading} icon={loading ? undefined : "verified"}>
+            {loading ? "확인중..." : "인증 확인"}
+          </Button>
+        </form>
+      )}
+
+      {step === "profile" && (
+        <form className="space-y-5" onSubmit={(e) => { e.preventDefault(); if (!loading) handleRegister(); }}>
+          {/* 역할 선택 */}
+          <div>
+            <span className={LABEL_CLS}>역할 선택</span>
+            <div className="grid grid-cols-2 gap-2" role="radiogroup" aria-label="역할 선택">
+              {ROLES.map((r) => {
+                const active = role === r.value;
+                return (
                   <button
+                    type="button"
                     key={r.value}
+                    role="radio"
+                    aria-checked={active}
                     onClick={() => setRole(r.value)}
-                    className={`p-3 rounded-xl border-2 text-left transition ${
-                      role === r.value
-                        ? "border-primary bg-blue-50"
-                        : "border-border hover:border-primary-light"
+                    className={`press relative p-3 rounded-xl border text-left ${
+                      active
+                        ? "border-cy-navy bg-cy-navy-pale/60 shadow-[0_0_0_1px_var(--color-cy-navy)]"
+                        : "border-cy-line hover:border-cy-navy/35 hover:bg-cy-navy-pale/25"
                     }`}
                   >
-                    <span className="block text-sm font-semibold">{r.label}</span>
-                    <span className="block text-xs text-text-muted">{r.desc}</span>
+                    <span className={`material-symbols-outlined text-xl block mb-1 ${active ? "text-cy-navy" : "text-cy-ink-3"}`}
+                      style={active ? { fontVariationSettings: "'FILL' 1" } : undefined}>
+                      {r.icon}
+                    </span>
+                    <span className={`block text-sm font-bold ${active ? "text-cy-navy" : "text-cy-ink"}`}>{r.label}</span>
+                    <span className="block text-xs text-cy-ink-3 mt-0.5">{r.desc}</span>
+                    {active && (
+                      <span className="material-symbols-outlined absolute top-2.5 right-2.5 text-base text-cy-navy" aria-hidden>
+                        check_circle
+                      </span>
+                    )}
                   </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 이름 */}
+          <div>
+            <label htmlFor="reg-name" className={LABEL_CLS}>이름</label>
+            <input
+              id="reg-name"
+              type="text"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="홍길동"
+              className={INPUT_CLS}
+            />
+          </div>
+
+          {/* 회사명 */}
+          <div>
+            <label htmlFor="reg-company" className={LABEL_CLS}>회사명 (선택)</label>
+            <input
+              id="reg-company"
+              type="text"
+              autoComplete="organization"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              placeholder="바이트포스 건설"
+              className={INPUT_CLS}
+            />
+          </div>
+
+          {/* 사업자번호 */}
+          {(role === "owner" || role === "callcenter") && (
+            <div>
+              <label htmlFor="reg-bn" className={LABEL_CLS}>사업자번호</label>
+              <input
+                id="reg-bn"
+                type="text"
+                inputMode="numeric"
+                value={businessNumber}
+                onChange={(e) => handleBNChange(e.target.value)}
+                placeholder="000-00-00000"
+                className={`${INPUT_CLS} tabular-nums`}
+              />
+            </div>
+          )}
+
+          {/* 활동지역 */}
+          {(role === "owner" || role === "requester") && (
+            <div className="space-y-2">
+              <label htmlFor="reg-sido" className={LABEL_CLS}>활동지역</label>
+              <select
+                id="reg-sido"
+                value={regionSido}
+                onChange={(e) => { setRegionSido(e.target.value); setRegionSigungu(""); }}
+                className={`${INPUT_CLS} text-base`}
+              >
+                <option value="">시/도 선택</option>
+                {REGIONS.map((r) => (
+                  <option key={r.sido} value={r.sido}>{r.sido}</option>
                 ))}
-              </div>
-            </div>
-
-            {/* 이름 */}
-            <div>
-              <label className="block text-sm font-medium text-text mb-1">이름</label>
-              <input
-                type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                placeholder="홍길동"
-                className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-
-            {/* 회사명 */}
-            <div>
-              <label className="block text-sm font-medium text-text mb-1">회사명 (선택)</label>
-              <input
-                type="text"
-                value={companyName}
-                onChange={(e) => setCompanyName(e.target.value)}
-                placeholder="바이트포스 건설"
-                className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-              />
-            </div>
-
-            {/* 사업자번호 */}
-            {(role === "owner" || role === "callcenter") && (
-              <div>
-                <label className="block text-sm font-medium text-text mb-1">사업자번호</label>
-                <input
-                  type="text"
-                  value={businessNumber}
-                  onChange={(e) => handleBNChange(e.target.value)}
-                  placeholder="000-00-00000"
-                  className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-              </div>
-            )}
-
-            {/* 활동지역 */}
-            {(role === "owner" || role === "requester") && (
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-text">활동지역</label>
+              </select>
+              {selectedSido && (
                 <select
-                  value={regionSido}
-                  onChange={(e) => { setRegionSido(e.target.value); setRegionSigungu(""); }}
-                  className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
+                  aria-label="시/군/구 선택"
+                  value={regionSigungu}
+                  onChange={(e) => setRegionSigungu(e.target.value)}
+                  className={`${INPUT_CLS} text-base`}
                 >
-                  <option value="">시/도 선택</option>
-                  {REGIONS.map((r) => (
-                    <option key={r.sido} value={r.sido}>{r.sido}</option>
+                  <option value="">시/군/구 선택</option>
+                  {selectedSido.sigungu.map((s) => (
+                    <option key={s} value={s}>{s}</option>
                   ))}
                 </select>
-                {selectedSido && (
-                  <select
-                    value={regionSigungu}
-                    onChange={(e) => setRegionSigungu(e.target.value)}
-                    className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="">시/군/구 선택</option>
-                    {selectedSido.sigungu.map((s) => (
-                      <option key={s} value={s}>{s}</option>
-                    ))}
-                  </select>
-                )}
-              </div>
-            )}
+              )}
+            </div>
+          )}
 
-            {error && <p className="text-danger text-sm">{error}</p>}
-            <button
-              onClick={handleRegister}
-              disabled={loading}
-              className="w-full py-4 bg-primary text-white text-lg font-semibold rounded-xl disabled:opacity-50"
-            >
-              {loading ? "가입중..." : `${getRoleLabel(role)}로 가입`}
-            </button>
-          </div>
-        )}
-      </div>
-    </main>
+          {error && <ErrorAlert>{error}</ErrorAlert>}
+          <Button type="submit" size="lg" fullWidth loading={loading} icon={loading ? undefined : "how_to_reg"}>
+            {loading ? "가입중..." : `${getRoleLabel(role)}로 가입`}
+          </Button>
+        </form>
+      )}
+    </AuthShell>
   );
 }

@@ -22,12 +22,12 @@ export default function LivePreviewCard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.2 }}
-      className="relative bg-white border border-[#E3E8EF] rounded-2xl p-5"
+      className="relative bg-white border border-cy-line rounded-2xl p-5"
       style={{ boxShadow: "0 20px 50px rgba(0, 44, 95, 0.08)" }}
     >
       {/* LIVE PREVIEW 뱃지 — 카드 우상단 밖으로 돌출 */}
       <span
-        className="absolute -top-2.5 right-4 bg-[#00AAD2] text-white text-[10px] font-bold px-2.5 py-[3px] rounded tracking-[0.1em]"
+        className="absolute -top-2.5 right-4 bg-cy-cyan text-white text-[10px] font-bold px-2.5 py-[3px] rounded tracking-[0.1em]"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
         LIVE PREVIEW
@@ -35,13 +35,13 @@ export default function LivePreviewCard() {
 
       {/* 헤더 */}
       <div className="flex justify-between items-center mb-3.5">
-        <span className="text-[13px] font-bold text-[#0A1628]">{livePreview.label}</span>
+        <span className="text-[13px] font-bold text-cy-ink">{livePreview.label}</span>
         <span
-          className="text-[10px] text-[#00A86B] flex items-center gap-1"
+          className="text-[10px] text-cy-success flex items-center gap-1"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           <motion.span
-            className="w-1.5 h-1.5 bg-[#00A86B] rounded-full"
+            className="w-1.5 h-1.5 bg-cy-success rounded-full"
             animate={{ opacity: [1, 0.4, 1] }}
             transition={{ duration: 1.5, repeat: Infinity }}
             aria-hidden="true"
@@ -59,23 +59,23 @@ export default function LivePreviewCard() {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.3, delay: 0.3 + i * 0.08 }}
-            className="bg-[#F4F6FA] rounded-[10px] p-2.5"
+            className="bg-cy-bg rounded-[10px] p-2.5"
           >
-            <p className="text-[10px] text-[#6B7B8F] mb-0.5">{k.key}</p>
-            <p className="text-[17px] font-black text-[#0A1628] tracking-[-0.02em]">
+            <p className="text-[10px] text-cy-ink-3 mb-0.5">{k.key}</p>
+            <p className="text-[17px] font-black text-cy-ink tracking-[-0.02em]">
               {k.value}
             </p>
-            <p className="text-[10px] text-[#00A86B] font-medium">{k.delta}</p>
+            <p className="text-[10px] text-cy-success font-medium">{k.delta}</p>
           </motion.div>
         ))}
       </div>
 
       {/* 시간별 배차량 영역 차트 */}
-      <div className="bg-[#F4F6FA] rounded-[10px] p-3.5 mb-2.5">
+      <div className="bg-cy-bg rounded-[10px] p-3.5 mb-2.5">
         <div className="flex justify-between mb-2">
-          <span className="text-[11px] text-[#6B7B8F]">{livePreview.chartLabel}</span>
+          <span className="text-[11px] text-cy-ink-3">{livePreview.chartLabel}</span>
           <span
-            className="text-[11px] font-bold text-[#002C5F]"
+            className="text-[11px] font-bold text-cy-navy"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {livePreview.chartValue}
@@ -126,9 +126,9 @@ export default function LivePreviewCard() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: 0.6 + i * 0.08 }}
-              className="flex justify-between items-center px-2.5 py-2 bg-[#F4F6FA] rounded-lg text-[11px]"
+              className="flex justify-between items-center px-2.5 py-2 bg-cy-bg rounded-lg text-[11px]"
             >
-              <span className="flex gap-2 items-center text-[#0A1628] font-medium">
+              <span className="flex gap-2 items-center text-cy-ink font-medium">
                 <span
                   className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                   style={{ background: dotColor }}
@@ -137,7 +137,7 @@ export default function LivePreviewCard() {
                 {row.equipment} · {row.route}
               </span>
               <span
-                className="font-bold text-[#0A1628]"
+                className="font-bold text-cy-ink"
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 {row.price}

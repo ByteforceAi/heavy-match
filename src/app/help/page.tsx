@@ -35,7 +35,7 @@ import {
 export default function HelpCenterPage() {
   return (
     <main
-      className="min-h-screen bg-[#F4F6FA] text-[#0A1628]"
+      className="min-h-screen bg-cy-bg text-cy-ink"
       style={{
         fontFamily:
           "var(--font-pretendard), 'Pretendard', 'IBM Plex Sans KR', sans-serif",
@@ -58,7 +58,7 @@ export default function HelpCenterPage() {
 function HelpNav() {
   return (
     <nav
-      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-[#E3E8EF] flex items-center px-6 md:px-8 gap-6 md:gap-12"
+      className="sticky top-0 z-50 h-[60px] bg-white/95 backdrop-blur border-b border-cy-line flex items-center px-6 md:px-8 gap-6 md:gap-12"
       style={{ backdropFilter: "blur(12px) saturate(180%)" }}
     >
       <Link
@@ -67,7 +67,7 @@ function HelpNav() {
         aria-label="철연 홈"
       >
         <span
-          className="text-[22px] font-black text-[#002C5F] tracking-[-0.03em]"
+          className="text-[22px] font-black text-cy-navy tracking-[-0.03em]"
           style={{
             fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
           }}
@@ -75,7 +75,7 @@ function HelpNav() {
           {copy.nav.brand.ko}
         </span>
         <span
-          className="text-[10px] text-[#6B7B8F] tracking-[0.3em]"
+          className="text-[10px] text-cy-ink-3 tracking-[0.3em]"
           style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
         >
           {copy.nav.brand.en}
@@ -87,7 +87,7 @@ function HelpNav() {
           <li key={item.label}>
             <a
               href={item.href}
-              className="text-[14px] font-medium text-[#3A4A5F] hover:text-[#002C5F] transition-colors py-1"
+              className="text-[14px] font-medium text-cy-ink-2 hover:text-cy-navy transition-colors py-1"
             >
               {item.label}
             </a>
@@ -98,13 +98,13 @@ function HelpNav() {
       <div className="flex gap-2.5 ml-auto">
         <Link
           href="/login"
-          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-[#3A4A5F] bg-transparent border border-[#E3E8EF] rounded-lg hover:bg-[#F4F6FA] transition-colors min-h-0"
+          className="hidden sm:inline-flex items-center px-4 py-2 text-[13px] font-medium text-cy-ink-2 bg-transparent border border-cy-line rounded-lg hover:bg-cy-bg transition-colors min-h-0"
         >
           {copy.nav.cta.secondary}
         </Link>
         <Link
           href="/demo"
-          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-[#002C5F] hover:bg-[#0046A4] rounded-lg transition-colors min-h-0"
+          className="inline-flex items-center px-4 md:px-5 py-2 text-[13px] font-semibold text-white bg-cy-navy hover:bg-cy-navy-mid rounded-lg transition-colors min-h-0"
         >
           {copy.nav.cta.primary}
         </Link>
@@ -135,7 +135,7 @@ function HelpHero() {
 
   return (
     <section
-      className="relative border-b border-[#E3E8EF]"
+      className="relative border-b border-cy-line"
       style={{
         background: `
           radial-gradient(ellipse at 80% 20%, rgba(0,170,210,0.08) 0%, transparent 50%),
@@ -147,7 +147,7 @@ function HelpHero() {
       <div className="max-w-[960px] mx-auto px-6 md:px-12 py-16 md:py-20">
         <Reveal delay={0.05}>
           <p
-            className="text-[11px] font-bold text-[#002C5F] tracking-[0.25em] mb-5"
+            className="text-[11px] font-bold text-cy-navy tracking-[0.25em] mb-5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             HELP CENTER · 지원 센터
@@ -156,7 +156,7 @@ function HelpHero() {
 
         <Reveal delay={0.1}>
           <h1
-            className="font-[900] text-[#0A1628] mb-4"
+            className="font-[900] text-cy-ink mb-4"
             style={{
               fontSize: "clamp(2rem, 4.5vw, 3rem)",
               lineHeight: 1.15,
@@ -168,7 +168,7 @@ function HelpHero() {
         </Reveal>
 
         <Reveal delay={0.2}>
-          <p className="text-[15px] md:text-[16px] text-[#3A4A5F] leading-[1.75] mb-8 max-w-[640px]">
+          <p className="text-[15px] md:text-[16px] text-cy-ink-2 leading-[1.75] mb-8 max-w-[640px]">
             역할별 기능 설명, 문제 해결, 결제·정산 문서를 한 곳에서 확인한다.
           </p>
         </Reveal>
@@ -177,7 +177,7 @@ function HelpHero() {
         <Reveal delay={0.3}>
           <div className="relative max-w-[560px]">
             <span
-              className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-[#6B7B8F] pointer-events-none"
+              className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-cy-ink-3 pointer-events-none"
               style={{ fontSize: 20 }}
               aria-hidden="true"
             >
@@ -189,7 +189,7 @@ function HelpHero() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="문서 검색... (cmd+K)"
               aria-label="문서 검색"
-              className="w-full h-12 pl-11 pr-4 text-[14px] bg-white border border-[#E3E8EF] rounded-xl text-[#0A1628] placeholder:text-[#9AA8B8] outline-none transition-colors focus:border-[#002C5F] focus:ring-2 focus:ring-[#002C5F]/10"
+              className="w-full h-12 pl-11 pr-4 text-[14px] bg-white border border-cy-line rounded-xl text-cy-ink placeholder:text-cy-ink-4 outline-none transition-colors focus:border-cy-navy focus:ring-2 focus:ring-cy-navy/10"
               style={{
                 boxShadow: "0 2px 8px rgba(0, 44, 95, 0.04)",
               }}
@@ -198,33 +198,33 @@ function HelpHero() {
             {/* 검색 결과 드롭다운 */}
             {query.trim() && (
               <div
-                className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white border border-[#E3E8EF] rounded-xl overflow-hidden z-10"
+                className="absolute top-[calc(100%+8px)] left-0 right-0 bg-white border border-cy-line rounded-xl overflow-hidden z-10"
                 style={{ boxShadow: "0 12px 36px rgba(0, 44, 95, 0.12)" }}
               >
                 {results.length === 0 ? (
-                  <div className="px-4 py-6 text-[13px] text-[#6B7B8F] text-center">
+                  <div className="px-4 py-6 text-[13px] text-cy-ink-3 text-center">
                     일치하는 문서가 존재하지 않는다.
                   </div>
                 ) : (
-                  <ul className="list-none m-0 p-0 divide-y divide-[#E3E8EF]">
+                  <ul className="list-none m-0 p-0 divide-y divide-cy-line">
                     {results.map((a) => (
                       <li key={a.slug}>
                         <Link
                           href={`/help/${a.slug}`}
-                          className="flex items-start gap-3 px-4 py-3 hover:bg-[#F4F6FA] transition-colors"
+                          className="flex items-start gap-3 px-4 py-3 hover:bg-cy-bg transition-colors"
                         >
                           <span
-                            className="material-symbols-outlined text-[#002C5F] mt-0.5"
+                            className="material-symbols-outlined text-cy-navy mt-0.5"
                             style={{ fontSize: 18 }}
                             aria-hidden="true"
                           >
                             article
                           </span>
                           <div className="min-w-0">
-                            <p className="text-[13px] font-semibold text-[#0A1628] truncate">
+                            <p className="text-[13px] font-semibold text-cy-ink truncate">
                               {a.title}
                             </p>
-                            <p className="text-[11px] text-[#6B7B8F] mt-0.5">
+                            <p className="text-[11px] text-cy-ink-3 mt-0.5">
                               {a.categoryLabel} · {a.summary}
                             </p>
                           </div>
@@ -247,19 +247,19 @@ function HelpHero() {
 // ═══════════════════════════════════════
 function CategoryGrid() {
   return (
-    <section className="py-16 md:py-20 border-b border-[#E3E8EF]">
+    <section className="py-16 md:py-20 border-b border-cy-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <Reveal>
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             Categories
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+          <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
             카테고리별 가이드
           </h2>
-          <p className="text-[14px] text-[#6B7B8F] mb-10 max-w-xl">
+          <p className="text-[14px] text-cy-ink-3 mb-10 max-w-xl">
             필요한 주제의 카드에서 바로 이동한다. 각 카테고리는 2~3개의 실무 문서로 구성된다.
           </p>
         </Reveal>
@@ -283,9 +283,9 @@ function CategoryCard({ meta }: { meta: HelpCategoryMeta }) {
   return (
     <MotionCard className="p-6 h-full">
       <div className="flex items-start gap-4 mb-4">
-        <div className="w-[46px] h-[46px] bg-[#E8F1FB] rounded-[12px] flex items-center justify-center flex-shrink-0">
+        <div className="w-[46px] h-[46px] bg-cy-navy-pale rounded-[12px] flex items-center justify-center flex-shrink-0">
           <span
-            className="material-symbols-outlined text-[#002C5F]"
+            className="material-symbols-outlined text-cy-navy"
             style={{ fontSize: 24, fontVariationSettings: "'FILL' 1" }}
             aria-hidden="true"
           >
@@ -293,10 +293,10 @@ function CategoryCard({ meta }: { meta: HelpCategoryMeta }) {
           </span>
         </div>
         <div className="min-w-0">
-          <h3 className="text-[17px] font-bold text-[#0A1628] mb-1">
+          <h3 className="text-[17px] font-bold text-cy-ink mb-1">
             {meta.label}
           </h3>
-          <p className="text-[12px] text-[#6B7B8F] leading-[1.55]">{meta.sub}</p>
+          <p className="text-[12px] text-cy-ink-3 leading-[1.55]">{meta.sub}</p>
         </div>
       </div>
 
@@ -305,10 +305,10 @@ function CategoryCard({ meta }: { meta: HelpCategoryMeta }) {
           <li key={a.slug}>
             <Link
               href={`/help/${a.slug}`}
-              className="flex items-center gap-2 text-[13px] text-[#3A4A5F] hover:text-[#002C5F] transition-colors py-1"
+              className="flex items-center gap-2 text-[13px] text-cy-ink-2 hover:text-cy-navy transition-colors py-1"
             >
               <span
-                className="material-symbols-outlined text-[#9AA8B8]"
+                className="material-symbols-outlined text-cy-ink-4"
                 style={{ fontSize: 14 }}
                 aria-hidden="true"
               >
@@ -323,7 +323,7 @@ function CategoryCard({ meta }: { meta: HelpCategoryMeta }) {
       {firstSlug && (
         <Link
           href={`/help/${firstSlug}`}
-          className="inline-flex items-center gap-1 text-[12px] font-semibold text-[#002C5F] hover:text-[#0046A4] transition-colors"
+          className="inline-flex items-center gap-1 text-[12px] font-semibold text-cy-navy hover:text-cy-navy-mid transition-colors"
         >
           전체 보기
           <span
@@ -348,19 +348,19 @@ function PopularArticles() {
     .slice(0, 6);
 
   return (
-    <section className="py-16 md:py-20 bg-white border-b border-[#E3E8EF]">
+    <section className="py-16 md:py-20 bg-white border-b border-cy-line">
       <div className="max-w-[1200px] mx-auto px-6 md:px-12">
         <Reveal>
           <p
-            className="text-[11px] text-[#002C5F] font-bold tracking-[0.2em] uppercase mb-2.5"
+            className="text-[11px] text-cy-navy font-bold tracking-[0.2em] uppercase mb-2.5"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             Popular
           </p>
-          <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-[#0A1628] mb-2">
+          <h2 className="text-[24px] md:text-[32px] font-[800] tracking-[-0.02em] text-cy-ink mb-2">
             최근 업데이트 문서
           </h2>
-          <p className="text-[14px] text-[#6B7B8F] mb-10">
+          <p className="text-[14px] text-cy-ink-3 mb-10">
             운영팀이 최근 갱신한 문서 6건이다.
           </p>
         </Reveal>
@@ -370,17 +370,17 @@ function PopularArticles() {
             <StaggerItem key={a.slug}>
               <Link href={`/help/${a.slug}`} className="block group">
                 <MotionCard className="p-5 h-full">
-                  <span className="inline-block px-2 py-0.5 bg-[#E8F1FB] text-[#002C5F] text-[10px] font-bold rounded-md mb-3 tracking-[0.05em]">
+                  <span className="inline-block px-2 py-0.5 bg-cy-navy-pale text-cy-navy text-[10px] font-bold rounded-md mb-3 tracking-[0.05em]">
                     {a.categoryLabel}
                   </span>
-                  <h3 className="text-[15px] font-bold text-[#0A1628] mb-1.5 leading-[1.4] group-hover:text-[#002C5F] transition-colors">
+                  <h3 className="text-[15px] font-bold text-cy-ink mb-1.5 leading-[1.4] group-hover:text-cy-navy transition-colors">
                     {a.title}
                   </h3>
-                  <p className="text-[12px] text-[#6B7B8F] leading-[1.6] mb-3 line-clamp-2">
+                  <p className="text-[12px] text-cy-ink-3 leading-[1.6] mb-3 line-clamp-2">
                     {a.summary}
                   </p>
                   <p
-                    className="text-[11px] text-[#9AA8B8] tabular-nums"
+                    className="text-[11px] text-cy-ink-4 tabular-nums"
                     style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                   >
                     UPDATED · {a.lastUpdated}
@@ -426,7 +426,7 @@ function ContactSupport() {
             <div className="flex flex-wrap justify-center gap-3">
               <a
                 href="mailto:contact@cheolyeon.com"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-[#F4F6FA] text-[#0A1628] text-[14px] font-bold rounded-lg transition-colors min-h-0"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-cy-bg text-cy-ink text-[14px] font-bold rounded-lg transition-colors min-h-0"
               >
                 <span
                   className="material-symbols-outlined"
@@ -463,11 +463,11 @@ function ContactSupport() {
 // ═══════════════════════════════════════
 function HelpFooter() {
   return (
-    <footer className="border-t border-[#E3E8EF] py-8 bg-[#EEF1F5]">
+    <footer className="border-t border-cy-line py-8 bg-cy-bg-alt">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="flex items-baseline gap-2.5">
           <span
-            className="text-[16px] font-black text-[#002C5F] tracking-[-0.03em]"
+            className="text-[16px] font-black text-cy-navy tracking-[-0.03em]"
             style={{
               fontFamily: "var(--font-pretendard), 'Pretendard', sans-serif",
             }}
@@ -475,12 +475,12 @@ function HelpFooter() {
             {copy.footer.brand.ko}
           </span>
           <span
-            className="text-[9px] text-[#6B7B8F] tracking-[0.3em]"
+            className="text-[9px] text-cy-ink-3 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {copy.footer.brand.en}
           </span>
-          <span className="text-[11px] text-[#6B7B8F] ml-3 hidden md:inline">
+          <span className="text-[11px] text-cy-ink-3 ml-3 hidden md:inline">
             {copy.footer.description}
           </span>
         </div>
@@ -489,17 +489,17 @@ function HelpFooter() {
             <a
               key={link.label}
               href={link.href}
-              className="text-[11px] text-[#6B7B8F] hover:text-[#3A4A5F] transition-colors min-h-0"
+              className="text-[11px] text-cy-ink-3 hover:text-cy-ink-2 transition-colors min-h-0"
             >
               {link.label}
             </a>
           ))}
         </div>
-        <p className="text-[11px] text-[#9AA8B8]">
+        <p className="text-[11px] text-cy-ink-4">
           {copy.footer.address} · {copy.footer.email}
         </p>
       </div>
-      <p className="max-w-[1400px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-[#9AA8B8]">
+      <p className="max-w-[1400px] mx-auto px-6 md:px-12 mt-3 text-[10px] text-cy-ink-4">
         {copy.footer.copyright}
       </p>
     </footer>

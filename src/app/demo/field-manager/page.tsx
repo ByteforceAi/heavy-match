@@ -123,13 +123,13 @@ function DesktopContextStrip() {
           데모 / 현장소장
         </p>
         <h1
-          className="mt-3 text-[36px] font-black text-[#002C5F]"
+          className="mt-3 text-[36px] font-black text-cy-navy"
           style={{ letterSpacing: "-0.03em", lineHeight: 1.15 }}
         >
           현장소장 모바일 화면
         </h1>
         <p
-          className="mt-3 text-[15px] text-[#3A4A5F] max-w-[640px]"
+          className="mt-3 text-[15px] text-cy-ink-2 max-w-[640px]"
           style={{ lineHeight: 1.7 }}
         >
           실제 앱이 이 모바일 디바이스에서 어떻게 작동하는지 쇼케이스. 화면은 터치 입력 · 60초 타이머 · 실시간 상태 전환을 포함한다.
@@ -137,7 +137,7 @@ function DesktopContextStrip() {
         <div className="mt-5">
           <Link
             href="/demo/executive"
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#002C5F] text-white text-[13px] font-bold hover:bg-[#0046A4] transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cy-navy text-white text-[13px] font-bold hover:bg-cy-navy-mid transition-colors"
           >
             다른 화면 보기
             <span
@@ -159,7 +159,7 @@ function DesktopContextStrip() {
 function FieldManagerScreen() {
   return (
     <main
-      className="w-full md:max-w-none max-w-md mx-auto min-h-screen md:min-h-0 md:h-full bg-[#F4F6FA] text-[#0A1628] relative"
+      className="w-full md:max-w-none max-w-md mx-auto min-h-screen md:min-h-0 md:h-full bg-cy-bg text-cy-ink relative"
       style={{
         fontFamily: "'Pretendard', 'IBM Plex Sans KR', -apple-system, sans-serif",
         letterSpacing: "-0.01em",
@@ -167,7 +167,7 @@ function FieldManagerScreen() {
     >
       {/* ═══ Status Bar ═══ */}
       <div
-        className="h-[44px] px-6 flex items-center justify-between bg-[#002C5F] text-white"
+        className="h-[44px] px-6 flex items-center justify-between bg-cy-navy text-white"
         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
       >
         <span className="text-[13px] font-semibold tabular-nums">9:41</span>
@@ -181,7 +181,7 @@ function FieldManagerScreen() {
 
       {/* ═══ Navy Top Section ═══ */}
       <section
-        className="relative bg-[#002C5F] text-white px-6 pt-5 pb-6"
+        className="relative bg-cy-navy text-white px-6 pt-5 pb-6"
         style={{ borderRadius: "0 0 24px 24px" }}
       >
         {/* Notification bell */}
@@ -197,7 +197,7 @@ function FieldManagerScreen() {
             notifications
           </span>
           <span
-            className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#E5484D] ring-2 ring-[#002C5F]"
+            className="absolute top-2 right-2 w-2 h-2 rounded-full bg-cy-danger ring-2 ring-cy-navy"
             aria-hidden="true"
           />
         </button>
@@ -227,7 +227,7 @@ function FieldManagerScreen() {
               <p className="text-[14px] font-semibold mt-0.5">해운대 센텀 2공구</p>
             </div>
             <span
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-[#00AAD2] text-white rounded-full text-[11px] font-bold"
+              className="inline-flex items-center gap-1 px-2.5 py-1 bg-cy-cyan text-white rounded-full text-[11px] font-bold"
               style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
             >
               <span
@@ -264,8 +264,8 @@ function FieldManagerScreen() {
                 style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
               >
                 <span className="relative flex w-1.5 h-1.5" aria-hidden="true">
-                  <span className="absolute inset-0 rounded-full bg-[#00A86B] animate-ping opacity-60" />
-                  <span className="relative w-1.5 h-1.5 rounded-full bg-[#00A86B]" />
+                  <span className="absolute inset-0 rounded-full bg-cy-success animate-ping opacity-60" />
+                  <span className="relative w-1.5 h-1.5 rounded-full bg-cy-success" />
                 </span>
                 LIVE
               </span>
@@ -283,7 +283,7 @@ function FieldManagerScreen() {
 
             <button
               type="button"
-              className="mt-4 w-full bg-white text-[#002C5F] rounded-xl py-3 text-[14px] font-bold flex items-center justify-center gap-1.5 hover:bg-[#F4F6FA] transition-colors"
+              className="mt-4 w-full bg-white text-cy-navy rounded-xl py-3 text-[14px] font-bold flex items-center justify-center gap-1.5 hover:bg-cy-bg transition-colors"
             >
               장비 요청
               <span
@@ -300,14 +300,14 @@ function FieldManagerScreen() {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-3">
             <h3
-              className="text-[15px] font-bold text-[#0A1628]"
+              className="text-[15px] font-bold text-cy-ink"
               style={{ letterSpacing: "-0.02em" }}
             >
               장비 선택
             </h3>
             <button
               type="button"
-              className="text-[12px] text-[#3A4A5F] font-medium hover:text-[#002C5F] transition-colors flex items-center gap-0.5"
+              className="text-[12px] text-cy-ink-2 font-medium hover:text-cy-navy transition-colors flex items-center gap-0.5"
             >
               전체
               <span
@@ -325,12 +325,12 @@ function FieldManagerScreen() {
                 <button
                   key={tile.label}
                   type="button"
-                  className="bg-white rounded-xl p-3 flex flex-col items-center gap-2 border border-[#E3E8EF] hover:border-[#002C5F] transition-colors"
+                  className="bg-white rounded-xl p-3 flex flex-col items-center gap-2 border border-cy-line hover:border-cy-navy transition-colors"
                   style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.06)" }}
                 >
-                  <div className="w-10 h-10 rounded-lg bg-[#E8F1FB] flex items-center justify-center">
+                  <div className="w-10 h-10 rounded-lg bg-cy-navy-pale flex items-center justify-center">
                     <span
-                      className="material-symbols-outlined text-[#002C5F]"
+                      className="material-symbols-outlined text-cy-navy"
                       style={{
                         fontSize: 22,
                         fontVariationSettings: "'FILL' 1",
@@ -339,7 +339,7 @@ function FieldManagerScreen() {
                       {tile.icon}
                     </span>
                   </div>
-                  <span className="text-[11px] font-semibold text-[#0A1628]">
+                  <span className="text-[11px] font-semibold text-cy-ink">
                     {tile.label}
                   </span>
                 </button>
@@ -352,14 +352,14 @@ function FieldManagerScreen() {
         <div className="mt-8">
           <div className="flex items-center justify-between mb-3">
             <h3
-              className="text-[15px] font-bold text-[#0A1628]"
+              className="text-[15px] font-bold text-cy-ink"
               style={{ letterSpacing: "-0.02em" }}
             >
               최근 배차
             </h3>
             <button
               type="button"
-              className="text-[12px] text-[#3A4A5F] font-medium hover:text-[#002C5F] transition-colors flex items-center gap-0.5"
+              className="text-[12px] text-cy-ink-2 font-medium hover:text-cy-navy transition-colors flex items-center gap-0.5"
             >
               더보기
               <span
@@ -378,12 +378,12 @@ function FieldManagerScreen() {
                 return (
                   <div
                     key={`${row.name}-${idx}`}
-                    className="bg-white rounded-xl p-3.5 flex items-center gap-3 border border-[#E3E8EF]"
+                    className="bg-white rounded-xl p-3.5 flex items-center gap-3 border border-cy-line"
                     style={{ boxShadow: "0 4px 12px rgba(0, 44, 95, 0.06)" }}
                   >
-                    <div className="w-11 h-11 rounded-lg bg-[#E8F1FB] flex items-center justify-center shrink-0">
+                    <div className="w-11 h-11 rounded-lg bg-cy-navy-pale flex items-center justify-center shrink-0">
                       <span
-                        className="material-symbols-outlined text-[#002C5F]"
+                        className="material-symbols-outlined text-cy-navy"
                         style={{
                           fontSize: 22,
                           fontVariationSettings: "'FILL' 1",
@@ -394,7 +394,7 @@ function FieldManagerScreen() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[13px] font-bold text-[#0A1628] truncate">
+                        <span className="text-[13px] font-bold text-cy-ink truncate">
                           {row.name}
                         </span>
                         <span
@@ -404,18 +404,18 @@ function FieldManagerScreen() {
                           {row.statusLabel}
                         </span>
                       </div>
-                      <p className="text-[11px] text-[#6B7B8F] mt-0.5 truncate">
+                      <p className="text-[11px] text-cy-ink-3 mt-0.5 truncate">
                         {row.spec}
                       </p>
                     </div>
                     <div className="text-right shrink-0">
                       <p
-                        className="text-[13px] font-bold text-[#0A1628] tabular-nums"
+                        className="text-[13px] font-bold text-cy-ink tabular-nums"
                         style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
                       >
                         {row.price}
                       </p>
-                      <p className="text-[10px] text-[#9AA8B8] mt-0.5">
+                      <p className="text-[10px] text-cy-ink-4 mt-0.5">
                         {row.time}
                       </p>
                     </div>
@@ -428,11 +428,11 @@ function FieldManagerScreen() {
 
         {/* Brand footer mini */}
         <div className="mt-8 flex items-baseline justify-center gap-2">
-          <span className="text-[11px] font-black text-[#002C5F] tracking-[-0.02em]">
+          <span className="text-[11px] font-black text-cy-navy tracking-[-0.02em]">
             {navCopy.brand.ko}
           </span>
           <span
-            className="text-[8px] text-[#9AA8B8] tracking-[0.3em]"
+            className="text-[8px] text-cy-ink-4 tracking-[0.3em]"
             style={{ fontFamily: "var(--font-roboto-mono), monospace" }}
           >
             {navCopy.brand.en}
@@ -443,7 +443,7 @@ function FieldManagerScreen() {
       {/* ═══ Bottom Tab Bar ═══
            모바일: viewport에 fixed · 데스크톱: 폰 베젤 바닥에 absolute */}
       <nav
-        className="fixed md:absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-[#E3E8EF] h-[72px] z-40"
+        className="fixed md:absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white border-t border-cy-line h-[72px] z-40"
         style={{ boxShadow: "0 -4px 16px rgba(0, 44, 95, 0.06)" }}
         aria-label="하단 탭"
       >
@@ -463,8 +463,8 @@ function FieldManagerScreen() {
                 type="button"
                 className={`flex flex-col items-center justify-center gap-0.5 transition-colors ${
                   tab.active
-                    ? "text-[#002C5F]"
-                    : "text-[#6B7B8F] hover:text-[#3A4A5F]"
+                    ? "text-cy-navy"
+                    : "text-cy-ink-3 hover:text-cy-ink-2"
                 }`}
               >
                 <span
@@ -490,7 +490,7 @@ function FieldManagerScreen() {
           {/* Center FAB */}
           <button
             type="button"
-            className="absolute left-1/2 -translate-x-1/2 -top-6 w-14 h-14 rounded-full bg-[#002C5F] text-white flex items-center justify-center hover:bg-[#0046A4] transition-colors"
+            className="absolute left-1/2 -translate-x-1/2 -top-6 w-14 h-14 rounded-full bg-cy-navy text-white flex items-center justify-center hover:bg-cy-navy-mid transition-colors"
             style={{ boxShadow: "0 8px 20px rgba(0, 44, 95, 0.35)" }}
             aria-label="새 배차 요청"
           >
